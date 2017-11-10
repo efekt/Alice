@@ -7,7 +7,7 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 
 public class Alice {
-    private String authToken = "Mzc4MzM4NDU5ODUwMzc1MTY4.DOaFjQ.WMWNouRe3czjUGCY3dbSTBbSz8w";
+    private String authToken = "Mzc4MzM4NDU5ODUwMzc1MTY4.DOaFjQ.WMWNouRe3czjUGCY3dbSTBbSz8w"; // just temporary placeholded @TODO remove it later
 
     public Alice(){
         try {
