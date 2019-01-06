@@ -1,6 +1,7 @@
 Manifest-Version: 1.0
-Class-Path: jsr305-3.0.2.jar commons-collections4-4.1.jar okio-1.13.0.
- jar okhttp-3.8.1.jar jna-4.4.0.jar slf4j-api-1.7.25.jar JDA-3.3.1_303
- .jar json-20160810.jar nv-websocket-client-2.2.jar trove4j-3.0.3.jar
+Class-Path: slf4j-api-1.8.0-beta0.jar slf4j-simple-1.8.0-beta0.jar JDA
+ -3.3.1_303.jar nv-websocket-client-2.2.jar jsr305-3.0.2.jar jna-4.4.0
+ .jar json-20160810.jar commons-collections4-4.1.jar okhttp-3.8.1.jar 
+ okio-1.13.0.jar trove4j-3.0.3.jar
 Main-Class: it.efekt.alice.core.AliceBootstrap
 
