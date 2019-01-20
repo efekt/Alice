@@ -8,12 +8,13 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 
 public class Alice {
-    private String authToken = "Mzc4MzM4NDU5ODUwMzc1MTY4.DOaFjQ.WMWNouRe3czjUGCY3dbSTBbSz8w"; // just temporary placeholded @TODO remove it later
     private JDA jda;
 
     public Alice(){
         try {
+
             this.init();
+
         } catch (Exception exc) {
             exc.printStackTrace();
         }
@@ -21,7 +22,7 @@ public class Alice {
 
     private void init() throws Exception{
         Runtime.getRuntime().addShutdownHook(new ShutdownThread(this));
-        this.jda = new JDABuilder(AccountType.BOT).setToken(authToken).addEventListener(new ReadyListener()).buildBlocking();
+        this.jda = new JDABuilder(AccountType.BOT).setToken(AliceBootstrap.config.getToken()).addEventListener(new ReadyListener()).buildBlocking();
         this.registerListeners();
     }
 
@@ -33,6 +34,7 @@ public class Alice {
     public JDA getJDA(){
         return this.jda;
     }
+
 }
 
 
