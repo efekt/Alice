@@ -9,7 +9,6 @@ public class JoinQuitListener extends ListenerAdapter {
     @Override
     public void onShutdown(ShutdownEvent e){
         System.out.println("Bye bye!");
-
     }
 
     @Override
