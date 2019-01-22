@@ -6,6 +6,8 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,6 +20,7 @@ public abstract class Command extends ListenerAdapter {
     private String[] args;
     private String usageInfo = "";
     private List<Permission> permissions = new ArrayList<>();
+    private Logger logger = LoggerFactory.getLogger(Command.class);
 
     public Command(String alias){
         this.alias = alias;
@@ -79,10 +82,11 @@ public abstract class Command extends ListenerAdapter {
             String cmdAlias = allArgs[0].replaceFirst(Pattern.quote(getGuildPrefix(e.getGuild())), "");
             String[] args = Arrays.copyOfRange(allArgs, 1, allArgs.length);
             if (this.alias.equalsIgnoreCase(cmdAlias)){
-                //todo permissions system?
+                this.logger.debug("User: " + e.getAuthor().getName() + " id:" + e.getAuthor().getId() + " is requesting cmd: " + cmdAlias + " with msg: " + e.getMessage().getContentDisplay());
                 if (canUseCmd(e.getMember())){
                     this.args = args;
                     this.execute(e);
+                    this.logger.debug("User: " + e.getAuthor().getName() + " id:" + e.getAuthor().getId() + " executed cmd: " + cmdAlias + " with msg: " + e.getMessage().getContentDisplay());
                 }
             }
         }

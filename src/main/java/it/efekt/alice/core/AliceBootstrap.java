@@ -34,10 +34,10 @@ public final static Logger logger = LoggerFactory.getLogger(AliceBootstrap.class
                     IOUtils.copy(in, outputStream);
                 }
             }
-            System.out.println("Loading config file...");
+            logger.info("Loading config file...");
             InputStream in = Files.newInputStream(Paths.get("./config.yml"));
             config = yaml.loadAs(in, Config.class);
-            System.out.println("Config loaded: \n" + config.toString());
+            logger.info("Config loaded: \n" + config.toString());
 
             alice = new Alice(config);
 
