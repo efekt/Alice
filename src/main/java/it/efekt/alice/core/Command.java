@@ -10,10 +10,10 @@ public abstract class Command {
         this.alias = alias;
     }
 
-    public abstract void onCommand(MessageReceivedEvent e);
+    public abstract void onCommand(MessageReceivedEvent e, String[] args);
 
-    public void execute(MessageReceivedEvent e){
-        this.onCommand(e);
+    public void execute(MessageReceivedEvent e, String[] args){
+        this.onCommand(e, args);
     }
 
     public void setDesc(String desc){

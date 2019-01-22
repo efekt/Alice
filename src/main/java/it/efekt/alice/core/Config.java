@@ -1,12 +1,5 @@
 package it.efekt.alice.core;
 
-import org.apache.commons.io.IOUtils;
-import org.yaml.snakeyaml.Yaml;
-
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
 import static java.lang.String.format;
 
 public class Config {

@@ -10,7 +10,8 @@ public class PingCmd extends Command {
         this.setDesc("Sprawdza jak szybko Alice jest w stanie biec");
     }
 
-    public void onCommand(MessageReceivedEvent e) {
+    @Override
+    public void onCommand(MessageReceivedEvent e, String[] args) {
         e.getChannel().sendMessage("Pong: " + e.getJDA().getPing() + "ms").queue();
     }
 }

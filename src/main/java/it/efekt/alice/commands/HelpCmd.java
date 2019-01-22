@@ -13,12 +13,11 @@ public class HelpCmd extends Command {
     }
 
     @Override
-    public void onCommand(MessageReceivedEvent e) {
-        String prefix = AliceBootstrap.alice.getConfig().getPrefix();
+    public void onCommand(MessageReceivedEvent e, String[] args) {
+        String prefix = AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild()).getCmdPrefix();
 
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setAuthor("Alice bot - Pomoc");
-
 
         for (Command cmd : AliceBootstrap.alice.getCmdManager().getCommands().values()){
             embedBuilder.addField(prefix + cmd.getAlias(), cmd.getDesc(), false);
