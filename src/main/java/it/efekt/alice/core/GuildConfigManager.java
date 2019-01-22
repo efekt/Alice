@@ -16,6 +16,7 @@ public class GuildConfigManager {
     public GuildConfig getGuildConfig(Guild guild){
         if (!this.guildConfigs.containsKey(guild)){
             this.guildConfigs.put(guild, new GuildConfig(guild.getId()));
+            return this.guildConfigs.get(guild);
         }
         return this.guildConfigs.get(guild);
     }

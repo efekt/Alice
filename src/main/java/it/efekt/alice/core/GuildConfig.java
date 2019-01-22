@@ -8,7 +8,6 @@ public class GuildConfig {
         this.guildId = guildId;
     }
 
-
     public String getCmdPrefix(){
         return this.cmdPrefix;
     }

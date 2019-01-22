@@ -3,6 +3,7 @@ package it.efekt.alice.core;
 import it.efekt.alice.commands.HelpCmd;
 import it.efekt.alice.commands.PingCmd;
 import it.efekt.alice.commands.PrefixCmd;
+import it.efekt.alice.commands.core.CommandManager;
 import it.efekt.alice.listeners.JoinQuitListener;
 import it.efekt.alice.listeners.ReadyListener;
 import net.dv8tion.jda.core.AccountType;
