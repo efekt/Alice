@@ -18,9 +18,10 @@ public class HelpCmd extends Command {
         embedBuilder.setAuthor("Alice bot - Pomoc");
 
         for (Command cmd : AliceBootstrap.alice.getCmdManager().getCommands().values()){
-            embedBuilder.addField(getGuildPrefix(e.getGuild()) + cmd.getAlias() + cmd.getUsageInfo(), cmd.getDesc(), false);
+            if (cmd.canUseCmd(e.getMember())) {
+                embedBuilder.addField(getGuildPrefix(e.getGuild()) + cmd.getAlias() + cmd.getUsageInfo(), cmd.getDesc(), false);
+            }
         }
         e.getChannel().sendMessage(embedBuilder.build()).queue();
     }
-
 }

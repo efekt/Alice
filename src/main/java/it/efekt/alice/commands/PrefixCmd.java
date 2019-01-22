@@ -2,6 +2,7 @@ package it.efekt.alice.commands;
 
 import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.commands.core.Command;
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 public class PrefixCmd extends Command {
@@ -10,6 +11,7 @@ public class PrefixCmd extends Command {
         super(alias);
         setDescription("Podaj nowy prefix po spacji");
         setUsageInfo(" <nowy prefix>");
+        addPermission(Permission.ADMINISTRATOR);
     }
 
     @Override

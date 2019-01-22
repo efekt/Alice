@@ -1,11 +1,15 @@
 package it.efekt.alice.commands.core;
 
 import it.efekt.alice.core.AliceBootstrap;
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public abstract class Command extends ListenerAdapter {
@@ -13,6 +17,7 @@ public abstract class Command extends ListenerAdapter {
     private String desc = "";
     private String[] args;
     private String usageInfo = "";
+    private List<Permission> permissions = new ArrayList<>();
 
     public Command(String alias){
         this.alias = alias;
@@ -26,6 +31,10 @@ public abstract class Command extends ListenerAdapter {
 
     public String getGuildPrefix(Guild guild){
         return AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(guild).getCmdPrefix();
+    }
+
+    public boolean canUseCmd(Member member){
+        return member.hasPermission(this.permissions);
     }
 
     protected void setDescription(String desc){
@@ -56,6 +65,10 @@ public abstract class Command extends ListenerAdapter {
         return this.args;
     }
 
+    public void addPermission(Permission permission){
+        this.permissions.add(permission);
+    }
+
 
     @Override
     public void onMessageReceived(MessageReceivedEvent e){
@@ -67,8 +80,10 @@ public abstract class Command extends ListenerAdapter {
             String[] args = Arrays.copyOfRange(allArgs, 1, allArgs.length);
             if (this.alias.equalsIgnoreCase(cmdAlias)){
                 //todo permissions system?
-                this.args = args;
-                this.execute(e);
+                if (canUseCmd(e.getMember())){
+                    this.args = args;
+                    this.execute(e);
+                }
             }
         }
     }
