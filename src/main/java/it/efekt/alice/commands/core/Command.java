@@ -6,6 +6,7 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 import java.util.Arrays;
+import java.util.regex.Pattern;
 
 public abstract class Command extends ListenerAdapter {
     protected String alias;
@@ -60,8 +61,9 @@ public abstract class Command extends ListenerAdapter {
     public void onMessageReceived(MessageReceivedEvent e){
 
         String[] allArgs = e.getMessage().getContentDisplay().split("\\s+");
-        if (allArgs[0].startsWith( getGuildPrefix(e.getGuild()))){
-            String cmdAlias = allArgs[0].replaceFirst(getGuildPrefix(e.getGuild()), "");
+
+        if (allArgs[0].startsWith(getGuildPrefix(e.getGuild()))){
+            String cmdAlias = allArgs[0].replaceFirst(Pattern.quote(getGuildPrefix(e.getGuild())), "");
             String[] args = Arrays.copyOfRange(allArgs, 1, allArgs.length);
             if (this.alias.equalsIgnoreCase(cmdAlias)){
                 //todo permissions system?

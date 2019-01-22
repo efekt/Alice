@@ -30,6 +30,7 @@ public final static Logger logger = LoggerFactory.getLogger(AliceBootstrap.class
             if (!Files.exists(Paths.get("./config.yml"))){
                 InputStream in = AliceBootstrap.class.getClassLoader().getResourceAsStream("config.yml"); //todo change this to config-default.yml before releasing
                 try (OutputStream outputStream = new FileOutputStream(new File("./config.yml"))) {
+                    logger.error("Didn't find config.yml file, copying default one...");
                     IOUtils.copy(in, outputStream);
                 }
             }
