@@ -32,6 +32,8 @@ public final static Logger logger = LoggerFactory.getLogger(AliceBootstrap.class
                 try (OutputStream outputStream = new FileOutputStream(new File("./config.yml"))) {
                     logger.error("Didn't find config.yml file, copying default one...");
                     IOUtils.copy(in, outputStream);
+                } catch (NullPointerException exc){
+                    exc.printStackTrace();
                 }
             }
             logger.info("Loading config file...");

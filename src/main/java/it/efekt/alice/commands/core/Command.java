@@ -28,11 +28,11 @@ public abstract class Command extends ListenerAdapter {
 
     public abstract void onCommand(MessageReceivedEvent e);
 
-    public void execute(MessageReceivedEvent e){
+    private void execute(MessageReceivedEvent e){
         this.onCommand(e);
     }
 
-    public String getGuildPrefix(Guild guild){
+    protected String getGuildPrefix(Guild guild){
         return AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(guild).getCmdPrefix();
     }
 
@@ -60,18 +60,17 @@ public abstract class Command extends ListenerAdapter {
         return this.usageInfo;
     }
 
-    public void setUsageInfo(String usageInfo){
+    protected void setUsageInfo(String usageInfo){
         this.usageInfo = usageInfo;
     }
 
-    public String[] getArgs(){
+    protected String[] getArgs(){
         return this.args;
     }
 
-    public void addPermission(Permission permission){
+    protected void addPermission(Permission permission){
         this.permissions.add(permission);
     }
-
 
     @Override
     public void onMessageReceived(MessageReceivedEvent e){

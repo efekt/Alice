@@ -18,7 +18,7 @@ public class TomekCmd extends Command {
             e.getChannel().sendFile(AliceBootstrap.class.getClassLoader().getResourceAsStream("assets/images/tomek.png"), "tomek.png").queue();
         }
         catch (NullPointerException exc){
-            e.getChannel().sendMessage("Nie znaleziono pliku :(");
+            e.getChannel().sendMessage("Nie znaleziono pliku :(").queue();
         }
     }
 }
