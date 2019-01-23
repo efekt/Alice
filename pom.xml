@@ -53,6 +53,12 @@
             <version>2.8.5</version>
         </dependency>
 
+        <dependency>
+            <groupId>pw.aru.api</groupId>
+            <artifactId>nekos4j</artifactId>
+            <version>1.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>

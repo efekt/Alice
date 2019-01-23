@@ -28,6 +28,7 @@ public class AsunaCmd extends Command {
     @Override
     public void onCommand(MessageReceivedEvent e) {
         EmbedBuilder embedBuilder = new EmbedBuilder();
+
         String imgurClientId = AliceBootstrap.alice.getConfig().getImgurClientId();
         try {
             URL url = new URL("https://api.imgur.com/3/album/l5sPP/images");
@@ -38,8 +39,7 @@ public class AsunaCmd extends Command {
                 throw new IOException(conn.getResponseMessage());
             }
 
-            BufferedReader rd = new BufferedReader(
-                    new InputStreamReader(conn.getInputStream()));
+            BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             StringBuilder sb = new StringBuilder();
             String line;
             while ((line = rd.readLine()) != null) {
@@ -59,7 +59,7 @@ public class AsunaCmd extends Command {
                 urls.add(object.get("link").getAsString());
             }
 
-            Random rand =new Random();
+            Random rand = new Random();
             embedBuilder.setImage(urls.get(rand.nextInt(urls.size())));
 
             e.getChannel().sendMessage(embedBuilder.build()).queue();

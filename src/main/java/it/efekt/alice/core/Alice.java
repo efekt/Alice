@@ -6,6 +6,7 @@ import it.efekt.alice.commands.PrefixCmd;
 import it.efekt.alice.commands.fun.AsunaCmd;
 import it.efekt.alice.commands.fun.TomekCmd;
 import it.efekt.alice.commands.core.CommandManager;
+import it.efekt.alice.commands.fun.nsfw.NekoCmd;
 import it.efekt.alice.listeners.JoinQuitListener;
 import it.efekt.alice.listeners.ReadyListener;
 import net.dv8tion.jda.core.AccountType;
@@ -35,6 +36,7 @@ public class Alice {
         this.getCmdManager().setExecutor(new PrefixCmd("prefix"));
         this.getCmdManager().setExecutor(new TomekCmd("tomek"));
         this.getCmdManager().setExecutor(new AsunaCmd("asuna"));
+        this.getCmdManager().setExecutor(new NekoCmd("neko"));
     }
 
 
