@@ -2,7 +2,7 @@ package it.efekt.alice.core;
 
 public class GuildConfig {
     private String guildId;
-    private String cmdPrefix = "!";
+    private String cmdPrefix = "<";
 
     public GuildConfig(String guildId){
         this.guildId = guildId;
