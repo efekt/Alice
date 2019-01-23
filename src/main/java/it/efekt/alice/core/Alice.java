@@ -3,7 +3,8 @@ package it.efekt.alice.core;
 import it.efekt.alice.commands.HelpCmd;
 import it.efekt.alice.commands.PingCmd;
 import it.efekt.alice.commands.PrefixCmd;
-import it.efekt.alice.commands.TomekCmd;
+import it.efekt.alice.commands.fun.AsunaCmd;
+import it.efekt.alice.commands.fun.TomekCmd;
 import it.efekt.alice.commands.core.CommandManager;
 import it.efekt.alice.listeners.JoinQuitListener;
 import it.efekt.alice.listeners.ReadyListener;
@@ -33,6 +34,7 @@ public class Alice {
         this.getCmdManager().setExecutor(new HelpCmd("help"));
         this.getCmdManager().setExecutor(new PrefixCmd("prefix"));
         this.getCmdManager().setExecutor(new TomekCmd("tomek"));
+        this.getCmdManager().setExecutor(new AsunaCmd("asuna"));
     }
 
 

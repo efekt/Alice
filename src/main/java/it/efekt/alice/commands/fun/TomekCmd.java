@@ -1,4 +1,4 @@
-package it.efekt.alice.commands;
+package it.efekt.alice.commands.fun;
 
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.core.AliceBootstrap;
