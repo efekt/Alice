@@ -23,6 +23,5 @@ public class NekoCmd extends Command {
             EmbedBuilder embedBuilder = new EmbedBuilder();
             embedBuilder.setImage(imageUrl);
             e.getChannel().sendMessage(embedBuilder.build()).queue();
-
     }
 }

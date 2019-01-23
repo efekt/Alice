@@ -58,7 +58,6 @@
             <artifactId>nekos4j</artifactId>
             <version>1.0</version>
         </dependency>
-
     </dependencies>
 
     <build>
@@ -99,8 +98,17 @@
                 </executions>
             </plugin>
 
-
         </plugins>
-
     </build>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <url>https://repo.efekt.it/repository/snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>releases</id>
+            <url>https://repo.efekt.it/repository/releases/</url>
+        </repository>
+    </distributionManagement>
 </project>
