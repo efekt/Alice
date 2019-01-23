@@ -4,6 +4,7 @@ import it.efekt.alice.commands.HelpCmd;
 import it.efekt.alice.commands.PingCmd;
 import it.efekt.alice.commands.PrefixCmd;
 import it.efekt.alice.commands.fun.AsunaCmd;
+import it.efekt.alice.commands.fun.KojimaCmd;
 import it.efekt.alice.commands.fun.TomekCmd;
 import it.efekt.alice.commands.core.CommandManager;
 import it.efekt.alice.commands.fun.nsfw.NekoCmd;
@@ -37,6 +38,7 @@ public class Alice {
         this.getCmdManager().setExecutor(new TomekCmd("tomek"));
         this.getCmdManager().setExecutor(new AsunaCmd("asuna"));
         this.getCmdManager().setExecutor(new NekoCmd("neko"));
+        this.getCmdManager().setExecutor(new KojimaCmd("kojima"));
     }
 
 
