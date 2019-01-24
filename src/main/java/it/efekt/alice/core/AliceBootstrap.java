@@ -13,7 +13,7 @@ public class AliceBootstrap {
 
 public static Alice alice;
 public final static Logger logger = LoggerFactory.getLogger(AliceBootstrap.class);
-
+public static final int EMBED_COLOR = 15648332;
     public static void main(String[] args){
         init();
     }

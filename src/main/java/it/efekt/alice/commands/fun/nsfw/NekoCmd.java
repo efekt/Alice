@@ -1,6 +1,7 @@
 package it.efekt.alice.commands.fun.nsfw;
 
 import it.efekt.alice.commands.core.Command;
+import it.efekt.alice.core.AliceBootstrap;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import pw.aru.api.nekos4j.Nekos4J;
@@ -22,6 +23,7 @@ public class NekoCmd extends Command {
             String imageUrl = image.getUrl();
             EmbedBuilder embedBuilder = new EmbedBuilder();
             embedBuilder.setImage(imageUrl);
+            embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
             e.getChannel().sendMessage(embedBuilder.build()).queue();
     }
 }

@@ -95,7 +95,12 @@ public abstract class Command extends ListenerAdapter {
                 this.logger.debug("User: " + e.getAuthor().getName() + " id:" + e.getAuthor().getId() + " is requesting cmd: " + cmdAlias + " with msg: " + e.getMessage().getContentDisplay());
                 if (canUseCmd(e.getMember())){
                     if (isNsfw() && !e.getTextChannel().isNSFW()){
-                        e.getChannel().sendMessage(new EmbedBuilder().setThumbnail("https://i.imgur.com/L3o8Xq0.jpg").setTitle("Ta komenda jest NSFW!").setDescription("Dozwolona tylko na kanałach z włączoną obsługą treści NSFW").build()).queue();
+                        e.getChannel().sendMessage(new EmbedBuilder()
+                                .setThumbnail("https://i.imgur.com/L3o8Xq0.jpg")
+                                .setTitle("Ta komenda jest NSFW!")
+                                .setColor(AliceBootstrap.EMBED_COLOR)
+                                .setDescription("Dozwolona tylko na kanałach z włączoną obsługą treści NSFW")
+                                .build()).queue();
                         return; // nsfw content on not-nsfw channel
                     }
 
