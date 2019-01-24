@@ -14,7 +14,6 @@ public class NekoCmd extends Command {
     public NekoCmd(String alias) {
         super(alias);
         setDescription("Nyaaaaaa!");
-        setNsfw(true);
     }
 
     @Override
