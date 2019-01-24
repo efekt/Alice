@@ -7,6 +7,7 @@ import it.efekt.alice.commands.fun.AsunaCmd;
 import it.efekt.alice.commands.fun.KojimaCmd;
 import it.efekt.alice.commands.fun.TomekCmd;
 import it.efekt.alice.commands.core.CommandManager;
+import it.efekt.alice.commands.fun.nsfw.HentaiCmd;
 import it.efekt.alice.commands.fun.nsfw.NekoCmd;
 import it.efekt.alice.listeners.JoinQuitListener;
 import it.efekt.alice.listeners.ReadyListener;
@@ -39,6 +40,7 @@ public class Alice {
         this.getCmdManager().setExecutor(new AsunaCmd("asuna"));
         this.getCmdManager().setExecutor(new NekoCmd("neko"));
         this.getCmdManager().setExecutor(new KojimaCmd("kojima"));
+        this.getCmdManager().setExecutor(new HentaiCmd("h"));
     }
 
 
