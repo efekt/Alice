@@ -1,9 +1,11 @@
 package it.efekt.alice.commands.core;
 
 import it.efekt.alice.core.AliceBootstrap;
+import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import org.slf4j.Logger;
@@ -21,6 +23,7 @@ public abstract class Command extends ListenerAdapter {
     private String usageInfo = "";
     private List<Permission> permissions = new ArrayList<>();
     private Logger logger = LoggerFactory.getLogger(Command.class);
+    private boolean isNsfw = false;
 
     public Command(String alias){
         this.alias = alias;
@@ -46,6 +49,14 @@ public abstract class Command extends ListenerAdapter {
 
     public void setAlias(){
         this.alias = alias;
+    }
+
+    public boolean isNsfw(){
+        return this.isNsfw;
+    }
+
+    public void setNsfw(boolean isNsfw){
+        this.isNsfw = isNsfw;
     }
 
     public String getDesc(){
@@ -83,9 +94,18 @@ public abstract class Command extends ListenerAdapter {
             if (this.alias.equalsIgnoreCase(cmdAlias)){
                 this.logger.debug("User: " + e.getAuthor().getName() + " id:" + e.getAuthor().getId() + " is requesting cmd: " + cmdAlias + " with msg: " + e.getMessage().getContentDisplay());
                 if (canUseCmd(e.getMember())){
+                    if (isNsfw() && !e.getTextChannel().isNSFW()){
+                        e.getChannel().sendMessage(new EmbedBuilder().setThumbnail("https://i.imgur.com/L3o8Xq0.jpg").setTitle("Ta komenda jest NSFW!").setDescription("Dozwolona tylko na kanałach z włączoną obsługą treści NSFW").build()).queue();
+                        return; // nsfw content on not-nsfw channel
+                    }
+
+
                     this.args = args;
                     this.execute(e);
                     this.logger.debug("User: " + e.getAuthor().getName() + " id:" + e.getAuthor().getId() + " executed cmd: " + cmdAlias + " with msg: " + e.getMessage().getContentDisplay());
+
+
+
                 }
             }
         }

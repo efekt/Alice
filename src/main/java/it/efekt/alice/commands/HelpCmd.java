@@ -19,8 +19,9 @@ public class HelpCmd extends Command {
         embedBuilder.setThumbnail("https://i.imgur.com/qZe2WZz.jpg");
 
             for (Command cmd : AliceBootstrap.alice.getCmdManager().getCommands().values()){
+                String nsfwString = cmd.isNsfw() ? " (nsfw)" : "";
                 if (cmd.canUseCmd(e.getMember())) {
-                    embedBuilder.addField(getGuildPrefix(e.getGuild()) + cmd.getAlias() + cmd.getUsageInfo(), cmd.getDesc(), false);
+                    embedBuilder.addField(getGuildPrefix(e.getGuild()) + cmd.getAlias() + cmd.getUsageInfo() + nsfwString, cmd.getDesc(), false);
                 }
             }
         e.getChannel().sendMessage(embedBuilder.build()).queue();
