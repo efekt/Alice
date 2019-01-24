@@ -17,6 +17,7 @@ public class HelpCmd extends Command {
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setTitle("Alice - Centrum Pomocy");
         embedBuilder.setThumbnail("https://i.imgur.com/qZe2WZz.jpg");
+        embedBuilder.setColor(15648332);
 
             for (Command cmd : AliceBootstrap.alice.getCmdManager().getCommands().values()){
                 String nsfwString = cmd.isNsfw() ? " (nsfw)" : "";
