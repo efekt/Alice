@@ -25,7 +25,6 @@ public class HentaiCmd extends Command {
         setNsfw(true);
         setUsageInfo(" <typ>");
         loadCategories();
-
     }
 
     @Override
@@ -42,7 +41,6 @@ public class HentaiCmd extends Command {
             Future<Image> imageFuture = imageProvider.getRandomImage(categories.get(getArgs()[0]).get(randomPic)).submit();
                 try {
                     Image image = imageFuture.get();
-
                     String imageUrl = image.getUrl();
 
                     EmbedBuilder embedBuilder = new EmbedBuilder();
@@ -50,7 +48,6 @@ public class HentaiCmd extends Command {
                     e.getChannel().sendMessage(embedBuilder.build()).queue();
                 } catch (InterruptedException| ExecutionException e1) {
                     e.getChannel().sendMessage("Nie znaleziono").queue();
-
                 }
         } else {
             e.getChannel().sendMessage("Zwróć uwagę na to jak wpisujesz komendę: " + getGuildPrefix(e.getGuild()) + getAlias() + getUsageInfo()).queue();
