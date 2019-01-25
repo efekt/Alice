@@ -93,6 +93,11 @@ public abstract class Command extends ListenerAdapter {
             String[] args = Arrays.copyOfRange(allArgs, 1, allArgs.length);
             if (this.alias.equalsIgnoreCase(cmdAlias)){
                 this.logger.debug("User: " + e.getAuthor().getName() + " id:" + e.getAuthor().getId() + " is requesting cmd: " + cmdAlias + " with msg: " + e.getMessage().getContentDisplay());
+                // Prevent bots from using commands
+                if (e.getAuthor().isBot()){
+                    return;
+                }
+
                 if (canUseCmd(e.getMember())){
                     if (isNsfw() && !e.getTextChannel().isNSFW()){
                         e.getChannel().sendMessage(new EmbedBuilder()
