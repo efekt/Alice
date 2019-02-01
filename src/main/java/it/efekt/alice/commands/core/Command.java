@@ -1,11 +1,11 @@
 package it.efekt.alice.commands.core;
 
+import it.efekt.alice.commands.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import org.slf4j.Logger;
@@ -24,6 +24,8 @@ public abstract class Command extends ListenerAdapter {
     private List<Permission> permissions = new ArrayList<>();
     private Logger logger = LoggerFactory.getLogger(Command.class);
     private boolean isNsfw = false;
+    private boolean isAdminCommand = false;
+    private CommandCategory category;
 
     public Command(String alias){
         this.alias = alias;
@@ -36,11 +38,19 @@ public abstract class Command extends ListenerAdapter {
     }
 
     protected String getGuildPrefix(Guild guild){
-        return AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(guild).getCmdPrefix();
+        return AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(guild).getPrefix();
     }
 
     public boolean canUseCmd(Member member){
         return member.hasPermission(this.permissions);
+    }
+
+    public void setCategory(CommandCategory category){
+        this.category = category;
+    }
+
+    public CommandCategory getCommandCategory(){
+        return this.category;
     }
 
     protected void setDescription(String desc){
@@ -49,6 +59,14 @@ public abstract class Command extends ListenerAdapter {
 
     public void setAlias(){
         this.alias = alias;
+    }
+
+    public boolean isAdminCommand(){
+        return this.isAdminCommand;
+    }
+
+    public void setIsAdminCommand(boolean isAdminCommand){
+        this.isAdminCommand = isAdminCommand;
     }
 
     public boolean isNsfw(){
@@ -97,6 +115,8 @@ public abstract class Command extends ListenerAdapter {
                 if (e.getAuthor().isBot()){
                     return;
                 }
+//                if (isAdminCommand() && e.getAuthor().getId().equalsIgnoreCase(""))
+
 
                 if (canUseCmd(e.getMember())){
                     if (isNsfw() && !e.getTextChannel().isNSFW()){

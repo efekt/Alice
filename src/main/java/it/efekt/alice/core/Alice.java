@@ -3,6 +3,7 @@ package it.efekt.alice.core;
 import it.efekt.alice.commands.HelpCmd;
 import it.efekt.alice.commands.PingCmd;
 import it.efekt.alice.commands.PrefixCmd;
+import it.efekt.alice.commands.StopCmd;
 import it.efekt.alice.commands.fun.AsunaCmd;
 import it.efekt.alice.commands.fun.KojimaCmd;
 import it.efekt.alice.commands.fun.TomekCmd;
@@ -33,14 +34,15 @@ public class Alice {
     }
 
     private void registerCommands(){
-        this.getCmdManager().setExecutor(new PingCmd("ping"));
-        this.getCmdManager().setExecutor(new HelpCmd("help"));
-        this.getCmdManager().setExecutor(new PrefixCmd("prefix"));
-        this.getCmdManager().setExecutor(new TomekCmd("tomek"));
-        this.getCmdManager().setExecutor(new AsunaCmd("asuna"));
-        this.getCmdManager().setExecutor(new NekoCmd("neko"));
-        this.getCmdManager().setExecutor(new KojimaCmd("kojima"));
-        this.getCmdManager().setExecutor(new HentaiCmd("h"));
+        getCmdManager().setExecutor(new PingCmd("ping"));
+        getCmdManager().setExecutor(new HelpCmd("help"));
+        getCmdManager().setExecutor(new PrefixCmd("prefix"));
+        getCmdManager().setExecutor(new TomekCmd("tomek"));
+        getCmdManager().setExecutor(new AsunaCmd("asuna"));
+        getCmdManager().setExecutor(new NekoCmd("neko"));
+        getCmdManager().setExecutor(new KojimaCmd("kojima"));
+        getCmdManager().setExecutor(new HentaiCmd("h"));
+        getCmdManager().setExecutor(new StopCmd("stop"));
     }
 
 
@@ -61,13 +63,13 @@ public class Alice {
     }
 
     private void init(){
-        //Runtime.getRuntime().addShutdownHook(new ShutdownThread(this));
+        Runtime.getRuntime().addShutdownHook(new ShutdownThread(this));
         try {
             this.jda = new JDABuilder(AccountType.BOT).setToken(this.getConfig().getToken()).addEventListener(new ReadyListener()).build();
             this.guildConfigManager = new GuildConfigManager(this);
-            this.registerListeners();
+            registerListeners();
             this.cmdManager = new CommandManager(this);
-            this.registerCommands();
+            registerCommands();
         } catch (LoginException e) {
             e.printStackTrace();
         }

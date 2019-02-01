@@ -1,10 +1,10 @@
 package it.efekt.alice.core;
 
-public class GuildConfig {
+public class GuildConfigOld {
     private String guildId;
     private String cmdPrefix = "<";
 
-    public GuildConfig(String guildId){
+    public GuildConfigOld(String guildId){
         this.guildId = guildId;
     }
 

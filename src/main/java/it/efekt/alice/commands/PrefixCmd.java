@@ -2,6 +2,7 @@ package it.efekt.alice.commands;
 
 import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.commands.core.Command;
+import it.efekt.alice.db.GuildConfig;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
@@ -16,7 +17,7 @@ public class PrefixCmd extends Command {
 
     @Override
     public void onCommand(MessageReceivedEvent e) {
-        String prefix = AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild()).getCmdPrefix();
+        String prefix = AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild()).getPrefix();
         if (this.getArgs().length == 1){
             String newPrefix = this.getArgs()[0];
 
@@ -25,7 +26,9 @@ public class PrefixCmd extends Command {
                 return;
             }
 
-            AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild()).setCmdPrefix(newPrefix);
+            GuildConfig guildConfig = AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild());
+            guildConfig.setPrefix(newPrefix);
+            guildConfig.save();
             e.getChannel().sendMessage("Nowy prefix dla tego serwera: " + newPrefix).queue();
         } else {
             e.getChannel().sendMessage("Użyj " + prefix + "prefix <NowyPrefix>").queue();
