@@ -114,7 +114,7 @@ public abstract class Command extends ListenerAdapter {
                     return;
                 }
                 // Only for debug purposes, change it later //todo implement better admin commands
-                if (isAdminCommand() && !e.getAuthor().getId().equalsIgnoreCase("1281466160948183041")){
+                if (isAdminCommand() && !e.getAuthor().getId().equalsIgnoreCase("128146616094818304")){
                     return;
                 }
 
