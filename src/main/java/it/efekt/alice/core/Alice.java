@@ -1,6 +1,7 @@
 package it.efekt.alice.core;
 
 import it.efekt.alice.commands.HelpCmd;
+import it.efekt.alice.commands.HistoryDeletionCmd;
 import it.efekt.alice.commands.PingCmd;
 import it.efekt.alice.commands.PrefixCmd;
 import it.efekt.alice.commands.admin.StatusCmd;
@@ -47,6 +48,7 @@ public class Alice {
         getCmdManager().setExecutor(new HentaiCmd("h"));
         getCmdManager().setExecutor(new StopCmd("stop"));
         getCmdManager().setExecutor(new StatusCmd("status"));
+        getCmdManager().setExecutor(new HistoryDeletionCmd("clean"));
     }
 
 
