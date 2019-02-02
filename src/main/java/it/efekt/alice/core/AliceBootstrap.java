@@ -57,7 +57,6 @@ public static SessionFactory sessionFactory;
     }
 
     private static void initSessionFactory(Config config){
-
         sessionFactory = new Configuration()
                 .configure("hibernate.cfg.xml")
                 .setProperty("hibernate.connection.url","jdbc:mysql://"+config.getMysqlUrl()+":"+config.getMysqlPort()+"/"+config.getMysqlDatabase()+"?useSSL=false&serverTimezone=UTC&characterEncoding=UTF-8")
