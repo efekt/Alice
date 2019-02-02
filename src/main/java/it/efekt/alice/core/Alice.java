@@ -3,6 +3,7 @@ package it.efekt.alice.core;
 import it.efekt.alice.commands.HelpCmd;
 import it.efekt.alice.commands.PingCmd;
 import it.efekt.alice.commands.PrefixCmd;
+import it.efekt.alice.commands.admin.StatusCmd;
 import it.efekt.alice.commands.admin.StopCmd;
 import it.efekt.alice.commands.fun.AsunaCmd;
 import it.efekt.alice.commands.fun.KojimaCmd;
@@ -45,6 +46,7 @@ public class Alice {
         getCmdManager().setExecutor(new KojimaCmd("kojima"));
         getCmdManager().setExecutor(new HentaiCmd("h"));
         getCmdManager().setExecutor(new StopCmd("stop"));
+        getCmdManager().setExecutor(new StatusCmd("status"));
     }
 
 
