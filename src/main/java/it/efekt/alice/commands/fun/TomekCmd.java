@@ -13,7 +13,6 @@ public class TomekCmd extends Command {
 
     @Override
     public void onCommand(MessageReceivedEvent e) {
-        AliceBootstrap.db.setGuildPrefix(e.getGuild(), "Nowy");
         try {
             e.getChannel().sendFile(AliceBootstrap.class.getClassLoader().getResourceAsStream("assets/images/tomek.png"), "tomek.png").queue();
         } catch (NullPointerException exc) {
