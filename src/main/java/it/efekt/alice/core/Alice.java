@@ -3,13 +3,14 @@ package it.efekt.alice.core;
 import it.efekt.alice.commands.HelpCmd;
 import it.efekt.alice.commands.PingCmd;
 import it.efekt.alice.commands.PrefixCmd;
-import it.efekt.alice.commands.StopCmd;
+import it.efekt.alice.commands.admin.StopCmd;
 import it.efekt.alice.commands.fun.AsunaCmd;
 import it.efekt.alice.commands.fun.KojimaCmd;
 import it.efekt.alice.commands.fun.TomekCmd;
 import it.efekt.alice.commands.core.CommandManager;
 import it.efekt.alice.commands.fun.nsfw.HentaiCmd;
 import it.efekt.alice.commands.fun.nsfw.NekoCmd;
+import it.efekt.alice.commands.mentions.Greetings;
 import it.efekt.alice.listeners.JoinQuitListener;
 import it.efekt.alice.listeners.ReadyListener;
 import net.dv8tion.jda.core.AccountType;
@@ -31,6 +32,7 @@ public class Alice {
 
     private void registerListeners(){
         this.jda.addEventListener(new JoinQuitListener());
+        this.jda.addEventListener(new Greetings());
     }
 
     private void registerCommands(){
