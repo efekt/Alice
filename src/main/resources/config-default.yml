@@ -1,2 +1,7 @@
 token: hereYourToken
 imgurClientId: imgurClientId
+mysqlDatabase: dbName
+mysqlPassword: dbPass
+mysqlUrl: dbUrl
+mysqlUser: dbUser
+mysqlPort: dbPort

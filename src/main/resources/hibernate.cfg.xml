@@ -8,9 +8,6 @@
 
         <!-- JDBC Database connection settings -->
         <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-        <property name="connection.url">jdbc:mysql://localhost:3306/alice_bot_db?useSSL=false&amp;serverTimezone=UTC&amp;characterEncoding=UTF-8</property>
-        <property name="connection.username">alice-bot</property>
-        <property name="connection.password">alicepass</property>
 
         <!-- JDBC connection pool settings ... using built-in test pool -->
         <property name="connection.pool_size">1</property>

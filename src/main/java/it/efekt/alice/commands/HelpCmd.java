@@ -21,6 +21,11 @@ public class HelpCmd extends Command {
 
             for (Command cmd : AliceBootstrap.alice.getCmdManager().getCommands().values()){
                 String nsfwString = cmd.isNsfw() ? " (nsfw)" : "";
+
+                // skips printing all admin commands
+                if (cmd.isAdminCommand()){
+                    continue;
+                }
                 if (cmd.canUseCmd(e.getMember())) {
                     embedBuilder.addField(getGuildPrefix(e.getGuild()) + cmd.getAlias() + cmd.getUsageInfo() + nsfwString, cmd.getDesc(), false);
                 }

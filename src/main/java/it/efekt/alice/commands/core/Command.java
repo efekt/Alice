@@ -1,6 +1,5 @@
 package it.efekt.alice.commands.core;
 
-import it.efekt.alice.commands.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
@@ -10,7 +9,6 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -115,8 +113,10 @@ public abstract class Command extends ListenerAdapter {
                 if (e.getAuthor().isBot()){
                     return;
                 }
-//                if (isAdminCommand() && e.getAuthor().getId().equalsIgnoreCase(""))
-
+                // Only for debug purposes, change it later //todo implement better admin commands
+                if (isAdminCommand() && !e.getAuthor().getId().equalsIgnoreCase("1281466160948183041")){
+                    return;
+                }
 
                 if (canUseCmd(e.getMember())){
                     if (isNsfw() && !e.getTextChannel().isNSFW()){
@@ -129,13 +129,9 @@ public abstract class Command extends ListenerAdapter {
                         return; // nsfw content on not-nsfw channel
                     }
 
-
                     this.args = args;
                     this.execute(e);
                     this.logger.debug("User: " + e.getAuthor().getName() + " id:" + e.getAuthor().getId() + " executed cmd: " + cmdAlias + " with msg: " + e.getMessage().getContentDisplay());
-
-
-
                 }
             }
         }
