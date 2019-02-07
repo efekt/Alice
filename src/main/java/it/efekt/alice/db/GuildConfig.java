@@ -19,6 +19,10 @@ public class GuildConfig {
     @Column(name="prefix")
     private String prefix;
 
+    // Id of TextChannel
+    @Column(name="log_channel")
+    private String logChannel;
+
     public GuildConfig(String id, String defaultPrefix){
         this.id = id;
         this.prefix = defaultPrefix;
@@ -26,6 +30,15 @@ public class GuildConfig {
 
     public GuildConfig(){
 
+    }
+
+
+    public String getLogChannel() {
+        return logChannel;
+    }
+
+    public void setLogChannel(String logChannel) {
+        this.logChannel = logChannel;
     }
 
     public String getId() {

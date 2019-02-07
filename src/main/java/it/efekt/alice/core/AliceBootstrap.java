@@ -1,6 +1,5 @@
 package it.efekt.alice.core;
 
-import it.efekt.alice.commands.database.Database;
 import it.efekt.alice.db.GuildConfig;
 import org.apache.commons.io.IOUtils;
 import org.hibernate.SessionFactory;
@@ -18,8 +17,8 @@ public class AliceBootstrap {
 public static Alice alice;
 public final static Logger logger = LoggerFactory.getLogger(AliceBootstrap.class);
 public static final int EMBED_COLOR = 15648332;
-public static Database db;
 public static SessionFactory sessionFactory;
+public static final String DEFAULT_PREFIX = "<";
 
 
     public static void main(String[] args) {

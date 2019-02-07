@@ -9,7 +9,7 @@ public class StopCmd extends Command {
     public StopCmd(String alias) {
         super(alias);
         setIsAdminCommand(true);
-        setCategory(CommandCategory.ADMIN);
+        setCategory(CommandCategory.BOT_ADMIN);
     }
 
     @Override

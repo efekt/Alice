@@ -15,6 +15,8 @@ import it.efekt.alice.commands.fun.nsfw.NekoCmd;
 import it.efekt.alice.commands.mentions.Greetings;
 import it.efekt.alice.listeners.JoinQuitListener;
 import it.efekt.alice.listeners.ReadyListener;
+import it.efekt.alice.modules.GuildLogger;
+import it.efekt.alice.modules.GuildLoggerCmd;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
@@ -26,6 +28,7 @@ public class Alice {
     private Config config;
     private CommandManager cmdManager;
     private GuildConfigManager guildConfigManager;
+    private GuildLogger guildLogger;
 
     public Alice(Config config){
             this.config = config;
@@ -35,6 +38,8 @@ public class Alice {
     private void registerListeners(){
         this.jda.addEventListener(new JoinQuitListener());
         this.jda.addEventListener(new Greetings());
+        this.guildLogger = new GuildLogger(this);
+        this.jda.addEventListener(guildLogger);
     }
 
     private void registerCommands(){
@@ -49,6 +54,7 @@ public class Alice {
         getCmdManager().setExecutor(new StopCmd("stop"));
         getCmdManager().setExecutor(new StatusCmd("status"));
         getCmdManager().setExecutor(new HistoryDeletionCmd("clean"));
+        getCmdManager().setExecutor(new GuildLoggerCmd("logger"));
     }
 
 
@@ -66,6 +72,10 @@ public class Alice {
 
     public GuildConfigManager getGuildConfigManager(){
         return this.guildConfigManager;
+    }
+
+    public GuildLogger getGuildLogger(){
+        return this.guildLogger;
     }
 
     private void init(){

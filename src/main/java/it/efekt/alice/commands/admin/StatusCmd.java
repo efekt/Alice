@@ -10,7 +10,7 @@ public class StatusCmd extends Command {
     public StatusCmd(String alias) {
         super(alias);
         setIsAdminCommand(true);
-        setCategory(CommandCategory.ADMIN);
+        setCategory(CommandCategory.BOT_ADMIN);
     }
 
     @Override

@@ -30,6 +30,7 @@ public class PrefixCmd extends Command {
             guildConfig.setPrefix(newPrefix);
             guildConfig.save();
             e.getChannel().sendMessage("Nowy prefix dla tego serwera: " + newPrefix).queue();
+            AliceBootstrap.alice.getGuildLogger().log(e.getGuild(), e.getAuthor().getAsMention() + " zmienił prefix na: " + newPrefix);
         } else {
             e.getChannel().sendMessage("Użyj " + prefix + "prefix <NowyPrefix>").queue();
         }

@@ -21,7 +21,7 @@
 		<!-- Set the current session context -->
 		<property name="current_session_context_class">thread</property>
 
-        <!-- create create-drop validate update -->
+        <!-- update schemas each time app is launched -->
         <property name="hibernate.hbm2ddl.auto">validate</property>
  
     </session-factory>

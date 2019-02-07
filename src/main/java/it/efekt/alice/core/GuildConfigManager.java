@@ -21,10 +21,8 @@ public class GuildConfigManager {
     }
 
     public GuildConfig getGuildConfig(Guild guild){
-
-
         if (!this.guildConfigs.containsKey(guild.getId())){
-            GuildConfig config = new GuildConfig(guild.getId(), "!");
+            GuildConfig config = new GuildConfig(guild.getId(), AliceBootstrap.DEFAULT_PREFIX);
             this.guildConfigs.put(guild.getId(), config);
             return this.guildConfigs.get(guild.getId());
         }

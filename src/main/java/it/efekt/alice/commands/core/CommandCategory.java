@@ -2,7 +2,7 @@ package it.efekt.alice.commands.core;
 
 public enum CommandCategory {
     BLANK("uncategorized"),
-    ADMIN("admin"),
+    BOT_ADMIN("admin"),
     FUN("Fun"),
     NSFW("NSFW");
 
