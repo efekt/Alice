@@ -1,6 +1,5 @@
 package it.efekt.alice.commands;
 
-import com.sun.javafx.scene.control.skin.VirtualFlow;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.commands.core.Command;
@@ -8,9 +7,7 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class HelpCmd extends Command {
 
