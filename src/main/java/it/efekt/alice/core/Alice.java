@@ -16,7 +16,7 @@ import it.efekt.alice.commands.mentions.Greetings;
 import it.efekt.alice.listeners.JoinQuitListener;
 import it.efekt.alice.listeners.ReadyListener;
 import it.efekt.alice.modules.GuildLogger;
-import it.efekt.alice.modules.GuildLoggerCmd;
+import it.efekt.alice.commands.util.GuildLoggerCmd;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;

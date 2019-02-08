@@ -37,7 +37,6 @@ public class GuildLogger extends ListenerAdapter {
                 GuildMemberLeaveEvent event = (GuildMemberLeaveEvent) e;
                 log(e.getGuild(), event.getMember().getAsMention() + " odszedł z serwera");
             }
-
         }
     }
 
@@ -45,7 +44,6 @@ public class GuildLogger extends ListenerAdapter {
     public void onUserUpdateOnlineStatus(UserUpdateOnlineStatusEvent e){
         log(e.getGuild(), e.getUser().getAsMention() + " zmienił status na: " + e.getNewOnlineStatus());
     }
-
 
     private boolean isLoggerSet(Guild guild){
         GuildConfig config = AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(guild);

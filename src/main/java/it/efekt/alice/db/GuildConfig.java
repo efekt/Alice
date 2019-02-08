@@ -32,7 +32,6 @@ public class GuildConfig {
 
     }
 
-
     public String getLogChannel() {
         return logChannel;
     }

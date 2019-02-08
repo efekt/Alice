@@ -1,9 +1,16 @@
 package it.efekt.alice.commands;
 
+import com.sun.javafx.scene.control.skin.VirtualFlow;
+import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.commands.core.Command;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class HelpCmd extends Command {
 
@@ -19,17 +26,38 @@ public class HelpCmd extends Command {
         embedBuilder.setThumbnail("https://i.imgur.com/qZe2WZz.jpg");
         embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
 
-            for (Command cmd : AliceBootstrap.alice.getCmdManager().getCommands().values()){
-                String nsfwString = cmd.isNsfw() ? " (nsfw)" : "";
 
-                // skips printing all admin commands
-                if (cmd.isAdminCommand()){
-                    continue;
-                }
+
+        for (CommandCategory cat : CommandCategory.values()){
+            List<Command> cmds = AliceBootstrap.alice.getCmdManager().getCommands(cat);
+            if (cmds.isEmpty() || cmds == null){
+                continue;
+            }
+
+            if (cat == CommandCategory.BOT_ADMIN){
+                continue;
+            }
+
+            List<String> commandsAliases = new ArrayList<>();
+
+            for (Command cmd : cmds){
                 if (cmd.canUseCmd(e.getMember())) {
-                    embedBuilder.addField(getGuildPrefix(e.getGuild()) + cmd.getAlias() + cmd.getUsageInfo() + nsfwString, cmd.getDesc(), false);
+                    String nsfwString = cmd.isNsfw() ? " (nsfw)" : "";
+                    String guildPrefix = AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild()).getPrefix();
+                    commandsAliases.add("`" + guildPrefix + cmd.getAlias() + nsfwString+"`");
                 }
             }
+
+            String commandAliasesFormated = commandsAliases.toString().replaceAll("\\[", "")
+                    .replaceAll("\\[", "")
+                    .replaceAll("\\]", "")
+                    .replaceAll(",", "");
+
+            embedBuilder.addField(cat.getName(),commandAliasesFormated, false);
+
+        }
+
+
         e.getChannel().sendMessage(embedBuilder.build()).queue();
     }
 }

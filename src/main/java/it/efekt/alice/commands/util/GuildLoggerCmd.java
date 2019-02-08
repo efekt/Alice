@@ -1,4 +1,4 @@
-package it.efekt.alice.modules;
+package it.efekt.alice.commands.util;
 
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
@@ -13,7 +13,7 @@ public class GuildLoggerCmd extends Command {
     public GuildLoggerCmd(String alias) {
         super(alias);
         addPermission(Permission.ADMINISTRATOR);
-        setCategory(CommandCategory.BLANK);
+        setCategory(CommandCategory.UTILS);
         setDescription("Ustawia kanał na którym mają zapisywać się logi serwerowe");
         setUsageInfo(" <#kanał>");
     }
@@ -31,7 +31,6 @@ public class GuildLoggerCmd extends Command {
 
         if (getArgs().length == 1 && !e.getMessage().getMentionedChannels().isEmpty()){
             TextChannel mentionedChannel = e.getMessage().getMentionedChannels().stream().findFirst().get();
-            // Zapisz channel id w setId config
             config.setLogChannel(mentionedChannel.getId());
             config.save();
             e.getChannel().sendMessage("Ustawiono kanał logów na: " + mentionedChannel.getAsMention()).queue();

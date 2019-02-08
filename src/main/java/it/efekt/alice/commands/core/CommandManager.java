@@ -2,7 +2,12 @@ package it.efekt.alice.commands.core;
 
 import it.efekt.alice.core.Alice;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class CommandManager extends ListenerAdapter {
     private HashMap<String, Command> commands = new HashMap<>();
@@ -23,5 +28,15 @@ public class CommandManager extends ListenerAdapter {
 
     public Command getCommand(String alias){
         return this.commands.get(alias);
+    }
+
+    public List<Command> getCommands(CommandCategory category){
+        List<Command> commands = new ArrayList<>();
+        for (Command cmd : this.commands.values()){
+            if (cmd.getCommandCategory() == category){
+                commands.add(cmd);
+            }
+        }
+        return commands;
     }
 }

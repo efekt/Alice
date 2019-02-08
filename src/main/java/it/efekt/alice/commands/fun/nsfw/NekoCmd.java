@@ -1,6 +1,7 @@
 package it.efekt.alice.commands.fun.nsfw;
 
 import it.efekt.alice.commands.core.Command;
+import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -15,6 +16,7 @@ public class NekoCmd extends Command {
     public NekoCmd(String alias) {
         super(alias);
         setDescription("Nyaaaaaa!");
+        setCategory(CommandCategory.FUN);
     }
 
     @Override

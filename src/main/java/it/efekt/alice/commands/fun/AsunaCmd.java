@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import it.efekt.alice.commands.core.Command;
+import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -23,6 +24,7 @@ public class AsunaCmd extends Command {
     public AsunaCmd(String alias) {
         super(alias);
         setDescription("Wyswietla losowe zdjecie Asuny");
+        setCategory(CommandCategory.FUN);
     }
 
     @Override

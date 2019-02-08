@@ -1,5 +1,6 @@
 package it.efekt.alice.commands;
 
+import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.db.GuildConfig;
@@ -13,6 +14,7 @@ public class PrefixCmd extends Command {
         setDescription("Podaj nowy prefix po spacji");
         setUsageInfo(" <nowy prefix>");
         addPermission(Permission.ADMINISTRATOR);
+        setCategory(CommandCategory.UTILS);
     }
 
     @Override

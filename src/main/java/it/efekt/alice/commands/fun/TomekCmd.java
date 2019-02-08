@@ -1,6 +1,7 @@
 package it.efekt.alice.commands.fun;
 
 import it.efekt.alice.commands.core.Command;
+import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
@@ -9,6 +10,7 @@ public class TomekCmd extends Command {
     public TomekCmd(String alias) {
         super(alias);
         setDescription("Tomek");
+        setCategory(CommandCategory.FUN);
     }
 
     @Override
