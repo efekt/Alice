@@ -23,8 +23,6 @@ public class HelpCmd extends Command {
         embedBuilder.setThumbnail("https://i.imgur.com/qZe2WZz.jpg");
         embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
 
-
-
         for (CommandCategory cat : CommandCategory.values()){
             List<Command> cmds = AliceBootstrap.alice.getCmdManager().getCommands(cat);
             if (cmds.isEmpty() || cmds == null){
@@ -51,7 +49,6 @@ public class HelpCmd extends Command {
                     .replaceAll(",", "");
 
             embedBuilder.addField(cat.getName(),commandAliasesFormated, false);
-
         }
 
 

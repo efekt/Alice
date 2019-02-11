@@ -30,19 +30,19 @@ public class GuildLogger extends ListenerAdapter {
 
             if (e instanceof GuildMemberJoinEvent){
                 GuildMemberJoinEvent event = (GuildMemberJoinEvent) e;
-                log(e.getGuild(),event.getMember().getAsMention() + " dołączył do serwera");
+                log(e.getGuild(),event.getMember().getEffectiveName() + " dołączył do serwera");
             }
 
             if (e instanceof GuildMemberLeaveEvent){
                 GuildMemberLeaveEvent event = (GuildMemberLeaveEvent) e;
-                log(e.getGuild(), event.getMember().getAsMention() + " odszedł z serwera");
+                log(e.getGuild(), event.getMember().getEffectiveName() + " odszedł z serwera");
             }
         }
     }
 
     @Override
     public void onUserUpdateOnlineStatus(UserUpdateOnlineStatusEvent e){
-        log(e.getGuild(), e.getUser().getAsMention() + " zmienił status na: " + e.getNewOnlineStatus());
+        log(e.getGuild(), e.getUser().getName() + " zmienił status na: " + e.getNewOnlineStatus());
     }
 
     private boolean isLoggerSet(Guild guild){
