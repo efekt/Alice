@@ -87,6 +87,10 @@ public abstract class Command extends ListenerAdapter {
         return this.usageInfo;
     }
 
+    public List<Permission> getPermissions(){
+        return this.permissions;
+    }
+
     protected void setUsageInfo(String usageInfo){
         this.usageInfo = usageInfo;
     }

@@ -30,6 +30,10 @@ public class CommandManager extends ListenerAdapter {
         return this.commands.get(alias);
     }
 
+    public boolean isValidAlias(String alias){
+        return this.commands.containsKey(alias);
+    }
+
     public List<Command> getCommands(CommandCategory category){
         List<Command> commands = new ArrayList<>();
         for (Command cmd : this.commands.values()){
