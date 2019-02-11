@@ -79,7 +79,7 @@ public class GuildLogger extends ListenerAdapter {
             TextChannel logChannel = guild.getJDA().getTextChannelById(getGuildConfig(guild).getLogChannel());
             DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss");
             String dateTime = LocalDateTime.now().format(dateFormat);
-            logChannel.sendMessage("["+dateTime + "] " + message ).queue();
+            logChannel.sendMessage("`["+dateTime + "]` " + message ).queue();
         }
     }
 
