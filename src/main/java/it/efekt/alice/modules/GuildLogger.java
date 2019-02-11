@@ -60,7 +60,7 @@ public class GuildLogger extends ListenerAdapter {
 
     @Override
     public void onGuildVoiceMove(GuildVoiceMoveEvent e){
-        log(e.getGuild(), e.getMember().getEffectiveName() + " zmienił kanał: " + e.getChannelLeft().getName() + " na:" + e.getChannelJoined().getName());
+        log(e.getGuild(), e.getMember().getEffectiveName() + " zmienił kanał: " + e.getChannelLeft().getName() + " na: " + e.getChannelJoined().getName());
     }
 
 
