@@ -1,9 +1,9 @@
 package it.efekt.alice.core;
 
 import it.efekt.alice.commands.HelpCmd;
-import it.efekt.alice.commands.HistoryDeletionCmd;
-import it.efekt.alice.commands.PingCmd;
-import it.efekt.alice.commands.PrefixCmd;
+import it.efekt.alice.commands.util.HistoryDeletionCmd;
+import it.efekt.alice.commands.util.PingCmd;
+import it.efekt.alice.commands.util.PrefixCmd;
 import it.efekt.alice.commands.admin.StatusCmd;
 import it.efekt.alice.commands.admin.StopCmd;
 import it.efekt.alice.commands.fun.AsunaCmd;

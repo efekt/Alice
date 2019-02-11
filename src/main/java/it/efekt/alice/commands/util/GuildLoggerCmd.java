@@ -34,6 +34,10 @@ public class GuildLoggerCmd extends Command {
             config.setLogChannel(mentionedChannel.getId());
             config.save();
             e.getChannel().sendMessage("Ustawiono kanał logów na: " + mentionedChannel.getAsMention()).queue();
+        } else if(getArgs().length == 1 && getArgs()[0].equalsIgnoreCase("disable")){
+            config.setLogChannel(null);
+            config.save();
+            e.getChannel().sendMessage("Wyłączono logi na tym serwerze").queue();
         }
     }
 }

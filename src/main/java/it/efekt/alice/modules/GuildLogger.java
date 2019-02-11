@@ -63,8 +63,6 @@ public class GuildLogger extends ListenerAdapter {
         log(e.getGuild(), e.getMember().getEffectiveName() + " zmienił kanał: " + e.getChannelLeft().getName() + " na: " + e.getChannelJoined().getName());
     }
 
-
-
     private boolean isLoggerSet(Guild guild){
         GuildConfig config = AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(guild);
         return config.getLogChannel() != null;
