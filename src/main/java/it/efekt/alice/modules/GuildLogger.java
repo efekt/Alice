@@ -8,6 +8,8 @@ import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.guild.GenericGuildEvent;
 import net.dv8tion.jda.core.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.core.events.guild.member.GuildMemberLeaveEvent;
+import net.dv8tion.jda.core.events.guild.voice.GuildVoiceJoinEvent;
+import net.dv8tion.jda.core.events.guild.voice.GuildVoiceLeaveEvent;
 import net.dv8tion.jda.core.events.user.update.UserUpdateOnlineStatusEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
@@ -30,20 +32,32 @@ public class GuildLogger extends ListenerAdapter {
 
             if (e instanceof GuildMemberJoinEvent){
                 GuildMemberJoinEvent event = (GuildMemberJoinEvent) e;
-                log(e.getGuild(),event.getMember().getEffectiveName() + " dołączył do serwera");
+                log(e.getGuild(),event.getMember().getEffectiveName() + " dołącza do serwera");
             }
 
             if (e instanceof GuildMemberLeaveEvent){
                 GuildMemberLeaveEvent event = (GuildMemberLeaveEvent) e;
-                log(e.getGuild(), event.getMember().getEffectiveName() + " odszedł z serwera");
+                log(e.getGuild(), event.getMember().getEffectiveName() + " odchodzi z serwera");
             }
         }
     }
 
     @Override
     public void onUserUpdateOnlineStatus(UserUpdateOnlineStatusEvent e){
-        log(e.getGuild(), e.getUser().getName() + " zmienił status na: " + e.getNewOnlineStatus());
+        log(e.getGuild(), e.getUser().getName() + " zmienia status na: " + e.getNewOnlineStatus());
     }
+
+    @Override
+    public void onGuildVoiceJoin(GuildVoiceJoinEvent e){
+        log(e.getGuild(), e.getMember().getEffectiveName() + " wchodzi na kanał: " + e.getChannelJoined().getName());
+    }
+
+    @Override
+    public void onGuildVoiceLeave(GuildVoiceLeaveEvent e){
+        log(e.getGuild(), e.getMember().getEffectiveName() + " wychodzi z kanału: " + e.getChannelLeft().getName());
+    }
+
+
 
     private boolean isLoggerSet(Guild guild){
         GuildConfig config = AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(guild);
