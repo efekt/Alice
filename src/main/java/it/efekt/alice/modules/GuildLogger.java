@@ -10,6 +10,7 @@ import net.dv8tion.jda.core.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.core.events.guild.member.GuildMemberLeaveEvent;
 import net.dv8tion.jda.core.events.guild.voice.GuildVoiceJoinEvent;
 import net.dv8tion.jda.core.events.guild.voice.GuildVoiceLeaveEvent;
+import net.dv8tion.jda.core.events.guild.voice.GuildVoiceMoveEvent;
 import net.dv8tion.jda.core.events.user.update.UserUpdateOnlineStatusEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
@@ -55,6 +56,11 @@ public class GuildLogger extends ListenerAdapter {
     @Override
     public void onGuildVoiceLeave(GuildVoiceLeaveEvent e){
         log(e.getGuild(), e.getMember().getEffectiveName() + " wychodzi z kanału: " + e.getChannelLeft().getName());
+    }
+
+    @Override
+    public void onGuildVoiceMove(GuildVoiceMoveEvent e){
+        log(e.getGuild(), e.getMember().getEffectiveName() + " zmienił kanał: " + e.getChannelLeft().getName() + " na:" + e.getChannelJoined().getName());
     }
 
 
