@@ -27,7 +27,7 @@ public class UserInfoCmd extends Command {
             User user = msg.getMentionedUsers().stream().findFirst().get();
 
             EmbedBuilder embedBuilder = new EmbedBuilder();
-            embedBuilder.setTitle("Informacje i użytkowniku " + user.getName());
+            embedBuilder.setTitle("Informacje o użytkowniku " + user.getName());
             embedBuilder.setThumbnail(user.getEffectiveAvatarUrl());
             embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
 
