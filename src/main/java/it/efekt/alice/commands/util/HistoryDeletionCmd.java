@@ -12,7 +12,7 @@ public class HistoryDeletionCmd extends Command {
         addPermission(Permission.ADMINISTRATOR);
         setCategory(CommandCategory.UTILS);
         setDescription("Usuwa n ostatnich wiadomości na kanale");
-        setUsageInfo(" <liczba wiadomości>");
+        setUsageInfo(" `liczba wiadomości`");
     }
 
     @Override

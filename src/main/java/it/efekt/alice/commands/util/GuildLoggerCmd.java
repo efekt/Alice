@@ -14,8 +14,8 @@ public class GuildLoggerCmd extends Command {
         super(alias);
         addPermission(Permission.ADMINISTRATOR);
         setCategory(CommandCategory.UTILS);
-        setDescription("Ustawia kanał na którym mają zapisywać się logi serwerowe");
-        setUsageInfo(" <#kanał>");
+        setDescription("Ustawia kanał na którym mają zapisywać się logi serwerowe.\n" + "`disable` - wyłącza logi");
+        setUsageInfo(" `#kanał` lub `disable`");
     }
 
     @Override

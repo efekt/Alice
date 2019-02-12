@@ -12,7 +12,7 @@ public class PrefixCmd extends Command {
     public PrefixCmd(String alias) {
         super(alias);
         setDescription("Podaj nowy prefix po spacji");
-        setUsageInfo(" <nowy prefix>");
+        setUsageInfo(" `nowy prefix`");
         addPermission(Permission.ADMINISTRATOR);
         setCategory(CommandCategory.UTILS);
     }

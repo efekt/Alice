@@ -25,7 +25,7 @@ public class HentaiCmd extends Command {
         super(alias);
         setDescription("Uważaj! Niezbadane wody!");
         setNsfw(true);
-        setUsageInfo(" <typ>");
+        setUsageInfo(" `typ`");
         setCategory(CommandCategory.FUN);
         loadCategories();
     }
