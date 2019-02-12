@@ -1,9 +1,7 @@
 package it.efekt.alice.core;
 
 import it.efekt.alice.commands.HelpCmd;
-import it.efekt.alice.commands.util.HistoryDeletionCmd;
-import it.efekt.alice.commands.util.PingCmd;
-import it.efekt.alice.commands.util.PrefixCmd;
+import it.efekt.alice.commands.util.*;
 import it.efekt.alice.commands.admin.StatusCmd;
 import it.efekt.alice.commands.admin.StopCmd;
 import it.efekt.alice.commands.fun.AsunaCmd;
@@ -16,7 +14,6 @@ import it.efekt.alice.commands.mentions.Greetings;
 import it.efekt.alice.listeners.JoinQuitListener;
 import it.efekt.alice.listeners.ReadyListener;
 import it.efekt.alice.modules.GuildLogger;
-import it.efekt.alice.commands.util.GuildLoggerCmd;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
@@ -55,6 +52,7 @@ public class Alice {
         getCmdManager().setExecutor(new StatusCmd("status"));
         getCmdManager().setExecutor(new HistoryDeletionCmd("clean"));
         getCmdManager().setExecutor(new GuildLoggerCmd("logger"));
+        getCmdManager().setExecutor(new UserInfoCmd("info"));
     }
 
 
