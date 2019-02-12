@@ -25,6 +25,10 @@ public class HelpCmd extends Command {
         embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
         CommandManager cmdManager = AliceBootstrap.alice.getCmdManager();
 
+        if (getArgs().length == 1 && !cmdManager.isValidAlias(getArgs()[0])){
+            embedBuilder.addField("Nieznana komenda", "Nie znaleziono komendy, spróbuj jeszcze raz", false);
+        }
+
         if (getArgs().length == 1 && cmdManager.isValidAlias(getArgs()[0])){
             String alias = getArgs()[0];
             Command cmd = cmdManager.getCommand(alias);
