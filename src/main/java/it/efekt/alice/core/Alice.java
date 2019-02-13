@@ -57,6 +57,7 @@ public class Alice {
         getCmdManager().setExecutor(new HistoryDeletionCmd("clean"));
         getCmdManager().setExecutor(new GuildLoggerCmd("logger"));
         getCmdManager().setExecutor(new UserInfoCmd("info"));
+        getCmdManager().setExecutor(new TopCmd("top"));
     }
 
 

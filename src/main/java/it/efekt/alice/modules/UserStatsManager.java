@@ -37,4 +37,15 @@ public class UserStatsManager {
         return newUserStats;
     }
 
+    public List<UserStats> getUserStats(Guild guild){
+        List<UserStats> stats = new ArrayList<>();
+        for (UserStats userStats : this.userStats){
+            if (userStats.getGuildId().equalsIgnoreCase(guild.getId())){
+                stats.add(userStats);
+            }
+        }
+
+        return stats;
+    }
+
 }
