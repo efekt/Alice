@@ -12,8 +12,10 @@ import it.efekt.alice.commands.fun.nsfw.HentaiCmd;
 import it.efekt.alice.commands.fun.nsfw.NekoCmd;
 import it.efekt.alice.commands.mentions.Greetings;
 import it.efekt.alice.listeners.JoinQuitListener;
+import it.efekt.alice.listeners.MessageListener;
 import it.efekt.alice.listeners.ReadyListener;
 import it.efekt.alice.modules.GuildLogger;
+import it.efekt.alice.modules.UserStatsManager;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
@@ -26,6 +28,7 @@ public class Alice {
     private CommandManager cmdManager;
     private GuildConfigManager guildConfigManager;
     private GuildLogger guildLogger;
+    private UserStatsManager userStatsManager;
 
     public Alice(Config config){
             this.config = config;
@@ -35,6 +38,7 @@ public class Alice {
     private void registerListeners(){
         this.jda.addEventListener(new JoinQuitListener());
         this.jda.addEventListener(new Greetings());
+        this.jda.addEventListener(new MessageListener());
         this.guildLogger = new GuildLogger(this);
         this.jda.addEventListener(guildLogger);
     }
@@ -76,6 +80,10 @@ public class Alice {
         return this.guildLogger;
     }
 
+    public UserStatsManager getUserStatsManager() {
+        return userStatsManager;
+    }
+
     private void init(){
         Runtime.getRuntime().addShutdownHook(new ShutdownThread(this));
         try {
@@ -83,6 +91,7 @@ public class Alice {
             this.guildConfigManager = new GuildConfigManager(this);
             registerListeners();
             this.cmdManager = new CommandManager(this);
+            this.userStatsManager = new UserStatsManager(this);
             registerCommands();
         } catch (LoginException e) {
             e.printStackTrace();

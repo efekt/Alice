@@ -1,6 +1,7 @@
 package it.efekt.alice.core;
 
 import it.efekt.alice.db.GuildConfig;
+import it.efekt.alice.db.UserStats;
 import org.apache.commons.io.IOUtils;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -62,6 +63,7 @@ public static final String DEFAULT_PREFIX = "<";
                 .setProperty("hibernate.connection.username", config.getMysqlUser())
                 .setProperty("hibernate.connection.password", config.getMysqlPassword())
                 .addAnnotatedClass(GuildConfig.class)
+                .addAnnotatedClass(UserStats.class)
                 .buildSessionFactory();
 
         // Session session = factory.getCurrentSession();
