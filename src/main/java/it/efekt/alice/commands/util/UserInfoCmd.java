@@ -35,7 +35,7 @@ public class UserInfoCmd extends Command {
             DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss");
 
             embedBuilder.addField("Data utworzenia konta", user.getCreationTime().format(dateFormat), false);
-            UserStats userStats = AliceBootstrap.alice.getUserStatsManager().getUserStats(e.getAuthor(), e.getGuild());
+            UserStats userStats = AliceBootstrap.alice.getUserStatsManager().getUserStats(user, e.getGuild());
             embedBuilder.addField("Wysłanych wiadomości na tym serwerze", String.valueOf(userStats.getMessagesAmount()), false);
 
             e.getChannel().sendMessage(embedBuilder.build()).queue();
