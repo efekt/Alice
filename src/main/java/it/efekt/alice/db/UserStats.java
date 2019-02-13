@@ -58,6 +58,10 @@ public class UserStats {
         this.setMessagesAmount(this.messagesAmount += amount);
     }
 
+    public boolean isBot(){
+        return AliceBootstrap.alice.getJDA().getUserById(this.userId).isBot();
+    }
+
     public void save(){
         Session session = AliceBootstrap.sessionFactory.getCurrentSession();
         session.beginTransaction();
