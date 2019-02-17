@@ -15,9 +15,9 @@ public class MessageListener extends ListenerAdapter {
         User user = e.getAuthor();
 
         UserStats userStats = AliceBootstrap.alice.getUserStatsManager().getUserStats(user, guild);
-        userStats.addMessagesAmount(1);
+        userStats.addAndSave(1);
         //At this moment it saves info to db every time new message is received, todo make it save periodically later...
-        userStats.save();
+        //userStats.save();
     }
 
 }

@@ -4,10 +4,13 @@ import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.db.UserStats;
+import it.efekt.alice.modules.UserStatsManager;
 import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.Permission;
+import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -15,15 +18,17 @@ public class TopCmd extends Command {
     public TopCmd(String alias) {
         super(alias);
         setCategory(CommandCategory.UTILS);
-        setDescription("Wyświetla listę największych spamerów \n `liczba użytowników` - opcjonalne");
+        setDescription("Wyświetla listę największych spamerów \n`liczba użytowników` - opcjonalne\n`loadAll` - zlicza całą historię serwera");
         setUsageInfo( " `liczba użytkowników`");
     }
 
     @Override
     public void onCommand(MessageReceivedEvent e) {
-        Guild guild = e.getGuild();
 
-       List<UserStats> userStatsList = AliceBootstrap.alice.getUserStatsManager().getUserStats(guild);
+       Guild guild = e.getGuild();
+       UserStatsManager userStatsManager = AliceBootstrap.alice.getUserStatsManager();
+       List<UserStats> userStatsList = userStatsManager.getUserStats(guild);
+       System.out.println(userStatsList.size());
        userStatsList.removeIf(UserStats::isBot);
        userStatsList.sort(Comparator.comparing(UserStats::getMessagesAmount).reversed());
 
@@ -43,7 +48,30 @@ public class TopCmd extends Command {
                printTop(listLength, userStatsList, e);
 
            }
+
+           if (getArgs()[0].equalsIgnoreCase("loadAll")){
+                if (!e.getMember().hasPermission(Permission.ADMINISTRATOR)){
+                    e.getChannel().sendMessage("Tylko administrator może wczytywać wszystkie wiadomości");
+                    return;
+                }
+
+              userStatsManager.clearAll();
+
+              e.getChannel().sendMessage("Próbuję zliczyć wszystkie wiadomości.\nMoże to potrwać nawet do kilku/kilkunastu minut w zależności od wielkości serwera :fearful:").queue();
+              List<Message> allMessages = getAllTextMessagesOnGuild(e.getGuild());
+
+              e.getChannel().sendMessage("Znalazłam " + allMessages.size() + " wiadomości, rozpoczynam zliczanie...").queue();
+
+              allMessages.forEach(message -> userStatsManager.getUserStats(message.getAuthor(), message.getGuild()).addMessagesAmount(1));
+              e.getChannel().sendMessage("Zakończyłam zliczanie wiadomości, zapisuję wyniki do bazy danych...").queue();
+
+              userStatsManager.removeAllInvalidUsers();
+              userStatsManager.saveAllUserStats();
+
+              e.getChannel().sendMessage("Wszystkie wyniki zostały zapisane :heart_eyes:").queue();
+           }
        } else if (getArgs().length == 0){
+
            int listLength = userStatsList.size();
 
            if (listLength > 5){
@@ -51,8 +79,6 @@ public class TopCmd extends Command {
            }
 
            printTop(listLength, userStatsList, e);
-
-
        }
 
     }
@@ -71,4 +97,15 @@ public class TopCmd extends Command {
 
         e.getChannel().sendMessage(embedBuilder.build()).queue();
     }
+
+    private List<Message> getAllTextMessagesOnGuild(Guild guild){
+        List<Message> messages = new ArrayList<>();
+        for (TextChannel channel : guild.getTextChannels()){
+            for (Message message : channel.getIterableHistory().cache(false)){
+                messages.add(message);
+            }
+        }
+        return messages;
+    }
+
 }

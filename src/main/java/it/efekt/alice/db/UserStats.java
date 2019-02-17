@@ -58,8 +58,17 @@ public class UserStats {
         this.setMessagesAmount(this.messagesAmount += amount);
     }
 
+    public void addAndSave(int messagesAmount){
+        addMessagesAmount(messagesAmount);
+        save();
+    }
+
     public boolean isBot(){
         return AliceBootstrap.alice.getJDA().getUserById(this.userId).isBot();
+    }
+
+    public boolean isInvalidUser(){
+        return AliceBootstrap.alice.getJDA().getUserById(this.userId) == null;
     }
 
     public void save(){

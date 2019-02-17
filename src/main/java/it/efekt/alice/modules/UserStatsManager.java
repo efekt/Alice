@@ -26,6 +26,10 @@ public class UserStatsManager {
         session.getTransaction().commit();
     }
 
+    public void saveAllUserStats(){
+        userStats.forEach(UserStats::save);
+    }
+
     public UserStats getUserStats(User user, Guild guild){
         for (UserStats userStats : this.userStats){
             if (userStats.getGuildId().equalsIgnoreCase(guild.getId()) && userStats.getUserId().equalsIgnoreCase(user.getId())){
@@ -48,4 +52,11 @@ public class UserStatsManager {
         return stats;
     }
 
+    public void removeAllInvalidUsers(){
+        this.userStats.removeIf(UserStats::isInvalidUser);
+    }
+
+    public void clearAll(){
+        this.userStats.clear();
+    }
 }
