@@ -1,13 +1,10 @@
 package it.efekt.alice.core;
 
 import it.efekt.alice.commands.HelpCmd;
-import it.efekt.alice.commands.fun.TomaszCmd;
+import it.efekt.alice.commands.fun.*;
 import it.efekt.alice.commands.util.*;
 import it.efekt.alice.commands.admin.StatusCmd;
 import it.efekt.alice.commands.admin.StopCmd;
-import it.efekt.alice.commands.fun.AsunaCmd;
-import it.efekt.alice.commands.fun.KojimaCmd;
-import it.efekt.alice.commands.fun.TomekCmd;
 import it.efekt.alice.commands.core.CommandManager;
 import it.efekt.alice.commands.fun.nsfw.HentaiCmd;
 import it.efekt.alice.commands.fun.nsfw.NekoCmd;
@@ -60,6 +57,7 @@ public class Alice {
         getCmdManager().setExecutor(new GuildLoggerCmd("logger"));
         getCmdManager().setExecutor(new UserInfoCmd("info"));
         getCmdManager().setExecutor(new TopCmd("top"));
+        getCmdManager().setExecutor(new ApexStatsCmd("apex"));
     }
 
 
