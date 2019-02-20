@@ -1,6 +1,7 @@
 package it.efekt.alice.core;
 
 import it.efekt.alice.commands.HelpCmd;
+import it.efekt.alice.commands.fun.TomaszCmd;
 import it.efekt.alice.commands.util.*;
 import it.efekt.alice.commands.admin.StatusCmd;
 import it.efekt.alice.commands.admin.StopCmd;
@@ -48,6 +49,7 @@ public class Alice {
         getCmdManager().setExecutor(new HelpCmd("help"));
         getCmdManager().setExecutor(new PrefixCmd("prefix"));
         getCmdManager().setExecutor(new TomekCmd("tomek"));
+        getCmdManager().setExecutor(new TomaszCmd("tomasz"));
         getCmdManager().setExecutor(new AsunaCmd("asuna"));
         getCmdManager().setExecutor(new NekoCmd("neko"));
         getCmdManager().setExecutor(new KojimaCmd("kojima"));
