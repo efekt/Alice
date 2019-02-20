@@ -49,27 +49,33 @@ public class TopCmd extends Command {
 
            }
 
-           if (getArgs()[0].equalsIgnoreCase("loadAll")){
-                if (!e.getMember().hasPermission(Permission.ADMINISTRATOR)){
-                    e.getChannel().sendMessage("Tylko administrator może wczytywać wszystkie wiadomości");
-                    return;
-                }
+           if (getArgs()[0].equalsIgnoreCase("loadAll")) {
+               if (!e.getMember().hasPermission(Permission.ADMINISTRATOR)) {
+                   e.getChannel().sendMessage("Tylko administrator może wczytywać wszystkie wiadomości");
+                   return;
+               }
 
-              userStatsManager.clearAll();
+               userStatsManager.clearAll();
 
-              e.getChannel().sendMessage("Próbuję zliczyć wszystkie wiadomości.\nMoże to potrwać nawet do kilku/kilkunastu minut w zależności od wielkości serwera :fearful:").queue();
-              List<Message> allMessages = getAllTextMessagesOnGuild(e.getGuild());
+               Runnable runnable = () ->
+               {
+                   e.getChannel().sendMessage("Próbuję zliczyć wszystkie wiadomości.\nMoże to potrwać nawet do kilku/kilkunastu minut w zależności od wielkości serwera :fearful:").queue();
+                   List<Message> allMessages = getAllTextMessagesOnGuild(e.getGuild());
 
-              e.getChannel().sendMessage("Znalazłam " + allMessages.size() + " wiadomości, rozpoczynam zliczanie...").queue();
+                   e.getChannel().sendMessage("Znalazłam " + allMessages.size() + " wiadomości, rozpoczynam zliczanie...").queue();
 
-              allMessages.forEach(message -> userStatsManager.getUserStats(message.getAuthor(), message.getGuild()).addMessagesAmount(1));
-              e.getChannel().sendMessage("Zakończyłam zliczanie wiadomości, zapisuję wyniki do bazy danych...").queue();
+                   allMessages.forEach(message -> userStatsManager.getUserStats(message.getAuthor(), message.getGuild()).addMessagesAmount(1));
+                   e.getChannel().sendMessage("Zakończyłam zliczanie wiadomości, zapisuję wyniki do bazy danych...").queue();
 
-              userStatsManager.removeAllInvalidUsers();
-              userStatsManager.saveAllUserStats();
+                   userStatsManager.removeAllInvalidUsers();
+                   userStatsManager.saveAllUserStats();
 
-              e.getChannel().sendMessage("Wszystkie wyniki zostały zapisane :heart_eyes:").queue();
-           }
+                   e.getChannel().sendMessage("Wszystkie wyniki zostały zapisane :heart_eyes:").queue();
+               };
+
+               Thread thread = new Thread(runnable);
+               thread.start();
+               }
        } else if (getArgs().length == 0){
 
            int listLength = userStatsList.size();
