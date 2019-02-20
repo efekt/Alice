@@ -82,6 +82,7 @@ public class HentaiCmd extends Command {
     }
 
     private void hPicture(MessageReceivedEvent event){
+
         try {
             URL url = new URL("https://danbooru.donmai.us/posts.json?random=true&limit=5&tags=censored");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();

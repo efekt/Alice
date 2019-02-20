@@ -31,8 +31,10 @@ public abstract class Command extends ListenerAdapter {
 
     public abstract void onCommand(MessageReceivedEvent e);
 
-    private void execute(MessageReceivedEvent e){
-        this.onCommand(e);
+    private void execute(MessageReceivedEvent e) {
+        Runnable runnable = () -> this.onCommand(e);
+        new Thread(runnable).start();
+        System.out.println("All threads: " + Thread.getAllStackTraces().size());
     }
 
     protected String getGuildPrefix(Guild guild){

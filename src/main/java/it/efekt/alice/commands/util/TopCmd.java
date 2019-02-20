@@ -57,8 +57,7 @@ public class TopCmd extends Command {
 
                userStatsManager.clearAll();
 
-               Runnable runnable = () ->
-               {
+
                    e.getChannel().sendMessage("Próbuję zliczyć wszystkie wiadomości.\nMoże to potrwać nawet do kilku/kilkunastu minut w zależności od wielkości serwera :fearful:").queue();
                    List<Message> allMessages = getAllTextMessagesOnGuild(e.getGuild());
 
@@ -71,10 +70,8 @@ public class TopCmd extends Command {
                    userStatsManager.saveAllUserStats();
 
                    e.getChannel().sendMessage("Wszystkie wyniki zostały zapisane :heart_eyes:").queue();
-               };
 
-               Thread thread = new Thread(runnable);
-               thread.start();
+
                }
        } else if (getArgs().length == 0){
 
