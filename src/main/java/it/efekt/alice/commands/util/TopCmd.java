@@ -97,7 +97,7 @@ public class TopCmd extends Command {
         String list = "";
         for (int i=0; i < maxUserAmount; i++){
             int index = i+1;
-            int level = (int) spamLevelManager.getPlayerLevel(e.getAuthor(), e.getGuild());
+            int level = (int) spamLevelManager.getPlayerLevel(AliceBootstrap.alice.getJDA().getUserById(userStatsList.get(i).getUserId()), e.getGuild());
             list = list.concat("`"+index+"` "+ AliceBootstrap.alice.getJDA().getUserById(userStatsList.get(i).getUserId()).getName()+ " - "+ userStatsList.get(i).getMessagesAmount() + " ("+level+")" +"\n");
         }
         embedBuilder.addField("TOP-"+maxUserAmount, list, false);
