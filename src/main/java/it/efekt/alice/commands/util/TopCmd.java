@@ -4,6 +4,7 @@ import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.db.UserStats;
+import it.efekt.alice.modules.SpamLevelManager;
 import it.efekt.alice.modules.UserStatsManager;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
@@ -91,10 +92,13 @@ public class TopCmd extends Command {
         embedBuilder.setTitle("Lista największych spamerów serwera " + e.getGuild().getName());
         embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
 
+        SpamLevelManager spamLevelManager = new SpamLevelManager();
+
         String list = "";
         for (int i=0; i < maxUserAmount; i++){
             int index = i+1;
-            list = list.concat("`"+index+"` "+ AliceBootstrap.alice.getJDA().getUserById(userStatsList.get(i).getUserId()).getName()+ " - "+ userStatsList.get(i).getMessagesAmount() +"\n");
+            int level = (int) spamLevelManager.getPlayerLevel(e.getAuthor(), e.getGuild());
+            list = list.concat("`"+index+"` "+ AliceBootstrap.alice.getJDA().getUserById(userStatsList.get(i).getUserId()).getName()+ " - "+ userStatsList.get(i).getMessagesAmount() + " ("+level+")" +"\n");
         }
         embedBuilder.addField("TOP-"+maxUserAmount, list, false);
 
