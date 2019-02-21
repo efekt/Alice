@@ -109,7 +109,6 @@ public abstract class Command extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(MessageReceivedEvent e){
-
         String[] allArgs = e.getMessage().getContentDisplay().split("\\s+");
 
         if (allArgs[0].startsWith(getGuildPrefix(e.getGuild()))){
@@ -138,6 +137,7 @@ public abstract class Command extends ListenerAdapter {
                     }
 
                     this.args = args;
+                    e.getChannel().sendTyping().queue();
                     this.execute(e);
                     this.logger.debug("User: " + e.getAuthor().getName() + " id:" + e.getAuthor().getId() + " executed cmd: " + cmdAlias + " with msg: " + e.getMessage().getContentDisplay());
                 }
