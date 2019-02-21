@@ -27,21 +27,26 @@ public class UserInfoCmd extends Command {
 
         if (getArgs().length == 1 && !msg.getMentionedUsers().isEmpty()){
             User user = msg.getMentionedUsers().stream().findFirst().get();
-
-            EmbedBuilder embedBuilder = new EmbedBuilder();
-            embedBuilder.setTitle("Informacje o użytkowniku " + user.getName());
-            embedBuilder.setThumbnail(user.getEffectiveAvatarUrl());
-            embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
-
-            DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss");
-
-            embedBuilder.addField("Data utworzenia konta", user.getCreationTime().format(dateFormat), false);
-            UserStats userStats = AliceBootstrap.alice.getUserStatsManager().getUserStats(user, e.getGuild());
-            embedBuilder.addField("Spamerski level", String.valueOf((int)new SpamLevelManager().getPlayerLevel(user, e.getGuild())), false);
-            embedBuilder.addField("Wysłanych wiadomości", String.valueOf(userStats.getMessagesAmount()), false);
-
-            e.getChannel().sendMessage(embedBuilder.build()).queue();
+            showInfo(e, user);
+        } else {
+            showInfo(e, e.getAuthor());
         }
+    }
+
+    private void showInfo(MessageReceivedEvent e, User user){
+        EmbedBuilder embedBuilder = new EmbedBuilder();
+        embedBuilder.setTitle("Informacje o użytkowniku " + user.getName());
+        embedBuilder.setThumbnail(user.getEffectiveAvatarUrl());
+        embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
+
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss");
+
+        embedBuilder.addField("Data utworzenia konta", user.getCreationTime().format(dateFormat), false);
+        UserStats userStats = AliceBootstrap.alice.getUserStatsManager().getUserStats(user, e.getGuild());
+        embedBuilder.addField("Spamerski level", String.valueOf((int)new SpamLevelManager().getPlayerLevel(user, e.getGuild())), false);
+        embedBuilder.addField("Wysłanych wiadomości", String.valueOf(userStats.getMessagesAmount()), false);
+
+        e.getChannel().sendMessage(embedBuilder.build()).queue();
     }
 
 }
