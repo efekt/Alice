@@ -4,6 +4,7 @@ import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.db.UserStats;
+import it.efekt.alice.modules.SpamLevelManager;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -36,7 +37,8 @@ public class UserInfoCmd extends Command {
 
             embedBuilder.addField("Data utworzenia konta", user.getCreationTime().format(dateFormat), false);
             UserStats userStats = AliceBootstrap.alice.getUserStatsManager().getUserStats(user, e.getGuild());
-            embedBuilder.addField("Wysłanych wiadomości na tym serwerze", String.valueOf(userStats.getMessagesAmount()), false);
+            embedBuilder.addField("Spamerski level", String.valueOf((int)new SpamLevelManager().getPlayerLevel(user, e.getGuild())), false);
+            embedBuilder.addField("Wysłanych wiadomości", String.valueOf(userStats.getMessagesAmount()), false);
 
             e.getChannel().sendMessage(embedBuilder.build()).queue();
         }

@@ -5,8 +5,8 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.User;
 
 public class SpamLevelManager {
-    private double step = 100d;
-    private double multiplier = 1.05d;
+    private final double STEP = 100d;
+    private final double MULTIPLIER = 1.05d;
 
     public double getPlayerLevel(User user, Guild guild){
         int playerMessages = AliceBootstrap.alice.getUserStatsManager().getUserStats(user, guild).getMessagesAmount();
@@ -22,6 +22,6 @@ public class SpamLevelManager {
 
     // Zwraca exp wymagany do wbicia levelu (wzglednie od ostatniego)
     public double getMaxExpPerLevel(double lvl){
-        return  this.step*Math.pow(this.multiplier, lvl -1d);
+        return  this.STEP *Math.pow(this.MULTIPLIER, lvl -1d);
     }
 }
