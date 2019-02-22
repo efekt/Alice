@@ -9,9 +9,11 @@ import it.efekt.alice.commands.core.CommandManager;
 import it.efekt.alice.commands.fun.nsfw.HentaiCmd;
 import it.efekt.alice.commands.fun.nsfw.NekoCmd;
 import it.efekt.alice.commands.mentions.Greetings;
+import it.efekt.alice.listeners.GameListener;
 import it.efekt.alice.listeners.JoinQuitListener;
 import it.efekt.alice.listeners.MessageListener;
 import it.efekt.alice.listeners.ReadyListener;
+import it.efekt.alice.modules.GameStatsManager;
 import it.efekt.alice.modules.GuildLogger;
 import it.efekt.alice.modules.UserStatsManager;
 import net.dv8tion.jda.core.AccountType;
@@ -27,6 +29,7 @@ public class Alice {
     private GuildConfigManager guildConfigManager;
     private GuildLogger guildLogger;
     private UserStatsManager userStatsManager;
+    private GameStatsManager gameStatsManager;
 
     public Alice(Config config){
             this.config = config;
@@ -39,6 +42,7 @@ public class Alice {
         this.jda.addEventListener(new MessageListener());
         this.guildLogger = new GuildLogger(this);
         this.jda.addEventListener(guildLogger);
+        this.jda.addEventListener(new GameListener());
     }
 
     private void registerCommands(){
@@ -83,7 +87,11 @@ public class Alice {
     }
 
     public UserStatsManager getUserStatsManager() {
-        return userStatsManager;
+        return this.userStatsManager;
+    }
+
+    public GameStatsManager getGameStatsManager(){
+        return this.gameStatsManager;
     }
 
     private void init(){
@@ -94,6 +102,7 @@ public class Alice {
             registerListeners();
             this.cmdManager = new CommandManager(this);
             this.userStatsManager = new UserStatsManager(this);
+            this.gameStatsManager = new GameStatsManager(this);
             registerCommands();
         } catch (LoginException e) {
             e.printStackTrace();

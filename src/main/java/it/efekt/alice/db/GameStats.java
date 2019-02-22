@@ -2,13 +2,13 @@ package it.efekt.alice.db;
 
 import it.efekt.alice.core.AliceBootstrap;
 import org.hibernate.Session;
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "user_stats")
-public class UserStats {
+@Table(name="game_stats")
+public class GameStats {
+
     @Column(name="guild_id")
     private String guildId;
 
@@ -16,15 +16,20 @@ public class UserStats {
     @Column(name="user_id")
     private String userId;
 
-    @Column(name="messages_amount")
-    @ColumnDefault("0")
-    private int messagesAmount;
+    @Column(name="game_name")
+    private String gameName;
 
-    public UserStats(){}
+    //In seconds
+    @Column(name="time_played")
+    private int timePlayed;
 
-    public UserStats(String userId, String guildId){
+
+    public GameStats(){}
+
+    public GameStats(String userId, String guildId, String gameName){
         this.userId = userId;
         this.guildId = guildId;
+        this.gameName = gameName;
     }
 
     public String getGuildId() {
@@ -43,30 +48,34 @@ public class UserStats {
         this.userId = userId;
     }
 
-    public int getMessagesAmount() {
-        return messagesAmount;
+    public String getGameName() {
+        return gameName;
     }
 
-    public void setMessagesAmount(int messagesAmount) {
-        this.messagesAmount = messagesAmount;
+    public void setGameName(String gameName) {
+        this.gameName = gameName;
     }
 
-    public void addMessagesAmount(int amount){
-        this.setMessagesAmount(this.messagesAmount += amount);
+    public long getTimePlayed() {
+        return timePlayed;
     }
 
-    public void addAndSave(int messagesAmount){
-        addMessagesAmount(messagesAmount);
-        save();
+    public void setTimePlayed(int timePlayed) {
+        this.timePlayed = timePlayed;
+    }
+
+    public void addTimePlayed(long timePlayed){
+        this.timePlayed += timePlayed;
+    }
+
+    public boolean isInvalidUser(){
+        return AliceBootstrap.alice.getJDA().getUserById(this.userId) == null;
     }
 
     public boolean isBot(){
         return AliceBootstrap.alice.getJDA().getUserById(this.userId).isBot();
     }
 
-    public boolean isInvalidUser(){
-        return AliceBootstrap.alice.getJDA().getUserById(this.userId) == null;
-    }
 
     public void save(){
         Session session = AliceBootstrap.sessionFactory.getCurrentSession();
