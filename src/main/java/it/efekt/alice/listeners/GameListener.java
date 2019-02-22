@@ -16,7 +16,7 @@ public class GameListener extends ListenerAdapter {
         User user = e.getUser();
         Guild guild = e.getGuild();
 
-        if (e.getOldGame() == null || user.isBot()){
+        if (e.getOldGame() == null || user.isBot() || e.getNewGame() == null){
             return;
         }
         String gameName = e.getOldGame().getName();
