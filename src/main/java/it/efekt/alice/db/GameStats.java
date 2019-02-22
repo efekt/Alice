@@ -9,10 +9,15 @@ import javax.persistence.*;
 @Table(name="game_stats")
 public class GameStats {
 
+    @Id
+    @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
     @Column(name="guild_id")
     private String guildId;
 
-    @Id
+
     @Column(name="user_id")
     private String userId;
 
@@ -30,6 +35,14 @@ public class GameStats {
         this.userId = userId;
         this.guildId = guildId;
         this.gameName = gameName;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getGuildId() {
