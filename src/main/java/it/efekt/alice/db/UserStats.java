@@ -9,10 +9,14 @@ import javax.persistence.*;
 @Entity
 @Table(name = "user_stats")
 public class UserStats {
+    @Id
+    @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
     @Column(name="guild_id")
     private String guildId;
 
-    @Id
     @Column(name="user_id")
     private String userId;
 
@@ -25,6 +29,14 @@ public class UserStats {
     public UserStats(String userId, String guildId){
         this.userId = userId;
         this.guildId = guildId;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getGuildId() {
