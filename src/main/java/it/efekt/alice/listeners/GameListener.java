@@ -26,8 +26,10 @@ public class GameListener extends ListenerAdapter {
         GameStats gameStats = AliceBootstrap.alice.getGameStatsManager().getGameStats(user, guild, gameName);
         try {
             long elapsed = e.getOldGame().getTimestamps().getElapsedTime(ChronoUnit.SECONDS);
-            gameStats.addTimePlayed((int) elapsed);
-            gameStats.save();
+            if (elapsed > 0) {
+                gameStats.addTimePlayed((int) elapsed);
+                gameStats.save();
+            }
         } catch (NullPointerException exc){
             logger.debug("Closed game does not contain ElapsedTime value, omitting..");
         }

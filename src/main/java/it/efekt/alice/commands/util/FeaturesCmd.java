@@ -51,9 +51,6 @@ public class FeaturesCmd extends Command {
                 e.getChannel().sendMessage("Funkcjonalność " + chosenAlias + " została włączona").queue();
                 return;
             }
-
-
-
         }
         e.getChannel().sendMessage("Źle wpisano komendę").queue();
 
