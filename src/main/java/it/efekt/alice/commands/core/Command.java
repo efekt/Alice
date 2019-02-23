@@ -1,13 +1,11 @@
 package it.efekt.alice.commands.core;
 
-import it.efekt.alice.core.Alice;
 import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.db.GuildConfig;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import org.slf4j.Logger;
