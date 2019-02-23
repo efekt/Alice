@@ -35,6 +35,10 @@ public class FeaturesCmd extends Command {
                 return;
             }
 
+            if (chosenAlias.equalsIgnoreCase(getAlias())){
+                e.getChannel().sendMessage("Nie możesz wyłączyć tej funkcji").queue();
+                return;
+            }
 
             if (arg.equalsIgnoreCase("disable")){
                 AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild()).setDisabled(chosenAlias);
