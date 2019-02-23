@@ -6,7 +6,7 @@ import org.hibernate.Session;
 import javax.persistence.*;
 
 @Entity
-@Table(name="game_stats")
+@Table(name="game_stats", schema = "alice_bot_db")
 public class GameStats {
 
     @Id

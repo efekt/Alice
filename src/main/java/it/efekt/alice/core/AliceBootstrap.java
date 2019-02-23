@@ -5,7 +5,12 @@ import it.efekt.alice.db.GuildConfig;
 import it.efekt.alice.db.UserStats;
 import org.apache.commons.io.IOUtils;
 import org.hibernate.SessionFactory;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.tool.hbm2ddl.SchemaExport;
+import org.hibernate.tool.hbm2ddl.SchemaExportTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
@@ -58,15 +63,16 @@ public static final String DEFAULT_PREFIX = "<";
     }
 
     private static void initSessionFactory(Config config){
-        sessionFactory = new Configuration()
+        Configuration configuration = new Configuration()
                 .configure("hibernate.cfg.xml")
                 .setProperty("hibernate.connection.url","jdbc:mysql://"+config.getMysqlUrl()+":"+config.getMysqlPort()+"/"+config.getMysqlDatabase()+"?useSSL=false&serverTimezone=UTC&characterEncoding=UTF-8")
                 .setProperty("hibernate.connection.username", config.getMysqlUser())
                 .setProperty("hibernate.connection.password", config.getMysqlPassword())
                 .addAnnotatedClass(GuildConfig.class)
                 .addAnnotatedClass(UserStats.class)
-                .addAnnotatedClass(GameStats.class)
-                .buildSessionFactory();
+                .addAnnotatedClass(GameStats.class);
+
+        sessionFactory = configuration.buildSessionFactory();
 
         // Session session = factory.getCurrentSession();
 

@@ -1,6 +1,8 @@
 package it.efekt.alice.commands.core;
 
+import it.efekt.alice.core.Alice;
 import it.efekt.alice.core.AliceBootstrap;
+import it.efekt.alice.db.GuildConfig;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Guild;
@@ -106,11 +108,13 @@ public abstract class Command extends ListenerAdapter {
         this.permissions.add(permission);
     }
 
+    protected GuildConfig getGuildConfig(Guild guild){
+        return AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(guild);
+    }
 
     @Override
     public void onMessageReceived(MessageReceivedEvent e){
         String[] allArgs = e.getMessage().getContentDisplay().split("\\s+");
-
         if (allArgs[0].startsWith(getGuildPrefix(e.getGuild()))){
             String cmdAlias = allArgs[0].replaceFirst(Pattern.quote(getGuildPrefix(e.getGuild())), "");
             String[] args = Arrays.copyOfRange(allArgs, 1, allArgs.length);
@@ -120,6 +124,11 @@ public abstract class Command extends ListenerAdapter {
                 if (e.getAuthor().isBot()){
                     return;
                 }
+
+                if (getGuildConfig(e.getGuild()).isDisabled(cmdAlias)){
+                    return;
+                }
+
                 // Only for debug purposes, change it later //todo implement better admin commands
                 if (isAdminCommand() && !e.getAuthor().getId().equalsIgnoreCase("128146616094818304")){
                     return;

@@ -65,6 +65,10 @@ public class HelpCmd extends Command {
                 List<String> commandsAliases = new ArrayList<>();
 
                 for (Command cmd : cmds){
+                    if (getGuildConfig(e.getGuild()).isDisabled(cmd.getAlias())){
+                        continue;
+                    }
+
                     if (cmd.canUseCmd(e.getMember())) {
                         String nsfwString = cmd.isNsfw() ? " (nsfw)" : "";
                         String guildPrefix = AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild()).getPrefix();

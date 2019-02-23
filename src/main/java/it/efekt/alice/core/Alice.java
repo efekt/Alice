@@ -63,6 +63,7 @@ public class Alice {
         getCmdManager().setExecutor(new TopCmd("top"));
         getCmdManager().setExecutor(new ApexStatsCmd("apex"));
         getCmdManager().setExecutor(new MinecraftStatusCmd("mc"));
+        getCmdManager().setExecutor(new FeaturesCmd("cmd"));
     }
 
 
