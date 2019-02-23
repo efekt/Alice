@@ -14,11 +14,13 @@ public class TomekCmd extends Command {
     }
 
     @Override
-    public void onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(MessageReceivedEvent e) {
         try {
             e.getChannel().sendFile(AliceBootstrap.class.getClassLoader().getResourceAsStream("assets/images/tomek.png"), "tomek.png").queue();
+            return true;
         } catch (NullPointerException exc) {
             e.getChannel().sendMessage("Nie znaleziono pliku :(").queue();
+            return true;
         }
     }
 }

@@ -14,19 +14,20 @@ public class MinecraftStatusCmd extends Command {
     public MinecraftStatusCmd(String alias) {
         super(alias);
         setDescription("Wyświetla aktualne informacje o serwerze Minecraft");
-        setUsageInfo(" `adres serwera`");
+        setShortUsageInfo(" `ip`");
+        setFullUsageInfo("`ip` - adres serwera Minecraft");
         setCategory(CommandCategory.FUN);
     }
 
     @Override
-    public void onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(MessageReceivedEvent e) {
         if (getArgs().length == 1){
             MinecraftServerStatus status = new MinecraftServerStatus();
             try {
                  status.loadServer(getArgs()[0]);
             } catch(MinecraftServerNotFoundException exc){
                 e.getChannel().sendMessage("Nie znaleziono serwera").queue();
-                return;
+                return true;
             }
 
             if (status.isOnline()){
@@ -38,10 +39,13 @@ public class MinecraftStatusCmd extends Command {
                 embedBuilder.addField("Ilość graczy", status.getCurrentPlayers() + "/" + status.getMaxPlayers(), false);
 
                 e.getChannel().sendMessage(embedBuilder.build()).queue();
+                return true;
             } else {
                 e.getChannel().sendMessage("Serwer jest offline").queue();
+                return true;
             }
         }
+        return false;
     }
 
     private String getCleanMotd(String motd){

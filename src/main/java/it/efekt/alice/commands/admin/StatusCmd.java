@@ -14,12 +14,14 @@ public class StatusCmd extends Command {
     }
 
     @Override
-    public void onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(MessageReceivedEvent e) {
         String status = String.join(" ", getArgs());
         if (status != null){
             e.getJDA().getPresence().setGame(Game.watching(status));
+            return true;
         } else {
             e.getJDA().getPresence().setGame(Game.watching("Sword Art Online"));
+            return true;
         }
     }
 }

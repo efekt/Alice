@@ -28,7 +28,7 @@ public class AsunaCmd extends Command {
     }
 
     @Override
-    public void onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(MessageReceivedEvent e) {
         EmbedBuilder embedBuilder = new EmbedBuilder();
 
         String imgurClientId = AliceBootstrap.alice.getConfig().getImgurClientId();
@@ -65,8 +65,10 @@ public class AsunaCmd extends Command {
             embedBuilder.setImage(urls.get(rand.nextInt(urls.size())));
             embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
             e.getChannel().sendMessage(embedBuilder.build()).queue();
+            return true;
         } catch(IOException exc){
             exc.printStackTrace();
         }
+        return false;
     }
 }

@@ -14,11 +14,13 @@ public class TomaszCmd extends Command {
     }
 
     @Override
-    public void onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(MessageReceivedEvent e) {
         try {
             e.getChannel().sendFile(AliceBootstrap.class.getClassLoader().getResourceAsStream("assets/images/tomasz.jpg"), "tomasz.jpg").queue();
         } catch (NullPointerException exc) {
             e.getChannel().sendMessage("Nie znaleziono pliku :(").queue();
+            return true;
         }
+        return false;
     }
 }

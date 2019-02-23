@@ -19,12 +19,13 @@ public class TopCmd extends Command {
     public TopCmd(String alias) {
         super(alias);
         setCategory(CommandCategory.UTILS);
-        setDescription("Wyświetla listę największych spamerów \n`liczba użytowników` - opcjonalne\n`loadAll` - zlicza całą historię serwera");
-        setUsageInfo( " `liczba użytkowników`");
+        setDescription("Wyświetla listę największych spamerów");
+        setShortUsageInfo( " `liczba użytkowników` lub `loadAll`");
+        setFullUsageInfo("`liczba użytkowników` - opcjonalne\n`loadAll` - zlicza całą historię serwera");
     }
 
     @Override
-    public void onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(MessageReceivedEvent e) {
 
        Guild guild = e.getGuild();
        UserStatsManager userStatsManager = AliceBootstrap.alice.getUserStatsManager();
@@ -39,25 +40,24 @@ public class TopCmd extends Command {
 
                if (listLength <= 0){
                    e.getChannel().sendMessage("oszalałeś...?").queue();
-                   return;
+                   return true;
                }
 
                if (userStatsList.size() < listLength){
                    e.getChannel().sendMessage("Nie znaleziono tylu użytkowników, maksymalnie możesz podać: " + userStatsList.size()).queue();
-                   return;
+                   return true;
                }
                printTop(listLength, userStatsList, e);
-
+               return true;
            }
 
            if (getArgs()[0].equalsIgnoreCase("loadAll")) {
                if (!e.getMember().hasPermission(Permission.ADMINISTRATOR)) {
                    e.getChannel().sendMessage("Tylko administrator może wczytywać wszystkie wiadomości");
-                   return;
+                   return true;
                }
 
                userStatsManager.clearAll();
-
 
                    e.getChannel().sendMessage("Próbuję zliczyć wszystkie wiadomości.\nMoże to potrwać nawet do kilku/kilkunastu minut w zależności od wielkości serwera :fearful:").queue();
                    List<Message> allMessages = getAllTextMessagesOnGuild(e.getGuild());
@@ -71,11 +71,10 @@ public class TopCmd extends Command {
                    userStatsManager.saveAllUserStats();
 
                    e.getChannel().sendMessage("Wszystkie wyniki zostały zapisane :heart_eyes:").queue();
-
+               return true;
 
                }
        } else if (getArgs().length == 0){
-
            int listLength = userStatsList.size();
 
            if (listLength > 5){
@@ -83,8 +82,9 @@ public class TopCmd extends Command {
            }
 
            printTop(listLength, userStatsList, e);
+           return true;
        }
-
+    return false;
     }
 
     private void printTop(int maxUserAmount, List<UserStats> userStatsList, MessageReceivedEvent e){

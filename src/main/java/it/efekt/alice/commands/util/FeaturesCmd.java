@@ -13,17 +13,17 @@ public class FeaturesCmd extends Command {
 
     public FeaturesCmd(String alias) {
         super(alias);
-        setDescription("Zadządzanie dostępnością komend Alice na tym serwerze \n `disable/enable` nazwa-komendy - wyłącza/włącza komendę");
+        setDescription("Zadządzanie dostępnością komend Alice na tym serwerze \n `disable/enable` `nazwa komendy` - wyłącza/włącza komendę");
         setCategory(CommandCategory.UTILS);
         addPermission(Permission.ADMINISTRATOR);
     }
 
     @Override
-    public void onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(MessageReceivedEvent e) {
         HashMap<String, Command> cmds = AliceBootstrap.alice.getCmdManager().getCommands();
         if (getArgs().length == 0){
             printFeatures(e);
-            return;
+            return true;
         }
 
         if (getArgs().length == 2){
@@ -32,28 +32,27 @@ public class FeaturesCmd extends Command {
 
             if (chosenAlias == null || chosenAlias.isEmpty() || !cmds.containsKey(chosenAlias)){
                 e.getChannel().sendMessage("Podano nieprawidłową nazwę funkcji").queue();
-                return;
+                return true;
             }
 
             if (chosenAlias.equalsIgnoreCase(getAlias())){
                 e.getChannel().sendMessage("Nie możesz wyłączyć tej funkcji").queue();
-                return;
+                return true;
             }
 
             if (arg.equalsIgnoreCase("disable")){
                 AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild()).setDisabled(chosenAlias);
                 e.getChannel().sendMessage("Funkcjonalność " + chosenAlias + " została wyłączona").queue();
-                return;
+                return true;
             }
 
             if (arg.equalsIgnoreCase("enable")){
                 AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild()).setEnabled(chosenAlias);
                 e.getChannel().sendMessage("Funkcjonalność " + chosenAlias + " została włączona").queue();
-                return;
+                return true;
             }
         }
-        e.getChannel().sendMessage("Źle wpisano komendę").queue();
-
+        return false;
     }
 
     private void printFeatures(MessageReceivedEvent e){

@@ -19,7 +19,10 @@ public abstract class Command extends ListenerAdapter {
     protected String alias;
     private String desc = "";
     private String[] args;
-    private String usageInfo = "";
+    // Short line next to command alias
+    private String shortUsageInfo = "";
+    // Full explanation of all arguments in commands
+    private String fullUsageInfo = "";
     private List<Permission> permissions = new ArrayList<>();
     private Logger logger = LoggerFactory.getLogger(Command.class);
     private boolean isNsfw = false;
@@ -30,10 +33,16 @@ public abstract class Command extends ListenerAdapter {
         this.alias = alias;
     }
 
-    public abstract void onCommand(MessageReceivedEvent e);
+    public abstract boolean onCommand(MessageReceivedEvent e);
 
     private void execute(MessageReceivedEvent e) {
-        Runnable runnable = () -> this.onCommand(e);
+        Runnable runnable = () -> {
+            // If command is returning false, means that something is wrong
+            if (!this.onCommand(e)){
+                e.getChannel().sendMessage("Spradź czy wpisałeś komendę prawidłowo\n"+getDesc()).queue();
+                return;
+            }
+        };
         new Thread(runnable).start();
         System.out.println("All threads: " + Thread.getAllStackTraces().size());
     }
@@ -86,16 +95,24 @@ public abstract class Command extends ListenerAdapter {
         return this.alias;
     }
 
-    public String getUsageInfo(){
-        return this.usageInfo;
+    public String getShortUsageInfo(){
+        return this.shortUsageInfo;
     }
 
     public List<Permission> getPermissions(){
         return this.permissions;
     }
 
-    protected void setUsageInfo(String usageInfo){
-        this.usageInfo = usageInfo;
+    public String getFullUsageInfo() {
+        return this.fullUsageInfo;
+    }
+
+    protected void setFullUsageInfo(String fullUsageInfo) {
+        this.fullUsageInfo = fullUsageInfo;
+    }
+
+    protected void setShortUsageInfo(String shortUsageInfo){
+        this.shortUsageInfo = shortUsageInfo;
     }
 
     protected String[] getArgs(){

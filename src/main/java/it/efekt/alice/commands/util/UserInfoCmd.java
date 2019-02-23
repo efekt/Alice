@@ -18,18 +18,20 @@ public class UserInfoCmd extends Command {
         super(alias);
         setCategory(CommandCategory.UTILS);
         setDescription("Wyświetla informacje o użytkowniku");
-        setUsageInfo(" `@user`");
+        setShortUsageInfo(" `@user`");
     }
 
     @Override
-    public void onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(MessageReceivedEvent e) {
         Message msg = e.getMessage();
 
         if (getArgs().length == 1 && !msg.getMentionedUsers().isEmpty()){
             User user = msg.getMentionedUsers().stream().findFirst().get();
             showInfo(e, user);
+            return true;
         } else {
             showInfo(e, e.getAuthor());
+            return true;
         }
     }
 

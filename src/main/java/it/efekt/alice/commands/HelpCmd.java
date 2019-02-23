@@ -14,14 +14,15 @@ public class HelpCmd extends Command {
 
     public HelpCmd(String alias){
         super(alias);
-        setDescription("Komenda pomocy");
+        setShortUsageInfo(" `|cmd|`");
+        setDescription("Wyświetla ekran pomocy");
     }
 
     @Override
-    public void onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(MessageReceivedEvent e) {
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setTitle("Alice - Centrum Pomocy");
-        embedBuilder.setThumbnail("https://i.imgur.com/qZe2WZz.jpg");
+        embedBuilder.setThumbnail(e.getJDA().getSelfUser().getEffectiveAvatarUrl());
         embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
         CommandManager cmdManager = AliceBootstrap.alice.getCmdManager();
 
@@ -34,21 +35,19 @@ public class HelpCmd extends Command {
             Command cmd = cmdManager.getCommand(alias);
 
             if (!cmd.canUseCmd(e.getMember())){
-                return;
+                return true;
             }
 
             String prefix = getGuildPrefix(e.getGuild());
             String requiredPermissions = cmd.getPermissions().toString().replaceAll("\\[", "")
                     .replaceAll("]", "");
 
-
             embedBuilder.setTitle(null);
-            embedBuilder.addField(prefix + alias + cmd.getUsageInfo(), cmd.getDesc(), false);
+            embedBuilder.addField(prefix + alias + cmd.getShortUsageInfo(), cmd.getDesc() + "\n" + cmd.getFullUsageInfo(), false);
             embedBuilder.addField("Kategoria", cmd.getCommandCategory().getName(), false);
             if (!requiredPermissions.isEmpty()) {
                 embedBuilder.addField("Wymagane uprawnienia", requiredPermissions, false);
             }
-
         }
 
         if (getArgs().length == 0){
@@ -82,11 +81,13 @@ public class HelpCmd extends Command {
                         .replaceAll(",", "");
 
                 embedBuilder.addField(cat.getName(),commandAliasesFormated, false);
+                embedBuilder.setFooter(getGuildPrefix(e.getGuild()) + getAlias() + " <komenda> - wyświetla pomoc podanej komendy", "https://images-ext-2.discordapp.net/external/YZ0U9nMuSvG1cb1raXhrkw8Ut8ZBVQT4ia-alVadE7E/https/i.imgur.com/qZe2WZz.jpg");
             }
         }
 
 
 
         e.getChannel().sendMessage(embedBuilder.build()).queue();
+        return true;
     }
 }

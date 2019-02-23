@@ -31,24 +31,24 @@ public class HentaiCmd extends Command {
         super(alias);
         setDescription("Uważaj! Niezbadane wody!\n Dostępne typy: \n `neko` `gifneko` `random`(na własną odpowiedzialność)");
         setNsfw(true);
-        setUsageInfo(" `typ`");
+        setShortUsageInfo(" `typ`");
         setCategory(CommandCategory.FUN);
         loadCategories();
     }
 
     @Override
-    public void onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(MessageReceivedEvent e) {
 
         if (getArgs().length == 1 ){
 
             if (getArgs()[0].equalsIgnoreCase("random")){
                 hPicture(e);
-                return;
+                return true;
             }
 
             if (!this.categories.containsKey(getArgs()[0])){
                 e.getChannel().sendMessage("Nie znam takiej kategori. Wybierz jedną z nich:\n " + categories.keySet().toString()).queue();
-                return;
+                return true;
             }
 
             Random random = new Random();
@@ -62,11 +62,14 @@ public class HentaiCmd extends Command {
                     embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
                     embedBuilder.setImage(imageUrl);
                     e.getChannel().sendMessage(embedBuilder.build()).queue();
+                    return true;
                 } catch (InterruptedException| ExecutionException e1) {
                     e.getChannel().sendMessage("Nie znaleziono").queue();
+                    return true;
                 }
         } else {
-            e.getChannel().sendMessage("Zwróć uwagę na to jak wpisujesz komendę: " + getGuildPrefix(e.getGuild()) + getAlias() + getUsageInfo()).queue();
+            e.getChannel().sendMessage("Zwróć uwagę na to jak wpisujesz komendę: " + getGuildPrefix(e.getGuild()) + getAlias() + getShortUsageInfo()).queue();
+            return true;
         }
     }
 

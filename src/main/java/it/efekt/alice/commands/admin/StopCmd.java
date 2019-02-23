@@ -13,7 +13,8 @@ public class StopCmd extends Command {
     }
 
     @Override
-    public void onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(MessageReceivedEvent e) {
         Runtime.getRuntime().exit(0);
+        return true;
     }
 }

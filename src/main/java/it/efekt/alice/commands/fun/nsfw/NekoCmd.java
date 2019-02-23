@@ -20,12 +20,13 @@ public class NekoCmd extends Command {
     }
 
     @Override
-    public void onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(MessageReceivedEvent e) {
         Image image = imageProvider.getRandomImage("neko").execute();
             String imageUrl = image.getUrl();
             EmbedBuilder embedBuilder = new EmbedBuilder();
             embedBuilder.setImage(imageUrl);
             embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
             e.getChannel().sendMessage(embedBuilder.build()).queue();
+        return true;
     }
 }

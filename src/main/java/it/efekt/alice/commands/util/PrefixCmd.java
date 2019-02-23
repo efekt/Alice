@@ -11,21 +11,22 @@ public class PrefixCmd extends Command {
 
     public PrefixCmd(String alias) {
         super(alias);
-        setDescription("Podaj nowy prefix po spacji");
-        setUsageInfo(" `nowy prefix`");
+        setDescription("Ustawia prefix, który będzie używany na tym serwerze");
+        setShortUsageInfo(" `prefix`");
+        setFullUsageInfo("`prefix` - twój nowy wymarzony prefix");
         addPermission(Permission.ADMINISTRATOR);
         setCategory(CommandCategory.UTILS);
     }
 
     @Override
-    public void onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(MessageReceivedEvent e) {
         String prefix = AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild()).getPrefix();
         if (this.getArgs().length == 1){
             String newPrefix = this.getArgs()[0];
 
             if (newPrefix.length() != 1){
                 e.getChannel().sendMessage("Prefix musi składać się z jednego znaku").queue();
-                return;
+                return true;
             }
 
             GuildConfig guildConfig = AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild());
@@ -33,8 +34,10 @@ public class PrefixCmd extends Command {
             guildConfig.save();
             e.getChannel().sendMessage("Nowy prefix dla tego serwera: " + newPrefix).queue();
             AliceBootstrap.alice.getGuildLogger().log(e.getGuild(), e.getAuthor().getAsMention() + " zmienił prefix na: " + newPrefix);
+            return true;
         } else {
             e.getChannel().sendMessage("Użyj " + prefix + "prefix <NowyPrefix>").queue();
+            return true;
         }
     }
 }

@@ -22,12 +22,13 @@ public class ApexStatsCmd extends Command {
     public ApexStatsCmd(String alias) {
         super(alias);
         setCategory(CommandCategory.FUN);
-        setUsageInfo(" `pc/psn/xbl` `nazwa gracza`");
+        setShortUsageInfo(" `pc/psn/xbl` `nick`");
+        setFullUsageInfo("`pc/psn/xbl` - platforma, wybierz jedną\n `nick` - nazwa użytkownika Apex");
         setDescription("Wyświetla statystyki z gry Apex (Eksperymentalne)");
     }
 
     @Override
-    public void onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(MessageReceivedEvent e) {
 
         if (getArgs().length == 2){
             String platform = getArgs()[0];
@@ -35,10 +36,9 @@ public class ApexStatsCmd extends Command {
             if (platform.equalsIgnoreCase(PC_STRING) || platform.equalsIgnoreCase(PSN_STRING) || platform.equalsIgnoreCase(XBOX_STRING)){
                 String playerName = getArgs()[1];
 
-
-                if (getPlayerInfo(playerName, platform) == null || getPlayerInfo(playerName, platform).get("playerfound").getAsBoolean() == false){
+                if (getPlayerInfo(playerName, platform) == null || !getPlayerInfo(playerName, platform).get("playerfound").getAsBoolean()){
                     e.getChannel().sendMessage("Nie znaleziono takiego gracza").queue();
-                    return;
+                    return true;
                 }
 
                 JsonObject playerInfo = getPlayerInfo(playerName, platform);
@@ -95,10 +95,11 @@ public class ApexStatsCmd extends Command {
 
 
                 e.getChannel().sendMessage(embedBuilder.build()).queue();
+                return true;
 
             }
         }
-
+        return false;
     }
 
 
