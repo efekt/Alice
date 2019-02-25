@@ -25,7 +25,7 @@ public class GameListener extends ListenerAdapter {
         String gameName = e.getOldGame().getName();
         GameStats gameStats = AliceBootstrap.alice.getGameStatsManager().getGameStats(user, guild, gameName);
 
-        if (e.getNewGame().getName().equalsIgnoreCase(e.getOldGame().getName())){
+        if (e.getNewGame() != null && e.getNewGame().getName().equalsIgnoreCase(e.getOldGame().getName())){
             return;
         }
 
