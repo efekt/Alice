@@ -17,10 +17,10 @@ public class TomaszCmd extends Command {
     public boolean onCommand(MessageReceivedEvent e) {
         try {
             e.getChannel().sendFile(AliceBootstrap.class.getClassLoader().getResourceAsStream("assets/images/tomasz.jpg"), "tomasz.jpg").queue();
+            return true;
         } catch (NullPointerException exc) {
             e.getChannel().sendMessage("Nie znaleziono pliku :(").queue();
             return true;
         }
-        return false;
     }
 }

@@ -39,7 +39,7 @@ public abstract class Command extends ListenerAdapter {
         Runnable runnable = () -> {
             // If command is returning false, means that something is wrong
             if (!this.onCommand(e)){
-                e.getChannel().sendMessage("Spradź czy wpisałeś komendę prawidłowo\n"+getDesc()).queue();
+                e.getChannel().sendMessage("Sprawdź czy wpisałeś komendę prawidłowo\n"+getDesc()).queue();
                 return;
             }
         };
