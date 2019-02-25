@@ -9,6 +9,8 @@ import it.efekt.alice.commands.core.CommandManager;
 import it.efekt.alice.commands.fun.nsfw.HentaiCmd;
 import it.efekt.alice.commands.fun.nsfw.NekoCmd;
 import it.efekt.alice.commands.mentions.Greetings;
+import it.efekt.alice.config.Config;
+import it.efekt.alice.config.GuildConfigManager;
 import it.efekt.alice.listeners.GameListener;
 import it.efekt.alice.listeners.JoinQuitListener;
 import it.efekt.alice.listeners.MessageListener;

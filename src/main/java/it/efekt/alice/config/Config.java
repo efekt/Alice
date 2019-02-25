@@ -1,7 +1,7 @@
-package it.efekt.alice.core;
+package it.efekt.alice.config;
 
 import static java.lang.String.format;
-
+// This class is used by snakeyaml
 public class Config {
     private String token;
     private String imgurClientId;

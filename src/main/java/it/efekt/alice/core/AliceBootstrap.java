@@ -1,5 +1,6 @@
 package it.efekt.alice.core;
 
+import it.efekt.alice.config.Config;
 import it.efekt.alice.db.GameStats;
 import it.efekt.alice.db.GuildConfig;
 import it.efekt.alice.db.UserStats;
@@ -66,40 +67,7 @@ public static final String DEFAULT_PREFIX = "<";
                 .addAnnotatedClass(GuildConfig.class)
                 .addAnnotatedClass(UserStats.class)
                 .addAnnotatedClass(GameStats.class);
-
         sessionFactory = configuration.buildSessionFactory();
-
-        // Session session = factory.getCurrentSession();
-
-//        try {
-//            GuildConfig guildConf = new GuildConfig("01", "!b");
-//            session.beginTransaction();
-//            session.save(guildConf);
-//            session.getTransaction().commit();
-
-
-
-//            session = factory.getCurrentSession();
-//            session.beginTransaction();
-//            GuildConf guildConf = session.get(GuildConf.class, "01");
-//            System.out.println("ZNALAZLEM: " + guildConf.getPrefix());
-//            session.getTransaction().commit();
-
-//
-//            session.beginTransaction();
-//            List<GuildConf> conf = session.createQuery("from GuildConf c where c.prefix = '<'").getResultList();
-//            conf.stream().forEach(System.out::println);
-//            session.getTransaction().commit();
-
-
-//            session.beginTransaction();
-//            GuildConf guildConf = session.get(GuildConf.class, "01");
-//            guildConf.setPrefix("joł");
-//            session.getTransaction().commit();
-
-//        } finally {
-//            factory.close();
-//        }
     }
 
 

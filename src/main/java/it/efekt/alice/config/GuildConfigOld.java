@@ -1,4 +1,4 @@
-package it.efekt.alice.core;
+package it.efekt.alice.config;
 
 public class GuildConfigOld {
     private String guildId;

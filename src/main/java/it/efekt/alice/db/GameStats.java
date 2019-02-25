@@ -78,7 +78,7 @@ public class GameStats {
     }
 
     public void addTimePlayed(long timePlayed){
-        this.timePlayed += timePlayed;
+        this.timePlayed += (int)timePlayed;
     }
 
     public boolean isInvalidUser(){

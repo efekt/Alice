@@ -1,5 +1,7 @@
-package it.efekt.alice.core;
+package it.efekt.alice.config;
 
+import it.efekt.alice.core.Alice;
+import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.db.GuildConfig;
 import net.dv8tion.jda.core.entities.Guild;
 import org.hibernate.Session;
@@ -35,7 +37,7 @@ public class GuildConfigManager {
         Session session = AliceBootstrap.sessionFactory.getCurrentSession();
         session.beginTransaction();
         List<GuildConfig> configs = session.createQuery("from GuildConfig").getResultList();
-        configs.stream().forEach(config -> guildConfigs.put(config.getId(), config));
+        configs.forEach(config -> guildConfigs.put(config.getId(), config));
         session.getTransaction().commit();
         System.out.println("guilds: " + guildConfigs.values());
     }
