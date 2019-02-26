@@ -27,7 +27,7 @@ public enum Message {
     CMD_HELP_FOOTER("<komenda> - wyświetla pomoc podanej komendy"),
     CMD_HENTAI_DESC("Uważaj! Niezbadane wody!\n Dostępne typy: \n `neko` `gifneko` `random`(na własną odpowiedzialność)"),
     CMD_HENTAI_SHORT_USAGE_INFO("`typ`"),
-    CMD_HENTAI_CATEGORY_UNKNOWN("Nie znam takiej kategori. Wybierz jedną z nich:\n {1}"),
+    CMD_HENTAI_CATEGORY_UNKNOWN("Nie znam takiej kategorii. Wybierz jedną z nich:\n {1}"),
     CMD_HENTAI_NOT_FOUND("Nie znaleziono"),
     CMD_HENTAI_CHECK_COMMAND("Zwróć uwagę na to jak wpisujesz komendę:"),
     CMD_HENTAI_ERROR_NOT_FOUND("Wystąpił problem, nie znaleziono nic :("),
@@ -97,9 +97,6 @@ public enum Message {
     CMD_USERINFO_ACCOUNT_CREATED("Data utworzenia konta"),
     CMD_USERINFO_SPAM_LVL("Spamerski level"),
     CMD_USERINFO_MSGS_SENT("Wysłanych wiadomości"),
-
-
-
 
 
 

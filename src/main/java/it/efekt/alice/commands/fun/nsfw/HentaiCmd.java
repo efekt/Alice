@@ -13,7 +13,6 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import pw.aru.api.nekos4j.Nekos4J;
 import pw.aru.api.nekos4j.image.Image;
 import pw.aru.api.nekos4j.image.ImageProvider;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -121,7 +120,7 @@ public class HentaiCmd extends Command {
                 }
             }
 
-            if (imgUrl == ""){
+            if (imgUrl.isEmpty()){
                 event.getChannel().sendMessage(Message.CMD_HENTAI_ERROR_NOT_FOUND.get(event)).queue();
                 return;
             }
@@ -129,7 +128,7 @@ public class HentaiCmd extends Command {
             EmbedBuilder embedBuilder = new EmbedBuilder();
             embedBuilder.setImage(imgUrl);
             embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
-            if (character != ""){
+            if (!character.isEmpty()){
                 embedBuilder.setFooter(character, null);
             }
 
