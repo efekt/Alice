@@ -15,8 +15,8 @@ public class HelpCmd extends Command {
 
     public HelpCmd(String alias){
         super(alias);
-        setShortUsageInfo(" `|cmd|`");
-        setDescription("opis");
+        setShortUsageInfo(Message.CMD_HELP_SHORT_USAGE_INFO);
+        setDescription(Message.CMD_HELP_DESCRIPTION);
     }
 
     @Override
@@ -28,7 +28,7 @@ public class HelpCmd extends Command {
         CommandManager cmdManager = AliceBootstrap.alice.getCmdManager();
 
         if (getArgs().length == 1 && !cmdManager.isValidAlias(getArgs()[0])){
-            embedBuilder.addField("Nieznana komenda", "Nie znaleziono komendy, spróbuj jeszcze raz", false);
+            embedBuilder.addField(Message.CMD_HELP_COMMAND_UNKNOWN.get(e), Message.CMD_HELP_NOT_FOUND_TRY_AGAIN.get(e), false);
         }
 
         if (getArgs().length == 1 && cmdManager.isValidAlias(getArgs()[0])){
@@ -44,10 +44,10 @@ public class HelpCmd extends Command {
                     .replaceAll("]", "");
 
             embedBuilder.setTitle(null);
-            embedBuilder.addField(prefix + alias + cmd.getShortUsageInfo(), lang(e).get(cmd.getDesc()) + "\n" + cmd.getFullUsageInfo(), false);
-            embedBuilder.addField("Kategoria", cmd.getCommandCategory().getName(), false);
+            embedBuilder.addField(prefix + alias + " " + cmd.getShortUsageInfo().get(e), cmd.getDesc().get(e) + "\n" + cmd.getFullUsageInfo().get(e), false);
+            embedBuilder.addField(Message.CMD_HELP_CATEGORY.get(e), cmd.getCommandCategory().getName(), false);
             if (!requiredPermissions.isEmpty()) {
-                embedBuilder.addField("Wymagane uprawnienia", requiredPermissions, false);
+                embedBuilder.addField(Message.CMD_HELP_REQUIRED_PERMS.get(e), requiredPermissions, false);
             }
         }
 
@@ -70,7 +70,7 @@ public class HelpCmd extends Command {
                     }
 
                     if (cmd.canUseCmd(e.getMember())) {
-                        String nsfwString = cmd.isNsfw() ? " (nsfw)" : "";
+                        String nsfwString = cmd.isNsfw() ? " " + Message.CMD_NSFW_NOTIFICATION.get(e): "";
                         String guildPrefix = AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild()).getPrefix();
                         commandsAliases.add("`" + guildPrefix + cmd.getAlias() + nsfwString+"`");
                     }
@@ -82,11 +82,9 @@ public class HelpCmd extends Command {
                         .replaceAll(",", "");
 
                 embedBuilder.addField(cat.getName(),commandAliasesFormated, false);
-                embedBuilder.setFooter(getGuildPrefix(e.getGuild()) + getAlias() + " <komenda> - wyświetla pomoc podanej komendy", "https://images-ext-2.discordapp.net/external/YZ0U9nMuSvG1cb1raXhrkw8Ut8ZBVQT4ia-alVadE7E/https/i.imgur.com/qZe2WZz.jpg");
+                embedBuilder.setFooter(getGuildPrefix(e.getGuild()) + getAlias() + " " +Message.CMD_HELP_FOOTER.get(e), "https://images-ext-2.discordapp.net/external/YZ0U9nMuSvG1cb1raXhrkw8Ut8ZBVQT4ia-alVadE7E/https/i.imgur.com/qZe2WZz.jpg");
             }
         }
-
-
 
         e.getChannel().sendMessage(embedBuilder.build()).queue();
         return true;

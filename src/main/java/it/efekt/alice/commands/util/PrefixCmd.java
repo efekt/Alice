@@ -4,6 +4,7 @@ import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.db.GuildConfig;
+import it.efekt.alice.lang.Message;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
@@ -11,9 +12,9 @@ public class PrefixCmd extends Command {
 
     public PrefixCmd(String alias) {
         super(alias);
-        setDescription("Ustawia prefix, który będzie używany na tym serwerze");
-        setShortUsageInfo(" `prefix`");
-        setFullUsageInfo("`prefix` - twój nowy wymarzony prefix");
+        setDescription(Message.CMD_PREFIX_DESC);
+        setShortUsageInfo(Message.CMD_PREFIX_SHORT_USAGE_INFO);
+        setFullUsageInfo(Message.CMD_PREFIX_FULL_USAGE_INFO);
         addPermission(Permission.ADMINISTRATOR);
         setCategory(CommandCategory.UTILS);
     }
@@ -25,19 +26,17 @@ public class PrefixCmd extends Command {
             String newPrefix = this.getArgs()[0];
 
             if (newPrefix.length() != 1){
-                e.getChannel().sendMessage("Prefix musi składać się z jednego znaku").queue();
+                e.getChannel().sendMessage(Message.CMD_PREFIX_REQUIREMENTS.get(e)).queue();
                 return true;
             }
 
             GuildConfig guildConfig = AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild());
             guildConfig.setPrefix(newPrefix);
             guildConfig.save();
-            e.getChannel().sendMessage("Nowy prefix dla tego serwera: " + newPrefix).queue();
-            AliceBootstrap.alice.getGuildLogger().log(e.getGuild(), e.getAuthor().getAsMention() + " zmienił prefix na: " + newPrefix);
-            return true;
-        } else {
-            e.getChannel().sendMessage("Użyj " + prefix + "prefix <NowyPrefix>").queue();
+            e.getChannel().sendMessage(Message.CMD_NEW_PREFIX_SET.get(e, newPrefix)).queue();
+            AliceBootstrap.alice.getGuildLogger().log(e.getGuild(), Message.CMD_CHANGED_PREFIX_LOG.get(e, e.getAuthor().getName(), newPrefix));
             return true;
         }
+        return false;
     }
 }

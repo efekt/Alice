@@ -19,9 +19,9 @@ public class TopCmd extends Command {
     public TopCmd(String alias) {
         super(alias);
         setCategory(CommandCategory.UTILS);
-        setDescription("Wyświetla listę największych spamerów");
-        setShortUsageInfo( " `liczba użytkowników` lub `loadAll`");
-        setFullUsageInfo("`liczba użytkowników` - opcjonalne\n`loadAll` - zlicza całą historię serwera");
+        setDescription(it.efekt.alice.lang.Message.CMD_TOP_DESC);
+        setShortUsageInfo(it.efekt.alice.lang.Message.CMD_TOP_USAGE_INFO);
+        setFullUsageInfo(it.efekt.alice.lang.Message.CMD_TOP_FULL_USAGE_INFO);
     }
 
     @Override
@@ -39,12 +39,12 @@ public class TopCmd extends Command {
                int listLength = Integer.parseInt(getArgs()[0]);
 
                if (listLength <= 0){
-                   e.getChannel().sendMessage("oszalałeś...?").queue();
+                   e.getChannel().sendMessage(it.efekt.alice.lang.Message.CMD_TOP_MINUS_TOP.get(e)).queue();
                    return true;
                }
 
                if (userStatsList.size() < listLength){
-                   e.getChannel().sendMessage("Nie znaleziono tylu użytkowników, maksymalnie możesz podać: " + userStatsList.size()).queue();
+                   e.getChannel().sendMessage(it.efekt.alice.lang.Message.CMD_TOP_NUMBER_TOO_LARGE.get(e, String.valueOf(userStatsList.size()))).queue();
                    return true;
                }
                printTop(listLength, userStatsList, e);
@@ -53,24 +53,24 @@ public class TopCmd extends Command {
 
            if (getArgs()[0].equalsIgnoreCase("loadAll")) {
                if (!e.getMember().hasPermission(Permission.ADMINISTRATOR)) {
-                   e.getChannel().sendMessage("Tylko administrator może wczytywać wszystkie wiadomości");
+                   e.getChannel().sendMessage(it.efekt.alice.lang.Message.CMD_TOP_LOADALL_FORBIDDEN.get(e));
                    return true;
                }
 
                userStatsManager.clearAll();
 
-                   e.getChannel().sendMessage("Próbuję zliczyć wszystkie wiadomości.\nMoże to potrwać nawet do kilku/kilkunastu minut w zależności od wielkości serwera :fearful:").queue();
+                   e.getChannel().sendMessage(it.efekt.alice.lang.Message.CMD_TOP_LOADALL_WARNING.get(e)).queue();
                    List<Message> allMessages = getAllTextMessagesOnGuild(e.getGuild());
 
-                   e.getChannel().sendMessage("Znalazłam " + allMessages.size() + " wiadomości, rozpoczynam zliczanie...").queue();
+                   e.getChannel().sendMessage(it.efekt.alice.lang.Message.CMD_TOP_LOADALL_FOUND.get(e, String.valueOf(allMessages.size()))).queue();
 
                    allMessages.forEach(message -> userStatsManager.getUserStats(message.getAuthor(), message.getGuild()).addMessagesAmount(1));
-                   e.getChannel().sendMessage("Zakończyłam zliczanie wiadomości, zapisuję wyniki do bazy danych...").queue();
+                   e.getChannel().sendMessage(it.efekt.alice.lang.Message.CMD_TOP_LOADALL_FINISHED.get(e)).queue();
 
                    userStatsManager.removeAllInvalidUsers();
                    userStatsManager.saveAllUserStats();
 
-                   e.getChannel().sendMessage("Wszystkie wyniki zostały zapisane :heart_eyes:").queue();
+                   e.getChannel().sendMessage(it.efekt.alice.lang.Message.CMD_TO_LOADALL_SAVED.get(e)).queue();
                return true;
 
                }
@@ -89,7 +89,7 @@ public class TopCmd extends Command {
 
     private void printTop(int maxUserAmount, List<UserStats> userStatsList, MessageReceivedEvent e){
         EmbedBuilder embedBuilder = new EmbedBuilder();
-        embedBuilder.setTitle("Lista największych spamerów serwera " + e.getGuild().getName());
+        embedBuilder.setTitle(it.efekt.alice.lang.Message.CMD_TOP_LIST_TITLE.get(e, e.getGuild().getName()));
         embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
 
         SpamLevelManager spamLevelManager = new SpamLevelManager();

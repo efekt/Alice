@@ -7,6 +7,7 @@ import com.google.gson.JsonParser;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
+import it.efekt.alice.lang.Message;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import pw.aru.api.nekos4j.Nekos4J;
@@ -29,9 +30,9 @@ public class HentaiCmd extends Command {
 
     public HentaiCmd(String alias) {
         super(alias);
-        setDescription("Uważaj! Niezbadane wody!\n Dostępne typy: \n `neko` `gifneko` `random`(na własną odpowiedzialność)");
+        setDescription(Message.CMD_HENTAI_DESC);
         setNsfw(true);
-        setShortUsageInfo(" `typ`");
+        setShortUsageInfo(Message.CMD_HENTAI_SHORT_USAGE_INFO);
         setCategory(CommandCategory.FUN);
         loadCategories();
     }
@@ -47,7 +48,7 @@ public class HentaiCmd extends Command {
             }
 
             if (!this.categories.containsKey(getArgs()[0])){
-                e.getChannel().sendMessage("Nie znam takiej kategori. Wybierz jedną z nich:\n " + categories.keySet().toString()).queue();
+                e.getChannel().sendMessage(Message.CMD_HENTAI_CATEGORY_UNKNOWN.get(e, categories.keySet().toString())).queue();
                 return true;
             }
 
@@ -64,11 +65,11 @@ public class HentaiCmd extends Command {
                     e.getChannel().sendMessage(embedBuilder.build()).queue();
                     return true;
                 } catch (InterruptedException| ExecutionException e1) {
-                    e.getChannel().sendMessage("Nie znaleziono").queue();
+                    e.getChannel().sendMessage(Message.CMD_HENTAI_NOT_FOUND.get(e)).queue();
                     return true;
                 }
         } else {
-            e.getChannel().sendMessage("Zwróć uwagę na to jak wpisujesz komendę: " + getGuildPrefix(e.getGuild()) + getAlias() + getShortUsageInfo()).queue();
+            e.getChannel().sendMessage(Message.CMD_HENTAI_CHECK_COMMAND + " " + getGuildPrefix(e.getGuild()) + getAlias() + getShortUsageInfo()).queue();
             return true;
         }
     }
@@ -122,7 +123,7 @@ public class HentaiCmd extends Command {
 
 
             if (imgUrl == ""){
-                event.getChannel().sendMessage("Wystąpił problem, nie znaleziono nic :(").queue();
+                event.getChannel().sendMessage(Message.CMD_HENTAI_ERROR_NOT_FOUND.get(event)).queue();
                 return;
             }
 

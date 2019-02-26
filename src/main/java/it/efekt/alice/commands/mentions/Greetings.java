@@ -9,12 +9,12 @@ public class Greetings extends ListenerAdapter {
     public void onMessageReceived(MessageReceivedEvent e){
         Message msg = e.getMessage();
         if (msg.isMentioned(e.getJDA().getSelfUser(), Message.MentionType.USER)){
-            if (msg.getContentDisplay().toLowerCase().contains("dobranoc")){
-                e.getChannel().sendMessage("Dobrej nocy! "+e.getAuthor().getAsMention()).queue();
+            if (msg.getContentDisplay().toLowerCase().contains(it.efekt.alice.lang.Message.ALICE_GOODBYE_REQUIRED.get(e))){
+                e.getChannel().sendMessage(it.efekt.alice.lang.Message.ALICE_GOODBYE_RESPONSE.get(e, e.getAuthor().getAsMention())).queue();
             }
 
-            if (msg.getContentDisplay().toLowerCase().contains("dzień dobry")){
-                e.getChannel().sendMessage("Dzień Dobry! "+e.getAuthor().getAsMention() + " ;)").queue();
+            if (msg.getContentDisplay().toLowerCase().contains(it.efekt.alice.lang.Message.ALICE_MORNING_REQUIRED.get(e))){
+                e.getChannel().sendMessage(it.efekt.alice.lang.Message.ALICE_MORNING_RESPONSE.get(e,e.getAuthor().getAsMention()) + " ;)").queue();
             }
         }
     }

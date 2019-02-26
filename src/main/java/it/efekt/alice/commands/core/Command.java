@@ -4,6 +4,7 @@ import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.db.GuildConfig;
 import it.efekt.alice.lang.LangCode;
 import it.efekt.alice.lang.Language;
+import it.efekt.alice.lang.Message;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Guild;
@@ -19,12 +20,12 @@ import java.util.regex.Pattern;
 
 public abstract class Command extends ListenerAdapter {
     protected String alias;
-    private String desc = "";
     private String[] args;
+    private Message desc = Message.BLANK;
     // Short line next to command alias
-    private String shortUsageInfo = "";
+    private Message shortUsageInfo = Message.BLANK;
     // Full explanation of all arguments in commands
-    private String fullUsageInfo = "";
+    private Message fullUsageInfo = Message.BLANK;
     private List<Permission> permissions = new ArrayList<>();
     private Logger logger = LoggerFactory.getLogger(Command.class);
     private boolean isNsfw = false;
@@ -41,12 +42,11 @@ public abstract class Command extends ListenerAdapter {
         Runnable runnable = () -> {
             // If command is returning false, means that something is wrong
             if (!this.onCommand(e)){
-                e.getChannel().sendMessage("Sprawdź czy wpisałeś komendę prawidłowo\n"+getDesc()).queue();
+                e.getChannel().sendMessage(Message.CMD_CHECK_IF_IS_CORRECT.get(e, getDesc().get(e))).queue();
                 return;
             }
         };
         new Thread(runnable).start();
-        System.out.println("All threads: " + Thread.getAllStackTraces().size());
     }
 
     protected String getGuildPrefix(Guild guild){
@@ -65,7 +65,7 @@ public abstract class Command extends ListenerAdapter {
         return this.category;
     }
 
-    protected void setDescription(String desc){
+    protected void setDescription(Message desc){
         this.desc = desc;
     }
 
@@ -89,7 +89,7 @@ public abstract class Command extends ListenerAdapter {
         this.isNsfw = isNsfw;
     }
 
-    public String getDesc(){
+    public Message getDesc(){
         return this.desc;
     }
 
@@ -97,7 +97,7 @@ public abstract class Command extends ListenerAdapter {
         return this.alias;
     }
 
-    public String getShortUsageInfo(){
+    public Message getShortUsageInfo(){
         return this.shortUsageInfo;
     }
 
@@ -105,15 +105,15 @@ public abstract class Command extends ListenerAdapter {
         return this.permissions;
     }
 
-    public String getFullUsageInfo() {
+    public Message getFullUsageInfo() {
         return this.fullUsageInfo;
     }
 
-    protected void setFullUsageInfo(String fullUsageInfo) {
+    protected void setFullUsageInfo(Message fullUsageInfo) {
         this.fullUsageInfo = fullUsageInfo;
     }
 
-    protected void setShortUsageInfo(String shortUsageInfo){
+    protected void setShortUsageInfo(Message shortUsageInfo){
         this.shortUsageInfo = shortUsageInfo;
     }
 
@@ -160,9 +160,9 @@ public abstract class Command extends ListenerAdapter {
                     if (isNsfw() && !e.getTextChannel().isNSFW()){
                         e.getChannel().sendMessage(new EmbedBuilder()
                                 .setThumbnail("https://i.imgur.com/L3o8Xq0.jpg")
-                                .setTitle("Ta komenda jest NSFW!")
+                                .setTitle(Message.CMD_THIS_IS_NSFW_CMD.get(e))
                                 .setColor(AliceBootstrap.EMBED_COLOR)
-                                .setDescription("Dozwolona tylko na kanałach z włączoną obsługą treści NSFW")
+                                .setDescription(Message.CMD_NSFW_ALLOWED_ONLY.get(e))
                                 .build()).queue();
                         return; // nsfw content on not-nsfw channel
                     }

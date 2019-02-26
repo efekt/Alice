@@ -17,8 +17,8 @@ public class UserInfoCmd extends Command {
     public UserInfoCmd(String alias) {
         super(alias);
         setCategory(CommandCategory.UTILS);
-        setDescription("Wyświetla informacje o użytkowniku");
-        setShortUsageInfo(" `@user`");
+        setDescription(it.efekt.alice.lang.Message.CMD_USERINFO_DESC);
+        setShortUsageInfo(it.efekt.alice.lang.Message.CMD_USERINFO_USAGE_INFO);
     }
 
     @Override
@@ -37,16 +37,16 @@ public class UserInfoCmd extends Command {
 
     private void showInfo(MessageReceivedEvent e, User user){
         EmbedBuilder embedBuilder = new EmbedBuilder();
-        embedBuilder.setTitle("Informacje o użytkowniku " + user.getName());
+        embedBuilder.setTitle(it.efekt.alice.lang.Message.CMD_USERINFO_TITLE.get(e,  user.getName()));
         embedBuilder.setThumbnail(user.getEffectiveAvatarUrl());
         embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
 
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss");
 
-        embedBuilder.addField("Data utworzenia konta", user.getCreationTime().format(dateFormat), false);
+        embedBuilder.addField(it.efekt.alice.lang.Message.CMD_USERINFO_ACCOUNT_CREATED.get(e), user.getCreationTime().format(dateFormat), false);
         UserStats userStats = AliceBootstrap.alice.getUserStatsManager().getUserStats(user, e.getGuild());
-        embedBuilder.addField("Spamerski level", String.valueOf((int)new SpamLevelManager().getPlayerLevel(user, e.getGuild())), false);
-        embedBuilder.addField("Wysłanych wiadomości", String.valueOf(userStats.getMessagesAmount()), false);
+        embedBuilder.addField(it.efekt.alice.lang.Message.CMD_USERINFO_SPAM_LVL.get(e), String.valueOf((int)new SpamLevelManager().getPlayerLevel(user, e.getGuild())), false);
+        embedBuilder.addField(it.efekt.alice.lang.Message.CMD_USERINFO_MSGS_SENT.get(e), String.valueOf(userStats.getMessagesAmount()), false);
 
         e.getChannel().sendMessage(embedBuilder.build()).queue();
     }

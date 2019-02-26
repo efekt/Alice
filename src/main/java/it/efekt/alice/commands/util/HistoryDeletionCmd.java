@@ -2,6 +2,7 @@ package it.efekt.alice.commands.util;
 
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
+import it.efekt.alice.lang.Message;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -11,8 +12,8 @@ public class HistoryDeletionCmd extends Command {
         super(alias);
         addPermission(Permission.ADMINISTRATOR);
         setCategory(CommandCategory.UTILS);
-        setDescription("Usuwa n ostatnich wiadomości na kanale");
-        setShortUsageInfo(" `liczba wiadomości`");
+        setDescription(Message.CMD_HISTORYDEL_DESC);
+        setShortUsageInfo(Message.CMD_HISTORYDEL_SHORT_USAGE_INFO);
     }
 
     @Override

@@ -3,13 +3,14 @@ package it.efekt.alice.commands.fun;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
+import it.efekt.alice.lang.Message;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 public class TomekCmd extends Command {
 
     public TomekCmd(String alias) {
         super(alias);
-        setDescription("Tomek");
+        setDescription(Message.CMD_TOMEK_DESC);
         setCategory(CommandCategory.FUN);
     }
 
@@ -19,7 +20,7 @@ public class TomekCmd extends Command {
             e.getChannel().sendFile(AliceBootstrap.class.getClassLoader().getResourceAsStream("assets/images/tomek.png"), "tomek.png").queue();
             return true;
         } catch (NullPointerException exc) {
-            e.getChannel().sendMessage("Nie znaleziono pliku :(").queue();
+            e.getChannel().sendMessage(Message.FILE_NOT_FOUND.get(e)).queue();
             return true;
         }
     }

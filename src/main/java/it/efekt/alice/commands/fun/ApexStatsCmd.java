@@ -5,6 +5,7 @@ import com.google.gson.JsonParser;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
+import it.efekt.alice.lang.Message;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
@@ -22,9 +23,9 @@ public class ApexStatsCmd extends Command {
     public ApexStatsCmd(String alias) {
         super(alias);
         setCategory(CommandCategory.FUN);
-        setShortUsageInfo(" `pc/psn/xbl` `nick`");
-        setFullUsageInfo("`pc/psn/xbl` - platforma, wybierz jedną\n `nick` - nazwa użytkownika Apex");
-        setDescription("Wyświetla statystyki z gry Apex (Eksperymentalne)");
+        setShortUsageInfo(Message.CMD_APEX_SHORT_USAGE_INFO);
+        setFullUsageInfo(Message.CMD_APEX_FULL_USAGE_INFO);
+        setDescription(Message.CMD_APEX_DESC);
     }
 
     @Override
@@ -37,7 +38,7 @@ public class ApexStatsCmd extends Command {
                 String playerName = getArgs()[1];
 
                 if (getPlayerInfo(playerName, platform) == null || !getPlayerInfo(playerName, platform).get("playerfound").getAsBoolean()){
-                    e.getChannel().sendMessage("Nie znaleziono takiego gracza").queue();
+                    e.getChannel().sendMessage(Message.CMD_APEX_PLAYER_NOT_FOUND.get(e)).queue();
                     return true;
                 }
 
@@ -50,50 +51,46 @@ public class ApexStatsCmd extends Command {
 
                 EmbedBuilder embedBuilder = new EmbedBuilder();
                 embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
-                embedBuilder.setTitle("APEX - Statystyki (Eksperymentalne) " + platform.toUpperCase());
-                embedBuilder.setDescription("Niektóre wartości mogą się nie zgadzać lub zupełnie brakować");
+                embedBuilder.setTitle(Message.CMD_APEX_EMBED_TITLE.get(e) + " " + platform.toUpperCase());
+                embedBuilder.setDescription(Message.CMD_APEX_EMBED_DESC.get(e));
                 embedBuilder.setThumbnail(avatarUrl);
-                embedBuilder.addField("Nazwa gracza", name, true);
-                embedBuilder.addField("Poziom", String.valueOf(level), true);
-                embedBuilder.addField("Zabójstwa", String.valueOf(kills), true);
-                embedBuilder.addField("Strzały w głowę", String.valueOf(headshots), true);
+                embedBuilder.addField(Message.CMD_APEX_PLAYERNAME.get(e), name, true);
+                embedBuilder.addField(Message.CMD_APEX_LEVEL.get(e), String.valueOf(level), true);
+                embedBuilder.addField(Message.CMD_APEX_KILLS.get(e), String.valueOf(kills), true);
+                embedBuilder.addField(Message.CMD_APEX_HEADSHOTS.get(e), String.valueOf(headshots), true);
                 embedBuilder.addBlankField(false);
-                embedBuilder.addField("Bloodhound", "\nMecze: " + playerInfo.get("matches_Bloodhound").getAsString() +
-                                "\nZabójstwa: " + playerInfo.get("kills_Bloodhound").getAsString() +
-                                "\nHeadshoty: " + playerInfo.get("headshots_Bloodhound").getAsString()
+                embedBuilder.addField("Bloodhound", "\n" + Message.CMD_APEX_MATCHES.get(e) + " " + playerInfo.get("matches_Bloodhound").getAsString() +
+                                "\n" + Message.CMD_APEX_LEGEND_KILLS.get(e) + playerInfo.get("kills_Bloodhound").getAsString() +
+                                "\n" + Message.CMD_APEX_LEGEND_HEADSHOTS.get(e) + playerInfo.get("headshots_Bloodhound").getAsString()
                         , true);
                 embedBuilder.addField("Gibraltar", "\nMecze: " + playerInfo.get("matches_Gibraltar").getAsString() +
-                                "\nZabójstwa: " + playerInfo.get("kills_Gibraltar").getAsString() +
-                                "\nHeadshoty: " + playerInfo.get("headshots_Gibraltar").getAsString()
+                                "\n" + Message.CMD_APEX_LEGEND_KILLS.get(e) + playerInfo.get("kills_Gibraltar").getAsString() +
+                                "\n" + Message.CMD_APEX_LEGEND_HEADSHOTS.get(e) + playerInfo.get("headshots_Gibraltar").getAsString()
                         , true);
                 embedBuilder.addField("Lifeline", "\nMecze: " + playerInfo.get("matches_Lifeline").getAsString() +
-                                "\nZabójstwa: " + playerInfo.get("kills_Lifeline").getAsString() +
-                                "\nHeadshoty: " + playerInfo.get("headshots_Lifeline").getAsString()
+                                "\n" + Message.CMD_APEX_LEGEND_KILLS.get(e) + playerInfo.get("kills_Lifeline").getAsString() +
+                                "\n" + Message.CMD_APEX_LEGEND_HEADSHOTS.get(e) + playerInfo.get("headshots_Lifeline").getAsString()
                         , true);
                 embedBuilder.addField("Pathfinder", "\nMecze: " + playerInfo.get("matches_Pathfinder").getAsString() +
-                                "\nZabójstwa: " + playerInfo.get("kills_Pathfinder").getAsString() +
-                                "\nHeadshoty: " + playerInfo.get("headshots_Pathfinder").getAsString()
+                                "\n" + Message.CMD_APEX_LEGEND_KILLS.get(e) + playerInfo.get("kills_Pathfinder").getAsString() +
+                                "\n" + Message.CMD_APEX_LEGEND_HEADSHOTS.get(e) + playerInfo.get("headshots_Pathfinder").getAsString()
                         , true);
                 embedBuilder.addField("Wraith", "\nMecze: " + playerInfo.get("matches_Wraith").getAsString() +
-                                "\nZabójstwa: " + playerInfo.get("kills_Wraith").getAsString() +
-                                "\nHeadshoty: " + playerInfo.get("headshots_Wraith").getAsString()
+                                "\n" + Message.CMD_APEX_LEGEND_KILLS.get(e) + playerInfo.get("kills_Wraith").getAsString() +
+                                "\n" + Message.CMD_APEX_LEGEND_HEADSHOTS.get(e) + playerInfo.get("headshots_Wraith").getAsString()
                         , true);
                 embedBuilder.addField("Bangalore", "\nMecze: " + playerInfo.get("matches_Bangalore").getAsString() +
-                                "\nZabójstwa: " + playerInfo.get("kills_Bangalore").getAsString() +
-                                "\nHeadshoty: " + playerInfo.get("headshots_Bangalore").getAsString()
+                                "\n" + Message.CMD_APEX_LEGEND_KILLS.get(e) + playerInfo.get("kills_Bangalore").getAsString() +
+                                "\n" + Message.CMD_APEX_LEGEND_HEADSHOTS.get(e) + playerInfo.get("headshots_Bangalore").getAsString()
                         , true);
                 embedBuilder.addField("Caustic", "\nMecze: " + playerInfo.get("matches_Caustic").getAsString() +
-                                "\nZabójstwa: " + playerInfo.get("kills_Caustic").getAsString() +
-                                "\nHeadshoty: " + playerInfo.get("headshots_Caustic").getAsString()
+                                "\n" + Message.CMD_APEX_LEGEND_KILLS.get(e) + playerInfo.get("kills_Caustic").getAsString() +
+                                "\n" + Message.CMD_APEX_LEGEND_HEADSHOTS.get(e) + playerInfo.get("headshots_Caustic").getAsString()
                         , true);
                 embedBuilder.addField("Mirage", "\nMecze: " + playerInfo.get("matches_Mirage").getAsString() +
-                                "\nZabójstwa: " + playerInfo.get("kills_Mirage").getAsString() +
-                                "\nHeadshoty: " + playerInfo.get("headshots_Mirage").getAsString()
+                                "\n" + Message.CMD_APEX_LEGEND_KILLS.get(e) + playerInfo.get("kills_Mirage").getAsString() +
+                                "\n" + Message.CMD_APEX_LEGEND_HEADSHOTS.get(e) + playerInfo.get("headshots_Mirage").getAsString()
                         , true);
-
-
-
-
                 e.getChannel().sendMessage(embedBuilder.build()).queue();
                 return true;
 
