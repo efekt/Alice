@@ -1,6 +1,5 @@
 package it.efekt.alice.db;
 
-import it.efekt.alice.core.Alice;
 import it.efekt.alice.core.AliceBootstrap;
 import org.hibernate.Session;
 import org.hibernate.annotations.ColumnDefault;
