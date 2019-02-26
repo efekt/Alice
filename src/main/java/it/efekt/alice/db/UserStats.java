@@ -7,8 +7,7 @@ import org.hibernate.annotations.ColumnDefault;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "user_stats", schema = "alice_bot_db", uniqueConstraints =
-    @UniqueConstraint(columnNames = {"guild_id", "user_id"}))
+@Table(name = "user_stats", schema = "alice_bot_db")
 public class UserStats {
     @Id
     @Column(name="id")
