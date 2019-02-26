@@ -2,6 +2,7 @@ package it.efekt.alice.modules;
 
 import it.efekt.alice.core.Alice;
 import it.efekt.alice.core.AliceBootstrap;
+import it.efekt.alice.db.GameStats;
 import it.efekt.alice.db.UserStats;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.User;
@@ -56,7 +57,7 @@ public class UserStatsManager {
         this.userStats.removeIf(UserStats::isInvalidUser);
     }
 
-    public void clearAll(Guild guild){
-        this.userStats.removeAll(getUserStats(guild));
+    public void removeAll(Guild guild){
+        this.userStats.removeIf(uStats -> uStats.getGuildId().equals(guild.getId()) && uStats.remove());
     }
 }

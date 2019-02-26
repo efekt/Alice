@@ -7,7 +7,8 @@ import org.hibernate.annotations.ColumnDefault;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "user_stats", schema = "alice_bot_db")
+@Table(name = "user_stats", schema = "alice_bot_db", uniqueConstraints =
+    @UniqueConstraint(columnNames = {"guild_id", "user_id"}))
 public class UserStats {
     @Id
     @Column(name="id")
@@ -85,5 +86,13 @@ public class UserStats {
         session.beginTransaction();
         session.saveOrUpdate(this);
         session.getTransaction().commit();
+    }
+
+    public boolean remove(){
+        Session session = AliceBootstrap.sessionFactory.getCurrentSession();
+        session.beginTransaction();
+        session.remove(this);
+        session.getTransaction().commit();
+        return true;
     }
 }
