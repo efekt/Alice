@@ -56,7 +56,7 @@ public class UserStatsManager {
         this.userStats.removeIf(UserStats::isInvalidUser);
     }
 
-    public void clearAll(){
-        this.userStats.clear();
+    public void clearAll(Guild guild){
+        this.userStats.removeAll(getUserStats(guild));
     }
 }

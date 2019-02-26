@@ -57,7 +57,7 @@ public class TopCmd extends Command {
                    return true;
                }
 
-               userStatsManager.clearAll();
+               userStatsManager.clearAll(e.getGuild());
 
                    e.getChannel().sendMessage(it.efekt.alice.lang.Message.CMD_TOP_LOADALL_WARNING.get(e)).queue();
                    List<Message> allMessages = getAllTextMessagesOnGuild(e.getGuild());
