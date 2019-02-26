@@ -148,8 +148,10 @@ public enum Message {
             jsonWriter.beginObject();
             jsonWriter.setIndent("  ");
             for (Message message : Message.values()){
-                jsonWriter.name(message.getKey()).value(message.getDefaultValue());
-            }
+                if(!message.equals(Message.BLANK)) {
+                    jsonWriter.name(message.getKey()).value(message.getDefaultValue());
+                }
+                }
             jsonWriter.endObject();
             jsonWriter.close();
             System.out.println("Saved all messages!");
