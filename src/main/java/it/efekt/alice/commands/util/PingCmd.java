@@ -9,7 +9,7 @@ public class PingCmd extends Command {
     public PingCmd(String alias){
         super(alias);
         setCategory(CommandCategory.UTILS);
-        setDescription("Sprawdza jak szybko Alice jest w stanie biec");
+        setDescription("cmd-ping-description");
     }
 
     @Override

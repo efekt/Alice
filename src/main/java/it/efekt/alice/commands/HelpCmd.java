@@ -4,6 +4,7 @@ import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.commands.core.CommandManager;
 import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.commands.core.Command;
+import it.efekt.alice.lang.Message;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
@@ -15,13 +16,13 @@ public class HelpCmd extends Command {
     public HelpCmd(String alias){
         super(alias);
         setShortUsageInfo(" `|cmd|`");
-        setDescription("Wyświetla ekran pomocy");
+        setDescription("opis");
     }
 
     @Override
     public boolean onCommand(MessageReceivedEvent e) {
         EmbedBuilder embedBuilder = new EmbedBuilder();
-        embedBuilder.setTitle("Alice - Centrum Pomocy");
+        embedBuilder.setTitle(Message.CMD_HELP_TITLE.get(e));
         embedBuilder.setThumbnail(e.getJDA().getSelfUser().getEffectiveAvatarUrl());
         embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
         CommandManager cmdManager = AliceBootstrap.alice.getCmdManager();
@@ -43,7 +44,7 @@ public class HelpCmd extends Command {
                     .replaceAll("]", "");
 
             embedBuilder.setTitle(null);
-            embedBuilder.addField(prefix + alias + cmd.getShortUsageInfo(), cmd.getDesc() + "\n" + cmd.getFullUsageInfo(), false);
+            embedBuilder.addField(prefix + alias + cmd.getShortUsageInfo(), lang(e).get(cmd.getDesc()) + "\n" + cmd.getFullUsageInfo(), false);
             embedBuilder.addField("Kategoria", cmd.getCommandCategory().getName(), false);
             if (!requiredPermissions.isEmpty()) {
                 embedBuilder.addField("Wymagane uprawnienia", requiredPermissions, false);

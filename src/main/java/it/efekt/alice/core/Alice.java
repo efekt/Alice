@@ -11,6 +11,7 @@ import it.efekt.alice.commands.fun.nsfw.NekoCmd;
 import it.efekt.alice.commands.mentions.Greetings;
 import it.efekt.alice.config.Config;
 import it.efekt.alice.config.GuildConfigManager;
+import it.efekt.alice.lang.LanguageManager;
 import it.efekt.alice.listeners.GameListener;
 import it.efekt.alice.listeners.JoinQuitListener;
 import it.efekt.alice.listeners.MessageListener;
@@ -32,6 +33,7 @@ public class Alice {
     private GuildLogger guildLogger;
     private UserStatsManager userStatsManager;
     private GameStatsManager gameStatsManager;
+    private LanguageManager languageManager;
 
     public Alice(Config config){
             this.config = config;
@@ -97,6 +99,10 @@ public class Alice {
         return this.gameStatsManager;
     }
 
+    public LanguageManager getLanguageManager() {
+        return languageManager;
+    }
+
     private void init(){
         Runtime.getRuntime().addShutdownHook(new ShutdownThread(this));
         try {
@@ -106,6 +112,7 @@ public class Alice {
             this.cmdManager = new CommandManager(this);
             this.userStatsManager = new UserStatsManager(this);
             this.gameStatsManager = new GameStatsManager(this);
+            this.languageManager = new LanguageManager();
             registerCommands();
         } catch (LoginException e) {
             e.printStackTrace();

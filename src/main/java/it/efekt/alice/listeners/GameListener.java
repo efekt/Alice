@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.temporal.ChronoUnit;
-
+//todo save only alfanumeric strings!
 public class GameListener extends ListenerAdapter {
     private Logger logger = LoggerFactory.getLogger(GameListener.class);
     @Override

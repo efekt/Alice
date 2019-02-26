@@ -2,6 +2,8 @@ package it.efekt.alice.commands.core;
 
 import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.db.GuildConfig;
+import it.efekt.alice.lang.LangCode;
+import it.efekt.alice.lang.Language;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Guild;
@@ -125,6 +127,11 @@ public abstract class Command extends ListenerAdapter {
 
     protected GuildConfig getGuildConfig(Guild guild){
         return AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(guild);
+    }
+
+    protected Language lang(MessageReceivedEvent e){
+        String locale = getGuildConfig(e.getGuild()).getLocale();
+        return AliceBootstrap.alice.getLanguageManager().getLang(LangCode.valueOf(locale));
     }
 
     @Override
