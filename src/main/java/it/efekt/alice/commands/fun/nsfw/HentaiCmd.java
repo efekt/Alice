@@ -69,7 +69,7 @@ public class HentaiCmd extends Command {
                     return true;
                 }
         } else {
-            e.getChannel().sendMessage(Message.CMD_HENTAI_CHECK_COMMAND.get(e) + " " + getGuildPrefix(e.getGuild()) + getAlias() + getShortUsageInfo().get(e)).queue();
+            e.getChannel().sendMessage(Message.CMD_HENTAI_CHECK_COMMAND.get(e) + " " + getGuildPrefix(e.getGuild()) + getAlias() + " " + getShortUsageInfo().get(e)).queue();
             return true;
         }
     }
@@ -120,7 +120,6 @@ public class HentaiCmd extends Command {
                     break;
                 }
             }
-
 
             if (imgUrl == ""){
                 event.getChannel().sendMessage(Message.CMD_HENTAI_ERROR_NOT_FOUND.get(event)).queue();
