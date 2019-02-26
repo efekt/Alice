@@ -6,24 +6,17 @@
 
     <session-factory>
 
-        <!-- JDBC Database connection settings -->
         <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-
-        <!-- JDBC connection pool settings ... using built-in test pool -->
-        <property name="connection.pool_size">1</property>
-
-        <!-- Select our SQL dialect -->
         <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
-
-        <!-- Echo the SQL to stdout -->
         <property name="show_sql">true</property>
-
-		<!-- Set the current session context -->
 		<property name="current_session_context_class">thread</property>
-
-        <!-- validate schemas each time app is launched-->
         <property name="hibernate.hbm2ddl.auto">validate</property>
 
+        <property name="hibernate.c3p0.min_size">5</property>
+        <property name="hibernate.c3p0.max_size">20</property>
+        <property name="hibernate.c3p0.timeout">300</property>
+        <property name="hibernate.c3p0.max_statements">50</property>
+        <property name="hibernate.c3p0.idle_test_period">3000</property>
 
 
     </session-factory>
