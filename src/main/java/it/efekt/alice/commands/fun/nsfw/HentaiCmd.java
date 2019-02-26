@@ -69,7 +69,7 @@ public class HentaiCmd extends Command {
                     return true;
                 }
         } else {
-            e.getChannel().sendMessage(Message.CMD_HENTAI_CHECK_COMMAND + " " + getGuildPrefix(e.getGuild()) + getAlias() + getShortUsageInfo()).queue();
+            e.getChannel().sendMessage(Message.CMD_HENTAI_CHECK_COMMAND.get(e) + " " + getGuildPrefix(e.getGuild()) + getAlias() + getShortUsageInfo().get(e)).queue();
             return true;
         }
     }
