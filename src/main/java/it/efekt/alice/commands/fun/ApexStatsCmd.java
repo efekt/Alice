@@ -63,31 +63,31 @@ public class ApexStatsCmd extends Command {
                                 "\n" + Message.CMD_APEX_LEGEND_KILLS.get(e) + playerInfo.get("kills_Bloodhound").getAsString() +
                                 "\n" + Message.CMD_APEX_LEGEND_HEADSHOTS.get(e) + playerInfo.get("headshots_Bloodhound").getAsString()
                         , true);
-                embedBuilder.addField("Gibraltar", "\nMecze: " + playerInfo.get("matches_Gibraltar").getAsString() +
+                embedBuilder.addField("Gibraltar", "\n" + Message.CMD_APEX_MATCHES.get(e) + " "  + playerInfo.get("matches_Gibraltar").getAsString() +
                                 "\n" + Message.CMD_APEX_LEGEND_KILLS.get(e) + playerInfo.get("kills_Gibraltar").getAsString() +
                                 "\n" + Message.CMD_APEX_LEGEND_HEADSHOTS.get(e) + playerInfo.get("headshots_Gibraltar").getAsString()
                         , true);
-                embedBuilder.addField("Lifeline", "\nMecze: " + playerInfo.get("matches_Lifeline").getAsString() +
+                embedBuilder.addField("Lifeline", "\n" + Message.CMD_APEX_MATCHES.get(e) + " "  + playerInfo.get("matches_Lifeline").getAsString() +
                                 "\n" + Message.CMD_APEX_LEGEND_KILLS.get(e) + playerInfo.get("kills_Lifeline").getAsString() +
                                 "\n" + Message.CMD_APEX_LEGEND_HEADSHOTS.get(e) + playerInfo.get("headshots_Lifeline").getAsString()
                         , true);
-                embedBuilder.addField("Pathfinder", "\nMecze: " + playerInfo.get("matches_Pathfinder").getAsString() +
+                embedBuilder.addField("Pathfinder", "\n" + Message.CMD_APEX_MATCHES.get(e) + " "  + playerInfo.get("matches_Pathfinder").getAsString() +
                                 "\n" + Message.CMD_APEX_LEGEND_KILLS.get(e) + playerInfo.get("kills_Pathfinder").getAsString() +
                                 "\n" + Message.CMD_APEX_LEGEND_HEADSHOTS.get(e) + playerInfo.get("headshots_Pathfinder").getAsString()
                         , true);
-                embedBuilder.addField("Wraith", "\nMecze: " + playerInfo.get("matches_Wraith").getAsString() +
+                embedBuilder.addField("Wraith", "\n" + Message.CMD_APEX_MATCHES.get(e) + " "  + playerInfo.get("matches_Wraith").getAsString() +
                                 "\n" + Message.CMD_APEX_LEGEND_KILLS.get(e) + playerInfo.get("kills_Wraith").getAsString() +
                                 "\n" + Message.CMD_APEX_LEGEND_HEADSHOTS.get(e) + playerInfo.get("headshots_Wraith").getAsString()
                         , true);
-                embedBuilder.addField("Bangalore", "\nMecze: " + playerInfo.get("matches_Bangalore").getAsString() +
+                embedBuilder.addField("Bangalore", "\n" + Message.CMD_APEX_MATCHES.get(e) + " "  + playerInfo.get("matches_Bangalore").getAsString() +
                                 "\n" + Message.CMD_APEX_LEGEND_KILLS.get(e) + playerInfo.get("kills_Bangalore").getAsString() +
                                 "\n" + Message.CMD_APEX_LEGEND_HEADSHOTS.get(e) + playerInfo.get("headshots_Bangalore").getAsString()
                         , true);
-                embedBuilder.addField("Caustic", "\nMecze: " + playerInfo.get("matches_Caustic").getAsString() +
+                embedBuilder.addField("Caustic", "\n" + Message.CMD_APEX_MATCHES.get(e) + " "  + playerInfo.get("matches_Caustic").getAsString() +
                                 "\n" + Message.CMD_APEX_LEGEND_KILLS.get(e) + playerInfo.get("kills_Caustic").getAsString() +
                                 "\n" + Message.CMD_APEX_LEGEND_HEADSHOTS.get(e) + playerInfo.get("headshots_Caustic").getAsString()
                         , true);
-                embedBuilder.addField("Mirage", "\nMecze: " + playerInfo.get("matches_Mirage").getAsString() +
+                embedBuilder.addField("Mirage", "\n" + Message.CMD_APEX_MATCHES.get(e) + " "  + playerInfo.get("matches_Mirage").getAsString() +
                                 "\n" + Message.CMD_APEX_LEGEND_KILLS.get(e) + playerInfo.get("kills_Mirage").getAsString() +
                                 "\n" + Message.CMD_APEX_LEGEND_HEADSHOTS.get(e) + playerInfo.get("headshots_Mirage").getAsString()
                         , true);
