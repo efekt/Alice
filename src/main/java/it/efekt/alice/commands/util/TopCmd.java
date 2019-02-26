@@ -59,18 +59,18 @@ public class TopCmd extends Command {
 
                userStatsManager.clearAll(e.getGuild());
 
-                   e.getChannel().sendMessage(it.efekt.alice.lang.Message.CMD_TOP_LOADALL_WARNING.get(e)).queue();
+                   e.getChannel().sendMessage(it.efekt.alice.lang.Message.CMD_TOP_LOADALL_WARNING.get(e)).complete();
                    List<Message> allMessages = getAllTextMessagesOnGuild(e.getGuild());
 
-                   e.getChannel().sendMessage(it.efekt.alice.lang.Message.CMD_TOP_LOADALL_FOUND.get(e, String.valueOf(allMessages.size()))).queue();
+                   e.getChannel().sendMessage(it.efekt.alice.lang.Message.CMD_TOP_LOADALL_FOUND.get(e, String.valueOf(allMessages.size()))).complete();
 
                    allMessages.forEach(message -> userStatsManager.getUserStats(message.getAuthor(), message.getGuild()).addMessagesAmount(1));
-                   e.getChannel().sendMessage(it.efekt.alice.lang.Message.CMD_TOP_LOADALL_FINISHED.get(e)).queue();
+                   e.getChannel().sendMessage(it.efekt.alice.lang.Message.CMD_TOP_LOADALL_FINISHED.get(e)).complete();
 
                    userStatsManager.removeAllInvalidUsers();
                    userStatsManager.saveAllUserStats();
 
-                   e.getChannel().sendMessage(it.efekt.alice.lang.Message.CMD_TO_LOADALL_SAVED.get(e)).queue();
+                   e.getChannel().sendMessage(it.efekt.alice.lang.Message.CMD_TO_LOADALL_SAVED.get(e)).complete();
                return true;
 
                }
