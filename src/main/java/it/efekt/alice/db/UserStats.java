@@ -1,14 +1,13 @@
 package it.efekt.alice.db;
 
 import it.efekt.alice.core.AliceBootstrap;
-import org.hibernate.Session;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "user_stats", schema = "alice_bot_db")
-public class UserStats {
+public class UserStats extends AliceDb{
     @Id
     @Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -78,20 +77,5 @@ public class UserStats {
 
     public boolean isInvalidUser(){
         return AliceBootstrap.alice.getJDA().getUserById(this.userId) == null;
-    }
-
-    public void save(){
-        Session session = AliceBootstrap.sessionFactory.getCurrentSession();
-        session.beginTransaction();
-        session.saveOrUpdate(this);
-        session.getTransaction().commit();
-    }
-
-    public boolean remove(){
-        Session session = AliceBootstrap.sessionFactory.getCurrentSession();
-        session.beginTransaction();
-        session.remove(this);
-        session.getTransaction().commit();
-        return true;
     }
 }

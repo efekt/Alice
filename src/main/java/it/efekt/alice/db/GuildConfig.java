@@ -14,7 +14,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="guild_config", schema = "alice_bot_db")
-public class GuildConfig {
+public class GuildConfig extends AliceDb{
 
     @Id
     @Column(name="id")
@@ -113,20 +113,5 @@ public class GuildConfig {
             this.disabledFeatures = object.toString();
             this.save();
         }
-    }
-
-    public void save(){
-        Session session = AliceBootstrap.sessionFactory.getCurrentSession();
-        session.beginTransaction();
-        session.saveOrUpdate(this);
-        session.getTransaction().commit();
-    }
-
-    @Override
-    public String toString() {
-        return "GuildConfig{" +
-                "id='" + id + '\'' +
-                ", prefix='" + prefix + '\'' +
-                '}';
     }
 }

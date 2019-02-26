@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="game_stats", schema = "alice_bot_db")
-public class GameStats {
+public class GameStats extends AliceDb{
 
     @Id
     @Column(name="id")
@@ -89,11 +89,4 @@ public class GameStats {
         return AliceBootstrap.alice.getJDA().getUserById(this.userId).isBot();
     }
 
-
-    public void save(){
-        Session session = AliceBootstrap.sessionFactory.getCurrentSession();
-        session.beginTransaction();
-        session.saveOrUpdate(this);
-        session.getTransaction().commit();
-    }
 }
