@@ -10,21 +10,14 @@ import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.lang.Message;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import pw.aru.api.nekos4j.Nekos4J;
-import pw.aru.api.nekos4j.image.Image;
-import pw.aru.api.nekos4j.image.ImageProvider;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 public class HentaiCmd extends Command {
-    private Nekos4J api = new Nekos4J.Builder().build();
-    private ImageProvider imageProvider = api.getImageProvider();
     private HashMap<String, List<String>> categories = new HashMap<>();
 
     public HentaiCmd(String alias) {
@@ -42,7 +35,7 @@ public class HentaiCmd extends Command {
         if (getArgs().length == 1 ){
 
             if (getArgs()[0].equalsIgnoreCase("random")){
-                hPicture(e);
+                hPicture(e, DanbooruRating.EXPLICIT, "cat_ears");
                 return true;
             }
 
@@ -51,26 +44,12 @@ public class HentaiCmd extends Command {
                 return true;
             }
 
-            Random random = new Random();
-            int randomPic = random.nextInt(categories.get(getArgs()[0]).size());
-            Future<Image> imageFuture = imageProvider.getRandomImage(categories.get(getArgs()[0]).get(randomPic)).submit();
-                try {
-                    Image image = imageFuture.get();
-                    String imageUrl = image.getUrl();
 
-                    EmbedBuilder embedBuilder = new EmbedBuilder();
-                    embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
-                    embedBuilder.setImage(imageUrl);
-                    e.getChannel().sendMessage(embedBuilder.build()).queue();
-                    return true;
-                } catch (InterruptedException| ExecutionException e1) {
-                    e.getChannel().sendMessage(Message.CMD_HENTAI_NOT_FOUND.get(e)).queue();
-                    return true;
-                }
         } else {
             e.getChannel().sendMessage(Message.CMD_HENTAI_CHECK_COMMAND.get(e) + " " + getGuildPrefix(e.getGuild()) + getAlias() + " " + getShortUsageInfo().get(e)).queue();
             return true;
         }
+        return false;
     }
 
     private void loadCategories(){
@@ -84,10 +63,10 @@ public class HentaiCmd extends Command {
         categories.put("gifneko", Collections.singletonList("ngif"));
     }
 
-    private void hPicture(MessageReceivedEvent event){
+    private void hPicture(MessageReceivedEvent event, DanbooruRating rating, String tag){
 
         try {
-            URL url = new URL("https://danbooru.donmai.us/posts.json?random=true&limit=5&tags=censored");
+            URL url = new URL("https://danbooru.donmai.us/posts.json?random=true&limit=50&tags=rating:"+rating.getName()+"%20"+tag);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
 
@@ -114,8 +93,11 @@ public class HentaiCmd extends Command {
             for (JsonElement element : array){
                 JsonObject jsonObject = element.getAsJsonObject();
                 if (jsonObject.has("file_url")){
-                     imgUrl = jsonObject.get("file_url").getAsString();
-                     character = jsonObject.get("tag_string_character").getAsString();
+                    if (jsonObject.get("rating").getAsString().equalsIgnoreCase(rating.getName())){
+                        imgUrl = jsonObject.get("file_url").getAsString();
+                        character = jsonObject.get("tag_string_character").getAsString();
+                    }
+
                     break;
                 }
             }
