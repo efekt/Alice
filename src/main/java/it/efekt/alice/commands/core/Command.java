@@ -41,10 +41,12 @@ public abstract class Command extends ListenerAdapter {
     private void execute(MessageReceivedEvent e) {
         Runnable runnable = () -> {
             // If command is returning false, means that something is wrong
-            if (!this.onCommand(e)){
-                e.getChannel().sendMessage(Message.CMD_CHECK_IF_IS_CORRECT.get(e, getDesc().get(e))).queue();
-                return;
-            }
+
+                if (!this.onCommand(e)) {
+                    e.getChannel().sendMessage(Message.CMD_CHECK_IF_IS_CORRECT.get(e, getDesc().get(e))).queue();
+                    return;
+                }
+
         };
         new Thread(runnable).start();
     }

@@ -44,7 +44,8 @@ public class HelpCmd extends Command {
                     .replaceAll("]", "");
 
             embedBuilder.setTitle(null);
-            embedBuilder.addField(prefix + alias + " " + cmd.getShortUsageInfo().get(e), cmd.getDesc().get(e) + "\n" + cmd.getFullUsageInfo().get(e), false);
+            String localizedDesc = cmd.getDesc().get(e);
+            embedBuilder.addField(prefix + alias + " " + cmd.getShortUsageInfo().get(e), localizedDesc.isEmpty() ? "-" : localizedDesc + "\n" + cmd.getFullUsageInfo().get(e), false);
             embedBuilder.addField(Message.CMD_HELP_CATEGORY.get(e), cmd.getCommandCategory().getName(), false);
             if (!requiredPermissions.isEmpty()) {
                 embedBuilder.addField(Message.CMD_HELP_REQUIRED_PERMS.get(e), requiredPermissions, false);

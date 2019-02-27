@@ -3,8 +3,6 @@ package it.efekt.alice.db;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import it.efekt.alice.core.AliceBootstrap;
-import org.hibernate.Session;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.Column;

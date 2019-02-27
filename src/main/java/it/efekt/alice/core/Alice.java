@@ -68,6 +68,8 @@ public class Alice {
         getCmdManager().setExecutor(new ApexStatsCmd("apex"));
         getCmdManager().setExecutor(new MinecraftStatusCmd("mc"));
         getCmdManager().setExecutor(new FeaturesCmd("cmd"));
+        getCmdManager().setExecutor(new LangCmd("lang"));
+        getCmdManager().setExecutor(new RandomWaifuCmd("random-waifu"));
     }
 
 
