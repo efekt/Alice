@@ -57,6 +57,11 @@ public class GuildConfig extends AliceDb{
         this.locale = locale;
     }
 
+    public void setLocaleAndSave(String locale){
+        setLocale(locale);
+        save();
+    }
+
     public String getLogChannel() {
         return logChannel;
     }

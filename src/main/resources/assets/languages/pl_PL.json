@@ -1,4 +1,8 @@
 {
+  "alice-goodbye-response": "Dobrej nocy! {1}",
+  "alice-goodbye-required": "dobranoc",
+  "alice-morning-response": "Dzień Dobry! {1}",
+  "alice-morning-required": "dzień dobry",
   "file-not-found": "Nie znaleziono pliku :(",
   "cmd-help-title": "Alice - Centrum Pomocy",
   "cmd-unknown-command": "Nieznana komenda",
@@ -87,8 +91,9 @@
   "cmd-userinfo-account-created": "Data utworzenia konta",
   "cmd-userinfo-spam-lvl": "Spamerski level",
   "cmd-userinfo-msgs-sent": "Wysłanych wiadomości",
-  "alice-goodbye-response": "Dobrej nocy! {1}",
-  "alice-goodbye-required": "dobranoc",
-  "alice-morning-response": "Dzień Dobry! {1}",
-  "alice-morning-required": "dzień dobry"
+  "cmd-lang-desc": "Ustawia domyślny język serwera",
+  "cmd-lang-short-usage-info": "`kod` - kod języka",
+  "cmd-lang-language-changed": "Zmieniono język serwera na: {1}",
+  "cmd-lang-available-langs": "Dostępne języki: {1}",
+  "cmd-randomwaifu-desc": "Wyświetla losowe waifu z `https://www.thiswaifudoesnotexist.net`\nKażda waifu została wygenerowana przez sieć neuronową\nAby dowiedzieć się więcej odwiedź stronę autora projektu: `https://www.gwern.net/TWDNE`"
 }
