@@ -34,8 +34,6 @@ public class HentaiCmd extends Command {
                 danbooru.sendPicture(e, DanbooruRating.EXPLICIT, "");
                 return true;
             }
-
-
         }
         return false;
     }
