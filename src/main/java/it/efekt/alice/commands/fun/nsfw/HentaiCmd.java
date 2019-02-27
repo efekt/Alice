@@ -22,7 +22,7 @@ public class HentaiCmd extends Command {
     @Override
     public boolean onCommand(MessageReceivedEvent e) {
 
-        if (getArgs().length == 1 && this.categories.contains(getArgs()[0])){
+        if (getArgs().length >= 1 && this.categories.contains(getArgs()[0])){
             String category = getArgs()[0];
 
             if (category.equalsIgnoreCase("neko")){
@@ -35,6 +35,13 @@ public class HentaiCmd extends Command {
                 return true;
             }
 
+            if (getArgs()[0].equalsIgnoreCase("?") && !getArgs()[1].isEmpty()){
+                String tag = getArgs()[1];
+
+                danbooru.sendPicture(e, DanbooruRating.EXPLICIT, tag);
+                return true;
+            }
+
 
         }
         return false;
@@ -43,7 +50,7 @@ public class HentaiCmd extends Command {
     private void loadCategories(){
         this.categories.add("neko");
         this.categories.add("random");
+        this.categories.add("?");
     }
-
 
 }
