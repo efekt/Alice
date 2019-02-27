@@ -26,19 +26,12 @@ public class HentaiCmd extends Command {
             String category = getArgs()[0];
 
             if (category.equalsIgnoreCase("neko")){
-                danbooru.sendPicture(e, DanbooruRating.EXPLICIT, "cat_ears");
+                danbooru.sendPicture(e, DanbooruRating.EXPLICIT, "cat_girl");
                 return true;
             }
 
             if (getArgs()[0].equalsIgnoreCase("random")){
                 danbooru.sendPicture(e, DanbooruRating.EXPLICIT, "");
-                return true;
-            }
-
-            if (getArgs()[0].equalsIgnoreCase("?") && !getArgs()[1].isEmpty()){
-                String tag = getArgs()[1];
-
-                danbooru.sendPicture(e, DanbooruRating.EXPLICIT, tag);
                 return true;
             }
 
@@ -50,7 +43,6 @@ public class HentaiCmd extends Command {
     private void loadCategories(){
         this.categories.add("neko");
         this.categories.add("random");
-        this.categories.add("?");
     }
 
 }
