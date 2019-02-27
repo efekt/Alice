@@ -25,7 +25,7 @@ public enum Message {
     CMD_HELP_COMMAND_UNKNOWN("Unknown command"),
     CMD_HELP_NOT_FOUND_TRY_AGAIN("Command not found, try again"),
     CMD_HELP_FOOTER("<command> - shows command's help"),
-    CMD_HENTAI_DESC("Watch out! Uncharted waters!\n Available types: \n `neko` `gifneko` `random`"),
+    CMD_HENTAI_DESC("Watch out! Uncharted waters!\n Available types: \n `neko` `random`"),
     CMD_HENTAI_SHORT_USAGE_INFO("`type`"),
     CMD_HENTAI_CATEGORY_UNKNOWN("I do not know this category. Choose one of them:\n {1}"),
     CMD_HENTAI_NOT_FOUND("Not found"),
