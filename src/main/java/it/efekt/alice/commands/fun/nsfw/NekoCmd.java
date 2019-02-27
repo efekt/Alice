@@ -16,7 +16,7 @@ public class NekoCmd extends Command {
 
     @Override
     public boolean onCommand(MessageReceivedEvent e) {
-        danbooru.sendPicture(e, DanbooruRating.SAFE, "cat_ears");
+        danbooru.sendPicture(e, DanbooruRating.SAFE, "cat_girl");
         return true;
     }
 }
