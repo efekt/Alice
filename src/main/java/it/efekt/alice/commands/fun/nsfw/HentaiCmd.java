@@ -25,22 +25,29 @@ public class HentaiCmd extends Command {
         if (getArgs().length >= 1 && this.categories.contains(getArgs()[0])){
             String category = getArgs()[0];
 
-            if (category.equalsIgnoreCase("neko")){
-                danbooru.sendPicture(e, DanbooruRating.EXPLICIT, "cat_girl");
-                return true;
+            switch(category){
+                case "random":
+                    danbooru.sendPicture(e, DanbooruRating.EXPLICIT, "");
+                    return true;
+                case "neko":
+                    danbooru.sendPicture(e, DanbooruRating.EXPLICIT, "cat_girl");
+                    return true;
+                case "alice":
+                    danbooru.sendPicture(e, DanbooruRating.QUESTIONABLE, "alice_schuberg");
+                    return true;
+                default:
+                    return false;
             }
 
-            if (getArgs()[0].equalsIgnoreCase("random")){
-                danbooru.sendPicture(e, DanbooruRating.EXPLICIT, "");
-                return true;
-            }
+
         }
         return false;
     }
 
     private void loadCategories(){
-        this.categories.add("neko");
         this.categories.add("random");
+        this.categories.add("neko");
+        this.categories.add("alice");
     }
 
 }
