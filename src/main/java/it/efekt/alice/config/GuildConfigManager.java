@@ -34,7 +34,7 @@ public class GuildConfigManager {
 
     public void loadAll(){
         // Load all config files
-        Session session = AliceBootstrap.sessionFactory.getCurrentSession();
+        Session session = AliceBootstrap.hibernate.getSession();
         session.beginTransaction();
         List<GuildConfig> configs = session.createQuery("from GuildConfig").getResultList();
         configs.forEach(config -> guildConfigs.put(config.getId(), config));

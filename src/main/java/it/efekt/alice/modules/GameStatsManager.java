@@ -20,7 +20,7 @@ public class GameStatsManager {
     }
 
     public void loadGameStats(){
-        Session session = AliceBootstrap.sessionFactory.getCurrentSession();
+        Session session = AliceBootstrap.hibernate.getSession();
         session.beginTransaction();
         this.gameStats.addAll(session.createQuery("from GameStats").getResultList());
         session.getTransaction().commit();

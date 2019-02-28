@@ -2,7 +2,6 @@ package it.efekt.alice.modules;
 
 import it.efekt.alice.core.Alice;
 import it.efekt.alice.core.AliceBootstrap;
-import it.efekt.alice.db.GameStats;
 import it.efekt.alice.db.UserStats;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.User;
@@ -21,7 +20,7 @@ public class UserStatsManager {
     }
 
     public void loadUserStats(){
-        Session session = AliceBootstrap.sessionFactory.getCurrentSession();
+        Session session = AliceBootstrap.hibernate.getSession();
         session.beginTransaction();
         this.userStats.addAll(session.createQuery("from UserStats").getResultList());
         session.getTransaction().commit();

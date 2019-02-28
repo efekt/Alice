@@ -3,7 +3,6 @@ package it.efekt.alice.modules;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import it.efekt.alice.exceptions.MinecraftServerNotFoundException;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -19,10 +18,6 @@ public class MinecraftServerStatus {
     private String motd;
     private String favicon;
     private String name;
-
-    public MinecraftServerStatus() {
-    }
-
 
     public int getCurrentPlayers() {
         return currentPlayers;

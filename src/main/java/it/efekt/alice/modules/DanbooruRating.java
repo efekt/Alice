@@ -1,4 +1,4 @@
-package it.efekt.alice.commands.fun.nsfw;
+package it.efekt.alice.modules;
 
 public enum DanbooruRating {
     SAFE("s"),

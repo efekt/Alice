@@ -20,7 +20,7 @@ public class SpamLevelManager {
             return i ;
     }
 
-    // Zwraca exp wymagany do wbicia levelu (wzglednie od ostatniego)
+    // Returns exp required to reach certain level
     public double getMaxExpPerLevel(double lvl){
         return  this.STEP *Math.pow(this.MULTIPLIER, lvl -1d);
     }

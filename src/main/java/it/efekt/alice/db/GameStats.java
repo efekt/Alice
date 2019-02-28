@@ -1,8 +1,6 @@
 package it.efekt.alice.db;
 
 import it.efekt.alice.core.AliceBootstrap;
-import org.hibernate.Session;
-
 import javax.persistence.*;
 
 @Entity

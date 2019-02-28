@@ -5,14 +5,14 @@ import org.hibernate.Session;
 
 public abstract class AliceDb {
     public void save(){
-        Session session = AliceBootstrap.sessionFactory.getCurrentSession();
+        Session session = AliceBootstrap.hibernate.getSession();
         session.beginTransaction();
         session.saveOrUpdate(this);
         session.getTransaction().commit();
     }
 
     public boolean remove(){
-        Session session = AliceBootstrap.sessionFactory.getCurrentSession();
+        Session session = AliceBootstrap.hibernate.getSession();
         session.beginTransaction();
         session.remove(this);
         session.getTransaction().commit();
