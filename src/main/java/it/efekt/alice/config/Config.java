@@ -5,6 +5,7 @@ import static java.lang.String.format;
 public class Config {
     private String token;
     private String imgurClientId;
+    private String googleAnalyticsId;
     private String mysqlPassword;
     private String mysqlUrl;
     private String mysqlUser;
@@ -65,6 +66,14 @@ public class Config {
 
     public void setMysqlDatabase(String mysqlDatabase) {
         this.mysqlDatabase = mysqlDatabase;
+    }
+
+    public String getGoogleAnalyticsId() {
+        return googleAnalyticsId;
+    }
+
+    public void setGoogleAnalyticsId(String googleAnalyticsId) {
+        this.googleAnalyticsId = googleAnalyticsId;
     }
 
     @Override

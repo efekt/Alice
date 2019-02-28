@@ -1,5 +1,6 @@
 token: hereYourToken
 imgurClientId: imgurClientId
+googleAnalyticsId: analyticsTrackingId
 mysqlDatabase: dbName
 mysqlPassword: dbPass
 mysqlUrl: dbUrl

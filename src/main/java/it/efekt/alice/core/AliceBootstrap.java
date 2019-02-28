@@ -1,5 +1,8 @@
 package it.efekt.alice.core;
 
+import com.brsanthu.googleanalytics.GoogleAnalytics;
+import com.brsanthu.googleanalytics.GoogleAnalyticsConfig;
+import it.efekt.alice.commands.core.AliceAnalytics;
 import it.efekt.alice.config.Config;
 import it.efekt.alice.db.GameStats;
 import it.efekt.alice.db.GuildConfig;
@@ -22,6 +25,7 @@ public final static Logger logger = LoggerFactory.getLogger(AliceBootstrap.class
 public static final int EMBED_COLOR = 15648332;
 public static SessionFactory sessionFactory;
 public static final String DEFAULT_PREFIX = "<";
+public static AliceAnalytics analytics;
 
 
     public static void main(String[] args) {
@@ -52,7 +56,7 @@ public static final String DEFAULT_PREFIX = "<";
             logger.info("Config loaded: \n" + config.toString());
             initSessionFactory(config);
             alice = new Alice(config);
-
+            analytics = new AliceAnalytics();
         } catch (IOException e) {
             e.printStackTrace();
         }

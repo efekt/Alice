@@ -41,7 +41,7 @@ public abstract class Command extends ListenerAdapter {
     private void execute(MessageReceivedEvent e) {
         Runnable runnable = () -> {
             // If command is returning false, means that something is wrong
-
+            AliceBootstrap.analytics.reportCmdUsage(getAlias(), Arrays.asList(getArgs()).toString(), e.getGuild(), e.getAuthor());
                 if (!this.onCommand(e)) {
                     e.getChannel().sendMessage(Message.CMD_CHECK_IF_IS_CORRECT.get(e, getDesc().get(e))).queue();
                     return;
