@@ -22,7 +22,7 @@ public class HentaiCmd extends Command {
     @Override
     public boolean onCommand(MessageReceivedEvent e) {
 
-        if (getArgs().length >= 1 && this.categories.contains(getArgs()[0])){
+        if (getArgs().length >= 1 && this.categories.contains(getArgs()[0].toLowerCase())){
             String category = getArgs()[0];
 
             switch(category){
