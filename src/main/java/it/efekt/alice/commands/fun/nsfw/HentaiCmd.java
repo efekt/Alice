@@ -23,7 +23,7 @@ public class HentaiCmd extends Command {
     public boolean onCommand(MessageReceivedEvent e) {
 
         if (getArgs().length >= 1 && this.categories.contains(getArgs()[0].toLowerCase())){
-            String category = getArgs()[0];
+            String category = getArgs()[0].toLowerCase();
 
             switch(category){
                 case "random":
