@@ -42,7 +42,7 @@ public static AliceAnalytics analytics;
     private static Config initializeConfig() throws IOException{
         logger.info("Looking for config.yml file...");
         if (!Files.exists(Paths.get("./config.yml"))){
-            InputStream in = AliceBootstrap.class.getClassLoader().getResourceAsStream("config.yml"); //todo change this to config-default.yml before releasing
+            InputStream in = AliceBootstrap.class.getClassLoader().getResourceAsStream("config-default.yml");
             try (OutputStream outputStream = new FileOutputStream(new File("./config.yml"))) {
                 logger.error("Didn't find config.yml file, copying default one...");
                 IOUtils.copy(in, outputStream);
