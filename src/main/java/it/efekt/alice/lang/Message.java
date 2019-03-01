@@ -113,6 +113,7 @@ public enum Message {
     LOGGER_USER_JOINS_VOICE("{1} joins {2} channel"),
     LOGGER_USER_LEAVES_VOICE("{1} leaves {2} channel"),
     LOGGER_USER_SWITCHES_VOICE("{1} changes {2} channel to {3}"),
+    CMD_GAMESTATS_DESC("Shows the most played games on this discord server"),
 
     BLANK(""); // leave it alone ;)
 

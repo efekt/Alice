@@ -8,6 +8,7 @@ import net.dv8tion.jda.core.entities.User;
 import org.hibernate.Session;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class GameStatsManager {
@@ -50,6 +51,18 @@ public class GameStatsManager {
         }
 
         return stats;
+    }
+
+    public HashMap<String, Long> getGameTimesOnGuild(Guild guild){
+        HashMap<String, Long> gameTimes = new HashMap<>();
+        for (GameStats gameStats : getGameStats(guild)){
+            if (gameTimes.containsKey(gameStats.getGameName())){
+                gameTimes.put(gameStats.getGameName(), gameTimes.get(gameStats.getGameName()) + gameStats.getTimePlayed());
+            } else {
+                gameTimes.put(gameStats.getGameName(), gameStats.getTimePlayed());
+            }
+        }
+        return gameTimes;
     }
 
     public void removeAllInvalidUsers(){

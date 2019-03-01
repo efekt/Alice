@@ -56,8 +56,4 @@ public static AliceAnalytics analytics;
         logger.info("Config loaded: \n" + config.toString());
         return config;
     }
-
-
-
-
 }
