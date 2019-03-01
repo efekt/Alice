@@ -26,14 +26,14 @@ public class PrefixCmd extends Command {
             String newPrefix = this.getArgs()[0];
 
             if (newPrefix.length() != 1){
-                e.getChannel().sendMessage(Message.CMD_PREFIX_REQUIREMENTS.get(e)).queue();
+                e.getChannel().sendMessage(Message.CMD_PREFIX_REQUIREMENTS.get(e)).complete();
                 return true;
             }
 
             GuildConfig guildConfig = AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild());
             guildConfig.setPrefix(newPrefix);
             guildConfig.save();
-            e.getChannel().sendMessage(Message.CMD_NEW_PREFIX_SET.get(e, newPrefix)).queue();
+            e.getChannel().sendMessage(Message.CMD_NEW_PREFIX_SET.get(e, newPrefix)).complete();
             AliceBootstrap.alice.getGuildLogger().log(e.getGuild(), Message.CMD_CHANGED_PREFIX_LOG.get(e, e.getAuthor().getName(), newPrefix));
             return true;
         }

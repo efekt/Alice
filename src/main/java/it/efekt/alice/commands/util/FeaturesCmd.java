@@ -32,24 +32,24 @@ public class FeaturesCmd extends Command {
             String chosenAlias = getArgs()[1];
 
             if (chosenAlias == null || chosenAlias.isEmpty() || !cmds.containsKey(chosenAlias)){
-                e.getChannel().sendMessage(Message.CMD_FEATURES_WRONG_FEATURE_GIVEN.get(e)).queue();
+                e.getChannel().sendMessage(Message.CMD_FEATURES_WRONG_FEATURE_GIVEN.get(e)).complete();
                 return true;
             }
 
             if (chosenAlias.equalsIgnoreCase(getAlias())){
-                e.getChannel().sendMessage(Message.CMD_FEATURES_CANNOT_DISABLE.get(e)).queue();
+                e.getChannel().sendMessage(Message.CMD_FEATURES_CANNOT_DISABLE.get(e)).complete();
                 return true;
             }
 
             if (arg.equalsIgnoreCase("disable")){
                 AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild()).setDisabled(chosenAlias);
-                e.getChannel().sendMessage(Message.CMD_FEATURES_HAS_BEEN_DISABLED.get(e, chosenAlias)).queue();
+                e.getChannel().sendMessage(Message.CMD_FEATURES_HAS_BEEN_DISABLED.get(e, chosenAlias)).complete();
                 return true;
             }
 
             if (arg.equalsIgnoreCase("enable")){
                 AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild()).setEnabled(chosenAlias);
-                e.getChannel().sendMessage(Message.CMD_FEATURES_HAS_BEEN_ENABLED.get(e, chosenAlias)).queue();
+                e.getChannel().sendMessage(Message.CMD_FEATURES_HAS_BEEN_ENABLED.get(e, chosenAlias)).complete();
                 return true;
             }
         }
@@ -69,6 +69,6 @@ public class FeaturesCmd extends Command {
 
             embedBuilder.addField(featureStatus + cmd.getAlias(), "", false);
         }
-        e.getChannel().sendMessage(embedBuilder.build()).queue();
+        e.getChannel().sendMessage(embedBuilder.build()).complete();
     }
 }

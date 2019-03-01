@@ -16,7 +16,7 @@ public class KojimaCmd extends Command {
 
     @Override
     public boolean onCommand(MessageReceivedEvent e) {
-        e.getChannel().sendMessage(new EmbedBuilder().setImage("https://i.imgur.com/18C9F73.jpg").setColor(AliceBootstrap.EMBED_COLOR).build()).queue();
+        e.getChannel().sendMessage(new EmbedBuilder().setImage("https://i.imgur.com/18C9F73.jpg").setColor(AliceBootstrap.EMBED_COLOR).build()).complete();
         return true;
     }
 }

@@ -40,12 +40,12 @@ public class TopCmd extends Command {
                int listLength = Integer.parseInt(getArgs()[0]);
 
                if (listLength <= 0){
-                   e.getChannel().sendMessage(it.efekt.alice.lang.Message.CMD_TOP_MINUS_TOP.get(e)).queue();
+                   e.getChannel().sendMessage(it.efekt.alice.lang.Message.CMD_TOP_MINUS_TOP.get(e)).complete();
                    return true;
                }
 
                if (userStatsList.size() < listLength){
-                   e.getChannel().sendMessage(it.efekt.alice.lang.Message.CMD_TOP_NUMBER_TOO_LARGE.get(e, String.valueOf(userStatsList.size()))).queue();
+                   e.getChannel().sendMessage(it.efekt.alice.lang.Message.CMD_TOP_NUMBER_TOO_LARGE.get(e, String.valueOf(userStatsList.size()))).complete();
                    return true;
                }
                printTop(listLength, userStatsList, e);
@@ -103,7 +103,7 @@ public class TopCmd extends Command {
         }
         embedBuilder.addField("TOP-"+maxUserAmount, list, false);
 
-        e.getChannel().sendMessage(embedBuilder.build()).queue();
+        e.getChannel().sendMessage(embedBuilder.build()).complete();
     }
 
     private List<Message> getAllTextMessagesOnGuild(Guild guild){

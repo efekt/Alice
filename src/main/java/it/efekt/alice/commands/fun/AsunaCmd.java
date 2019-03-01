@@ -65,7 +65,7 @@ public class AsunaCmd extends Command {
             Random rand = new Random();
             embedBuilder.setImage(urls.get(rand.nextInt(urls.size())));
             embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
-            e.getChannel().sendMessage(embedBuilder.build()).queue();
+            e.getChannel().sendMessage(embedBuilder.build()).complete();
             return true;
         } catch(IOException exc){
             exc.printStackTrace();

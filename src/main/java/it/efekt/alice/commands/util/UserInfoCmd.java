@@ -48,7 +48,7 @@ public class UserInfoCmd extends Command {
         embedBuilder.addField(it.efekt.alice.lang.Message.CMD_USERINFO_SPAM_LVL.get(e), String.valueOf((int)new SpamLevelManager().getPlayerLevel(user, e.getGuild())), false);
         embedBuilder.addField(it.efekt.alice.lang.Message.CMD_USERINFO_MSGS_SENT.get(e), String.valueOf(userStats.getMessagesAmount()), false);
 
-        e.getChannel().sendMessage(embedBuilder.build()).queue();
+        e.getChannel().sendMessage(embedBuilder.build()).complete();
     }
 
 }

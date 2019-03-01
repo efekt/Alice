@@ -27,7 +27,7 @@ public class MinecraftStatusCmd extends Command {
             try {
                  status.loadServer(getArgs()[0]);
             } catch(MinecraftServerNotFoundException exc){
-                e.getChannel().sendMessage(Message.CMD_MC_SERVER_NOT_FOUND.get(e)).queue();
+                e.getChannel().sendMessage(Message.CMD_MC_SERVER_NOT_FOUND.get(e)).complete();
                 return true;
             }
 
@@ -39,10 +39,10 @@ public class MinecraftStatusCmd extends Command {
                 embedBuilder.setThumbnail(status.getFaviconUrl());
                 embedBuilder.addField(Message.CMD_MC_SERVER_PLAYER_COUNT.get(e), status.getCurrentPlayers() + "/" + status.getMaxPlayers(), false);
 
-                e.getChannel().sendMessage(embedBuilder.build()).queue();
+                e.getChannel().sendMessage(embedBuilder.build()).complete();
                 return true;
             } else {
-                e.getChannel().sendMessage(Message.CMD_MC_SERVER_OFFLINE.get(e)).queue();
+                e.getChannel().sendMessage(Message.CMD_MC_SERVER_OFFLINE.get(e)).complete();
                 return true;
             }
         }

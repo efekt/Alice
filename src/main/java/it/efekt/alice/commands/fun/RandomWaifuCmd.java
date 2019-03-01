@@ -25,7 +25,7 @@ public class RandomWaifuCmd extends Command {
         embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
         embedBuilder.setTitle("Your random Waifu");
         embedBuilder.setImage("https://www.thiswaifudoesnotexist.net/example-"+imageNr+".jpg");
-        e.getChannel().sendMessage(embedBuilder.build()).queue();
+        e.getChannel().sendMessage(embedBuilder.build()).complete();
 
         return true;
     }

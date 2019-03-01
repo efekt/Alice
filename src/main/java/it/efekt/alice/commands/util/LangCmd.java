@@ -33,7 +33,7 @@ public class LangCmd extends Command {
         if (getArgs().length == 1 && isLang(getArgs()[0])){
             LangCode langCode = LangCode.valueOf(getArgs()[0]);
             setGuildLanguage(e.getGuild(), langCode);
-            e.getChannel().sendMessage(Message.CMD_LANG_LANGUAGE_CHANGED.get(e, langCode.name())).queue();
+            e.getChannel().sendMessage(Message.CMD_LANG_LANGUAGE_CHANGED.get(e, langCode.name())).complete();
             return true;
         }
         return false;

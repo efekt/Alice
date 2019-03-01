@@ -26,10 +26,10 @@ public class GuildLoggerCmd extends Command {
 
         if (getArgs().length == 0){
             if (config.getLogChannel() == null){
-                e.getChannel().sendMessage(Message.CMD_LOGGER_NOT_SET.get(e)).queue();
+                e.getChannel().sendMessage(Message.CMD_LOGGER_NOT_SET.get(e)).complete();
                 return true;
             }
-            e.getChannel().sendMessage(Message.CMD_LOGGER_CURRENTLY_USED.get(e, e.getJDA().getTextChannelById(config.getLogChannel()).getAsMention())).queue();
+            e.getChannel().sendMessage(Message.CMD_LOGGER_CURRENTLY_USED.get(e, e.getJDA().getTextChannelById(config.getLogChannel()).getAsMention())).complete();
             return true;
         }
 
@@ -37,12 +37,12 @@ public class GuildLoggerCmd extends Command {
             TextChannel mentionedChannel = e.getMessage().getMentionedChannels().stream().findFirst().get();
             config.setLogChannel(mentionedChannel.getId());
             config.save();
-            e.getChannel().sendMessage(Message.CMD_LOGGER_SET.get(e, mentionedChannel.getAsMention())).queue();
+            e.getChannel().sendMessage(Message.CMD_LOGGER_SET.get(e, mentionedChannel.getAsMention())).complete();
             return true;
         } else if(getArgs().length == 1 && getArgs()[0].equalsIgnoreCase("disable")){
             config.setLogChannel(null);
             config.save();
-            e.getChannel().sendMessage(Message.CMD_LOGGER_DISABLED.get(e)).queue();
+            e.getChannel().sendMessage(Message.CMD_LOGGER_DISABLED.get(e)).complete();
             return true;
         }
         return false;

@@ -38,7 +38,7 @@ public class ApexStatsCmd extends Command {
                 String playerName = getArgs()[1];
 
                 if (getPlayerInfo(playerName, platform) == null || !getPlayerInfo(playerName, platform).get("playerfound").getAsBoolean()){
-                    e.getChannel().sendMessage(Message.CMD_APEX_PLAYER_NOT_FOUND.get(e)).queue();
+                    e.getChannel().sendMessage(Message.CMD_APEX_PLAYER_NOT_FOUND.get(e)).complete();
                     return true;
                 }
 
@@ -91,7 +91,7 @@ public class ApexStatsCmd extends Command {
                                 "\n" + Message.CMD_APEX_LEGEND_KILLS.get(e) + playerInfo.get("kills_Mirage").getAsString() +
                                 "\n" + Message.CMD_APEX_LEGEND_HEADSHOTS.get(e) + playerInfo.get("headshots_Mirage").getAsString()
                         , true);
-                e.getChannel().sendMessage(embedBuilder.build()).queue();
+                e.getChannel().sendMessage(embedBuilder.build()).complete();
                 return true;
 
             }

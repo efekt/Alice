@@ -15,7 +15,7 @@ public class PingCmd extends Command {
 
     @Override
     public boolean onCommand(MessageReceivedEvent e) {
-        e.getChannel().sendMessage(Message.CMD_PING_RESPONSE.get(e, String.valueOf(e.getJDA().getPing()))).queue();
+        e.getChannel().sendMessage(Message.CMD_PING_RESPONSE.get(e, String.valueOf(e.getJDA().getPing()))).complete();
         return true;
     }
 }

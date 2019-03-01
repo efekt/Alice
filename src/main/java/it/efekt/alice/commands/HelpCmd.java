@@ -87,7 +87,7 @@ public class HelpCmd extends Command {
             }
         }
 
-        e.getChannel().sendMessage(embedBuilder.build()).queue();
+        e.getChannel().sendMessage(embedBuilder.build()).complete();
         return true;
     }
 }
