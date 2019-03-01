@@ -37,34 +37,34 @@ public class GuildLogger extends ListenerAdapter {
 
             if (e instanceof GuildMemberJoinEvent){
                 GuildMemberJoinEvent event = (GuildMemberJoinEvent) e;
-                log(e.getGuild(),event.getMember().getEffectiveName() + " dołącza do serwera");
+                log(e.getGuild(),event.getMember().getEffectiveName() + " joins the server");
             }
 
             if (e instanceof GuildMemberLeaveEvent){
                 GuildMemberLeaveEvent event = (GuildMemberLeaveEvent) e;
-                log(e.getGuild(), event.getMember().getEffectiveName() + " odchodzi z serwera");
+                log(e.getGuild(), event.getMember().getEffectiveName() + " leaves the server");
             }
         }
     }
 
     @Override
     public void onUserUpdateOnlineStatus(UserUpdateOnlineStatusEvent e){
-        log(e.getGuild(), e.getUser().getName() + " zmienia status na: " + e.getNewOnlineStatus());
+        log(e.getGuild(), e.getUser().getName() + " changes status to: " + e.getNewOnlineStatus());
     }
 
     @Override
     public void onGuildVoiceJoin(GuildVoiceJoinEvent e){
-        log(e.getGuild(), e.getMember().getEffectiveName() + " wchodzi na kanał: " + e.getChannelJoined().getName());
+        log(e.getGuild(), e.getMember().getEffectiveName() + " joins voice channel: " + e.getChannelJoined().getName());
     }
 
     @Override
     public void onGuildVoiceLeave(GuildVoiceLeaveEvent e){
-        log(e.getGuild(), e.getMember().getEffectiveName() + " wychodzi z kanału: " + e.getChannelLeft().getName());
+        log(e.getGuild(), e.getMember().getEffectiveName() + " leaves voice channel: " + e.getChannelLeft().getName());
     }
 
     @Override
     public void onGuildVoiceMove(GuildVoiceMoveEvent e){
-        log(e.getGuild(), e.getMember().getEffectiveName() + " zmienił kanał: " + e.getChannelLeft().getName() + " na: " + e.getChannelJoined().getName());
+        log(e.getGuild(), e.getMember().getEffectiveName() + " changes channel: " + e.getChannelLeft().getName() + " to: " + e.getChannelJoined().getName());
     }
 
 
