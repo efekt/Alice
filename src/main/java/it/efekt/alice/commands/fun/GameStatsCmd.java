@@ -4,6 +4,7 @@ import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.lang.Message;
+import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
@@ -43,7 +44,13 @@ public class GameStatsCmd extends Command {
 
             i++;
         }
-        e.getChannel().sendMessage(output).complete();
+
+        EmbedBuilder embedBuilder = new EmbedBuilder();
+        embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
+        embedBuilder.setTitle("Most played games on this server");
+        embedBuilder.addField("TOP-" + i, output, false);
+
+        e.getChannel().sendMessage(embedBuilder.build()).complete();
         return true;
     }
 }
