@@ -7,7 +7,6 @@ import it.efekt.alice.lang.Message;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -31,13 +30,12 @@ public class GameStatsCmd extends Command {
         for (Map.Entry<String, Long> entry : sorted.entrySet()){
             String gameName = entry.getKey();
             long timePlayed = entry.getValue();
-            long hoursPlayed = TimeUnit.SECONDS.toHours(timePlayed);
-            GregorianCalendar cal = new GregorianCalendar(0,0,0,0,0, (int)timePlayed);
-            Date dateNow = cal.getTime();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("HH'h' mm'm'");
+            int day = (int) TimeUnit.SECONDS.toDays(timePlayed);
+            long hoursPlayed = TimeUnit.SECONDS.toHours(timePlayed) - (day * 24);
+            long minutesPlayed = TimeUnit.SECONDS.toMinutes(timePlayed) - (TimeUnit.SECONDS.toHours(timePlayed) * 60);
 
             if (hoursPlayed >= 0.5){
-                output = output.concat("`"+i+"` " + gameName + ": " + dateFormat.format(dateNow) + "\n");
+                output = output.concat("**"+i+".** **" + gameName + "**: _" + day + "d " + hoursPlayed + "h " + minutesPlayed + "m " + "_\n");
             }
             if (i >= maxToPrint){
                 break;
