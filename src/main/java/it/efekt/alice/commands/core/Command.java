@@ -10,6 +10,7 @@ import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.core.exceptions.InsufficientPermissionException;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,9 +43,13 @@ public abstract class Command extends ListenerAdapter {
         Runnable runnable = () -> {
             // If command is returning false, means that something is wrong
             AliceBootstrap.analytics.reportCmdUsage(getAlias(), Arrays.asList(getArgs()).toString(), e.getGuild(), e.getAuthor());
-                if (!this.onCommand(e)) {
-                    e.getChannel().sendMessage(Message.CMD_CHECK_IF_IS_CORRECT.get(e, getDesc().get(e))).queue();
-                    return;
+                try {
+                    if (!this.onCommand(e)) {
+                        e.getChannel().sendMessage(Message.CMD_CHECK_IF_IS_CORRECT.get(e, getDesc().get(e))).queue();
+                        return;
+                    }
+                } catch (InsufficientPermissionException exc){
+                    e.getChannel().sendMessage(Message.PERMISSION_NEEDED.get(e, exc.getPermission().name())).queue();
                 }
 
         };
