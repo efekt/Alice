@@ -83,7 +83,7 @@
   "cmd-top-loadall-warning": "Próbuję zliczyć wszystkie wiadomości.\nMoże to potrwać nawet do kilku/kilkunastu minut w zależności od wielkości serwera :fearful:",
   "cmd-top-loadall-found": "Znalazłam {1} wiadomości, rozpoczynam zliczanie...",
   "cmd-top-loadall-finished": "Zakończyłam zliczanie wiadomości, zapisuję wyniki do bazy danych...",
-  "cmd-to-loadall-saved": "Wszystkie wyniki zostały zapisane :heart_eyes:",
+  "cmd-top-loadall-saved": "Wszystkie wyniki zostały zapisane :heart_eyes:",
   "cmd-top-list-title": "Lista największych spamerów serwera {1}",
   "cmd-userinfo-desc": "Wyświetla informacje o użytkowniku",
   "cmd-userinfo-usage-info": "`@user`",
@@ -95,5 +95,15 @@
   "cmd-lang-short-usage-info": "`kod` - kod języka",
   "cmd-lang-language-changed": "Zmieniono język serwera na: {1}",
   "cmd-lang-available-langs": "Dostępne języki: {1}",
-  "cmd-randomwaifu-desc": "Wyświetla losowe waifu z `https://www.thiswaifudoesnotexist.net`\nKażda waifu została wygenerowana przez sieć neuronową\nAby dowiedzieć się więcej odwiedź stronę autora projektu: `https://www.gwern.net/TWDNE`"
+  "cmd-randomwaifu-desc": "Wyświetla losowe waifu z `https://www.thiswaifudoesnotexist.net`\nKażda waifu została wygenerowana przez sieć neuronową\nAby dowiedzieć się więcej odwiedź stronę autora projektu: `https://www.gwern.net/TWDNE`",
+  "module-logger-insufficient-perms": "Cześć {1} Poprosiłeś/aś mnie abym logowała wiadomości na kanale {2} ale nie mam odpowiednich uprawnień :confused:\nW związku z czym musiałam wyłączyć Loggera.\nJeśli chcesz go ponownie włączyć upewnij się że mam odpowiednie uprawnienia :flushed:",
+  "permission-needed": "I need {1} permission to do that.",
+  "logger-user-joins-guild": "{1} dołącza do serwera",
+  "logger-user-leaves-guild": "{1} opuszcza serwer",
+  "logger-user-changes-status": "{1} zmienia status na: {2}",
+  "logger-user-joins-voice": "{1} wchodzi na {2}",
+  "logger-user-leaves-voice": "{1} wychodzi z {2}",
+  "logger-user-switches-voice": "{1} przechodzi z {2} na {3}",
+  "cmd-gamestats-desc": "Pokazuje listę najczęściej granych gier na tym serwerze",
+  "cmd-gamestats-not-found": "Nie mogłam znaleźć żadnych gier"
 }

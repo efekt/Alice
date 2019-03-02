@@ -71,7 +71,7 @@ public class TopCmd extends Command {
                    userStatsManager.removeAllInvalidUsers();
                    userStatsManager.saveAllUserStats();
 
-                   e.getChannel().sendMessage(it.efekt.alice.lang.Message.CMD_TO_LOADALL_SAVED.get(e)).complete();
+                   e.getChannel().sendMessage(it.efekt.alice.lang.Message.CMD_TOP_LOADALL_SAVED.get(e)).complete();
                return true;
 
                }

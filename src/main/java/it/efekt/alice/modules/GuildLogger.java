@@ -37,34 +37,34 @@ public class GuildLogger extends ListenerAdapter {
 
             if (e instanceof GuildMemberJoinEvent){
                 GuildMemberJoinEvent event = (GuildMemberJoinEvent) e;
-                log(e.getGuild(),event.getMember().getEffectiveName() + " joins the server");
+                log(e.getGuild(), Message.LOGGER_USER_JOINS_GUILD.get(e.getGuild(), event.getMember().getEffectiveName()));
             }
 
             if (e instanceof GuildMemberLeaveEvent){
                 GuildMemberLeaveEvent event = (GuildMemberLeaveEvent) e;
-                log(e.getGuild(), event.getMember().getEffectiveName() + " leaves the server");
+                log(e.getGuild(), Message.LOGGER_USER_LEAVES_GUILD.get(e.getGuild(), event.getMember().getEffectiveName()));
             }
         }
     }
 
     @Override
     public void onUserUpdateOnlineStatus(UserUpdateOnlineStatusEvent e){
-        log(e.getGuild(), e.getUser().getName() + " changes status to: " + e.getNewOnlineStatus());
+        log(e.getGuild(), Message.LOGGER_USER_CHANGES_STATUS.get(e.getGuild(), e.getUser().getName(), e.getNewOnlineStatus().name()));
     }
 
     @Override
     public void onGuildVoiceJoin(GuildVoiceJoinEvent e){
-        log(e.getGuild(), e.getMember().getEffectiveName() + " joins voice channel: " + e.getChannelJoined().getName());
+        log(e.getGuild(), Message.LOGGER_USER_JOINS_VOICE.get(e.getGuild(), e.getMember().getEffectiveName(), e.getChannelJoined().getName()));
     }
 
     @Override
     public void onGuildVoiceLeave(GuildVoiceLeaveEvent e){
-        log(e.getGuild(), e.getMember().getEffectiveName() + " leaves voice channel: " + e.getChannelLeft().getName());
+        log(e.getGuild(), Message.LOGGER_USER_LEAVES_VOICE.get(e.getGuild(), e.getMember().getEffectiveName(), e.getChannelLeft().getName()));
     }
 
     @Override
     public void onGuildVoiceMove(GuildVoiceMoveEvent e){
-        log(e.getGuild(), e.getMember().getEffectiveName() + " changes channel: " + e.getChannelLeft().getName() + " to: " + e.getChannelJoined().getName());
+        log(e.getGuild(), Message.LOGGER_USER_SWITCHES_VOICE.get(e.getGuild(), e.getMember().getEffectiveName(), e.getChannelLeft().getName(), e.getChannelJoined().getName()));
     }
 
 

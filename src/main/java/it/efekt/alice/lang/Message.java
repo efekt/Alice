@@ -2,6 +2,7 @@ package it.efekt.alice.lang;
 
 import com.google.gson.stream.JsonWriter;
 import it.efekt.alice.core.AliceBootstrap;
+import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 import java.io.FileWriter;
@@ -92,7 +93,7 @@ public enum Message {
     CMD_TOP_LOADALL_WARNING("Trying to gather all messages ever written.\nIt may last a couple of seconds/minutes depending of server size :fearful:"),
     CMD_TOP_LOADALL_FOUND("Found {1} messages, processing..."),
     CMD_TOP_LOADALL_FINISHED("Processing finished, saving to database..."),
-    CMD_TO_LOADALL_SAVED("All results has been saved :heart_eyes:"),
+    CMD_TOP_LOADALL_SAVED("All results has been saved :heart_eyes:"),
     CMD_TOP_LIST_TITLE("Ranking of the best {1}'s spammers"),
     CMD_USERINFO_DESC("Shows info about user"),
     CMD_USERINFO_USAGE_INFO("`@user`"),
@@ -114,6 +115,7 @@ public enum Message {
     LOGGER_USER_LEAVES_VOICE("{1} leaves {2} channel"),
     LOGGER_USER_SWITCHES_VOICE("{1} changes {2} channel to {3}"),
     CMD_GAMESTATS_DESC("Shows the most played games on this discord server"),
+    CMD_GAMESTATS_NOT_FOUND("Couldn't find any games to show you"),
 
     BLANK(""); // leave it alone ;)
 
@@ -129,6 +131,12 @@ public enum Message {
 
     public String getDefaultValue(){
         return this.defaultValue;
+    }
+
+    public String get(Guild guild, String... vars){
+        LangCode langCode = LangCode.valueOf(AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(guild).getLocale());
+        Language language = AliceBootstrap.alice.getLanguageManager().getLang(langCode);
+        return get(language, vars);
     }
 
     public String get(Language language, String... vars){

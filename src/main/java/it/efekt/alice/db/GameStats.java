@@ -15,7 +15,6 @@ public class GameStats extends AliceDb{
     @Column(name="guild_id")
     private String guildId;
 
-
     @Column(name="user_id")
     private String userId;
 
@@ -25,7 +24,6 @@ public class GameStats extends AliceDb{
     //In minutes
     @Column(name="time_played")
     private long timePlayed;
-
 
     public GameStats(){}
 
