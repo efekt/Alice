@@ -15,7 +15,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class TopCmd extends Command {
-    private final int MAX_LIST_LENGTH = 10;
+    private final int MAX_LIST_LENGTH = 20;
     public TopCmd(String alias) {
         super(alias);
         setCategory(CommandCategory.FUN);
