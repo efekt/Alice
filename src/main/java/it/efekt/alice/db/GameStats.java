@@ -10,7 +10,7 @@ public class GameStats extends AliceDb{
     @Id
     @Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     @Column(name="guild_id")
     private String guildId;
@@ -22,9 +22,9 @@ public class GameStats extends AliceDb{
     @Column(name="game_name")
     private String gameName;
 
-    //In seconds
+    //In minutes
     @Column(name="time_played")
-    private int timePlayed;
+    private long timePlayed;
 
 
     public GameStats(){}
@@ -35,11 +35,11 @@ public class GameStats extends AliceDb{
         this.gameName = gameName;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -71,12 +71,12 @@ public class GameStats extends AliceDb{
         return timePlayed;
     }
 
-    public void setTimePlayed(int timePlayed) {
+    public void setTimePlayed(long timePlayed) {
         this.timePlayed = timePlayed;
     }
 
     public void addTimePlayed(long timePlayed){
-        this.timePlayed += (int)timePlayed;
+        this.timePlayed += timePlayed;
     }
 
     public boolean isInvalidUser(){

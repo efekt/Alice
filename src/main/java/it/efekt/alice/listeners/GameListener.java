@@ -30,9 +30,9 @@ public class GameListener extends ListenerAdapter {
         }
 
         try {
-            long elapsed = e.getOldGame().getTimestamps().getElapsedTime(ChronoUnit.SECONDS);
-            if (elapsed > 0) {
-                gameStats.addTimePlayed((int) elapsed);
+            long elapsed = e.getOldGame().getTimestamps().getElapsedTime(ChronoUnit.MINUTES);
+            if (elapsed > 0 && gameName.length()<=128) {
+                gameStats.addTimePlayed(elapsed);
                 gameStats.save();
             }
         } catch (NullPointerException exc){

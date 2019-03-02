@@ -31,9 +31,9 @@ public class GameStatsCmd extends Command {
         for (Map.Entry<String, Long> entry : sorted.entrySet()){
             String gameName = entry.getKey();
             long timePlayed = entry.getValue();
-            int day = (int) TimeUnit.SECONDS.toDays(timePlayed);
-            long hoursPlayed = TimeUnit.SECONDS.toHours(timePlayed) - (day * 24);
-            long minutesPlayed = TimeUnit.SECONDS.toMinutes(timePlayed) - (TimeUnit.SECONDS.toHours(timePlayed) * 60);
+            long day = TimeUnit.MINUTES.toDays(timePlayed);
+            long hoursPlayed = TimeUnit.MINUTES.toHours(timePlayed) - (day * 24);
+            long minutesPlayed = timePlayed - (TimeUnit.MINUTES.toHours(timePlayed) * 60);
 
             if (hoursPlayed >= 0.5){
                 output = output.concat("**"+i+".** **" + gameName + "**: _" + day + "d " + hoursPlayed + "h " + minutesPlayed + "m " + "_\n");
@@ -41,7 +41,6 @@ public class GameStatsCmd extends Command {
             if (i >= maxToPrint){
                 break;
             }
-
             i++;
         }
 
