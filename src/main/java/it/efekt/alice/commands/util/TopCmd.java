@@ -7,7 +7,6 @@ import it.efekt.alice.db.UserStats;
 import it.efekt.alice.modules.SpamLevelManager;
 import it.efekt.alice.modules.UserStatsManager;
 import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
@@ -16,6 +15,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class TopCmd extends Command {
+    private final int MAX_LIST_LENGTH = 10;
     public TopCmd(String alias) {
         super(alias);
         setCategory(CommandCategory.FUN);
@@ -48,33 +48,39 @@ public class TopCmd extends Command {
                    e.getChannel().sendMessage(it.efekt.alice.lang.Message.CMD_TOP_NUMBER_TOO_LARGE.get(e, String.valueOf(userStatsList.size()))).complete();
                    return true;
                }
+
+               if (listLength > MAX_LIST_LENGTH){
+                   listLength = MAX_LIST_LENGTH;
+               }
+
                printTop(listLength, userStatsList, e);
                return true;
            }
 
-           if (getArgs()[0].equalsIgnoreCase("loadAll")) {
-               if (!e.getMember().hasPermission(Permission.ADMINISTRATOR)) {
-                   e.getChannel().sendMessage(it.efekt.alice.lang.Message.CMD_TOP_LOADALL_FORBIDDEN.get(e));
-                   return true;
-               }
-
-               userStatsManager.removeAll(e.getGuild());
-
-                   e.getChannel().sendMessage(it.efekt.alice.lang.Message.CMD_TOP_LOADALL_WARNING.get(e)).complete();
-                   List<Message> allMessages = getAllTextMessagesOnGuild(e.getGuild());
-
-                   e.getChannel().sendMessage(it.efekt.alice.lang.Message.CMD_TOP_LOADALL_FOUND.get(e, String.valueOf(allMessages.size()))).complete();
-
-                   allMessages.forEach(message -> userStatsManager.getUserStats(message.getAuthor(), message.getGuild()).addMessagesAmount(1));
-                   e.getChannel().sendMessage(it.efekt.alice.lang.Message.CMD_TOP_LOADALL_FINISHED.get(e)).complete();
-
-                   userStatsManager.removeAllInvalidUsers();
-                   userStatsManager.saveAllUserStats();
-
-                   e.getChannel().sendMessage(it.efekt.alice.lang.Message.CMD_TOP_LOADALL_SAVED.get(e)).complete();
-               return true;
-
-               }
+//           if (getArgs()[0].equalsIgnoreCase("loadAll")) {
+//
+//               if (!e.getMember().hasPermission(Permission.ADMINISTRATOR)) {
+//                   e.getChannel().sendMessage(it.efekt.alice.lang.Message.CMD_TOP_LOADALL_FORBIDDEN.get(e));
+//                   return true;
+//               }
+//
+//               userStatsManager.removeAll(e.getGuild());
+//
+//                   e.getChannel().sendMessage(it.efekt.alice.lang.Message.CMD_TOP_LOADALL_WARNING.get(e)).complete();
+//                   List<Message> allMessages = getAllTextMessagesOnGuild(e.getGuild());
+//
+//                   e.getChannel().sendMessage(it.efekt.alice.lang.Message.CMD_TOP_LOADALL_FOUND.get(e, String.valueOf(allMessages.size()))).complete();
+//
+//                   allMessages.forEach(message -> userStatsManager.getUserStats(message.getAuthor(), message.getGuild()).addMessagesAmount(1));
+//                   e.getChannel().sendMessage(it.efekt.alice.lang.Message.CMD_TOP_LOADALL_FINISHED.get(e)).complete();
+//
+//                   userStatsManager.removeAllInvalidUsers();
+//                   userStatsManager.saveAllUserStats();
+//
+//                   e.getChannel().sendMessage(it.efekt.alice.lang.Message.CMD_TOP_LOADALL_SAVED.get(e)).complete();
+//               return true;
+//
+//               }
        } else if (getArgs().length == 0){
            int listLength = userStatsList.size();
 
