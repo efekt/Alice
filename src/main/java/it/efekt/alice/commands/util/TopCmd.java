@@ -18,7 +18,7 @@ import java.util.List;
 public class TopCmd extends Command {
     public TopCmd(String alias) {
         super(alias);
-        setCategory(CommandCategory.UTILS);
+        setCategory(CommandCategory.FUN);
         setDescription(it.efekt.alice.lang.Message.CMD_TOP_DESC);
         setShortUsageInfo(it.efekt.alice.lang.Message.CMD_TOP_USAGE_INFO);
         setFullUsageInfo(it.efekt.alice.lang.Message.CMD_TOP_FULL_USAGE_INFO);
