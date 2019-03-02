@@ -30,7 +30,6 @@ public class TopCmd extends Command {
        Guild guild = e.getGuild();
        UserStatsManager userStatsManager = AliceBootstrap.alice.getUserStatsManager();
        List<UserStats> userStatsList = userStatsManager.getUserStats(guild);
-       System.out.println(userStatsList.size());
        userStatsList.removeIf(UserStats::isInvalidUser);
        userStatsList.removeIf(UserStats::isBot);
        userStatsList.sort(Comparator.comparing(UserStats::getMessagesAmount).reversed());

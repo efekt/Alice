@@ -177,7 +177,7 @@ public abstract class Command extends ListenerAdapter {
                     this.args = args;
                     e.getChannel().sendTyping().queue();
                     this.execute(e);
-                    this.logger.debug("User: " + e.getAuthor().getName() + " id:" + e.getAuthor().getId() + " executed cmd: " + cmdAlias + " with msg: " + e.getMessage().getContentDisplay());
+                    this.logger.info("User: " + e.getAuthor().getName() + " id:" + e.getAuthor().getId() + " executed cmd: " + cmdAlias + " with msg: " + e.getMessage().getContentDisplay());
                 }
             }
         }

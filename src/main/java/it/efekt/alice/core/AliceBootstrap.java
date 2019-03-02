@@ -44,7 +44,7 @@ public static AliceAnalytics analytics;
         if (!Files.exists(Paths.get("./config.yml"))){
             InputStream in = AliceBootstrap.class.getClassLoader().getResourceAsStream("config-default.yml");
             try (OutputStream outputStream = new FileOutputStream(new File("./config.yml"))) {
-                logger.error("Didn't find config.yml file, copying default one...");
+                logger.warn("Didn't find config.yml file, copying default one...");
                 IOUtils.copy(in, outputStream);
             } catch (NullPointerException exc){
                 exc.printStackTrace();

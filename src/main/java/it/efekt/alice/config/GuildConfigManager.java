@@ -39,7 +39,7 @@ public class GuildConfigManager {
         List<GuildConfig> configs = session.createQuery("from GuildConfig").getResultList();
         configs.forEach(config -> guildConfigs.put(config.getId(), config));
         session.getTransaction().commit();
-        System.out.println("guilds: " + guildConfigs.values());
+        logger.info("Loaded all " + this.guildConfigs.size() + " guild configs");
     }
 
     public void saveAll(){

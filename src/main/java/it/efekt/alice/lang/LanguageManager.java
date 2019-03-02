@@ -26,7 +26,7 @@ public class LanguageManager {
         if (l != null){
             return l;
         } else {
-            logger.error("Couldn't find " + language.name() + " lang files, getting default instead: " + this.defaultLanguage.name());
+            logger.warn("Couldn't find " + language.name() + " lang files, getting default instead: " + this.defaultLanguage.name());
             return languageList.stream().filter(lang -> lang.getLangCode().equalsIgnoreCase(defaultLanguage.name())).findFirst().get();
         }
     }
