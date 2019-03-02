@@ -1,8 +1,14 @@
 package it.efekt.alice.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.lang.reflect.Field;
+
 import static java.lang.String.format;
 // This class is used by snakeyaml
 public class Config {
+    private final Logger logger = LoggerFactory.getLogger(Config.class);
     private String token;
     private String imgurClientId;
     private String googleAnalyticsId;
