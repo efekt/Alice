@@ -45,7 +45,7 @@ public abstract class Command extends ListenerAdapter {
             AliceBootstrap.analytics.reportCmdUsage(getAlias(), Arrays.asList(getArgs()).toString(), e.getGuild(), e.getAuthor());
                 try {
                     if (!this.onCommand(e)) {
-                        e.getChannel().sendMessage(Message.CMD_CHECK_IF_IS_CORRECT.get(e, getDesc().get(e))).queue();
+                        e.getChannel().sendMessage(Message.CMD_CHECK_IF_IS_CORRECT.get(e, "Type `<help` `" + getAlias() + "` to see the command's help")).queue();
                         return;
                     }
                 } catch (InsufficientPermissionException exc){

@@ -40,8 +40,6 @@ public class HentaiCmd extends Command {
                 default:
                     return false;
             }
-
-
         }
         return false;
     }

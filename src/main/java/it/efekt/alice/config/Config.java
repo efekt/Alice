@@ -14,6 +14,7 @@ public class Config {
     private String mysqlUser;
     private String mysqlDatabase;
     private int mysqlPort;
+    private String igdbApiKey;
 
     public void setImgurClientId(String imgurClientId){
         this.imgurClientId = imgurClientId;
@@ -77,6 +78,14 @@ public class Config {
 
     public void setGoogleAnalyticsId(String googleAnalyticsId) {
         this.googleAnalyticsId = googleAnalyticsId;
+    }
+
+    public String getIgdbApiKey() {
+        return igdbApiKey;
+    }
+
+    public void setIgdbApiKey(String igdbApiKey) {
+        this.igdbApiKey = igdbApiKey;
     }
 
     @Override

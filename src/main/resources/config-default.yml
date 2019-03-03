@@ -6,3 +6,4 @@ mysqlPassword: dbPass
 mysqlUrl: dbUrl
 mysqlUser: dbUser
 mysqlPort: dbPort
+igdbApiKey: igbd.com api key
