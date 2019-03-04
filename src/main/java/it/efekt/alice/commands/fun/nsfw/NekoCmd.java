@@ -14,6 +14,7 @@ public class NekoCmd extends Command {
         super(alias);
         setDescription(Message.CMD_NEKO_DESC);
         setCategory(CommandCategory.FUN);
+        setNsfw(true);
     }
 
     @Override
