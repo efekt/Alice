@@ -71,6 +71,7 @@ public class Alice {
         getCmdManager().setExecutor(new LangCmd("lang"));
         getCmdManager().setExecutor(new RandomWaifuCmd("random-waifu"));
         getCmdManager().setExecutor(new GameStatsCmd("topgames"));
+        getCmdManager().setExecutor(new LoliCmd("loli"));
     }
 
 
