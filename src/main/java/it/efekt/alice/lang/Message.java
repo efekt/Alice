@@ -116,6 +116,11 @@ public enum Message {
     LOGGER_USER_SWITCHES_VOICE("{1} changes {2} channel to {3}"),
     CMD_GAMESTATS_DESC("Shows the most played games on this discord server"),
     CMD_GAMESTATS_NOT_FOUND("Couldn't find any games to show you"),
+    CMD_WIKI_NOT_FOUND("Wikipedia article not found"),
+    CMD_WIKI_MULTIPLE_FOUND("There are multiple articles associated with this phrase.\nClick the title to open wiki page in the browser."),
+    CMD_WIKI_SOURCE("Source"),
+    CMD_WIKI_DESC("Shows wikipedia results"),
+    CMD_WIKI_SHORT_USAGE_INFO("`phrase`"),
 
     BLANK(""); // leave it alone ;)
 

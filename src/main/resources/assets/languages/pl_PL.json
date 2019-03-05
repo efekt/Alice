@@ -105,5 +105,10 @@
   "logger-user-leaves-voice": "{1} wychodzi z {2}",
   "logger-user-switches-voice": "{1} przechodzi z {2} na {3}",
   "cmd-gamestats-desc": "Pokazuje listę najczęściej granych gier na tym serwerze",
-  "cmd-gamestats-not-found": "Nie mogłam znaleźć żadnych gier"
+  "cmd-gamestats-not-found": "Nie mogłam znaleźć żadnych gier",
+  "cmd-wiki-not-found": "Nie znalazłam żadnego artykułu na wikipedii",
+  "cmd-wiki-multiple-found": "Z tą frazą jest powiązanych wiele artykułów.\nKliknij w tytuł aby otworzyć artykuł w przeglądarce.",
+  "cmd-wiki-source": "Źródło",
+  "cmd-wiki-desc": "Wyświetla wyniki z wikipedii",
+  "cmd-wiki-short-usage-info": "`fraza`"
 }

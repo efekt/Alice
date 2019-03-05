@@ -31,7 +31,7 @@ public abstract class Command extends ListenerAdapter {
     private Logger logger = LoggerFactory.getLogger(Command.class);
     private boolean isNsfw = false;
     private boolean isAdminCommand = false;
-    private CommandCategory category;
+    private CommandCategory category = CommandCategory.BLANK;
 
     public Command(String alias){
         this.alias = alias;
