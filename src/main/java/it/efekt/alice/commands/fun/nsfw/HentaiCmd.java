@@ -9,7 +9,7 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import java.util.*;
 
 public class HentaiCmd extends Command {
-    List<String> categories = new ArrayList<>();
+    private List<String> categories = new ArrayList<>();
     private DanbooruApi danbooru = new DanbooruApi();
 
     public HentaiCmd(String alias) {
