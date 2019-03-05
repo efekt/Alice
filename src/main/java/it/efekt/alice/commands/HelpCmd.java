@@ -17,6 +17,7 @@ public class HelpCmd extends Command {
         super(alias);
         setShortUsageInfo(Message.CMD_HELP_SHORT_USAGE_INFO);
         setDescription(Message.CMD_HELP_DESCRIPTION);
+        setCategory(CommandCategory.UTILS);
     }
 
     @Override
