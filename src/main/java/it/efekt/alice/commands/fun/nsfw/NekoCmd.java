@@ -13,7 +13,7 @@ public class NekoCmd extends Command {
     public NekoCmd(String alias) {
         super(alias);
         setDescription(Message.CMD_NEKO_DESC);
-        setCategory(CommandCategory.FUN);
+        setCategory(CommandCategory.NSFW);
         setNsfw(true);
     }
 

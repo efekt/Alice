@@ -22,7 +22,7 @@ public class ApexStatsCmd extends Command {
 
     public ApexStatsCmd(String alias) {
         super(alias);
-        setCategory(CommandCategory.FUN);
+        setCategory(CommandCategory.GAMES);
         setShortUsageInfo(Message.CMD_APEX_SHORT_USAGE_INFO);
         setFullUsageInfo(Message.CMD_APEX_FULL_USAGE_INFO);
         setDescription(Message.CMD_APEX_DESC);

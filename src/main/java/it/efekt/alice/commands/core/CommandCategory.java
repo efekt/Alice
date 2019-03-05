@@ -5,7 +5,8 @@ public enum CommandCategory {
     BOT_ADMIN("admin"),
     UTILS("Utils"),
     FUN("Fun"),
-    NSFW("NSFW");
+    NSFW("NSFW"),
+    GAMES("Games");
 
     String name;
 

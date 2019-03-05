@@ -17,7 +17,7 @@ public class HentaiCmd extends Command {
         setDescription(Message.CMD_HENTAI_DESC);
         setNsfw(true);
         setShortUsageInfo(Message.CMD_HENTAI_SHORT_USAGE_INFO);
-        setCategory(CommandCategory.FUN);
+        setCategory(CommandCategory.NSFW);
         loadCategories();
     }
 

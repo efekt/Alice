@@ -17,7 +17,7 @@ public class MinecraftStatusCmd extends Command {
         setDescription(Message.CMD_MC_DESC);
         setShortUsageInfo(Message.CMD_MC_SHORT_USAGE_INFO);
         setFullUsageInfo(Message.CMD_MC_FULL_USAGE_INFO);
-        setCategory(CommandCategory.FUN);
+        setCategory(CommandCategory.GAMES);
     }
 
     @Override

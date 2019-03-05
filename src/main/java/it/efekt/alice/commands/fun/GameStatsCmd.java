@@ -16,7 +16,7 @@ public class GameStatsCmd extends Command {
 
     public GameStatsCmd(String alias) {
         super(alias);
-        setCategory(CommandCategory.FUN);
+        setCategory(CommandCategory.GAMES);
         setDescription(Message.CMD_GAMESTATS_DESC);
     }
 

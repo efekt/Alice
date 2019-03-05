@@ -73,7 +73,7 @@ public class HelpCmd extends Command {
                     if (cmd.canUseCmd(e.getMember())) {
                         String nsfwString = cmd.isNsfw() ? " " + Message.CMD_NSFW_NOTIFICATION.get(e): "";
                         String guildPrefix = AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild()).getPrefix();
-                        commandsAliases.add("`" + guildPrefix + cmd.getAlias() + nsfwString+"`");
+                        commandsAliases.add("`" + guildPrefix + cmd.getAlias() + "`");
                     }
                 }
 
