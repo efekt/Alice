@@ -28,7 +28,7 @@ public class Language {
         if (this.langStrings.containsKey(key)){
             return new LanguageString(this.langStrings.get(key));
         }
-        logger.info("Language key " + key + " not found, displaying default value");
+        logger.debug("Language key " + key + " not found, displaying default value");
         return new LanguageString(Message.getDefaultMessage(key).getDefaultValue());
     }
 
