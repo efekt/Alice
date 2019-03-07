@@ -1,4 +1,4 @@
-package it.efekt.alice.commands.fun.nsfw;
+package it.efekt.alice.commands.nsfw;
 
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;

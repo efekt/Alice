@@ -1,4 +1,4 @@
-package it.efekt.alice.commands.fun;
+package it.efekt.alice.commands.games;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;

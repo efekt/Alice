@@ -1,4 +1,4 @@
-package it.efekt.alice.commands.fun;
+package it.efekt.alice.commands.games;
 
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
