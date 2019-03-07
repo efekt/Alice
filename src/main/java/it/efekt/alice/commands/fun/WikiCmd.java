@@ -41,9 +41,15 @@ public class WikiCmd extends Command {
 
             String pageUrl = "https://"+lang+".wikipedia.org/?curid="+ wikiPage.getLong("pageid");
             String desc = wikiPage.getString("extract");
-            if (desc.length() >= 300){
+            if (desc.length() >= 1024){
                 desc = desc.split("\n", 2)[0].concat("...");
             }
+
+            if (desc.length() >= 1024){
+                desc = desc.substring(0, 1000).concat("...");
+            }
+
+
 
             if (wikiPage.getJSONObject("pageprops").has("disambiguation")){
                 desc = Message.CMD_WIKI_MULTIPLE_FOUND.get(e);
