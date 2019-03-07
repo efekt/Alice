@@ -1,3 +1,6 @@
+[![Discord Bots](https://discordbots.org/api/widget/status/537011515014774785.svg)](https://discordbots.org/bot/537011515014774785)
+<img align="right" src="https://cdn.discordapp.com/attachments/503253103017984020/551212038836191252/alice_avatar_3.jpg" height="200" width="200">
+
 # Alice - multipurpose discord bot
 ## Features:
 - Multi-language support  
