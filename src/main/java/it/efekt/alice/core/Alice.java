@@ -2,13 +2,20 @@ package it.efekt.alice.core;
 
 import it.efekt.alice.commands.HelpCmd;
 import it.efekt.alice.commands.fun.*;
+import it.efekt.alice.commands.games.ApexStatsCmd;
+import it.efekt.alice.commands.games.GameStatsCmd;
+import it.efekt.alice.commands.games.MinecraftStatusCmd;
 import it.efekt.alice.commands.util.*;
 import it.efekt.alice.commands.admin.StatusCmd;
 import it.efekt.alice.commands.admin.StopCmd;
 import it.efekt.alice.commands.core.CommandManager;
-import it.efekt.alice.commands.fun.nsfw.HentaiCmd;
-import it.efekt.alice.commands.fun.nsfw.NekoCmd;
-import it.efekt.alice.commands.mentions.Greetings;
+import it.efekt.alice.commands.nsfw.HentaiCmd;
+import it.efekt.alice.commands.nsfw.NekoCmd;
+import it.efekt.alice.commands.voice.JoinCmd;
+import it.efekt.alice.commands.voice.LeaveCmd;
+import it.efekt.alice.commands.voice.PlayCmd;
+import it.efekt.alice.modules.AliceAudioManager;
+import it.efekt.alice.modules.mentions.Greetings;
 import it.efekt.alice.config.Config;
 import it.efekt.alice.config.GuildConfigManager;
 import it.efekt.alice.lang.LanguageManager;
@@ -22,8 +29,8 @@ import it.efekt.alice.modules.UserStatsManager;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
-
 import javax.security.auth.login.LoginException;
+
 
 public class Alice {
     private JDA jda;
@@ -34,6 +41,7 @@ public class Alice {
     private UserStatsManager userStatsManager;
     private GameStatsManager gameStatsManager;
     private LanguageManager languageManager;
+    private AliceAudioManager aliceAudioManager;
 
     public Alice(Config config){
             this.config = config;
@@ -73,6 +81,9 @@ public class Alice {
         getCmdManager().setExecutor(new GameStatsCmd("topgames"));
         getCmdManager().setExecutor(new LoliCmd("loli"));
         getCmdManager().setExecutor(new WikiCmd("wiki"));
+        getCmdManager().setExecutor(new JoinCmd("join"));
+        getCmdManager().setExecutor(new LeaveCmd("leave"));
+        getCmdManager().setExecutor(new PlayCmd("play"));
     }
 
 
@@ -108,6 +119,10 @@ public class Alice {
         return languageManager;
     }
 
+    public AliceAudioManager getAliceAudioManager() {
+        return aliceAudioManager;
+    }
+
     private void init(){
         Runtime.getRuntime().addShutdownHook(new ShutdownThread(this));
         try {
@@ -118,6 +133,7 @@ public class Alice {
             this.userStatsManager = new UserStatsManager(this);
             this.gameStatsManager = new GameStatsManager(this);
             this.languageManager = new LanguageManager();
+            this.aliceAudioManager = new AliceAudioManager();
             registerCommands();
         } catch (LoginException e) {
             e.printStackTrace();
