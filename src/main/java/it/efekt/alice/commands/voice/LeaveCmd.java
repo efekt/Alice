@@ -1,12 +1,16 @@
 package it.efekt.alice.commands.voice;
 
 import it.efekt.alice.commands.core.Command;
+import it.efekt.alice.commands.core.CommandCategory;
+import it.efekt.alice.lang.Message;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.managers.AudioManager;
 
 public class LeaveCmd extends Command {
     public LeaveCmd(String alias) {
         super(alias);
+        setCategory(CommandCategory.VOICE);
+        setDescription(Message.CMD_LEAVE_DESC);
     }
 
     @Override
@@ -14,11 +18,11 @@ public class LeaveCmd extends Command {
         AudioManager audioManager = e.getGuild().getAudioManager();
         if (audioManager.isConnected()){
             audioManager.closeAudioConnection();
-            e.getChannel().sendMessage("Ok, I left the channel").complete();
+            e.getChannel().sendMessage(Message.CMD_LEAVE_LEFT.get(e)).complete();
             return true;
         }
 
-        e.getChannel().sendMessage("I was not connected in the first place! :rolling_eyes:").complete();
+        e.getChannel().sendMessage(Message.CMD_LEAVE_NOT_CONNECTED.get(e)).complete();
         return true;
     }
 }

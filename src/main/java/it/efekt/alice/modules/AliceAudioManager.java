@@ -6,6 +6,8 @@ import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import it.efekt.alice.commands.voice.TrackScheduler;
+import it.efekt.alice.core.AliceBootstrap;
+import it.efekt.alice.lang.Message;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -61,8 +63,8 @@ public class AliceAudioManager {
         playRemoteSource(e.getGuild(), content, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack audioTrack) {
-                e.getChannel().sendMessage("Playing..." + audioTrack.getInfo().title).complete();
                 getAudioPlayer(e.getGuild()).playTrack(audioTrack);
+                AliceBootstrap.alice.getCmdManager().getCommand("np").onCommand(e);
             }
 
             @Override
@@ -72,12 +74,12 @@ public class AliceAudioManager {
 
             @Override
             public void noMatches() {
-                e.getChannel().sendMessage("Nothing found").complete();
+                e.getChannel().sendMessage(Message.VOICE_NOTHING_FOUND.get(e.getGuild())).complete();
             }
 
             @Override
             public void loadFailed(FriendlyException exc) {
-                e.getChannel().sendMessage("loading failed\n"+exc.getLocalizedMessage()).complete();
+                e.getChannel().sendMessage(Message.VOICE_LOADING_FAILED.get(e.getGuild()) + "\n"+exc.getLocalizedMessage()).complete();
 
             }
         });

@@ -11,9 +11,7 @@ import it.efekt.alice.commands.admin.StopCmd;
 import it.efekt.alice.commands.core.CommandManager;
 import it.efekt.alice.commands.nsfw.HentaiCmd;
 import it.efekt.alice.commands.nsfw.NekoCmd;
-import it.efekt.alice.commands.voice.JoinCmd;
-import it.efekt.alice.commands.voice.LeaveCmd;
-import it.efekt.alice.commands.voice.PlayCmd;
+import it.efekt.alice.commands.voice.*;
 import it.efekt.alice.modules.AliceAudioManager;
 import it.efekt.alice.modules.mentions.Greetings;
 import it.efekt.alice.config.Config;
@@ -84,6 +82,8 @@ public class Alice {
         getCmdManager().setExecutor(new JoinCmd("join"));
         getCmdManager().setExecutor(new LeaveCmd("leave"));
         getCmdManager().setExecutor(new PlayCmd("play"));
+        getCmdManager().setExecutor(new NowPlayingCmd("np"));
+        getCmdManager().setExecutor(new PauseCmd("pause"));
     }
 
 

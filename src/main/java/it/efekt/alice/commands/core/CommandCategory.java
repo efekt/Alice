@@ -6,7 +6,8 @@ public enum CommandCategory {
     UTILS("Utils"),
     FUN("Fun"),
     NSFW("NSFW"),
-    GAMES("Games");
+    GAMES("Games"),
+    VOICE("Voice");
 
     String name;
 
