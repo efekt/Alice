@@ -4,6 +4,13 @@
 # Alice - multipurpose discord bot
 ## Features:
 - Multi-language support  
+- Music Player
+    - YouTube
+    - SoundCloud
+    - Bandcamp
+    - Vimeo
+    - Twitch streams
+    - http urls
 - Logger (logs events to a specified #channel)  
   - user joins/leaves the server  
   - user enters/leaves/changes voice channel  
