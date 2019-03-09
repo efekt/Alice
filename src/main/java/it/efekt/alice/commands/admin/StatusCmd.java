@@ -16,11 +16,14 @@ public class StatusCmd extends Command {
     @Override
     public boolean onCommand(MessageReceivedEvent e) {
         String status = String.join(" ", getArgs());
-        if (status != null){
-            e.getJDA().getPresence().setGame(Game.watching(status));
+        if (!status.isEmpty()){
+            e.getJDA().getPresence().setGame(Game.listening(status));
             return true;
         } else {
-            e.getJDA().getPresence().setGame(Game.watching("Sword Art Online"));
+            int guilds = e.getJDA().getGuilds().size();
+            int users = e.getJDA().getUsers().size();
+
+            e.getJDA().getPresence().setGame(Game.listening(users + " users on " + guilds + " servers"));
             return true;
         }
     }
