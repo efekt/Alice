@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 public class GameStatsCmd extends Command {
     private final int MIN_TIME_PLAYED = 30;
-    private final int MAX_TO_PRINT = 30;
+    private final int MAX_TO_PRINT = 15;
 
     public GameStatsCmd(String alias) {
         super(alias);
@@ -47,6 +47,7 @@ public class GameStatsCmd extends Command {
 
             // Print only if timePlayed is larger than 30 minutes
             //if (timePlayed >= MIN_TIME_PLAYED){
+                gameName = gameName.length()>30 ? gameName.substring(0, 25).concat("...") : gameName;
                 output = output.concat("**"+i+".** **" + gameName + "**: _" + day + "d " + hoursPlayed + "h " + minutesPlayed + "m " + "_\n");
             //}
             if (i >= MAX_TO_PRINT){
