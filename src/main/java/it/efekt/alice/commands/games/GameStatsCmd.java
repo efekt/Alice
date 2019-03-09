@@ -47,7 +47,7 @@ public class GameStatsCmd extends Command {
 
             // Print only if timePlayed is larger than 30 minutes
             //if (timePlayed >= MIN_TIME_PLAYED){
-                gameName = gameName.length()>30 ? gameName.substring(0, 25).concat("...") : gameName;
+                gameName = gameName.length()>35 ? gameName.substring(0, 30).concat("...") : gameName;
                 output = output.concat("**"+i+".** **" + gameName + "**: _" + day + "d " + hoursPlayed + "h " + minutesPlayed + "m " + "_\n");
             //}
             if (i >= MAX_TO_PRINT){
