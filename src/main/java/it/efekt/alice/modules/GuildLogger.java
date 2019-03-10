@@ -51,33 +51,58 @@ public class GuildLogger extends ListenerAdapter {
 
     @Override
     public void onUserUpdateOnlineStatus(UserUpdateOnlineStatusEvent e){
-        log(e.getGuild(), Message.LOGGER_USER_CHANGES_STATUS.get(e.getGuild(), e.getUser().getName(), e.getNewOnlineStatus().name()));
+        try {
+            log(e.getGuild(), Message.LOGGER_USER_CHANGES_STATUS.get(e.getGuild(), e.getUser().getName(), e.getNewOnlineStatus().name()));
+        } catch(Exception exc){
+            exc.printStackTrace();
+        }
     }
 
     @Override
     public void onGuildVoiceJoin(GuildVoiceJoinEvent e){
+        try {
         log(e.getGuild(), Message.LOGGER_USER_JOINS_VOICE.get(e.getGuild(), e.getMember().getEffectiveName(), e.getChannelJoined().getName()));
+        } catch(Exception exc){
+            exc.printStackTrace();
+        }
     }
 
     @Override
     public void onGuildVoiceLeave(GuildVoiceLeaveEvent e){
+        try {
         log(e.getGuild(), Message.LOGGER_USER_LEAVES_VOICE.get(e.getGuild(), e.getMember().getEffectiveName(), e.getChannelLeft().getName()));
+        } catch(Exception exc){
+            exc.printStackTrace();
+        }
     }
 
     @Override
     public void onGuildVoiceMove(GuildVoiceMoveEvent e){
+        try {
         log(e.getGuild(), Message.LOGGER_USER_SWITCHES_VOICE.get(e.getGuild(), e.getMember().getEffectiveName(), e.getChannelLeft().getName(), e.getChannelJoined().getName()));
+        } catch(Exception exc){
+            exc.printStackTrace();
+        }
     }
 
 
 
     private boolean isLoggerSet(Guild guild){
-        if (!guild.isAvailable()){
-            return false;
+        boolean is = false;
+
+        try {
+            if (!guild.isAvailable()) {
+                return false;
+            }
+
+            GuildConfig config = AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(guild);
+            is = config.getLogChannel() != null;
+        }
+        catch(Exception exc){
+            exc.printStackTrace();
         }
 
-        GuildConfig config = AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(guild);
-        return config.getLogChannel() != null;
+        return is;
     }
 
     private GuildConfig getGuildConfig(Guild guild){
@@ -85,6 +110,7 @@ public class GuildLogger extends ListenerAdapter {
     }
 
     public void log(Guild guild, String message){
+        try {
         if (isLoggerSet(guild)){
             if (guild.getJDA().getTextChannelById(getGuildConfig(guild).getLogChannel()) == null){
                 return;
@@ -103,6 +129,9 @@ public class GuildLogger extends ListenerAdapter {
                     privateChannel.sendMessage(Message.MODULE_LOGGER_INSUFFICIENT_PERMS.get(AliceBootstrap.alice.getLanguageManager().getLang(LangCode.valueOf(getGuildConfig(guild).getLocale())), guildOwner.getAsMention(), logChannel.getAsMention())).queue();
                 });
             }
+        }
+        } catch(Exception exc){
+            exc.printStackTrace();
         }
     }
 
