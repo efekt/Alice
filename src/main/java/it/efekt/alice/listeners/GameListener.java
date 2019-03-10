@@ -33,16 +33,18 @@ public class GameListener extends ListenerAdapter {
             return;
         }
 
-        try {
+
             long elapsed = e.getOldGame().getTimestamps().getElapsedTime(ChronoUnit.MINUTES);
             if (elapsed >= 1 && gameName.length()<=128) {
-                gameStats.addTimePlayed(elapsed);
-                logger.debug("user: " + user.getId() + " server: " + guild.getId() + " game: " + gameName + " addedTime: " + elapsed + "min");
-                gameStats.save();
+                try {
+                    gameStats.addTimePlayed(elapsed);
+                    logger.debug("user: " + user.getId() + " server: " + guild.getId() + " game: " + gameName + " addedTime: " + elapsed + "min");
+                    gameStats.save();
+                } catch (Exception exc){
+                    //logger.debug("Closed game does not contain ElapsedTime value, omitting..");
+                    exc.printStackTrace();
+                }
             }
-        } catch (Exception exc){
-            //logger.debug("Closed game does not contain ElapsedTime value, omitting..");
-            exc.printStackTrace();
-        }
+
     }
 }
