@@ -23,10 +23,4 @@ public class MessageListener extends ListenerAdapter {
         //At this moment it saves info to db every time new message is received, todo make it save periodically later...
         //userStats.save();
     }
-
-    @Override
-    public void onException(ExceptionEvent e){
-        logger.error(e.getCause().getLocalizedMessage());
-    }
-
 }
