@@ -24,16 +24,12 @@ public class GameStatsManager {
     }
 
     public void loadGameStats(){
-        try {
-            logger.info("Loading game stats...");
-            Session session = AliceBootstrap.hibernate.getSession();
-            session.beginTransaction();
-            this.gameStats.addAll(session.createQuery("from GameStats").getResultList());
-            session.getTransaction().commit();
-            logger.info("Loaded all " + this.gameStats.size() + " game stats");
-        } catch (Exception exc){
-            exc.printStackTrace();
-        }
+        logger.info("Loading game stats...");
+        Session session = AliceBootstrap.hibernate.getSession();
+        session.beginTransaction();
+        this.gameStats.addAll(session.createQuery("from GameStats").getResultList());
+        session.getTransaction().commit();
+        logger.info("Loaded all " + this.gameStats.size() + " game stats");
     }
 
     public void saveAllUserStats(){

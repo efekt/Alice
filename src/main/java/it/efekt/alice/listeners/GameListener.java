@@ -36,14 +36,9 @@ public class GameListener extends ListenerAdapter {
 
             long elapsed = e.getOldGame().getTimestamps().getElapsedTime(ChronoUnit.MINUTES);
             if (elapsed >= 1 && gameName.length()<=128) {
-                try {
-                    gameStats.addTimePlayed(elapsed);
-                    logger.debug("user: " + user.getId() + " server: " + guild.getId() + " game: " + gameName + " addedTime: " + elapsed + "min");
-                    gameStats.save();
-                } catch (Exception exc){
-                    //logger.debug("Closed game does not contain ElapsedTime value, omitting..");
-                    exc.printStackTrace();
-                }
+                gameStats.addTimePlayed(elapsed);
+                logger.debug("user: " + user.getId() + " server: " + guild.getId() + " game: " + gameName + " addedTime: " + elapsed + "min");
+                gameStats.save();
             }
 
     }
