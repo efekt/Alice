@@ -21,7 +21,7 @@ public class PlayCmd extends Command {
     public boolean onCommand(MessageReceivedEvent e) {
         AliceAudioManager aliceAudioManager = AliceBootstrap.alice.getAliceAudioManager();
         if (getArgs().length >= 1){
-            String query = Arrays.toString(getArgs()).replaceAll(",", "").replaceAll("]", "").replaceAll("\\[", "");
+            String query = String.join(" ", getArgs());
             play(e, query);
             return true;
         } else {

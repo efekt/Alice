@@ -51,7 +51,7 @@ public class LangCmd extends Command {
      }
 
      private void showAvailableLanguages(MessageReceivedEvent e){
-         e.getChannel().sendMessage(Message.CMD_LANG_AVAILABLE_LANGS.get(e, getLangValues().toString().replaceAll("\\[", "").replaceAll("]", ""))).queue();
+         e.getChannel().sendMessage(Message.CMD_LANG_AVAILABLE_LANGS.get(e, String.join(" ", getLangValues()))).queue();
      }
 
      private void setGuildLanguage(Guild guild, LangCode langCode){

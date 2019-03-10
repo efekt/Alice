@@ -41,8 +41,8 @@ public class HelpCmd extends Command {
             }
 
             String prefix = getGuildPrefix(e.getGuild());
-            String requiredPermissions = cmd.getPermissions().toString().replaceAll("\\[", "")
-                    .replaceAll("]", "");
+            String requiredPermissions = cmd.getPermissions().toString().replace("[", "")
+                    .replace("]", "");
 
             embedBuilder.setTitle(null);
             String localizedDesc = cmd.getDesc().get(e);
@@ -78,10 +78,10 @@ public class HelpCmd extends Command {
                     }
                 }
 
-                String commandAliasesFormated = commandsAliases.toString().replaceAll("\\[", "")
-                        .replaceAll("\\[", "")
-                        .replaceAll("\\]", "")
-                        .replaceAll(",", "");
+                String commandAliasesFormated = commandsAliases.toString().replace("[", "")
+                        .replace("[", "")
+                        .replace("]", "")
+                        .replace(",", "");
 
                 embedBuilder.addField(cat.getName(),commandAliasesFormated, false);
                 embedBuilder.setFooter(getGuildPrefix(e.getGuild()) + getAlias() + " " +Message.CMD_HELP_FOOTER.get(e), "https://images-ext-2.discordapp.net/external/YZ0U9nMuSvG1cb1raXhrkw8Ut8ZBVQT4ia-alVadE7E/https/i.imgur.com/qZe2WZz.jpg");

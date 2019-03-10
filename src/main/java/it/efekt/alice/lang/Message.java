@@ -152,7 +152,7 @@ public enum Message {
     }
 
     public String getKey(){
-        return this.name().replaceAll("_", "-").toLowerCase();
+        return this.name().replace("_", "-").toLowerCase();
     }
 
     public String getDefaultValue(){

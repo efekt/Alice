@@ -11,8 +11,6 @@ import it.efekt.alice.lang.Message;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import org.json.JSONObject;
-
-import java.util.Arrays;
 import java.util.Set;
 
 public class WikiCmd extends Command {
@@ -31,7 +29,7 @@ public class WikiCmd extends Command {
         lang = AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild()).getLocale().split("_", 2)[0];
 
         if (getArgs().length >= 1){
-            String query = Arrays.toString(getArgs()).replaceAll(",", "").replaceAll("]", "").replaceAll("\\[", "");
+            String query = String.join(" ", getArgs());
             JSONObject wikiPage = query(query);
 
             if (wikiPage == null){

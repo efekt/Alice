@@ -52,7 +52,7 @@ public class MinecraftStatusCmd extends Command {
     private String getCleanMotd(String motd){
         String cleanMotd = motd;
         for (String colorCode : this.chatColorCodes){
-            cleanMotd = cleanMotd.replaceAll(colorCode, "");
+            cleanMotd = cleanMotd.replace(colorCode, "");
         }
         return cleanMotd;
     }

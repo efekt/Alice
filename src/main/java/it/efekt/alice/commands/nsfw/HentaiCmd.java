@@ -120,7 +120,7 @@ public class HentaiCmd extends Command {
     }
 
     private String getCategoriesString(){
-        return this.categories.toString().replaceAll("\\]", "`").replaceAll("\\[", "`").replaceAll(" ", " `").replaceAll(",", "`");
+        return this.categories.toString().replace("]", "`").replace("[", "`").replace(" ", " `").replace(",", "`");
     }
 
 }
