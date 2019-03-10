@@ -20,7 +20,8 @@ public class LanguageString {
     private void replaceVars(String... vars){
         int i = 1;
         for (String var : vars){
-            this.text = text.replaceAll("\\{"+i+"}", var);
+            String newVar = var.replaceAll("\\$", "\\\\\\$");
+            this.text = text.replaceAll("\\{"+i+"}", newVar);
                     i++;
         }
     }
