@@ -23,8 +23,14 @@ public class HistoryDeletionCmd extends Command {
             //-?    negative sign, could have none or one
             //\\d+  one or more digits
             if (getArgs()[0].matches("-?\\d+")) {
-                removeLast(e.getTextChannel(), Integer.parseInt(getArgs()[0]));
-                return true;
+                int toRemove = Integer.parseInt(getArgs()[0]);
+                if (toRemove <= 99){
+                    removeLast(e.getTextChannel(), toRemove);
+                    return true;
+                } else {
+                    e.getChannel().sendMessage(Message.CMD_HISTORYDEL_RANGE.get(e)).complete();
+                    return true;
+                }
             }
         }
         return false;

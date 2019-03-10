@@ -30,18 +30,22 @@ public class GuildLogger extends ListenerAdapter {
 
     @Override
     public void onGenericGuild(GenericGuildEvent e){
-        if (isLoggerSet(e.getGuild())){
-            GuildConfig config = AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild());
+        try {
+            if (isLoggerSet(e.getGuild())) {
+                GuildConfig config = AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild());
 
-            if (e instanceof GuildMemberJoinEvent){
-                GuildMemberJoinEvent event = (GuildMemberJoinEvent) e;
-                log(e.getGuild(), Message.LOGGER_USER_JOINS_GUILD.get(e.getGuild(), event.getMember().getEffectiveName()));
-            }
+                if (e instanceof GuildMemberJoinEvent) {
+                    GuildMemberJoinEvent event = (GuildMemberJoinEvent) e;
+                    log(e.getGuild(), Message.LOGGER_USER_JOINS_GUILD.get(e.getGuild(), event.getMember().getEffectiveName()));
+                }
 
-            if (e instanceof GuildMemberLeaveEvent){
-                GuildMemberLeaveEvent event = (GuildMemberLeaveEvent) e;
-                log(e.getGuild(), Message.LOGGER_USER_LEAVES_GUILD.get(e.getGuild(), event.getMember().getEffectiveName()));
+                if (e instanceof GuildMemberLeaveEvent) {
+                    GuildMemberLeaveEvent event = (GuildMemberLeaveEvent) e;
+                    log(e.getGuild(), Message.LOGGER_USER_LEAVES_GUILD.get(e.getGuild(), event.getMember().getEffectiveName()));
+                }
             }
+        } catch (Exception exc){
+            exc.printStackTrace();
         }
     }
 
