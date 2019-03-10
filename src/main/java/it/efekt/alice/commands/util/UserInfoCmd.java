@@ -45,9 +45,10 @@ public class UserInfoCmd extends Command {
 
         embedBuilder.addField(it.efekt.alice.lang.Message.CMD_USERINFO_ACCOUNT_CREATED.get(e), user.getCreationTime().format(dateFormat), false);
         UserStats userStats = AliceBootstrap.alice.getUserStatsManager().getUserStats(user, e.getGuild());
-        embedBuilder.addField(it.efekt.alice.lang.Message.CMD_USERINFO_SPAM_LVL.get(e), String.valueOf((int)new SpamLevelManager().getPlayerLevel(user, e.getGuild())), false);
-        embedBuilder.addField(it.efekt.alice.lang.Message.CMD_USERINFO_MSGS_SENT.get(e), String.valueOf(userStats.getMessagesAmount()), false);
-
+        if (user.isFake() || user.isBot()) {
+            embedBuilder.addField(it.efekt.alice.lang.Message.CMD_USERINFO_SPAM_LVL.get(e), String.valueOf((int) new SpamLevelManager().getPlayerLevel(user, e.getGuild())), false);
+            embedBuilder.addField(it.efekt.alice.lang.Message.CMD_USERINFO_MSGS_SENT.get(e), String.valueOf(userStats.getMessagesAmount()), false);
+        }
         e.getChannel().sendMessage(embedBuilder.build()).complete();
     }
 

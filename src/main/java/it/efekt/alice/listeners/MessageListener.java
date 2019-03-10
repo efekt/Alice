@@ -4,7 +4,6 @@ import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.db.UserStats;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.User;
-import net.dv8tion.jda.core.events.ExceptionEvent;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import org.slf4j.Logger;
