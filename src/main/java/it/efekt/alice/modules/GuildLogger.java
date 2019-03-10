@@ -33,8 +33,6 @@ public class GuildLogger extends ListenerAdapter {
         if (isLoggerSet(e.getGuild())){
             GuildConfig config = AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild());
 
-            TextChannel logChannel = e.getJDA().getTextChannelById(config.getLogChannel());
-
             if (e instanceof GuildMemberJoinEvent){
                 GuildMemberJoinEvent event = (GuildMemberJoinEvent) e;
                 log(e.getGuild(), Message.LOGGER_USER_JOINS_GUILD.get(e.getGuild(), event.getMember().getEffectiveName()));
@@ -80,7 +78,12 @@ public class GuildLogger extends ListenerAdapter {
 
     public void log(Guild guild, String message){
         if (isLoggerSet(guild)){
+            if (guild.getJDA().getTextChannelById(getGuildConfig(guild).getLogChannel()) == null){
+                return;
+            }
+
             TextChannel logChannel = guild.getJDA().getTextChannelById(getGuildConfig(guild).getLogChannel());
+
             try {
                 DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss");
                 String dateTime = LocalDateTime.now().format(dateFormat);
@@ -91,6 +94,8 @@ public class GuildLogger extends ListenerAdapter {
                 guildOwner.openPrivateChannel().queue(privateChannel -> {
                     privateChannel.sendMessage(Message.MODULE_LOGGER_INSUFFICIENT_PERMS.get(AliceBootstrap.alice.getLanguageManager().getLang(LangCode.valueOf(getGuildConfig(guild).getLocale())), guildOwner.getAsMention(), logChannel.getAsMention())).queue();
                 });
+            } catch(Exception exc){
+                exc.printStackTrace();
             }
         }
     }
