@@ -51,6 +51,6 @@ public class Language {
             logger.info("Loaded language: " + getLangCode());
             return;
         }
-        logger.error("Couldn't load language: " + getLangCode() + " File not found.");
+        logger.warn("Couldn't load language: " + getLangCode() + " File not found.");
     }
 }

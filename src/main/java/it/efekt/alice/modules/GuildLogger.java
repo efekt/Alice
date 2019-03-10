@@ -96,14 +96,12 @@ public class GuildLogger extends ListenerAdapter {
                 DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss");
                 String dateTime = LocalDateTime.now().format(dateFormat);
                 logChannel.sendMessage("`[" + dateTime + "]` " + message).queue();
-            } catch(InsufficientPermissionException exc){
+            } catch(InsufficientPermissionException exc) {
                 User guildOwner = guild.getOwner().getUser();
                 getGuildConfig(guild).setLogChannel(null);
                 guildOwner.openPrivateChannel().queue(privateChannel -> {
                     privateChannel.sendMessage(Message.MODULE_LOGGER_INSUFFICIENT_PERMS.get(AliceBootstrap.alice.getLanguageManager().getLang(LangCode.valueOf(getGuildConfig(guild).getLocale())), guildOwner.getAsMention(), logChannel.getAsMention())).queue();
                 });
-            } catch(Exception exc){
-                exc.printStackTrace();
             }
         }
     }
