@@ -6,12 +6,15 @@ import it.efekt.alice.db.GameStats;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.User;
 import org.hibernate.Session;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class GameStatsManager {
+    private Logger logger = LoggerFactory.getLogger(GameStatsManager.class);
     private Alice alice;
     private List<GameStats> gameStats = new ArrayList<>();
 
@@ -21,10 +24,12 @@ public class GameStatsManager {
     }
 
     public void loadGameStats(){
+        logger.info("Loading game stats...");
         Session session = AliceBootstrap.hibernate.getSession();
         session.beginTransaction();
         this.gameStats.addAll(session.createQuery("from GameStats").getResultList());
         session.getTransaction().commit();
+        logger.info("Loaded all " + this.gameStats.size() + " game stats");
     }
 
     public void saveAllUserStats(){

@@ -16,9 +16,11 @@ public class LanguageManager {
     }
 
     private void loadAll(){
+       logger.info("Loading language files...");
        for (LangCode langCode : LangCode.values()){
            this.languageList.add(new Language(langCode));
        }
+       logger.info("Loaded all " + languageList.size() + " languages");
     }
 
     public Language getLang(LangCode language){
