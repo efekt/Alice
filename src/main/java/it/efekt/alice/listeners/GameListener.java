@@ -15,31 +15,34 @@ public class GameListener extends ListenerAdapter {
     private Logger logger = LoggerFactory.getLogger(GameListener.class);
     @Override
     public void onUserUpdateGame(UserUpdateGameEvent e) {
-        User user = e.getUser();
-        Guild guild = e.getGuild();
+        try {
+            User user = e.getUser();
+            Guild guild = e.getGuild();
 
-        if (e.getOldGame() == null || user.isBot()){
-            return;
-        }
+            if (e.getOldGame() == null || user.isBot()) {
+                return;
+            }
 
-        String gameName = e.getOldGame().getName();
-        GameStats gameStats = AliceBootstrap.alice.getGameStatsManager().getGameStats(user, guild, gameName);
+            String gameName = e.getOldGame().getName();
+            GameStats gameStats = AliceBootstrap.alice.getGameStatsManager().getGameStats(user, guild, gameName);
 
-        if (e.getNewGame() != null && e.getNewGame().getName().equalsIgnoreCase(e.getOldGame().getName())){
-            return;
-        }
+            if (e.getNewGame() != null && e.getNewGame().getName().equalsIgnoreCase(e.getOldGame().getName())) {
+                return;
+            }
 
-        if (e.getOldGame().getTimestamps() == null){
-            return;
-        }
+            if (e.getOldGame().getTimestamps() == null) {
+                return;
+            }
 
 
             long elapsed = e.getOldGame().getTimestamps().getElapsedTime(ChronoUnit.MINUTES);
-            if (elapsed >= 1 && gameName.length()<=128) {
+            if (elapsed >= 1 && gameName.length() <= 128) {
                 gameStats.addTimePlayed(elapsed);
                 logger.debug("user: " + user.getId() + " server: " + guild.getId() + " game: " + gameName + " addedTime: " + elapsed + "min");
                 gameStats.save();
             }
-
+        } catch (Exception exc){
+            exc.printStackTrace();
+        }
     }
 }
