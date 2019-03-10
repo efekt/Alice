@@ -36,8 +36,9 @@ public class GameListener extends ListenerAdapter {
                 logger.debug("user: " + user.getId() + " server: " + guild.getId() + " game: " + gameName + " addedTime: " + elapsed + "min");
                 gameStats.save();
             }
-        } catch (NullPointerException exc){
-            logger.debug("Closed game does not contain ElapsedTime value, omitting..");
+        } catch (Exception exc){
+            //logger.debug("Closed game does not contain ElapsedTime value, omitting..");
+            exc.printStackTrace();
         }
     }
 }
