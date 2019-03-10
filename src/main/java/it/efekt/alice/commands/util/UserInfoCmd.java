@@ -25,7 +25,7 @@ public class UserInfoCmd extends Command {
     public boolean onCommand(MessageReceivedEvent e) {
         Message msg = e.getMessage();
 
-        if (getArgs().length == 1 && !msg.getMentionedUsers().isEmpty()){
+        if (getArgs().length >= 1 && !msg.getMentionedUsers().isEmpty()){
             User user = msg.getMentionedUsers().stream().findFirst().get();
             showInfo(e, user);
             return true;
