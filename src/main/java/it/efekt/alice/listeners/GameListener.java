@@ -29,6 +29,10 @@ public class GameListener extends ListenerAdapter {
             return;
         }
 
+        if (e.getOldGame().getTimestamps() == null){
+            return;
+        }
+
         try {
             long elapsed = e.getOldGame().getTimestamps().getElapsedTime(ChronoUnit.MINUTES);
             if (elapsed >= 1 && gameName.length()<=128) {
