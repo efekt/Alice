@@ -19,6 +19,11 @@ public class MessageListener extends ListenerAdapter {
             Guild guild = e.getGuild();
             User user = e.getAuthor();
 
+            // ignoring bots
+            if (user.isBot() || user.isFake()){
+                return;
+            }
+
             UserStats userStats = AliceBootstrap.alice.getUserStatsManager().getUserStats(user, guild);
             userStats.addAndSave(1);
             //At this moment it saves info to db every time new message is received, todo make it save periodically later...
