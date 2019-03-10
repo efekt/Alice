@@ -72,6 +72,12 @@ public class GuildLogger extends ListenerAdapter {
 
 
     private boolean isLoggerSet(Guild guild){
+
+        // Sometimes people removes discord servers, then I cannot resolve guildId
+        if (AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(guild) == null){
+            return false;
+        }
+
         GuildConfig config = AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(guild);
         return config.getLogChannel() != null;
     }
