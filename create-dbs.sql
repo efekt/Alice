@@ -2,7 +2,7 @@ CREATE TABLE `game_stats` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `guild_id` varchar(45) DEFAULT NULL,
   `user_id` varchar(45) DEFAULT NULL,
-  `game_name` varchar(100) DEFAULT 'DEFAULT',
+  `game_name` varchar(128) DEFAULT 'DEFAULT',
   `time_played` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
