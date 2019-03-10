@@ -19,7 +19,7 @@ public class MessageListener extends ListenerAdapter {
             User user = e.getAuthor();
 
             // ignoring bots
-            if (user.isBot() || user.isFake()){
+            if (user.isBot()){
                 return;
             }
 
