@@ -128,13 +128,13 @@ public class Alice {
         try {
             this.jda = new JDABuilder(AccountType.BOT).setToken(this.getConfig().getToken()).addEventListener(new ReadyListener()).build();
             this.guildConfigManager = new GuildConfigManager(this);
-            registerListeners();
             this.cmdManager = new CommandManager(this);
             this.userStatsManager = new UserStatsManager(this);
             this.gameStatsManager = new GameStatsManager(this);
             this.languageManager = new LanguageManager();
             this.aliceAudioManager = new AliceAudioManager();
             registerCommands();
+            registerListeners();
         } catch (LoginException e) {
             e.printStackTrace();
         }
