@@ -93,7 +93,6 @@ public class Alice {
     }
 
     private void startSchedulerrs(){
-        this.getJDA().getPresence().setGame(Game.playing("gathering info..."));
         this.scheduler.scheduleAtFixedRate(new BotStatusRefresher(this), 10, 60, TimeUnit.SECONDS);
     }
 
@@ -137,6 +136,7 @@ public class Alice {
         Runtime.getRuntime().addShutdownHook(new ShutdownThread(this));
         try {
             this.jda = new JDABuilder(AccountType.BOT).setToken(this.getConfig().getToken()).addEventListener(new ReadyListener()).build();
+            this.getJDA().getPresence().setGame(Game.playing("gathering info..."));
             this.guildConfigManager = new GuildConfigManager(this);
             this.cmdManager = new CommandManager(this);
             this.userStatsManager = new UserStatsManager(this);
