@@ -15,6 +15,7 @@ public class Config {
     private String mysqlDatabase;
     private int mysqlPort;
     private String igdbApiKey;
+    private String discordBotListApiToken;
 
     public void setImgurClientId(String imgurClientId){
         this.imgurClientId = imgurClientId;
@@ -86,6 +87,14 @@ public class Config {
 
     public void setIgdbApiKey(String igdbApiKey) {
         this.igdbApiKey = igdbApiKey;
+    }
+
+    public String getDiscordBotListApiToken() {
+        return discordBotListApiToken;
+    }
+
+    public void setDiscordBotListApiToken(String discordBotListApiToken) {
+        this.discordBotListApiToken = discordBotListApiToken;
     }
 
     @Override

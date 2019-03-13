@@ -18,6 +18,7 @@ public final static Logger logger = LoggerFactory.getLogger(AliceBootstrap.class
 public static Alice alice;
 public static final int EMBED_COLOR = 15648332;
 public static final String DEFAULT_PREFIX = "<";
+public static final String botId = "537011515014774785";
 public static HibernateHandler hibernate;
 public static AliceAnalytics analytics;
 

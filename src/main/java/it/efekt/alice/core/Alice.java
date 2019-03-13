@@ -28,9 +28,13 @@ import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import javax.security.auth.login.LoginException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 
 public class Alice {
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private JDA jda;
     private Config config;
     private CommandManager cmdManager;
@@ -86,6 +90,9 @@ public class Alice {
         getCmdManager().setExecutor(new PauseCmd("pause"));
     }
 
+    private void startSchedulerrs(){
+        this.scheduler.scheduleAtFixedRate(new BotStatusRefresher(this), 1, 1, TimeUnit.SECONDS);
+    }
 
     public JDA getJDA(){
         return this.jda;
@@ -135,6 +142,7 @@ public class Alice {
             this.aliceAudioManager = new AliceAudioManager();
             registerCommands();
             registerListeners();
+            startSchedulerrs();
         } catch (LoginException e) {
             e.printStackTrace();
         }
