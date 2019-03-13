@@ -91,7 +91,7 @@ public class Alice {
     }
 
     private void startSchedulerrs(){
-        this.scheduler.scheduleAtFixedRate(new BotStatusRefresher(this), 1, 1, TimeUnit.SECONDS);
+        this.scheduler.scheduleAtFixedRate(new BotStatusRefresher(this), 0, 1, TimeUnit.MINUTES);
     }
 
     public JDA getJDA(){
