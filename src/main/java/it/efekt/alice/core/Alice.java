@@ -27,6 +27,8 @@ import it.efekt.alice.modules.UserStatsManager;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
+import net.dv8tion.jda.core.entities.Game;
+
 import javax.security.auth.login.LoginException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -91,7 +93,8 @@ public class Alice {
     }
 
     private void startSchedulerrs(){
-        this.scheduler.scheduleAtFixedRate(new BotStatusRefresher(this), 0, 1, TimeUnit.MINUTES);
+        this.getJDA().getPresence().setGame(Game.playing("gathering info..."));
+        this.scheduler.scheduleAtFixedRate(new BotStatusRefresher(this), 10, 60, TimeUnit.SECONDS);
     }
 
     public JDA getJDA(){
