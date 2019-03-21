@@ -118,6 +118,10 @@ public enum Message {
     LOGGER_USER_SWITCHES_VOICE("{1} changes {2} channel to {3}"),
     CMD_GAMESTATS_DESC("Shows the most played games on this discord server"),
     CMD_GAMESTATS_NOT_FOUND("Couldn't find any games to show you"),
+    CMD_GAMESTATS_WRONG_PAGE("Wrong page given, check if your page is within range: 1 - {1}"),
+    CMD_GAMESTATS_EMBED_TITLE("Most played games on this server"),
+    CMD_GAMESTATS_PAGE("Page {1}/{2}"),
+    CMD_GAMESTATS_TOP("TOP-{1}"),
     CMD_WIKI_NOT_FOUND("Wikipedia article not found"),
     CMD_WIKI_MULTIPLE_FOUND("There are multiple articles associated with this phrase.\nClick the title to open wiki page in the browser."),
     CMD_WIKI_SOURCE("Source"),
@@ -142,6 +146,7 @@ public enum Message {
     CMD_JOIN_DESC("Alice joins the channel you are currently connected to"),
     CMD_JOIN_JOINED("Joined {1}"),
     CMD_JOIN_USER_NOT_CONNECTED("Where are you? I cannot see you on any voice channel :worried:"),
+
 
     BLANK(""); // leave it alone ;)
 

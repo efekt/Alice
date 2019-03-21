@@ -84,7 +84,7 @@ public class HelpCmd extends Command {
                         .replace(",", "");
 
                 embedBuilder.addField(cat.getName(),commandAliasesFormated, false);
-                embedBuilder.setFooter(getGuildPrefix(e.getGuild()) + getAlias() + " " +Message.CMD_HELP_FOOTER.get(e), "https://images-ext-2.discordapp.net/external/YZ0U9nMuSvG1cb1raXhrkw8Ut8ZBVQT4ia-alVadE7E/https/i.imgur.com/qZe2WZz.jpg");
+                embedBuilder.setFooter(getGuildPrefix(e.getGuild()) + getAlias() + " " +Message.CMD_HELP_FOOTER.get(e), AliceBootstrap.ICON_URL);
             }
         }
 

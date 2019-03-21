@@ -24,6 +24,11 @@ public class GameStatsCmd extends Command {
     public boolean onCommand(MessageReceivedEvent e) {
         Guild guild = e.getGuild();
         HashMap<String, Long> guildGameStats = AliceBootstrap.alice.getGameStatsManager().getGameTimesOnGuild(guild);
+        int page = 1;
+
+        if (getArgs().length == 1 && getArgs()[0].matches("-?\\d+")) {
+            page = Integer.parseInt(getArgs()[0]);
+        }
 
         if (guildGameStats.isEmpty()){
             e.getChannel().sendMessage(Message.CMD_GAMESTATS_NOT_FOUND.get(e)).complete();
@@ -34,13 +39,26 @@ public class GameStatsCmd extends Command {
                 .sorted(Comparator.comparing(Map.Entry<String,Long>::getValue).thenComparing(Map.Entry::getKey).reversed())
                 .collect(LinkedHashMap::new,(map,entry) -> map.put(entry.getKey(),entry.getValue()),LinkedHashMap::putAll);
         String output = "";
-        int i = 0; // Begin index
+        List<String> gamesList = new ArrayList<>();
+        sorted.forEach((key, value) ->
+                gamesList.add(key)
+        );
+        int beginIndex = (page - 1) * MAX_TO_PRINT; // Begin index
+
+        int maxPages = (int) Math.ceil((float)sorted.size() / (float)MAX_TO_PRINT);
+
+        if (page <= 0 || gamesList.size() < beginIndex){
+            e.getChannel().sendMessage(Message.CMD_GAMESTATS_WRONG_PAGE.get(e, String.valueOf(maxPages))).complete();
+            return true;
+        }
+
+        List<String> subList = gamesList.subList(beginIndex, Math.min(beginIndex + MAX_TO_PRINT, gamesList.size()));
 
 
-        for (Map.Entry<String, Long> entry : sorted.entrySet()){
-            i++;
-            String gameName = entry.getKey();
-            long timePlayed = entry.getValue();
+        for (String entry : subList){
+            beginIndex++;
+            String gameName = entry;
+            long timePlayed = sorted.get(entry);
             long day = TimeUnit.MINUTES.toDays(timePlayed);
             long hoursPlayed = TimeUnit.MINUTES.toHours(timePlayed) - (day * 24);
             long minutesPlayed = timePlayed - (TimeUnit.MINUTES.toHours(timePlayed) * 60);
@@ -48,17 +66,18 @@ public class GameStatsCmd extends Command {
             // Print only if timePlayed is larger than 30 minutes
             //if (timePlayed >= MIN_TIME_PLAYED){
                 gameName = gameName.length()>35 ? gameName.substring(0, 30).concat("...") : gameName;
-                output = output.concat("**"+i+".** **" + gameName + "**: _" + day + "d " + hoursPlayed + "h " + minutesPlayed + "m " + "_\n");
+                output = output.concat("**"+beginIndex+".** **" + gameName + "**: _" + day + "d " + hoursPlayed + "h " + minutesPlayed + "m " + "_\n");
             //}
-            if (i >= MAX_TO_PRINT){
+            if (beginIndex >= MAX_TO_PRINT){
                 break;
             }
         }
 
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
-        embedBuilder.setTitle("Most played games on this server");
-        embedBuilder.addField("TOP-" + i, output, false);
+        embedBuilder.setTitle(Message.CMD_GAMESTATS_EMBED_TITLE.get(e));
+        embedBuilder.addField(Message.CMD_GAMESTATS_TOP.get(e, String.valueOf(beginIndex)), output, false);
+        embedBuilder.setFooter(Message.CMD_GAMESTATS_PAGE.get(e, String.valueOf(page), String.valueOf(maxPages)), AliceBootstrap.ICON_URL);
         e.getChannel().sendMessage(embedBuilder.build()).complete();
         return true;
     }
