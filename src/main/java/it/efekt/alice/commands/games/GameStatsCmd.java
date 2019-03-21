@@ -68,7 +68,7 @@ public class GameStatsCmd extends Command {
                 gameName = gameName.length()>35 ? gameName.substring(0, 30).concat("...") : gameName;
                 output = output.concat("**"+beginIndex+".** **" + gameName + "**: _" + day + "d " + hoursPlayed + "h " + minutesPlayed + "m " + "_\n");
             //}
-            if (beginIndex >= MAX_TO_PRINT){
+            if (beginIndex >= MAX_TO_PRINT * page){
                 break;
             }
         }
