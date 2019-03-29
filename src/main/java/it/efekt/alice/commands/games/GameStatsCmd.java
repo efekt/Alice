@@ -31,7 +31,7 @@ public class GameStatsCmd extends Command {
         }
 
         if (guildGameStats.isEmpty()){
-            e.getChannel().sendMessage(Message.CMD_GAMESTATS_NOT_FOUND.get(e)).complete();
+            e.getChannel().sendMessage(Message.CMD_TOP_NOTHING_FOUND.get(e)).complete();
             return true;
         }
 
@@ -48,7 +48,7 @@ public class GameStatsCmd extends Command {
         int maxPages = (int) Math.ceil((float)sorted.size() / (float)MAX_TO_PRINT);
 
         if (page <= 0 || gamesList.size() < beginIndex){
-            e.getChannel().sendMessage(Message.CMD_GAMESTATS_WRONG_PAGE.get(e, String.valueOf(maxPages))).complete();
+            e.getChannel().sendMessage(Message.CMD_TOP_WRONG_PAGE.get(e, String.valueOf(maxPages))).complete();
             return true;
         }
 
@@ -76,7 +76,7 @@ public class GameStatsCmd extends Command {
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
         embedBuilder.setTitle(Message.CMD_GAMESTATS_EMBED_TITLE.get(e));
-        embedBuilder.addField(Message.CMD_GAMESTATS_TOP.get(e, String.valueOf(beginIndex)), output, false);
+        embedBuilder.addField(Message.CMD_TOP_FOOTER.get(e, String.valueOf(beginIndex)), output, false);
         embedBuilder.setFooter(Message.CMD_GAMESTATS_PAGE.get(e, String.valueOf(page), String.valueOf(maxPages)), AliceBootstrap.ICON_URL);
         e.getChannel().sendMessage(embedBuilder.build()).complete();
         return true;

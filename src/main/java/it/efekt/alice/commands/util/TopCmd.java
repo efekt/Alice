@@ -15,7 +15,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class TopCmd extends Command {
-    private final int MAX_LIST_LENGTH = 20;
+    private final int MAX_PER_PAGE = 15;
     public TopCmd(String alias) {
         super(alias);
         setCategory(CommandCategory.FUN);
@@ -34,79 +34,54 @@ public class TopCmd extends Command {
        userStatsList.removeIf(UserStats::isBot);
        userStatsList.sort(Comparator.comparing(UserStats::getMessagesAmount).reversed());
 
-       if (getArgs().length == 1){
-           if (getArgs()[0].matches("-?\\d+")) {
-               int listLength = Integer.parseInt(getArgs()[0]);
+       int page = 1;
 
-               if (listLength <= 0){
-                   e.getChannel().sendMessage(it.efekt.alice.lang.Message.CMD_TOP_MINUS_TOP.get(e)).complete();
-                   return true;
-               }
+       if (getArgs().length == 1 && getArgs()[0].matches("-?\\d+")) {
+           page = Integer.parseInt(getArgs()[0]);
+       }
 
-               if (userStatsList.size() < listLength){
-                   e.getChannel().sendMessage(it.efekt.alice.lang.Message.CMD_TOP_NUMBER_TOO_LARGE.get(e, String.valueOf(userStatsList.size()))).complete();
-                   return true;
-               }
-
-               if (listLength > MAX_LIST_LENGTH){
-                   listLength = MAX_LIST_LENGTH;
-               }
-
-               printTop(listLength, userStatsList, e);
-               return true;
-           }
-
-//           if (getArgs()[0].equalsIgnoreCase("loadAll")) {
-//
-//               if (!e.getMember().hasPermission(Permission.ADMINISTRATOR)) {
-//                   e.getChannel().sendMessage(it.efekt.alice.lang.Message.CMD_TOP_LOADALL_FORBIDDEN.get(e));
-//                   return true;
-//               }
-//
-//               userStatsManager.removeAll(e.getGuild());
-//
-//                   e.getChannel().sendMessage(it.efekt.alice.lang.Message.CMD_TOP_LOADALL_WARNING.get(e)).complete();
-//                   List<Message> allMessages = getAllTextMessagesOnGuild(e.getGuild());
-//
-//                   e.getChannel().sendMessage(it.efekt.alice.lang.Message.CMD_TOP_LOADALL_FOUND.get(e, String.valueOf(allMessages.size()))).complete();
-//
-//                   allMessages.forEach(message -> userStatsManager.getUserStats(message.getAuthor(), message.getGuild()).addMessagesAmount(1));
-//                   e.getChannel().sendMessage(it.efekt.alice.lang.Message.CMD_TOP_LOADALL_FINISHED.get(e)).complete();
-//
-//                   userStatsManager.removeAllInvalidUsers();
-//                   userStatsManager.saveAllUserStats();
-//
-//                   e.getChannel().sendMessage(it.efekt.alice.lang.Message.CMD_TOP_LOADALL_SAVED.get(e)).complete();
-//               return true;
-//
-//               }
-       } else if (getArgs().length == 0){
-           int listLength = userStatsList.size();
-
-           if (listLength > 5){
-               listLength = 5;
-           }
-
-           printTop(listLength, userStatsList, e);
+       if (userStatsList.isEmpty()){
+           e.getChannel().sendMessage(it.efekt.alice.lang.Message.CMD_TOP_NOTHING_FOUND.get(e)).complete();
            return true;
        }
-    return false;
+
+       int beginIndex = (page - 1) * MAX_PER_PAGE;
+       int maxPages = (int) Math.ceil((float)userStatsList.size() / (float)MAX_PER_PAGE);
+
+       if (page <= 0 || userStatsList.size() < beginIndex){
+           e.getChannel().sendMessage(it.efekt.alice.lang.Message.CMD_TOP_WRONG_PAGE.get(e, String.valueOf(maxPages))).complete();
+           return true;
+       }
+
+       List<UserStats> subList = userStatsList.subList(beginIndex, Math.min(beginIndex + MAX_PER_PAGE, userStatsList.size()));
+
+       printTop(beginIndex, page, maxPages, subList, e);
+
+    return true;
     }
 
-    private void printTop(int maxUserAmount, List<UserStats> userStatsList, MessageReceivedEvent e){
+    private void printTop(int startIndex, int page,int maxPages, List<UserStats> userStatsList, MessageReceivedEvent e){
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setTitle(it.efekt.alice.lang.Message.CMD_TOP_LIST_TITLE.get(e, e.getGuild().getName()));
         embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
+        embedBuilder.setFooter(it.efekt.alice.lang.Message.CMD_GAMESTATS_PAGE.get(e, String.valueOf(page), String.valueOf(maxPages)), AliceBootstrap.ICON_URL);
 
         SpamLevelManager spamLevelManager = new SpamLevelManager();
 
         String list = "";
-        for (int i=0; i < maxUserAmount; i++){
-            int index = i+1;
-            int level = (int) spamLevelManager.getPlayerLevel(AliceBootstrap.alice.getJDA().getUserById(userStatsList.get(i).getUserId()), e.getGuild());
-            list = list.concat("**"+index+".** **"+ AliceBootstrap.alice.getJDA().getUserById(userStatsList.get(i).getUserId()).getName()+ "** - "+ userStatsList.get(i).getMessagesAmount() + " _("+level+")_" +"\n");
+        int index = startIndex;
+        for (UserStats userStats : userStatsList){
+            index++;
+
+            int level = (int) spamLevelManager.getPlayerLevel(AliceBootstrap.alice.getJDA().getUserById(userStats.getUserId()), e.getGuild());
+            list = list.concat("**"+index+".** **"+ AliceBootstrap.alice.getJDA().getUserById(userStats.getUserId()).getName()+ "** - "+ userStats.getMessagesAmount() + " _("+level+")_" +"\n");
+
+            if (startIndex >= MAX_PER_PAGE * page){
+                break;
+            }
+
         }
-        embedBuilder.addField("TOP-"+maxUserAmount, list, false);
+        embedBuilder.addField("TOP-"+index, list, false);
 
         e.getChannel().sendMessage(embedBuilder.build()).complete();
     }
