@@ -89,6 +89,7 @@ public class Alice {
         getCmdManager().setExecutor(new PlayCmd("play"));
         getCmdManager().setExecutor(new NowPlayingCmd("np"));
         getCmdManager().setExecutor(new PauseCmd("pause"));
+        getCmdManager().setExecutor(new EvalCmd("eval"));
     }
 
     private void startSchedulerrs(){

@@ -146,6 +146,8 @@ public enum Message {
     CMD_JOIN_DESC("Alice joins the channel you are currently connected to"),
     CMD_JOIN_JOINED("Joined {1}"),
     CMD_JOIN_USER_NOT_CONNECTED("Where are you? I cannot see you on any voice channel :worried:"),
+    CMD_EVAL_SHORT_USAGE_INFO("`expression`"),
+    CMD_EVAL_DESCRIPTION("Evaluates given expression\nExample:\n `eval 1+1` returns `2`\nFor supported operators check: https://github.com/uklimaschewski/EvalEx"),
 
 
     BLANK(""); // leave it alone ;)
