@@ -87,7 +87,7 @@ public enum Message {
     CMD_NEW_PREFIX_SET("New prefix for this server: {1}"),
     CMD_CHANGED_PREFIX_LOG("{1} changed prefix to: {2}"),
     CMD_TOP_DESC("Shows ranking of the best spammers"),
-    CMD_TOP_USAGE_INFO("`number of users`"),
+    CMD_TOP_USAGE_INFO("`page`"),
     CMD_TOP_MINUS_TOP("u mad...?"),
     CMD_TOP_NUMBER_TOO_LARGE("Couldn't find so many users. You can specified max {1}"),
     CMD_TOP_LOADALL_FORBIDDEN("Only Admin can load all messages"),
