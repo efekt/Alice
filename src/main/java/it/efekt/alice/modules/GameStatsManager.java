@@ -58,6 +58,18 @@ public class GameStatsManager {
         return stats;
     }
 
+    public HashMap<String, Long> getAllGameTimeStats(){
+        HashMap<String, Long> gameTimes = new HashMap<>();
+        for (GameStats gameStats : this.gameStats){
+            if (gameTimes.containsKey(gameStats.getGameName())){
+                gameTimes.put(gameStats.getGameName(), gameTimes.get(gameStats.getGameName()) + gameStats.getTimePlayed());
+            } else {
+                gameTimes.put(gameStats.getGameName(), gameStats.getTimePlayed());
+            }
+        }
+        return gameTimes;
+    }
+
     public HashMap<String, Long> getGameTimesOnGuild(Guild guild){
         HashMap<String, Long> gameTimes = new HashMap<>();
         for (GameStats gameStats : getGameStats(guild)){

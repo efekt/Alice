@@ -26,14 +26,21 @@ public class GameStatsCmd extends Command {
         HashMap<String, Long> guildGameStats = AliceBootstrap.alice.getGameStatsManager().getGameTimesOnGuild(guild);
         int page = 1;
 
-        if (getArgs().length == 1 && getArgs()[0].matches("-?\\d+")) {
+        if (getArgs().length >= 1 && getArgs()[0].matches("-?\\d+")) {
             page = Integer.parseInt(getArgs()[0]);
+            if (getArgs().length == 2 && getArgs()[1].equalsIgnoreCase("all")){
+                guildGameStats = AliceBootstrap.alice.getGameStatsManager().getAllGameTimeStats();
+            }
         }
+
+
 
         if (guildGameStats.isEmpty()){
             e.getChannel().sendMessage(Message.CMD_TOP_NOTHING_FOUND.get(e)).complete();
             return true;
         }
+
+
 
         LinkedHashMap<String, Long> sorted = guildGameStats.entrySet().stream()
                 .sorted(Comparator.comparing(Map.Entry<String,Long>::getValue).thenComparing(Map.Entry::getKey).reversed())
