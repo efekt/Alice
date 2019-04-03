@@ -18,7 +18,7 @@ public class LangCmd extends Command {
     public LangCmd(String alias) {
         super(alias);
         addPermission(Permission.ADMINISTRATOR);
-        setCategory(CommandCategory.UTILS);
+        setCategory(CommandCategory.DISCORD_ADMIN_UTILS);
         setDescription(Message.CMD_LANG_DESC);
         setShortUsageInfo(Message.CMD_LANG_SHORT_USAGE_INFO);
     }

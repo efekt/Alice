@@ -14,7 +14,7 @@ public class GuildLoggerCmd extends Command {
     public GuildLoggerCmd(String alias) {
         super(alias);
         addPermission(Permission.ADMINISTRATOR);
-        setCategory(CommandCategory.UTILS);
+        setCategory(CommandCategory.DISCORD_ADMIN_UTILS);
         setDescription(Message.CMD_LOGGER_DESC);
         setShortUsageInfo(Message.CMD_LOGGER_SHORT_USAGE_INFO);
         setFullUsageInfo(Message.CMD_LOGGER_FULL_USAGE_INFO);

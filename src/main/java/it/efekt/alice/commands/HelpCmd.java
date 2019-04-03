@@ -6,6 +6,7 @@ import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.lang.Message;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 import java.util.ArrayList;
@@ -57,6 +58,10 @@ public class HelpCmd extends Command {
             for (CommandCategory cat : CommandCategory.values()){
                 List<Command> cmds = AliceBootstrap.alice.getCmdManager().getCommands(cat);
                 if (cmds.isEmpty() || cmds == null){
+                    continue;
+                }
+
+                if (cat.equals(CommandCategory.DISCORD_ADMIN_UTILS) && !e.getMember().hasPermission(Permission.ADMINISTRATOR)){
                     continue;
                 }
 

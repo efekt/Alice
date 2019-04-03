@@ -16,7 +16,7 @@ public class PrefixCmd extends Command {
         setShortUsageInfo(Message.CMD_PREFIX_SHORT_USAGE_INFO);
         setFullUsageInfo(Message.CMD_PREFIX_FULL_USAGE_INFO);
         addPermission(Permission.ADMINISTRATOR);
-        setCategory(CommandCategory.UTILS);
+        setCategory(CommandCategory.DISCORD_ADMIN_UTILS);
     }
 
     @Override

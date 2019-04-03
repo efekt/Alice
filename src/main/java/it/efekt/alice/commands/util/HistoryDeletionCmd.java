@@ -11,7 +11,7 @@ public class HistoryDeletionCmd extends Command {
     public HistoryDeletionCmd(String alias) {
         super(alias);
         addPermission(Permission.ADMINISTRATOR);
-        setCategory(CommandCategory.UTILS);
+        setCategory(CommandCategory.DISCORD_ADMIN_UTILS);
         setDescription(Message.CMD_HISTORYDEL_DESC);
         setShortUsageInfo(Message.CMD_HISTORYDEL_SHORT_USAGE_INFO);
     }

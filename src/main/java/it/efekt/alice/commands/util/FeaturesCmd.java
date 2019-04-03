@@ -15,7 +15,7 @@ public class FeaturesCmd extends Command {
     public FeaturesCmd(String alias) {
         super(alias);
         setDescription(Message.CMD_FEATURES_DESC);
-        setCategory(CommandCategory.UTILS);
+        setCategory(CommandCategory.DISCORD_ADMIN_UTILS);
         addPermission(Permission.ADMINISTRATOR);
     }
 
