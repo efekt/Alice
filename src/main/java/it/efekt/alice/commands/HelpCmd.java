@@ -57,7 +57,11 @@ public class HelpCmd extends Command {
         if (getArgs().length == 0){
             for (CommandCategory cat : CommandCategory.values()){
                 List<Command> cmds = AliceBootstrap.alice.getCmdManager().getCommands(cat);
-                if (cmds.isEmpty() || cmds == null){
+                if (cmds == null || cmds.isEmpty()){
+                    continue;
+                }
+
+                if (cmds.stream().allMatch(cmd -> AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild()).isDisabled(cmd.getAlias()))){
                     continue;
                 }
 
