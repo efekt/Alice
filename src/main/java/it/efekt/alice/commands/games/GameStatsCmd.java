@@ -26,13 +26,14 @@ public class GameStatsCmd extends Command {
         HashMap<String, Long> guildGameStats = AliceBootstrap.alice.getGameStatsManager().getGameTimesOnGuild(guild);
         int page = 1;
 
-        if (getArgs().length >= 1 && getArgs()[0].matches("-?\\d+")) {
+        if (getArgs().length == 1 && getArgs()[0].matches("-?\\d+")) {
             page = Integer.parseInt(getArgs()[0]);
-            if (getArgs().length == 2 && getArgs()[1].equalsIgnoreCase("all")){
-                guildGameStats = AliceBootstrap.alice.getGameStatsManager().getAllGameTimeStats();
-            }
-        }
 
+        }
+        if (getArgs().length == 2 && getArgs()[0].equalsIgnoreCase("all") && getArgs()[1].matches("-?\\d+")){
+            page = Integer.parseInt(getArgs()[1]);
+            guildGameStats = AliceBootstrap.alice.getGameStatsManager().getAllGameTimeStats();
+        }
 
 
         if (guildGameStats.isEmpty()){
