@@ -30,8 +30,10 @@ public class GameStatsCmd extends Command {
             page = Integer.parseInt(getArgs()[0]);
 
         }
-        if (getArgs().length == 2 && getArgs()[0].equalsIgnoreCase("all") && getArgs()[1].matches("-?\\d+")){
-            page = Integer.parseInt(getArgs()[1]);
+        if (getArgs().length == 2 && getArgs()[0].equalsIgnoreCase("all")){
+            if (getArgs()[1].matches("-?\\d+")) {
+                page = Integer.parseInt(getArgs()[1]);
+            }
             guildGameStats = AliceBootstrap.alice.getGameStatsManager().getAllGameTimeStats();
         }
 
