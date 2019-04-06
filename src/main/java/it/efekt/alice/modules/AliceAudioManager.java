@@ -19,6 +19,7 @@ import java.util.concurrent.Future;
 public class AliceAudioManager {
     private AudioPlayerManager audioPlayerManager; // single instance in whole app
     private HashMap<String, AliceSendHandler> sendHandlers = new HashMap<>();
+    private HashMap<String, AliceReceiveHandler> receiveHandlers = new HashMap<>();
 
     public AliceAudioManager(){
         this.audioPlayerManager = new DefaultAudioPlayerManager();
@@ -27,6 +28,11 @@ public class AliceAudioManager {
     private AliceSendHandler getSendHandler(Guild guild){
         this.sendHandlers.putIfAbsent(guild.getId(), new AliceSendHandler(this.audioPlayerManager.createPlayer()));
         return this.sendHandlers.get(guild.getId());
+    }
+
+    public AliceReceiveHandler getReceiveHandler(Guild guild){
+        this.receiveHandlers.putIfAbsent(guild.getId(), new AliceReceiveHandler());
+        return this.receiveHandlers.get(guild.getId());
     }
 
     public AudioPlayer getAudioPlayer(Guild guild){
@@ -58,6 +64,11 @@ public class AliceAudioManager {
         return this.audioPlayerManager.loadItem(content, audioLoadResultHandler);
     }
 
+
+    public void record(Guild guild){
+        guild.getAudioManager().setReceivingHandler(getReceiveHandler(guild));
+
+    }
 
     public void play(MessageReceivedEvent e, String content){
         playRemoteSource(e.getGuild(), content, new AudioLoadResultHandler() {

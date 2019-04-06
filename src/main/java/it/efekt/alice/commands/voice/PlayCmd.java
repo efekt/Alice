@@ -7,7 +7,6 @@ import it.efekt.alice.lang.Message;
 import it.efekt.alice.modules.AliceAudioManager;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
-import java.util.Arrays;
 
 public class PlayCmd extends Command {
     public PlayCmd(String alias) {
