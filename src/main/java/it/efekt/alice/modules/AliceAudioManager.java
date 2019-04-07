@@ -12,7 +12,9 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.managers.AudioManager;
+import ws.schild.jave.EncoderException;
 
+import java.io.*;
 import java.util.HashMap;
 import java.util.concurrent.Future;
 
@@ -65,9 +67,29 @@ public class AliceAudioManager {
     }
 
 
-    public void record(Guild guild){
+    public void startRecording(Guild guild){
+        guild.getAudioManager().setSendingHandler(new AliceSilenceSendHandler());
         guild.getAudioManager().setReceivingHandler(getReceiveHandler(guild));
+        getReceiveHandler(guild).startRecording();
+    }
 
+    public void stopRecordingAndSave(Guild guild, File file){
+        if (getReceiveHandler(guild).isRecording()){
+            getReceiveHandler(guild).stopRecording();
+            getReceiveHandler(guild).save(file);
+        }
+    }
+
+    public byte[] stopRecordingAndGetStream(Guild guild) throws IOException {
+        return getReceiveHandler(guild).stopRecordingAndGetStream();
+    }
+
+    public File stopRecordingAndGetFile(Guild guild) throws IOException, EncoderException {
+        return getReceiveHandler(guild).stopRecordingAndGetFile();
+    }
+
+    public boolean isRecording(Guild guild){
+        return getReceiveHandler(guild).isRecording();
     }
 
     public void play(MessageReceivedEvent e, String content){

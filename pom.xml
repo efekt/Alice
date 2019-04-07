@@ -110,6 +110,12 @@
             <artifactId>EvalEx</artifactId>
             <version>2.1</version>
         </dependency>
+
+        <dependency>
+            <groupId>ws.schild</groupId>
+            <artifactId>jave-all-deps</artifactId>
+            <version>2.4.6</version>
+        </dependency>
     </dependencies>
 
     <build>

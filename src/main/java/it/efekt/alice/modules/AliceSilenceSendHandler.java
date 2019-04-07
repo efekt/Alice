@@ -1,19 +1,12 @@
 package it.efekt.alice.modules;
 
-import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.track.playback.AudioFrame;
 import net.dv8tion.jda.core.audio.AudioSendHandler;
 
 public class AliceSilenceSendHandler implements AudioSendHandler {
-    private final AudioPlayer audioPlayer;
     private AudioFrame lastFrame;
     private boolean canProvide = true;
     long startTime = System.currentTimeMillis();
-
-
-    public AliceSilenceSendHandler(AudioPlayer audioPlayer) {
-        this.audioPlayer = audioPlayer;
-    }
 
     @Override
     public boolean canProvide() {
@@ -34,7 +27,4 @@ public class AliceSilenceSendHandler implements AudioSendHandler {
         return true;
     }
 
-    public AudioPlayer getAudioPlayer(){
-        return this.audioPlayer;
-    }
 }
