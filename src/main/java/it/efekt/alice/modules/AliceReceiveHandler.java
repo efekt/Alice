@@ -1,22 +1,34 @@
 package it.efekt.alice.modules;
 
+import it.efekt.alice.core.AliceBootstrap;
+import it.efekt.alice.lang.Message;
+import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.audio.AudioReceiveHandler;
 import net.dv8tion.jda.core.audio.CombinedAudio;
 import net.dv8tion.jda.core.audio.UserAudio;
+import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.entities.User;
 import ws.schild.jave.*;
-
 import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 
 public class AliceReceiveHandler implements AudioReceiveHandler {
     private ByteArrayOutputStream out = new ByteArrayOutputStream();
     private boolean recording = false;
+    private final float MAX_RECORD_TIME = 5f; // in Minutes
+    private long curTime = 0; // in seconds
+    private String channelHolderId;
+    private Set<User> recordedUsers = new HashSet<>();
 
     @Override
     public boolean canReceiveCombined() {
@@ -35,8 +47,18 @@ public class AliceReceiveHandler implements AudioReceiveHandler {
         }
        byte[] stream = combinedAudio.getAudioData(1.0);
         try {
+            if (curTime/1000 >= MAX_RECORD_TIME * 60){
+                String channelId = this.channelHolderId;
+                this.reset();
+                this.sendMessageWithFile(stopRecordingAndGetFile(), AliceBootstrap.alice.getJDA().getTextChannelById(channelId));
+            }
+
+            curTime += 20;
+            combinedAudio.getUsers().forEach(user -> this.recordedUsers.add(user));
             out.write(stream);
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (EncoderException e) {
             e.printStackTrace();
         }
     }
@@ -60,17 +82,20 @@ public class AliceReceiveHandler implements AudioReceiveHandler {
             return AudioSystem.getAudioInputStream(OUTPUT_FORMAT, audioInputStream);
     }
 
-    public void startRecording(){
+    public void startRecording(TextChannel channel){
+            this.channelHolderId = channel.getId();
             this.out.reset();
             this.recording = true;
     }
 
     public AudioInputStream stopRecording(){
+        this.reset();
         this.recording = false;
         return this.getAudioInputStream();
     }
 
     public byte[] stopRecordingAndGetStream() throws IOException {
+        this.reset();
         this.recording = false;
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         AudioSystem.write(getAudioInputStream(), AudioFileFormat.Type.WAVE, outputStream);
@@ -95,10 +120,16 @@ public class AliceReceiveHandler implements AudioReceiveHandler {
         return this.recording;
     }
 
+    private void reset(){
+        this.curTime = 0;
+        this.channelHolderId = null;
+        this.recordedUsers.clear();
+    }
+
     private File convertToMp3(File source, File target) throws EncoderException {
         AudioAttributes audio = new AudioAttributes();
         audio.setCodec("libmp3lame");
-        audio.setBitRate(128000);
+        audio.setBitRate(160000);
         audio.setChannels(2);
         audio.setSamplingRate(44100);
 
@@ -113,4 +144,21 @@ public class AliceReceiveHandler implements AudioReceiveHandler {
         source.delete();
         return target;
     }
+
+    public void sendMessageWithFile(File file, TextChannel channel){
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy.MM.dd HH.mm.ss");
+        String dateTime = LocalDateTime.now().format(dateFormat);
+        MessageBuilder messageBuilder = new MessageBuilder();
+        messageBuilder.append(Message.CMD_REC_USERS.get(channel.getGuild()) + "\n");
+        if (!this.recordedUsers.isEmpty()){
+            this.recordedUsers.forEach(user -> messageBuilder.append(user.getName() + " "));
+        }
+        channel.sendFile(file, "Alice_" + dateTime + ".mp3", messageBuilder.build()).complete();
+        this.reset();
+    }
+
+    public float getMAX_RECORD_TIME(){
+        return this.MAX_RECORD_TIME;
+    }
+
 }

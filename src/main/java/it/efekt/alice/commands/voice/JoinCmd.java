@@ -16,11 +16,13 @@ public class JoinCmd extends Command {
 
     @Override
     public boolean onCommand(MessageReceivedEvent e) {
-        if (e.getGuild().getAudioManager().isConnected()){
-            return true;
-        }
 
         if (e.getMember().getVoiceState().inVoiceChannel()){
+            if (e.getGuild().getAudioManager().isConnected() && e.getMember().getVoiceState().getChannel().getId().equalsIgnoreCase(e.getGuild().getAudioManager().getConnectedChannel().getId())){
+                return true;
+            }
+
+
             VoiceChannel voiceChannel = e.getMember().getVoiceState().getChannel();
             AudioManager audioManager = e.getGuild().getAudioManager();
             audioManager.openAudioConnection(voiceChannel);

@@ -10,7 +10,7 @@ public class EvalCmd extends Command {
     public EvalCmd(String alias) {
         super(alias);
         setCategory(CommandCategory.UTILS);
-        setDescription(Message.CMD_EVAL_DESCRIPTION);
+        setDescription(Message.CMD_EVAL_DESC);
         setShortUsageInfo(Message.CMD_EVAL_SHORT_USAGE_INFO);
     }
 

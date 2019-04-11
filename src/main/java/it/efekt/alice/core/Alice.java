@@ -90,7 +90,7 @@ public class Alice {
         getCmdManager().setExecutor(new NowPlayingCmd("np"));
         getCmdManager().setExecutor(new PauseCmd("pause"));
         getCmdManager().setExecutor(new EvalCmd("eval"));
-        getCmdManager().setExecutor(new RecordCmd("r"));
+        getCmdManager().setExecutor(new RecordCmd("rec"));
     }
 
     private void startSchedulerrs(){

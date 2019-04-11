@@ -3,8 +3,8 @@ package it.efekt.alice.commands.voice;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
+import it.efekt.alice.lang.Message;
 import it.efekt.alice.modules.AliceAudioManager;
-import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import ws.schild.jave.EncoderException;
 
@@ -15,6 +15,8 @@ public class RecordCmd extends Command {
     public RecordCmd(String alias) {
         super(alias);
         setCategory(CommandCategory.VOICE);
+        setFullUsageInfo(Message.CMD_REC_FULL_USAGE_INFO);
+        setDescription(Message.CMD_REC_DESC);
     }
 
     @Override
@@ -22,11 +24,21 @@ public class RecordCmd extends Command {
 
         AliceAudioManager audioManager = AliceBootstrap.alice.getAliceAudioManager();
 
+        if (!e.getMember().getVoiceState().inVoiceChannel()){
+            e.getChannel().sendMessage(Message.CMD_REC_USER_NOT_CONNECTED.get(e)).complete();
+            return true;
+        }
+
+        if (!e.getGuild().getAudioManager().isConnected()){
+            e.getGuild().getAudioManager().openAudioConnection(e.getMember().getVoiceState().getChannel());
+        }
+
+
         if (audioManager.isRecording(e.getGuild())){
             try {
+                e.getChannel().sendMessage(Message.CMD_REC_STOPPED.get(e)).complete();
                 File file = audioManager.stopRecordingAndGetFile(e.getGuild());
-                e.getChannel().sendMessage("Recording stopped. Sending...").complete();
-                e.getChannel().sendFile(file, "recording.mp3").complete();
+                audioManager.getReceiveHandler(e.getGuild()).sendMessageWithFile(file, e.getTextChannel());
                 file.delete();
             } catch (IOException e1) {
                 e1.printStackTrace();
@@ -34,8 +46,8 @@ public class RecordCmd extends Command {
                 e1.printStackTrace();
             }
         } else {
-            audioManager.startRecording(e.getGuild());
-            e.getChannel().sendMessage("Recording started...").complete();
+            audioManager.startRecording(e.getGuild(), e.getTextChannel());
+            e.getChannel().sendMessage( Message.CMD_REC_STARTED.get(e, String.valueOf(audioManager.getReceiveHandler(e.getGuild()).getMAX_RECORD_TIME()))).complete();
         }
 
 

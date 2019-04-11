@@ -9,6 +9,7 @@ import it.efekt.alice.commands.voice.TrackScheduler;
 import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.lang.Message;
 import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.managers.AudioManager;
@@ -27,7 +28,7 @@ public class AliceAudioManager {
         this.audioPlayerManager = new DefaultAudioPlayerManager();
     }
 
-    private AliceSendHandler getSendHandler(Guild guild){
+    public AliceSendHandler getSendHandler(Guild guild){
         this.sendHandlers.putIfAbsent(guild.getId(), new AliceSendHandler(this.audioPlayerManager.createPlayer()));
         return this.sendHandlers.get(guild.getId());
     }
@@ -67,10 +68,10 @@ public class AliceAudioManager {
     }
 
 
-    public void startRecording(Guild guild){
+    public void startRecording(Guild guild, TextChannel textChannel){
         guild.getAudioManager().setSendingHandler(new AliceSilenceSendHandler());
         guild.getAudioManager().setReceivingHandler(getReceiveHandler(guild));
-        getReceiveHandler(guild).startRecording();
+        getReceiveHandler(guild).startRecording(textChannel);
     }
 
     public void stopRecordingAndSave(Guild guild, File file){

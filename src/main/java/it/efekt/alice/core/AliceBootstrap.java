@@ -37,7 +37,7 @@ public static AliceAnalytics analytics;
         }
     }
     // Checks if there is config.yml file in the directory of .jar
-    // if not, it creates a default config file
+    // if not, creates a default config file
     // if correct token is provided, proceed to starting the bot
     private static Config initializeConfig() throws IOException{
         logger.info("Looking for config.yml file...");
