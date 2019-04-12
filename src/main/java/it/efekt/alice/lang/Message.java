@@ -4,7 +4,6 @@ import com.google.gson.stream.JsonWriter;
 import it.efekt.alice.core.AliceBootstrap;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
