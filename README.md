@@ -11,6 +11,7 @@
     - Vimeo
     - Twitch streams
     - http urls
+- Voice Recorder
 - Logger (logs events to a specified #channel)  
   - user joins/leaves the server  
   - user enters/leaves/changes voice channel  
@@ -22,6 +23,9 @@
   - Minecraft (server status)  
 - SpamLevel (counting messages sent by users + levels system)  
 - Customizable (enable/disable any command on a server) 
+- NSFW images and gifs
+
+and more
 
 ## Commands
 
@@ -38,4 +42,4 @@ Some of the libraries that are keeping Alice alive:
 - [Apache Log4j 2](https://github.com/apache/logging-log4j2)  
 - [Hibernate ORM](https://github.com/hibernate/hibernate-orm)  
 
-*for more check out pom.xml file*
+*for more check out the pom.xml file*
