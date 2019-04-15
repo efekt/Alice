@@ -117,7 +117,6 @@ public enum Message {
     LOGGER_USER_JOINS_VOICE("{1} joins {2} channel"),
     LOGGER_USER_LEAVES_VOICE("{1} leaves {2} channel"),
     LOGGER_USER_SWITCHES_VOICE("{1} changes {2} channel to {3}"),
-    LOGGER_USER_STOPPED_PLAYING("{1} exits {2}, {3}min"),
     CMD_GAMESTATS_DESC("Shows the most played games on this discord server"),
     CMD_GAMESTATS_EMBED_TITLE("Most played games on this server"),
     CMD_GAMESTATS_PAGE("Page {1}/{2}"),

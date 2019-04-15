@@ -2,7 +2,6 @@ package it.efekt.alice.listeners;
 
 import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.db.GameStats;
-import it.efekt.alice.lang.Message;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.user.update.UserUpdateGameEvent;
@@ -39,9 +38,8 @@ public class GameListener extends ListenerAdapter {
             long elapsed = e.getOldGame().getTimestamps().getElapsedTime(ChronoUnit.MINUTES);
             if (elapsed >= 1 && gameName.length() <= 128) {
                 gameStats.addTimePlayed(elapsed);
-                gameStats.save();
                 logger.debug("user: " + user.getId() + " server: " + guild.getId() + " game: " + gameName + " addedTime: " + elapsed + "min");
-                AliceBootstrap.alice.getGuildLogger().log(e.getGuild(), Message.LOGGER_USER_STOPPED_PLAYING.get(e.getGuild(), user.getName(), gameName,String.valueOf(elapsed)));
+                gameStats.save();
             }
         } catch (Exception exc){
             exc.printStackTrace();
