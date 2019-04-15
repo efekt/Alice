@@ -3,7 +3,6 @@ package it.efekt.alice.core;
 import it.efekt.alice.commands.analytics.AliceAnalytics;
 import it.efekt.alice.commands.core.HibernateHandler;
 import it.efekt.alice.config.Config;
-import it.efekt.alice.web.AliceWebServer;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,12 +20,10 @@ public static final String DEFAULT_PREFIX = "<";
 public static final String ICON_URL = "https://images-ext-2.discordapp.net/external/YZ0U9nMuSvG1cb1raXhrkw8Ut8ZBVQT4ia-alVadE7E/https/i.imgur.com/qZe2WZz.jpg";
 public static HibernateHandler hibernate;
 public static AliceAnalytics analytics;
-public static AliceWebServer webServer;
 
 
     public static void main(String[] args) {
         init();
-        webServer = new AliceWebServer();
     }
 
     private static void init(){
