@@ -25,9 +25,8 @@ public static AliceWebServer webServer;
 
 
     public static void main(String[] args) {
+        init();
         webServer = new AliceWebServer();
-
-        //init();
     }
 
     private static void init(){
