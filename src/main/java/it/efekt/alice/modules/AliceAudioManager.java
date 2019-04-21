@@ -102,7 +102,8 @@ public class AliceAudioManager {
 
             @Override
             public void playlistLoaded(AudioPlaylist audioPlaylist) {
-
+                getAudioPlayer(e.getGuild()).playTrack(audioPlaylist.getTracks().get(0));
+                AliceBootstrap.alice.getCmdManager().getCommand("np").onCommand(e);
             }
 
             @Override
