@@ -13,6 +13,7 @@ public class PlayCmd extends Command {
         setCategory(CommandCategory.VOICE);
         setShortUsageInfo(Message.CMD_PLAY_SHORT_USAGE_INFO);
         setDescription(Message.CMD_PLAY_DESC);
+        setFullUsageInfo(Message.CMD_PLAY_FULL_USAGE_INFO);
     }
 
     @Override
