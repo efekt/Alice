@@ -8,7 +8,6 @@ import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.lang.Message;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -16,7 +15,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class DanbooruApi {
-    private final int LIMIT = 2;
+    private final int LIMIT = 20;
 
     public void sendPicture(MessageReceivedEvent event, DanbooruRating rating, String tag){
 
@@ -42,20 +41,32 @@ public class DanbooruApi {
             connection.disconnect();
 
             JsonArray array = new JsonParser().parse(sb.toString()).getAsJsonArray();
-            String imgUrl = "";
-            String character = "";
+            String imgUrl;
+            String character;
+            int score;
+
+            JsonObject bestRatingObject = null;
 
             for (JsonElement element : array){
                 JsonObject jsonObject = element.getAsJsonObject();
+                //Filtering results based on score, to return best quality picture possible
                 if (jsonObject.has("file_url")){
-                    if (jsonObject.get("rating").getAsString().equalsIgnoreCase(rating.getName())){
-                        imgUrl = jsonObject.get("file_url").getAsString();
-                        character = jsonObject.get("tag_string_character").getAsString();
-                    }
-
-                    break;
+                        score = jsonObject.get("score").getAsInt();
+                        // if bestRatingObject doesn't exist, assign current one to it
+                        if (bestRatingObject == null){
+                            bestRatingObject = jsonObject;
+                        } else {
+                            // if score of current jsonObject is greater than the one that is already in bestRatingObject
+                            // assign new bestRatingObject
+                            if (score > bestRatingObject.get("score").getAsInt()){
+                                bestRatingObject = jsonObject;
+                            }
+                        }
                 }
             }
+
+            imgUrl = bestRatingObject.get("file_url").getAsString();
+            character = bestRatingObject.get("tag_string_character").getAsString();
 
             if (imgUrl.isEmpty()){
                 event.getChannel().sendMessage(Message.CMD_HENTAI_ERROR_NOT_FOUND.get(event)).queue();
