@@ -21,7 +21,6 @@ public static final String ICON_URL = "https://images-ext-2.discordapp.net/exter
 public static HibernateHandler hibernate;
 public static AliceAnalytics analytics;
 
-
     public static void main(String[] args) {
         init();
     }

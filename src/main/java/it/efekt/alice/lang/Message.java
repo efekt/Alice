@@ -155,6 +155,8 @@ public enum Message {
     CMD_REC_STOPPED("Recording stopped. Processing..."),
     CMD_REC_STARTED("Recording started...\nMax time of recording cannot exceed {1} minutes and will be automatically stopped"),
     CMD_REC_USERS("Recorded users:"),
+    CMD_IMGONLY_DESC("Changes current channel to image-only channel.\nAfter this feature is turned on, every message without any picture will be deleted"),
+    CMD_IMGONLY_FULL_USAGE_INFO("enables/disables feature"),
 
     BLANK(""); // leave it alone ;)
 

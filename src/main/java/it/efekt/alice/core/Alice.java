@@ -12,7 +12,8 @@ import it.efekt.alice.commands.core.CommandManager;
 import it.efekt.alice.commands.nsfw.HentaiCmd;
 import it.efekt.alice.commands.nsfw.NekoCmd;
 import it.efekt.alice.commands.voice.*;
-import it.efekt.alice.modules.AliceAudioManager;
+import it.efekt.alice.db.TextChannelConfig;
+import it.efekt.alice.modules.*;
 import it.efekt.alice.modules.mentions.Greetings;
 import it.efekt.alice.config.Config;
 import it.efekt.alice.config.GuildConfigManager;
@@ -21,9 +22,6 @@ import it.efekt.alice.listeners.GameListener;
 import it.efekt.alice.listeners.JoinQuitListener;
 import it.efekt.alice.listeners.MessageListener;
 import it.efekt.alice.listeners.ReadyListener;
-import it.efekt.alice.modules.GameStatsManager;
-import it.efekt.alice.modules.GuildLogger;
-import it.efekt.alice.modules.UserStatsManager;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
@@ -45,6 +43,7 @@ public class Alice {
     private GameStatsManager gameStatsManager;
     private LanguageManager languageManager;
     private AliceAudioManager aliceAudioManager;
+    private TextChannelConfigManager textChannelConfigManager;
 
     public Alice(Config config){
             this.config = config;
@@ -91,6 +90,7 @@ public class Alice {
         getCmdManager().setExecutor(new PauseCmd("pause"));
         getCmdManager().setExecutor(new EvalCmd("eval"));
         getCmdManager().setExecutor(new RecordCmd("rec"));
+        getCmdManager().setExecutor(new ImgOnlyCmd("img-only"));
     }
 
     private void startSchedulerrs(){
@@ -133,6 +133,10 @@ public class Alice {
         return aliceAudioManager;
     }
 
+    public TextChannelConfigManager getTextChannelConfigManager() {
+        return textChannelConfigManager;
+    }
+
     private void init(){
         Runtime.getRuntime().addShutdownHook(new ShutdownThread(this));
         try {
@@ -144,6 +148,7 @@ public class Alice {
             this.gameStatsManager = new GameStatsManager(this);
             this.languageManager = new LanguageManager();
             this.aliceAudioManager = new AliceAudioManager();
+            this.textChannelConfigManager = new TextChannelConfigManager();
             registerCommands();
             registerListeners();
             startSchedulerrs();

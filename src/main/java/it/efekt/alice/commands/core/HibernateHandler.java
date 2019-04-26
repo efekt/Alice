@@ -3,6 +3,7 @@ package it.efekt.alice.commands.core;
 import it.efekt.alice.config.Config;
 import it.efekt.alice.db.GameStats;
 import it.efekt.alice.db.GuildConfig;
+import it.efekt.alice.db.TextChannelConfig;
 import it.efekt.alice.db.UserStats;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -31,7 +32,8 @@ public class HibernateHandler {
                 .setProperty("hibernate.connection.password", config.getMysqlPassword())
                 .addAnnotatedClass(GuildConfig.class)
                 .addAnnotatedClass(UserStats.class)
-                .addAnnotatedClass(GameStats.class);
+                .addAnnotatedClass(GameStats.class)
+                .addAnnotatedClass(TextChannelConfig.class);
         sessionFactory = configuration.buildSessionFactory();
     }
 }

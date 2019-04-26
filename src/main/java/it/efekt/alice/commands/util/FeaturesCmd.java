@@ -7,7 +7,6 @@ import it.efekt.alice.lang.Message;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-
 import java.util.HashMap;
 
 public class FeaturesCmd extends Command {
