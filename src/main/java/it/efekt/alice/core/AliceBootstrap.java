@@ -10,6 +10,7 @@ import org.yaml.snakeyaml.Yaml;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.concurrent.TimeUnit;
 
 public class AliceBootstrap {
 
@@ -22,7 +23,9 @@ public static HibernateHandler hibernate;
 public static AliceAnalytics analytics;
 
     public static void main(String[] args) {
+        long beforeTime = System.currentTimeMillis();
         init();
+        logger.info("Alice loaded in " + TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - beforeTime) + " seconds");
     }
 
     private static void init(){
