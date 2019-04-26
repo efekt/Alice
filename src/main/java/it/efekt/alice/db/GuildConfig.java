@@ -4,7 +4,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.hibernate.annotations.ColumnDefault;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -86,7 +85,7 @@ public class GuildConfig extends AliceDb{
         this.prefix = prefix;
     }
 
-    public boolean isDisabled(String cmdAlias){
+    public boolean isCmdDisabled(String cmdAlias){
         if (this.disabledFeatures == null || this.disabledFeatures.isEmpty()){
             JsonObject object = new JsonObject();
             object.add("disabled", new JsonArray());
@@ -99,8 +98,8 @@ public class GuildConfig extends AliceDb{
         return array.contains(new JsonParser().parse(cmdAlias));
     }
 
-    public void setDisabled(String cmdAlias){
-        if (!isDisabled(cmdAlias)){
+    public void setCmdDisabled(String cmdAlias){
+        if (!isCmdDisabled(cmdAlias)){
             JsonObject object = new JsonParser().parse(this.disabledFeatures).getAsJsonObject();
             JsonArray array = object.get("disabled").getAsJsonArray();
             array.add(cmdAlias);
@@ -108,8 +107,8 @@ public class GuildConfig extends AliceDb{
             this.save();
         }
     }
-    public void setEnabled(String cmdAlias){
-        if (isDisabled(cmdAlias)){
+    public void setCmdEnabled(String cmdAlias){
+        if (isCmdDisabled(cmdAlias)){
             JsonObject object = new JsonParser().parse(this.disabledFeatures).getAsJsonObject();
             JsonArray array = object.get("disabled").getAsJsonArray();
             array.remove(new JsonParser().parse(cmdAlias));

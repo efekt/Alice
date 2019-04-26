@@ -61,7 +61,7 @@ public class HelpCmd extends Command {
                     continue;
                 }
 
-                if (cmds.stream().allMatch(cmd -> AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild()).isDisabled(cmd.getAlias()))){
+                if (cmds.stream().allMatch(cmd -> AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild()).isCmdDisabled(cmd.getAlias()))){
                     continue;
                 }
 
@@ -76,7 +76,7 @@ public class HelpCmd extends Command {
                 List<String> commandsAliases = new ArrayList<>();
 
                 for (Command cmd : cmds){
-                    if (getGuildConfig(e.getGuild()).isDisabled(cmd.getAlias())){
+                    if (getGuildConfig(e.getGuild()).isCmdDisabled(cmd.getAlias())){
                         continue;
                     }
 

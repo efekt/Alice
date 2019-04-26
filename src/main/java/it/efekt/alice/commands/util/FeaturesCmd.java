@@ -42,13 +42,13 @@ public class FeaturesCmd extends Command {
             }
 
             if (arg.equalsIgnoreCase("disable")){
-                AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild()).setDisabled(chosenAlias);
+                AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild()).setCmdDisabled(chosenAlias);
                 e.getChannel().sendMessage(Message.CMD_FEATURES_HAS_BEEN_DISABLED.get(e, chosenAlias)).complete();
                 return true;
             }
 
             if (arg.equalsIgnoreCase("enable")){
-                AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild()).setEnabled(chosenAlias);
+                AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild()).setCmdEnabled(chosenAlias);
                 e.getChannel().sendMessage(Message.CMD_FEATURES_HAS_BEEN_ENABLED.get(e, chosenAlias)).complete();
                 return true;
             }
@@ -64,7 +64,7 @@ public class FeaturesCmd extends Command {
         embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
 
         for (Command cmd : cmds.values()){
-            boolean isDisabled = AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild()).isDisabled(cmd.getAlias());
+            boolean isDisabled = AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild()).isCmdDisabled(cmd.getAlias());
             String featureStatus = isDisabled ? ":x: " : ":white_check_mark: ";
 
             embedBuilder.addField(featureStatus + cmd.getAlias(), "", false);

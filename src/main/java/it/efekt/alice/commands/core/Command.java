@@ -154,7 +154,7 @@ public abstract class Command extends ListenerAdapter {
                     return;
                 }
 
-                if (getGuildConfig(e.getGuild()).isDisabled(cmdAlias)){
+                if (getGuildConfig(e.getGuild()).isCmdDisabled(cmdAlias)){
                     return;
                 }
 
