@@ -3,7 +3,6 @@ package it.efekt.alice.listeners;
 import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.db.TextChannelConfig;
 import it.efekt.alice.db.UserStats;
-import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.User;
@@ -12,7 +11,6 @@ import net.dv8tion.jda.core.exceptions.ErrorResponseException;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.util.concurrent.TimeUnit;
 
 public class MessageListener extends ListenerAdapter {
