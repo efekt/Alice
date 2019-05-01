@@ -142,7 +142,8 @@ public abstract class Command extends ListenerAdapter {
     }
 
     protected boolean isMentioningSelf(String[] args){
-          return args[0].equalsIgnoreCase(AliceBootstrap.alice.getJDA().getSelfUser().getAsMention()) && args.length>=2;
+        //removing "!" from mention (it occurs when mentioned user has it's nickname changed)
+        return args[0].replace("!", "").equalsIgnoreCase(AliceBootstrap.alice.getJDA().getSelfUser().getAsMention()) && args.length>=2;
     }
 
     @Override

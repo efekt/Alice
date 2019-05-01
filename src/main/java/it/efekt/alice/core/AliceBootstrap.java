@@ -25,7 +25,8 @@ public static AliceAnalytics analytics;
     public static void main(String[] args) {
         long beforeTime = System.currentTimeMillis();
         init();
-        logger.info("Alice loaded in " + TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - beforeTime) + " seconds");
+        long totalTime = System.currentTimeMillis() - beforeTime;
+        logger.info("Alice loaded in " + TimeUnit.MILLISECONDS.toSeconds(totalTime) + " seconds ("+totalTime+"ms)");
     }
 
     private static void init(){
