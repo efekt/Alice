@@ -141,12 +141,26 @@ public abstract class Command extends ListenerAdapter {
         return AliceBootstrap.alice.getLanguageManager().getLang(LangCode.valueOf(locale));
     }
 
+    protected boolean isMentioningSelf(String[] args){
+          return args[0].equalsIgnoreCase(AliceBootstrap.alice.getJDA().getSelfUser().getAsMention()) && args.length>=2;
+    }
+
     @Override
     public void onMessageReceived(MessageReceivedEvent e){
-        String[] allArgs = e.getMessage().getContentDisplay().split("\\s+");
-        if (allArgs[0].startsWith(getGuildPrefix(e.getGuild()))){
-            String cmdAlias = allArgs[0].replaceFirst(Pattern.quote(getGuildPrefix(e.getGuild())), "");
-            String[] args = Arrays.copyOfRange(allArgs, 1, allArgs.length);
+        String[] allArgs = e.getMessage().getContentRaw().split("\\s+");
+
+        // getting alias and cmd args accordingly to prefix (mention vs standard prefix)
+        if (allArgs[0].startsWith(getGuildPrefix(e.getGuild())) || isMentioningSelf(allArgs)){
+                String cmdAlias;
+                String[] args;
+            if (!isMentioningSelf(allArgs)) {
+                cmdAlias = allArgs[0].replaceFirst(Pattern.quote(getGuildPrefix(e.getGuild())), "");
+                args = Arrays.copyOfRange(allArgs, 1, allArgs.length);
+            } else {
+                cmdAlias = allArgs[1];
+                args = Arrays.copyOfRange(allArgs, 2, allArgs.length);
+            }
+
             if (this.alias.equalsIgnoreCase(cmdAlias)){
                 this.logger.debug("User: " + e.getAuthor().getName() + " id:" + e.getAuthor().getId() + " is requesting cmd: " + cmdAlias + " with msg: " + e.getMessage().getContentDisplay());
                 // Prevent bots from using commands
