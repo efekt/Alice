@@ -120,8 +120,8 @@
   "voice-nothing-found": "Nothing found",
   "voice-loading-failed": "Loading failed",
   "cmd-play-desc": "Plays audio from specified url or keywords",
-  "cmd-play-full-usage-info": "`ytsearch:` `keywords` - searches YouTube\n`scsearch:` `keywords` - searches SoundCloud\nexample: `play ytsearch: darude sandstorm`",
-  "cmd-play-short-usage-info": "`url` or `ytsearch: keywords` or `scsearch: keywords`",
+  "cmd-play-full-usage-info": "`keywords` - searches YouTube\n`url` - plays audio from url\nexample: `play darude sandstorm`",
+  "cmd-play-short-usage-info": "`url` or `keywords`",
   "cmd-play-track-resumed": "Track resumed",
   "cmd-pause-desc": "Pauses currently playing track",
   "cmd-pause-paused": "Track paused",
@@ -144,5 +144,7 @@
   "cmd-rec-user-not-connected": "You need to be connected to a voice channel, otherwise I cannot join you to start recording",
   "cmd-rec-stopped": "Recording stopped. Processing...",
   "cmd-rec-started": "Recording started...\nMax time of recording cannot exceed {1} minutes and will be automatically stopped",
-  "cmd-rec-users": "Recorded users:"
+  "cmd-rec-users": "Recorded users:",
+  "cmd-imgonly-desc": "Changes current channel to image-only channel.\nAfter this feature is turned on, every message without any picture will be deleted",
+  "cmd-imgonly-full-usage-info": "enables/disables feature"
 }

@@ -6,6 +6,7 @@ import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.lang.Message;
 import it.efekt.alice.modules.AliceAudioManager;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import java.net.URL;
 
 public class PlayCmd extends Command {
     public PlayCmd(String alias) {
@@ -21,7 +22,11 @@ public class PlayCmd extends Command {
         AliceAudioManager aliceAudioManager = AliceBootstrap.alice.getAliceAudioManager();
         if (getArgs().length >= 1){
             String query = String.join(" ", getArgs());
-            play(e, query);
+            if (!isValidURL(query)) {
+                play(e, "ytsearch: " + query);
+            } else {
+                play(e, query);
+            }
             return true;
         } else {
             if (aliceAudioManager.getAudioPlayer(e.getGuild()).isPaused()){
@@ -37,6 +42,15 @@ public class PlayCmd extends Command {
         AliceAudioManager aliceAudioManager = AliceBootstrap.alice.getAliceAudioManager();
         if (AliceBootstrap.alice.getCmdManager().getCommand("join").onCommand(e)){
             aliceAudioManager.play(e, query);
+        }
+    }
+
+    private boolean isValidURL(String url){
+        try {
+            new URL(url);
+            return true;
+        } catch (Exception e) {
+            return false;
         }
     }
 
