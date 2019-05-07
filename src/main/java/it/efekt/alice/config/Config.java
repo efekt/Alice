@@ -16,6 +16,8 @@ public class Config {
     private int mysqlPort;
     private String igdbApiKey;
     private String discordBotListApiToken;
+    private String restUser;
+    private String restPassword;
 
     public void setImgurClientId(String imgurClientId){
         this.imgurClientId = imgurClientId;
@@ -91,6 +93,22 @@ public class Config {
 
     public String getDiscordBotListApiToken() {
         return discordBotListApiToken;
+    }
+
+    public String getRestUser() {
+        return restUser;
+    }
+
+    public void setRestUser(String restUser) {
+        this.restUser = restUser;
+    }
+
+    public String getRestPassword() {
+        return restPassword;
+    }
+
+    public void setRestPassword(String restPassword) {
+        this.restPassword = restPassword;
     }
 
     public void setDiscordBotListApiToken(String discordBotListApiToken) {
