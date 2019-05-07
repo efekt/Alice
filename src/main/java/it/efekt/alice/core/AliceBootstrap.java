@@ -6,15 +6,12 @@ import it.efekt.alice.config.Config;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.yaml.snakeyaml.Yaml;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.concurrent.TimeUnit;
 
-@SpringBootApplication
 public class AliceBootstrap {
 
 public final static Logger logger = LoggerFactory.getLogger(AliceBootstrap.class);
@@ -30,7 +27,6 @@ public static AliceAnalytics analytics;
         init();
         long totalTime = System.currentTimeMillis() - beforeTime;
         logger.info("Alice loaded in " + TimeUnit.MILLISECONDS.toSeconds(totalTime) + " seconds ("+totalTime+"ms)");
-        SpringApplication.run(AliceBootstrap.class, args);
     }
 
     private static void init(){
