@@ -8,5 +8,5 @@ mysqlUser: dbUser
 mysqlPort: dbPort
 igdbApiKey: igbd.com api key
 discordBotListApiToken:
-restUser: "user"
-restPassword: "pass"
+restUser:
+restPassword:

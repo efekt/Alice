@@ -13,7 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    Config config = AliceBootstrap.alice.getConfig();
+    private Config config = AliceBootstrap.alice.getConfig();
 
     @Override
     protected void configure(HttpSecurity http) throws Exception{

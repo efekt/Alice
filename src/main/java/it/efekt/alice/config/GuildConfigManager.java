@@ -32,6 +32,7 @@ public class GuildConfigManager {
         return this.guildConfigs.get(guild.getId());
     }
 
+
     public void loadAll(){
         // Load all config files
         Session session = AliceBootstrap.hibernate.getSession();

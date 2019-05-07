@@ -12,7 +12,6 @@ import it.efekt.alice.commands.core.CommandManager;
 import it.efekt.alice.commands.nsfw.HentaiCmd;
 import it.efekt.alice.commands.nsfw.NekoCmd;
 import it.efekt.alice.commands.voice.*;
-import it.efekt.alice.db.TextChannelConfig;
 import it.efekt.alice.modules.*;
 import it.efekt.alice.modules.mentions.Greetings;
 import it.efekt.alice.config.Config;

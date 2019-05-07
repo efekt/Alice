@@ -116,4 +116,8 @@ public class GuildConfig extends AliceDb{
             this.save();
         }
     }
+
+    public boolean isEmpty(){
+        return this.id == null || this.id.isEmpty();
+    }
 }
