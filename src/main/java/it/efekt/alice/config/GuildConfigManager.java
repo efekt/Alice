@@ -32,6 +32,16 @@ public class GuildConfigManager {
         return this.guildConfigs.get(guild.getId());
     }
 
+    public boolean hasConfig(String guildId){
+        return this.guildConfigs.containsKey(guildId);
+    }
+
+    public void updateConfig(GuildConfig guildConfig){
+        if (hasConfig(guildConfig.getId())){
+            this.guildConfigs.put(guildConfig.getId(), guildConfig);
+            guildConfig.save();
+        }
+    }
 
     public void loadAll(){
         // Load all config files
