@@ -1,6 +1,7 @@
 package it.efekt.alice.core;
 
 import it.efekt.alice.commands.HelpCmd;
+import it.efekt.alice.commands.admin.StatsCmd;
 import it.efekt.alice.commands.fun.*;
 import it.efekt.alice.commands.games.ApexStatsCmd;
 import it.efekt.alice.commands.games.GameStatsCmd;
@@ -90,6 +91,7 @@ public class Alice {
         getCmdManager().setExecutor(new EvalCmd("eval"));
         getCmdManager().setExecutor(new RecordCmd("rec"));
         getCmdManager().setExecutor(new ImgOnlyCmd("img-only"));
+        getCmdManager().setExecutor(new StatsCmd("stats"));
     }
 
     private void startSchedulerrs(){
