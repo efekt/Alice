@@ -3,6 +3,7 @@
     <Properties>
         <Property name="logPath">logs</Property>
         <Property name="rollingFileName">alice</Property>
+        <Property name="rollingFileDebugName">alice-debug</Property>
     </Properties>
     <Appenders>
         <Console name="console" target="SYSTEM_OUT">
@@ -17,11 +18,21 @@
                 <TimeBasedTriggeringPolicy interval="1" modulate="true" />
             </Policies>
         </RollingFile>
+        <RollingFile name="rollingFileDebug" fileName="${logPath}/${rollingFileDebugName}.log" filePattern="${logPath}/${rollingFileDebugName}_%d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="[%highlight{%-5level}] %d{DEFAULT} %c{1}.%M() - %msg%n%throwable{short.lineNumber}" />
+            <Policies>
+                <!-- Causes a rollover if the log file is older than the current JVM's start time -->
+                <OnStartupTriggeringPolicy />
+                <!-- Causes a rollover once the date/time pattern no longer applies to the active file -->
+                <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+            </Policies>
+        </RollingFile>
     </Appenders>
     <Loggers>
-        <Root level="INFO" additivity="false">
-            <AppenderRef ref="console" />
-            <AppenderRef ref="rollingFile" />
+        <Root level="DEBUG" additivity="false">
+            <AppenderRef ref="rollingFileDebug"/>
+            <AppenderRef ref="rollingFile" level="INFO" />
+            <AppenderRef ref="console" level="INFO" />
         </Root>
     </Loggers>
 </Configuration>
