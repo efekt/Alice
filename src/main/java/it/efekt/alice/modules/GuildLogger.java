@@ -88,21 +88,18 @@ public class GuildLogger extends ListenerAdapter {
 
 
     private boolean isLoggerSet(Guild guild){
-        boolean is = false;
-
         try {
             if (!guild.isAvailable()) {
                 return false;
             }
 
             GuildConfig config = AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(guild);
-            is = config.getLogChannel() != null;
+            return config.getLogChannel() != null;
         }
         catch(Exception exc){
-            exc.printStackTrace();
+            return false;
         }
 
-        return is;
     }
 
     private GuildConfig getGuildConfig(Guild guild){
@@ -112,7 +109,11 @@ public class GuildLogger extends ListenerAdapter {
     public void log(Guild guild, String message){
         try {
         if (isLoggerSet(guild)){
-            if (guild.getJDA().getTextChannelById(getGuildConfig(guild).getLogChannel()) == null){
+            try {
+                if (guild.getJDA().getTextChannelById(getGuildConfig(guild).getLogChannel()) == null) {
+                    return;
+                }
+            } catch(IllegalArgumentException exc){
                 return;
             }
 
