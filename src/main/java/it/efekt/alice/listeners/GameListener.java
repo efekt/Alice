@@ -39,7 +39,7 @@ public class GameListener extends ListenerAdapter {
             long elapsed = e.getOldGame().getTimestamps().getElapsedTime(ChronoUnit.MINUTES);
             if (elapsed >= 1 && gameName.length() <= 128) {
                 gameStats.addTimePlayed(elapsed);
-                gameStats.save();
+                //gameStats.save();
                 logger.debug("user: " + user.getId() + " server: " + guild.getId() + " game: " + gameName + " addedTime: " + elapsed + "min");
                 AliceBootstrap.alice.getGuildLogger().log(e.getGuild(), Message.LOGGER_USER_STOPPED_PLAYING.get(e.getGuild(), user.getName(), gameName,String.valueOf(elapsed)));
             }
