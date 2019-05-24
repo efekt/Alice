@@ -56,7 +56,7 @@ public class Alice {
         this.jda.addEventListener(new MessageListener());
         this.guildLogger = new GuildLogger(this);
         this.jda.addEventListener(guildLogger);
-        //this.jda.addEventListener(new GameListener());
+        this.jda.addEventListener(new GameListener());
     }
 
     private void registerCommands(){
