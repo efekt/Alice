@@ -4,7 +4,6 @@ import it.efekt.alice.commands.HelpCmd;
 import it.efekt.alice.commands.admin.StatsCmd;
 import it.efekt.alice.commands.fun.*;
 import it.efekt.alice.commands.games.ApexStatsCmd;
-import it.efekt.alice.commands.games.GameStatsCmd;
 import it.efekt.alice.commands.games.MinecraftStatusCmd;
 import it.efekt.alice.commands.util.*;
 import it.efekt.alice.commands.admin.StatusCmd;
@@ -18,7 +17,6 @@ import it.efekt.alice.modules.mentions.Greetings;
 import it.efekt.alice.config.Config;
 import it.efekt.alice.config.GuildConfigManager;
 import it.efekt.alice.lang.LanguageManager;
-import it.efekt.alice.listeners.GameListener;
 import it.efekt.alice.listeners.JoinQuitListener;
 import it.efekt.alice.listeners.MessageListener;
 import it.efekt.alice.listeners.ReadyListener;
@@ -56,7 +54,7 @@ public class Alice {
         this.jda.addEventListener(new MessageListener());
         this.guildLogger = new GuildLogger(this);
         this.jda.addEventListener(guildLogger);
-        this.jda.addEventListener(new GameListener());
+        //this.jda.addEventListener(new GameListener());
     }
 
     private void registerCommands(){
@@ -80,7 +78,8 @@ public class Alice {
         getCmdManager().setExecutor(new FeaturesCmd("cmd"));
         getCmdManager().setExecutor(new LangCmd("lang"));
         getCmdManager().setExecutor(new RandomWaifuCmd("random-waifu"));
-        getCmdManager().setExecutor(new GameStatsCmd("topgames"));
+        //Disabled until a better way of handling playtime will exist
+        //getCmdManager().setExecutor(new GameStatsCmd("topgames"));
         getCmdManager().setExecutor(new LoliCmd("loli"));
         getCmdManager().setExecutor(new WikiCmd("wiki"));
         getCmdManager().setExecutor(new JoinCmd("join"));
@@ -94,7 +93,7 @@ public class Alice {
         getCmdManager().setExecutor(new StatsCmd("stats"));
     }
 
-    private void startSchedulerrs(){
+    private void startSchedulers(){
         this.scheduler.scheduleAtFixedRate(new BotStatusRefresher(this), 10, 60, TimeUnit.SECONDS);
     }
 
@@ -152,7 +151,7 @@ public class Alice {
             this.textChannelConfigManager = new TextChannelConfigManager();
             registerCommands();
             registerListeners();
-            startSchedulerrs();
+            startSchedulers();
         } catch (LoginException e) {
             e.printStackTrace();
         }
