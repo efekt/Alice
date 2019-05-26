@@ -46,13 +46,14 @@ public class GameListener extends ListenerAdapter {
             long elapsedMilis = e.getOldGame().getTimestamps().getElapsedTime(ChronoUnit.MILLIS);
 
             if (elapsed >= 1) {
-                long sinceLastUpdate = System.currentTimeMillis() - lastUpdate.getOrDefault(user.getId(), 0l);
+                long sinceLastUpdate = System.currentTimeMillis() - lastUpdate.getOrDefault(user.getId(), System.currentTimeMillis());
                 logger.info("sinceLastUpdate: " + sinceLastUpdate);
                 logger.info("elapsedMillis: " + elapsedMilis);
                 if (sinceLastUpdate < elapsedMilis){
                     logger.info("not saved");
                     return;
                 }
+
                 GameStats gameStats = AliceBootstrap.alice.getGameStatsManager().getGameStats(user, guild, gameName);
                 gameStats.addTimePlayed(elapsed);
                 gameStats.save();
