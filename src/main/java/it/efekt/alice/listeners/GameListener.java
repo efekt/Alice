@@ -46,7 +46,7 @@ public class GameListener extends ListenerAdapter {
             long elapsedMilis = e.getOldGame().getTimestamps().getElapsedTime(ChronoUnit.MILLIS);
 
             if (elapsed >= 1) {
-                long sinceLastUpdate = System.currentTimeMillis() - lastUpdate.getOrDefault(user.getId(), System.currentTimeMillis());
+                long sinceLastUpdate = System.currentTimeMillis() - lastUpdate.getOrDefault(user.getId(), System.currentTimeMillis()*2);
                 logger.info("sinceLastUpdate: " + sinceLastUpdate);
                 logger.info("elapsedMillis: " + elapsedMilis);
                 if (sinceLastUpdate < elapsedMilis){
