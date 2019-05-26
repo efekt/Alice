@@ -32,8 +32,6 @@ public class GameListener extends ListenerAdapter {
                 return;
             }
 
-
-
             if (e.getNewGame() != null && e.getNewGame().getName().equalsIgnoreCase(e.getOldGame().getName())) {
                 return;
             }
@@ -44,19 +42,22 @@ public class GameListener extends ListenerAdapter {
 
             String gameName = e.getOldGame().getName();
 
-
             long elapsed = e.getOldGame().getTimestamps().getElapsedTime(ChronoUnit.MINUTES);
             long elapsedMilis = e.getOldGame().getTimestamps().getElapsedTime(ChronoUnit.MILLIS);
 
-            if (elapsed >= 1 && gameName.length() <= 128) {
+            if (elapsed >= 1) {
                 long sinceLastUpdate = System.currentTimeMillis() - lastUpdate.getOrDefault(user.getId(), 0l);
+                System.out.println("sinceLastUpdate: " + sinceLastUpdate);
+                System.out.println("elapsedMillis: " + elapsedMilis);
                 if (sinceLastUpdate < elapsedMilis){
+                    System.out.println("not saved");
                     return;
                 }
                 GameStats gameStats = AliceBootstrap.alice.getGameStatsManager().getGameStats(user, guild, gameName);
                 gameStats.addTimePlayed(elapsed);
                 gameStats.save();
                 lastUpdate.put(user.getId(), System.currentTimeMillis());
+                System.out.println("saved");
                 logger.info("user: " + user.getId() + " server: " + guild.getId() + " game: " + gameName + " addedTime: " + elapsed + "min");
                 AliceBootstrap.alice.getGuildLogger().log(e.getGuild(), Message.LOGGER_USER_STOPPED_PLAYING.get(e.getGuild(), user.getName(), gameName,String.valueOf(elapsed)));
             }
