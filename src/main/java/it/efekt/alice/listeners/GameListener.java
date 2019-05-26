@@ -32,8 +32,7 @@ public class GameListener extends ListenerAdapter {
                 return;
             }
 
-            String gameName = e.getOldGame().getName();
-            GameStats gameStats = AliceBootstrap.alice.getGameStatsManager().getGameStats(user, guild, gameName);
+
 
             if (e.getNewGame() != null && e.getNewGame().getName().equalsIgnoreCase(e.getOldGame().getName())) {
                 return;
@@ -43,6 +42,9 @@ public class GameListener extends ListenerAdapter {
                 return;
             }
 
+            String gameName = e.getOldGame().getName();
+
+
             long elapsed = e.getOldGame().getTimestamps().getElapsedTime(ChronoUnit.MINUTES);
             long elapsedMilis = e.getOldGame().getTimestamps().getElapsedTime(ChronoUnit.MILLIS);
 
@@ -51,7 +53,7 @@ public class GameListener extends ListenerAdapter {
                 if (sinceLastUpdate < elapsedMilis){
                     return;
                 }
-
+                GameStats gameStats = AliceBootstrap.alice.getGameStatsManager().getGameStats(user, guild, gameName);
                 gameStats.addTimePlayed(elapsed);
                 gameStats.save();
                 lastUpdate.put(user.getId(), System.currentTimeMillis());
