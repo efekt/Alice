@@ -11,11 +11,12 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
 
 //todo save only alfanumeric strings!
 public class GameListener extends ListenerAdapter {
     private Logger logger = LoggerFactory.getLogger(GameListener.class);
-
+    private HashMap<String, Long> lastUpdate = new HashMap<>();
 
     @Override
     public void onUserUpdateGame(UserUpdateGameEvent e) {
@@ -27,7 +28,7 @@ public class GameListener extends ListenerAdapter {
                 return;
             }
 
-            if (e.getMember().getOnlineStatus().equals(OnlineStatus.OFFLINE) || e.getMember().getOnlineStatus().equals(OnlineStatus.INVISIBLE)){
+            if (!e.getMember().getOnlineStatus().equals(OnlineStatus.ONLINE)){
                 return;
             }
 
@@ -43,10 +44,18 @@ public class GameListener extends ListenerAdapter {
             }
 
             long elapsed = e.getOldGame().getTimestamps().getElapsedTime(ChronoUnit.MINUTES);
+            long elapsedMilis = e.getOldGame().getTimestamps().getElapsedTime(ChronoUnit.MILLIS);
+
             if (elapsed >= 1 && gameName.length() <= 128) {
+                long sinceLastUpdate = System.currentTimeMillis() - lastUpdate.getOrDefault(user.getId(), 0l);
+                if (sinceLastUpdate < elapsedMilis){
+                    return;
+                }
+
                 gameStats.addTimePlayed(elapsed);
                 gameStats.save();
-                logger.debug("user: " + user.getId() + " server: " + guild.getId() + " game: " + gameName + " addedTime: " + elapsed + "min");
+                lastUpdate.put(user.getId(), System.currentTimeMillis());
+                logger.info("user: " + user.getId() + " server: " + guild.getId() + " game: " + gameName + " addedTime: " + elapsed + "min");
                 AliceBootstrap.alice.getGuildLogger().log(e.getGuild(), Message.LOGGER_USER_STOPPED_PLAYING.get(e.getGuild(), user.getName(), gameName,String.valueOf(elapsed)));
             }
         } catch (Exception exc){
