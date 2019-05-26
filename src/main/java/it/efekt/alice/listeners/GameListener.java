@@ -44,12 +44,12 @@ public class GameListener extends ListenerAdapter {
 
             long elapsed = e.getOldGame().getTimestamps().getElapsedTime(ChronoUnit.MINUTES);
             long elapsedMilis = e.getOldGame().getTimestamps().getElapsedTime(ChronoUnit.MILLIS);
-            long sinceStartupTime = System.currentTimeMillis() - AliceBootstrap.STARTUP_TIME;
+//            long sinceStartupTime = System.currentTimeMillis() - AliceBootstrap.STARTUP_TIME;
 
             if (elapsed >= 1) {
-                if (elapsedMilis > sinceStartupTime){
-                    return;
-                }
+//                if (elapsedMilis > sinceStartupTime){
+//                    return;
+//                }
 
                 if (lastUpdate.containsKey(guild.getId().concat(user.getId()))){
                     long sinceLastUpdate = System.currentTimeMillis() - lastUpdate.get(guild.getId().concat(user.getId()));
