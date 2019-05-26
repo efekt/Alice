@@ -19,6 +19,7 @@ public final static Logger logger = LoggerFactory.getLogger(AliceBootstrap.class
 public static Alice alice;
 public static final int EMBED_COLOR = 15648332;
 public static final String DEFAULT_PREFIX = "<";
+public static final long STARTUP_TIME = System.currentTimeMillis();
 public static final String ICON_URL = "https://images-ext-2.discordapp.net/external/YZ0U9nMuSvG1cb1raXhrkw8Ut8ZBVQT4ia-alVadE7E/https/i.imgur.com/qZe2WZz.jpg";
 public static HibernateHandler hibernate;
 public static AliceAnalytics analytics;
