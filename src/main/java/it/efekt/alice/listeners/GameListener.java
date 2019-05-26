@@ -58,7 +58,7 @@ public class GameListener extends ListenerAdapter {
                 gameStats.save();
                 lastUpdate.put(user.getId(), System.currentTimeMillis());
                 logger.info("saved");
-                logger.info("user: " + user.getId() + " server: " + guild.getId() + " game: " + gameName + " addedTime: " + elapsed + "min");
+                logger.info("user: " + user.getId() + " nick: " + user.getName() + " server: " + guild.getId() + " game: " + gameName + " addedTime: " + elapsed + "min");
                 AliceBootstrap.alice.getGuildLogger().log(e.getGuild(), Message.LOGGER_USER_STOPPED_PLAYING.get(e.getGuild(), user.getName(), gameName,String.valueOf(elapsed)));
             }
         } catch (Exception exc){
