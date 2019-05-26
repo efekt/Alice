@@ -55,7 +55,7 @@ public class GameListener extends ListenerAdapter {
                     long sinceLastUpdate = System.currentTimeMillis() - lastUpdate.get(guild.getId().concat(user.getId()));
                     logger.info("sinceLastUpdate: " + sinceLastUpdate);
                     logger.info("elapsedMillis: " + elapsedMilis);
-                    if (sinceLastUpdate < elapsedMilis){
+                    if (elapsedMilis > sinceLastUpdate){
                         logger.info("not saved");
                         return;
                     }
@@ -64,7 +64,7 @@ public class GameListener extends ListenerAdapter {
                 GameStats gameStats = AliceBootstrap.alice.getGameStatsManager().getGameStats(user, guild, gameName);
                 gameStats.addTimePlayed(elapsed);
                 gameStats.save();
-                lastUpdate.put(user.getId(), System.currentTimeMillis());
+                lastUpdate.put(guild.getId().concat(user.getId()), System.currentTimeMillis());
                 logger.info("saved");
                 logger.info("user: " + user.getId() + " nick: " + user.getName() + " server: " + guild.getId() + " game: " + gameName + " addedTime: " + elapsed + "min");
                 AliceBootstrap.alice.getGuildLogger().log(e.getGuild(), Message.LOGGER_USER_STOPPED_PLAYING.get(e.getGuild(), user.getName(), gameName,String.valueOf(elapsed)));
