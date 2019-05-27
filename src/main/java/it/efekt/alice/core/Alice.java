@@ -31,7 +31,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-
 public class Alice {
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private JDA jda;

@@ -3,10 +3,13 @@ import com.google.gson.Gson;
 import it.efekt.alice.core.Alice;
 import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.db.GuildConfig;
+import it.efekt.alice.db.UserStats;
 import it.efekt.alice.web.model.StandardResponse;
 import it.efekt.alice.web.model.Status;
 import it.efekt.alice.web.model.StatusResponse;
 import spark.Spark;
+
+import java.util.List;
 
 import static spark.Spark.*;
 
@@ -65,6 +68,26 @@ public class WebServer {
          alice.getGuildConfigManager().updateConfig(newConfig);
 
          return new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS, new Gson().toJsonTree(newConfig)));
+      });
+
+      get(url("/userstats/:guildId"), (req, res) ->{
+         System.out.println("spam");
+         res.type("application/json");
+         String guildId = req.params(":guildId");
+         List<UserStats> userStats = alice.getUserStatsManager().getUserStats(alice.getJDA().getGuildById(guildId));
+
+         return new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS, new Gson().toJsonTree(userStats)));
+      });
+
+      get(url("/userstats/:guildId/:userId"), (req, res) ->{
+         System.out.println("spam");
+         res.type("application/json");
+         String guildId = req.params(":guildId");
+         String userId = req.params(":userId");
+
+         UserStats userStats = alice.getUserStatsManager().getUserStats(alice.getJDA().getUserById(userId), alice.getJDA().getGuildById(guildId));
+
+         return new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS, new Gson().toJsonTree(userStats)));
       });
 
    }
