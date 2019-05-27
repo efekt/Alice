@@ -8,9 +8,7 @@ import it.efekt.alice.web.model.StandardResponse;
 import it.efekt.alice.web.model.Status;
 import it.efekt.alice.web.model.StatusResponse;
 import spark.Spark;
-
 import java.util.List;
-
 import static spark.Spark.*;
 
 public class WebServer {
@@ -26,12 +24,10 @@ public class WebServer {
    public void init(){
       before((req, res) ->{
          String method = req.requestMethod();
-
-            String authentication = req.headers(AliceBootstrap.alice.getConfig().getRestUser());
+         String authentication = req.headers(AliceBootstrap.alice.getConfig().getRestUser());
             if (!AliceBootstrap.alice.getConfig().getRestPassword().equals(authentication)){
                Spark.halt(401, "User Unauthorized");
             }
-
       });
 
       // BOT STATUS

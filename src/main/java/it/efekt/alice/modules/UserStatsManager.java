@@ -2,7 +2,6 @@ package it.efekt.alice.modules;
 
 import it.efekt.alice.core.Alice;
 import it.efekt.alice.core.AliceBootstrap;
-import it.efekt.alice.db.GuildConfig;
 import it.efekt.alice.db.UserStats;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.User;
