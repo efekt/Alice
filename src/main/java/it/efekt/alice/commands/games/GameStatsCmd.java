@@ -7,10 +7,14 @@ import it.efekt.alice.lang.Message;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class GameStatsCmd extends Command {
+    private Logger logger = LoggerFactory.getLogger(GameStatsCmd.class);
     private final int MIN_TIME_PLAYED = 30;
     private final int MAX_TO_PRINT = 15;
 
@@ -22,6 +26,7 @@ public class GameStatsCmd extends Command {
 
     @Override
     public boolean onCommand(MessageReceivedEvent e) {
+        long timeBefore = System.currentTimeMillis();
         Guild guild = e.getGuild();
         HashMap<String, Long> guildGameStats = AliceBootstrap.alice.getGameStatsManager().getGameTimesOnGuild(guild);
         int page = 1;
@@ -86,6 +91,7 @@ public class GameStatsCmd extends Command {
         embedBuilder.setTitle(Message.CMD_GAMESTATS_EMBED_TITLE.get(e));
         embedBuilder.addField(Message.CMD_TOP_FOOTER.get(e, String.valueOf(beginIndex)), output, false);
         embedBuilder.setFooter(Message.CMD_GAMESTATS_PAGE.get(e, String.valueOf(page), String.valueOf(maxPages)), AliceBootstrap.ICON_URL);
+        logger.info(guildGameStats.size() + " GameStats gathered and sorted in: " + (System.currentTimeMillis() - timeBefore) + "ms");
         e.getChannel().sendMessage(embedBuilder.build()).complete();
         return true;
     }

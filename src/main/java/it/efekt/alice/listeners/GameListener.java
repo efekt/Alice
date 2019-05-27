@@ -20,6 +20,7 @@ public class GameListener extends ListenerAdapter {
 
     @Override
     public void onUserUpdateGame(UserUpdateGameEvent e) {
+        long beforeTime = System.currentTimeMillis();
         try {
             User user = e.getUser();
             Guild guild = e.getGuild();
@@ -66,7 +67,7 @@ public class GameListener extends ListenerAdapter {
                 gameStats.save();
                 lastUpdate.put(guild.getId().concat(user.getId()), System.currentTimeMillis());
                 logger.info("saved");
-                logger.info("user: " + user.getId() + " nick: " + user.getName() + " server: " + guild.getId() + " game: " + gameName + " addedTime: " + elapsed + "min");
+                logger.info("user: " + user.getId() + " nick: " + user.getName() + " server: " + guild.getId() + " game: " + gameName + " addedTime: " + elapsed + "min" + " took: " + (System.currentTimeMillis() - beforeTime) + "ms");
                 AliceBootstrap.alice.getGuildLogger().log(e.getGuild(), Message.LOGGER_USER_STOPPED_PLAYING.get(e.getGuild(), user.getName(), gameName,String.valueOf(elapsed)));
             }
         } catch (Exception exc){
