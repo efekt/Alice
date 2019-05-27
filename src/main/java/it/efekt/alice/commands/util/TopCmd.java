@@ -9,7 +9,6 @@ import it.efekt.alice.modules.UserStatsManager;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -64,7 +63,7 @@ public class TopCmd extends Command {
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setTitle(it.efekt.alice.lang.Message.CMD_TOP_LIST_TITLE.get(e, e.getGuild().getName()));
         embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
-        embedBuilder.setFooter(it.efekt.alice.lang.Message.CMD_GAMESTATS_PAGE.get(e, String.valueOf(page), String.valueOf(maxPages)), AliceBootstrap.ICON_URL);
+        embedBuilder.setFooter(it.efekt.alice.lang.Message.CMD_GAMESTATS_PAGE.get(e, String.valueOf(page), String.valueOf(maxPages)), e.getJDA().getSelfUser().getEffectiveAvatarUrl());
 
         SpamLevelManager spamLevelManager = new SpamLevelManager();
 

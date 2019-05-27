@@ -93,7 +93,7 @@ public class HelpCmd extends Command {
                         .replace(",", "");
 
                 embedBuilder.addField(cat.getName(),commandAliasesFormated, false);
-                embedBuilder.setFooter(getGuildPrefix(e.getGuild()) + getAlias() + " " +Message.CMD_HELP_FOOTER.get(e), AliceBootstrap.ICON_URL);
+                embedBuilder.setFooter(getGuildPrefix(e.getGuild()) + getAlias() + " " +Message.CMD_HELP_FOOTER.get(e), e.getJDA().getSelfUser().getEffectiveAvatarUrl());
             }
         }
 

@@ -89,7 +89,7 @@ public class GameStatsCmd extends Command {
         embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
         embedBuilder.setTitle(Message.CMD_GAMESTATS_EMBED_TITLE.get(e));
         embedBuilder.addField(Message.CMD_TOP_FOOTER.get(e, String.valueOf(beginIndex)), output, false);
-        embedBuilder.setFooter(Message.CMD_GAMESTATS_PAGE.get(e, String.valueOf(page), String.valueOf(maxPages)), AliceBootstrap.ICON_URL);
+        embedBuilder.setFooter(Message.CMD_GAMESTATS_PAGE.get(e, String.valueOf(page), String.valueOf(maxPages)), e.getJDA().getSelfUser().getEffectiveAvatarUrl());
         logger.info(guildGameStats.size() + " GameStats gathered and sorted in: " + (System.currentTimeMillis() - timeBefore) + "ms");
         e.getChannel().sendMessage(embedBuilder.build()).complete();
         return true;
