@@ -1,5 +1,6 @@
 package it.efekt.alice.commands.games;
 
+import com.google.gson.Gson;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
@@ -9,11 +10,15 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.*;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class GameStatsCmd extends Command {
     private Logger logger = LoggerFactory.getLogger(GameStatsCmd.class);
+    private List<String> blacklist = new ArrayList<>();
+    private final String BLACKLIST_PATH = "./games_blacklist.json";
     private final int MIN_TIME_PLAYED = 30;
     private final int MAX_TO_PRINT = 15;
 
@@ -21,6 +26,11 @@ public class GameStatsCmd extends Command {
         super(alias);
         setCategory(CommandCategory.GAMES);
         setDescription(Message.CMD_GAMESTATS_DESC);
+        try {
+            loadBlacklist();
+        } catch (FileNotFoundException e) {
+            logger.info("couldn't find " + BLACKLIST_PATH + " file");
+        }
     }
 
     @Override
@@ -52,8 +62,14 @@ public class GameStatsCmd extends Command {
                 .collect(LinkedHashMap::new,(map,entry) -> map.put(entry.getKey(),entry.getValue()),LinkedHashMap::putAll);
         String output = "";
         List<String> gamesList = new ArrayList<>();
-        sorted.forEach((key, value) ->
-                gamesList.add(key)
+        sorted.forEach((key, value) -> {
+                    for (String blacklistItem : this.blacklist){
+                        if (blacklistItem.equalsIgnoreCase(key)){
+                            return;
+                        }
+                    }
+                    gamesList.add(key);
+                }
         );
         int beginIndex = (page - 1) * MAX_TO_PRINT; // Begin index
 
@@ -94,4 +110,14 @@ public class GameStatsCmd extends Command {
         e.getChannel().sendMessage(embedBuilder.build()).complete();
         return true;
     }
+
+    public void loadBlacklist() throws FileNotFoundException{
+        logger.info("loading games blacklist");
+        this.blacklist.clear();
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(BLACKLIST_PATH));
+        Gson gson = new Gson();
+        this.blacklist = gson.fromJson(bufferedReader, ArrayList.class);
+        logger.info("loaded " + this.blacklist.size() + " blacklisted game names");
+    }
+
 }

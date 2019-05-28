@@ -1,6 +1,7 @@
 package it.efekt.alice.core;
 
 import it.efekt.alice.commands.HelpCmd;
+import it.efekt.alice.commands.admin.BlacklistReload;
 import it.efekt.alice.commands.admin.StatsCmd;
 import it.efekt.alice.commands.fun.*;
 import it.efekt.alice.commands.games.ApexStatsCmd;
@@ -91,6 +92,7 @@ public class Alice {
         getCmdManager().setExecutor(new RecordCmd("rec"));
         getCmdManager().setExecutor(new ImgOnlyCmd("img-only"));
         getCmdManager().setExecutor(new StatsCmd("stats"));
+        getCmdManager().setExecutor(new BlacklistReload("topgames-blacklist"));
     }
 
     private void startSchedulers(){
