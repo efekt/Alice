@@ -9,6 +9,7 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.guild.GenericGuildEvent;
+import net.dv8tion.jda.core.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.core.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.core.events.guild.member.GuildMemberLeaveEvent;
 import net.dv8tion.jda.core.events.guild.voice.GuildVoiceJoinEvent;
@@ -17,12 +18,15 @@ import net.dv8tion.jda.core.events.guild.voice.GuildVoiceMoveEvent;
 import net.dv8tion.jda.core.events.user.update.UserUpdateOnlineStatusEvent;
 import net.dv8tion.jda.core.exceptions.InsufficientPermissionException;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class GuildLogger extends ListenerAdapter {
     private Alice alice;
+    private Logger logger = LoggerFactory.getLogger(GuildLogger.class);
 
     public GuildLogger(Alice alice){
         this.alice = alice;
@@ -42,6 +46,11 @@ public class GuildLogger extends ListenerAdapter {
                 if (e instanceof GuildMemberLeaveEvent) {
                     GuildMemberLeaveEvent event = (GuildMemberLeaveEvent) e;
                     log(e.getGuild(), Message.LOGGER_USER_LEAVES_GUILD.get(e.getGuild(), event.getMember().getEffectiveName()));
+                }
+
+                if (e instanceof GuildJoinEvent){
+                    GuildJoinEvent event = (GuildJoinEvent) e;
+                    logger.info("NEW GUILD:" + event.getGuild().getName() + " : " + event.getGuild().getId());
                 }
             }
         } catch (Exception exc){
