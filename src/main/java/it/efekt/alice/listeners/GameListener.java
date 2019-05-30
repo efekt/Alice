@@ -57,7 +57,7 @@ public class GameListener extends ListenerAdapter {
                     logger.debug("sinceLastUpdate: " + sinceLastUpdate);
                     logger.debug("elapsedMillis: " + elapsedMilis);
                     if (elapsedMilis > sinceLastUpdate){
-                        logger.info("not saved");
+                        logger.debug("not saved");
                         return;
                     }
                 }
