@@ -35,6 +35,16 @@ public class GuildLogger extends ListenerAdapter {
     @Override
     public void onGenericGuild(GenericGuildEvent e){
         try {
+            if (e instanceof GuildJoinEvent){
+                GuildJoinEvent event = (GuildJoinEvent) e;
+                logger.info("GUILD JOIN" + event.getGuild().getName() + " : " + event.getGuild().getId() + " members: " + event.getGuild().getMembers().size());
+            }
+
+            if (e instanceof GuildLeaveEvent){
+                GuildLeaveEvent event = (GuildLeaveEvent) e;
+                logger.info("GUILD LEAVE:" + event.getGuild().getName() + " : " + event.getGuild().getId() + " members: " + event.getGuild().getMembers().size());
+            }
+
             if (isLoggerSet(e.getGuild())) {
                 GuildConfig config = AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild());
 
@@ -46,16 +56,6 @@ public class GuildLogger extends ListenerAdapter {
                 if (e instanceof GuildMemberLeaveEvent) {
                     GuildMemberLeaveEvent event = (GuildMemberLeaveEvent) e;
                     log(e.getGuild(), Message.LOGGER_USER_LEAVES_GUILD.get(e.getGuild(), event.getMember().getEffectiveName()));
-                }
-
-                if (e instanceof GuildJoinEvent){
-                    GuildJoinEvent event = (GuildJoinEvent) e;
-                    logger.info("GUILD JOIN" + event.getGuild().getName() + " : " + event.getGuild().getId() + " members: " + event.getGuild().getMembers().size());
-                }
-
-                if (e instanceof GuildLeaveEvent){
-                    GuildLeaveEvent event = (GuildLeaveEvent) e;
-                    logger.info("GUILD LEAVE:" + event.getGuild().getName() + " : " + event.getGuild().getId() + " members: " + event.getGuild().getMembers().size());
                 }
             }
         } catch (Exception exc){
