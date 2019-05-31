@@ -155,6 +155,7 @@ public class AliceReceiveHandler implements AudioReceiveHandler {
         }
         channel.sendFile(file, "Alice_" + dateTime + ".mp3", messageBuilder.build()).complete();
         this.reset();
+        file.delete();
     }
 
     public float getMAX_RECORD_TIME(){
