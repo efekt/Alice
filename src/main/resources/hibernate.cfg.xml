@@ -18,7 +18,6 @@
         <property name="hibernate.c3p0.max_statements">100</property>
         <property name="hibernate.c3p0.idle_test_period">3000</property>
 
-
     </session-factory>
 
 </hibernate-configuration>

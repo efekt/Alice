@@ -1,6 +1,5 @@
 package it.efekt.alice.listeners;
 
-
 import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.ReadyEvent;
 import net.dv8tion.jda.core.hooks.EventListener;
