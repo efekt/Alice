@@ -37,12 +37,12 @@ public class GuildLogger extends ListenerAdapter {
         try {
             if (e instanceof GuildJoinEvent){
                 GuildJoinEvent event = (GuildJoinEvent) e;
-                logger.info("GUILD JOIN" + event.getGuild().getName() + " : " + event.getGuild().getId() + " members: " + event.getGuild().getMembers().size());
+                logger.info("GUILD JOIN: " + event.getGuild().getName() + " : " + event.getGuild().getId() + " members: " + event.getGuild().getMembers().size());
             }
 
             if (e instanceof GuildLeaveEvent){
                 GuildLeaveEvent event = (GuildLeaveEvent) e;
-                logger.info("GUILD LEAVE:" + event.getGuild().getName() + " : " + event.getGuild().getId() + " members: " + event.getGuild().getMembers().size());
+                logger.info("GUILD LEAVE: " + event.getGuild().getName() + " : " + event.getGuild().getId() + " members: " + event.getGuild().getMembers().size());
             }
 
             if (isLoggerSet(e.getGuild())) {
