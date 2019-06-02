@@ -1,15 +1,12 @@
 package it.efekt.alice.core;
 
 import it.efekt.alice.commands.HelpCmd;
-import it.efekt.alice.commands.admin.BlacklistReload;
-import it.efekt.alice.commands.admin.StatsCmd;
+import it.efekt.alice.commands.admin.*;
 import it.efekt.alice.commands.fun.*;
 import it.efekt.alice.commands.games.ApexStatsCmd;
 import it.efekt.alice.commands.games.GameStatsCmd;
 import it.efekt.alice.commands.games.MinecraftStatusCmd;
 import it.efekt.alice.commands.util.*;
-import it.efekt.alice.commands.admin.StatusCmd;
-import it.efekt.alice.commands.admin.StopCmd;
 import it.efekt.alice.commands.core.CommandManager;
 import it.efekt.alice.commands.nsfw.HentaiCmd;
 import it.efekt.alice.commands.nsfw.NekoCmd;
@@ -93,6 +90,7 @@ public class Alice {
         getCmdManager().setExecutor(new ImgOnlyCmd("img-only"));
         getCmdManager().setExecutor(new StatsCmd("stats"));
         getCmdManager().setExecutor(new BlacklistReload("topgames-blacklist"));
+        getCmdManager().setExecutor(new ServersCmd("servers"));
     }
 
     private void startSchedulers(){
