@@ -4,7 +4,6 @@ import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
