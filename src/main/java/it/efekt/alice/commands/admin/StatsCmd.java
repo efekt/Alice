@@ -24,14 +24,12 @@ public class StatsCmd extends Command {
         NumberFormat format = NumberFormat.getInstance();
 
         StringBuilder sb = new StringBuilder();
-        long maxMemory = runtime.maxMemory();
-        long allocatedMemory = runtime.totalMemory();
+        long maxMemory = runtime.maxMemory() / 1024 / 1024;
+        long totalMemory = runtime.totalMemory();
         long freeMemory = runtime.freeMemory();
+        long currentUsage = (totalMemory / 1024 / 1024) - (freeMemory / 1024 / 1024);
 
-        sb.append("Free: " + format.format(freeMemory / 1024 / 1024) + "\n");
-        sb.append("Allocated: " + format.format(allocatedMemory / 1024 / 1024) + "\n");
-        sb.append("Max: " + format.format(maxMemory / 1024 / 1024) + "\n");
-        sb.append("Total Free: " + format.format((freeMemory + (maxMemory - allocatedMemory)) / 1024 / 1024) + "\n");
+        sb.append("Current Usage: " + format.format(currentUsage)  + " / " + format.format(maxMemory) + " MB\n");
 
         builder.addField("Memory usage", sb.toString(), false);
 
