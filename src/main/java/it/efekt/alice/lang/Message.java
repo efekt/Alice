@@ -133,6 +133,7 @@ public enum Message {
     CMD_PLAY_FULL_USAGE_INFO("`keywords` - searches YouTube\n`url` - plays audio from url\nexample: `play darude sandstorm`"),
     CMD_PLAY_SHORT_USAGE_INFO("`url` or `keywords`"),
     CMD_PLAY_TRACK_RESUMED("Track resumed"),
+    CMD_PLAYAGAIN_DESC("Plays previously played track"),
     CMD_PAUSE_DESC("Pauses currently playing track"),
     CMD_PAUSE_PAUSED("Track paused"),
     CMD_PAUSE_RESUMED("Track resumed"),

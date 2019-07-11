@@ -22,6 +22,7 @@ public class AliceAudioManager {
     private AudioPlayerManager audioPlayerManager; // single instance in whole app
     private HashMap<String, AliceSendHandler> sendHandlers = new HashMap<>();
     private HashMap<String, AliceReceiveHandler> receiveHandlers = new HashMap<>();
+    private HashMap<String, String> lastPlayedContent = new HashMap<>();
 
     public AliceAudioManager(){
         this.audioPlayerManager = new DefaultAudioPlayerManager();
@@ -62,7 +63,6 @@ public class AliceAudioManager {
         getAudioPlayer(guild).addListener(new TrackScheduler());
         AudioManager audioManager = guild.getAudioManager();
         audioManager.setSendingHandler(getSendHandler(guild));
-
         return this.audioPlayerManager.loadItem(content, audioLoadResultHandler);
     }
 
@@ -71,6 +71,10 @@ public class AliceAudioManager {
         guild.getAudioManager().setSendingHandler(new AliceSilenceSendHandler());
         guild.getAudioManager().setReceivingHandler(getReceiveHandler(guild));
         getReceiveHandler(guild).startRecording(textChannel);
+    }
+
+    public String getLastPlayed(Guild guild){
+        return this.lastPlayedContent.get(guild.getId());
     }
 
     public void stopRecordingAndSave(Guild guild, File file){
@@ -93,6 +97,7 @@ public class AliceAudioManager {
     }
 
     public void play(MessageReceivedEvent e, String content){
+        this.lastPlayedContent.put(e.getGuild().getId(), content);
         playRemoteSource(e.getGuild(), content, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack audioTrack) {
