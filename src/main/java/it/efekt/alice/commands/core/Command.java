@@ -7,6 +7,7 @@ import it.efekt.alice.lang.Language;
 import it.efekt.alice.lang.Message;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
+import net.dv8tion.jda.core.entities.ChannelType;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public abstract class Command extends ListenerAdapter {
+    private String BOT_AUTHOR_ID = "128146616094818304";
     protected String alias;
     private String[] args;
     private Message desc = Message.BLANK;
@@ -31,6 +33,7 @@ public abstract class Command extends ListenerAdapter {
     private Logger logger = LoggerFactory.getLogger(Command.class);
     private boolean isNsfw = false;
     private boolean isAdminCommand = false;
+    private boolean isPrivateChannelCmd = false;
     private CommandCategory category = CommandCategory.BLANK;
 
     public Command(String alias){
@@ -42,7 +45,9 @@ public abstract class Command extends ListenerAdapter {
     private void execute(MessageReceivedEvent e) {
         Runnable runnable = () -> {
             // If command is returning false, means that something is wrong
-            AliceBootstrap.analytics.reportCmdUsage(getAlias(), Arrays.asList(getArgs()).toString(), e.getGuild(), e.getAuthor());
+            if (!isPrivateChannelCmd) {
+                AliceBootstrap.analytics.reportCmdUsage(getAlias(), Arrays.asList(getArgs()).toString(), e.getGuild(), e.getAuthor());
+            }
                 try {
                     if (!this.onCommand(e)) {
                         e.getChannel().sendMessage(Message.CMD_CHECK_IF_IS_CORRECT.get(e, "Type `<help` `" + getAlias() + "` to see the command's help")).queue();
@@ -132,6 +137,10 @@ public abstract class Command extends ListenerAdapter {
         this.permissions.add(permission);
     }
 
+    protected void setPrivateChannelCmd(boolean isPrivateChannelCmd){
+        this.isPrivateChannelCmd = isPrivateChannelCmd;
+    }
+
     protected GuildConfig getGuildConfig(Guild guild){
         return AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(guild);
     }
@@ -149,9 +158,8 @@ public abstract class Command extends ListenerAdapter {
     @Override
     public void onMessageReceived(MessageReceivedEvent e){
         String[] allArgs = e.getMessage().getContentRaw().split("\\s+");
-
         // getting alias and cmd args accordingly to prefix (mention vs standard prefix)
-        if (allArgs[0].startsWith(getGuildPrefix(e.getGuild())) || isMentioningSelf(allArgs)){
+        if (isMentioningSelf(allArgs) || allArgs[0].startsWith(getGuildPrefix(e.getGuild()))){
                 String cmdAlias;
                 String[] args;
             if (!isMentioningSelf(allArgs)) {
@@ -163,22 +171,36 @@ public abstract class Command extends ListenerAdapter {
             }
 
             if (this.alias.equalsIgnoreCase(cmdAlias)){
-                this.logger.debug("User: " + e.getAuthor().getName() + " id:" + e.getAuthor().getId() + " is requesting cmd: " + cmdAlias + " with msg: " + e.getMessage().getContentDisplay());
+                if (e.isFromType(ChannelType.PRIVATE)){
+                    if (!isPrivateChannelCmd) {
+                        return;
+                    }
+                } else {
+                    if (isPrivateChannelCmd){
+                        e.getTextChannel().sendMessage("This command can be used on private channel only.").complete();
+                        return;
+                    }
+                }
+
+
+                if (!isPrivateChannelCmd) {
+                    this.logger.debug("User: " + e.getAuthor().getName() + " id:" + e.getAuthor().getId() + " is requesting cmd: " + cmdAlias + " with msg: " + e.getMessage().getContentDisplay());
+                }
                 // Prevent bots from using commands
                 if (e.getAuthor().isBot()){
                     return;
                 }
 
-                if (getGuildConfig(e.getGuild()).isCmdDisabled(cmdAlias)){
+                if (!isPrivateChannelCmd && getGuildConfig(e.getGuild()).isCmdDisabled(cmdAlias)){
                     return;
                 }
 
                 // Only for debug purposes, change it later //todo implement better admin commands
-                if (isAdminCommand() && !e.getAuthor().getId().equalsIgnoreCase("128146616094818304")){
+                if (isAdminCommand() && !e.getAuthor().getId().equalsIgnoreCase(BOT_AUTHOR_ID)){
                     return;
                 }
-
-                if (canUseCmd(e.getMember())){
+                // checking for author is important to filter private message commands, that are for admin only
+                if (e.getAuthor().getId().equalsIgnoreCase(BOT_AUTHOR_ID) || canUseCmd(e.getMember())){
                     if (isNsfw() && !e.getTextChannel().isNSFW()){
                         e.getChannel().sendMessage(new EmbedBuilder()
                                 .setThumbnail("https://i.imgur.com/L3o8Xq0.jpg")

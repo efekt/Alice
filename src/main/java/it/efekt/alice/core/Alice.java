@@ -92,6 +92,7 @@ public class Alice {
         getCmdManager().setExecutor(new BlacklistReload("topgames-blacklist"));
         getCmdManager().setExecutor(new ServersCmd("servers"));
         getCmdManager().setExecutor(new PlayAgainCmd("playa"));
+        getCmdManager().setExecutor(new ReplyCmd("reply"));
     }
 
     private void startSchedulers(){

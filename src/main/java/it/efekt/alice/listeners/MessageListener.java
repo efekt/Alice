@@ -3,10 +3,12 @@ package it.efekt.alice.listeners;
 import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.db.TextChannelConfig;
 import it.efekt.alice.db.UserStats;
+import net.dv8tion.jda.core.entities.ChannelType;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.core.events.message.priv.PrivateMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.ErrorResponseException;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import org.slf4j.Logger;
@@ -18,6 +20,10 @@ public class MessageListener extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(MessageReceivedEvent e){
+        // ignoring private messages
+        if (e.isFromType(ChannelType.PRIVATE)){
+            return;
+        }
         try {
             Guild guild = e.getGuild();
             User user = e.getAuthor();
