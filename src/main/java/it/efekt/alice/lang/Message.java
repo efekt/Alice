@@ -158,6 +158,12 @@ public enum Message {
     CMD_REC_USERS("Recorded users:"),
     CMD_IMGONLY_DESC("Changes current channel to image-only channel.\nAfter this feature is turned on, every message without any picture will be deleted"),
     CMD_IMGONLY_FULL_USAGE_INFO("enables/disables feature"),
+    CMD_TIMEZONE_DESC("Sets timezone"),
+    CMD_TIMEZONE_SHORT_USAGE_INFO("`zone`"),
+    CMD_TIMEZONE_FULL_USAGE_INFO("`zone` - your timezone \nExamples: `GMT+1` `GMT+8` `GMT-4`\nPlease use GMT based format"),
+    CMD_TIMEZONE_CURRENT("Timezone: {1} \nCurrent date and time: "),
+    CMD_TIMEZONE_WRONG("Wrong timezone given, please try again."),
+    CMD_TIMEZONE_CHANGED("Changed timezone to: {1}"),
 
     BLANK(""); // leave it alone ;)
 

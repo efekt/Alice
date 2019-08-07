@@ -4,6 +4,7 @@ import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.db.GuildConfig;
+import it.efekt.alice.lang.Message;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import java.time.ZoneId;
@@ -19,6 +20,9 @@ public class TimezoneCmd extends Command {
         super(alias);
         addPermission(Permission.ADMINISTRATOR);
         setCategory(CommandCategory.DISCORD_ADMIN_UTILS);
+        setDescription(Message.CMD_TIMEZONE_DESC);
+        setFullUsageInfo(Message.CMD_TIMEZONE_FULL_USAGE_INFO);
+        setShortUsageInfo(Message.CMD_TIMEZONE_SHORT_USAGE_INFO);
     }
 
     @Override
@@ -30,7 +34,7 @@ public class TimezoneCmd extends Command {
             DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss");
             String dateTime = guildDateTime.format(dateFormat);
             String timezoneName =  guildDateTime.getZone().getDisplayName(TextStyle.SHORT_STANDALONE, Locale.ENGLISH);
-            e.getTextChannel().sendMessage("Timezone: " + timezoneName + "\nCurrent date and time: " + dateTime + " ("+ guildDateTime.getOffset().toString()+")").complete();
+            e.getTextChannel().sendMessage( Message.CMD_TIMEZONE_CURRENT.get(e.getGuild(), timezoneName) + dateTime + " ("+ guildDateTime.getOffset().toString()+")").complete();
             return true;
         }
 
@@ -39,7 +43,7 @@ public class TimezoneCmd extends Command {
 
             // make sure that all timezones are saved in the same format...
             if (!timezone.contains("GMT")){
-                e.getTextChannel().sendMessage("Wrong timezone given, please try again.").complete();
+                e.getTextChannel().sendMessage(Message.CMD_TIMEZONE_WRONG.get(e.getGuild())).complete();
                 return true;
             }
 
@@ -47,10 +51,10 @@ public class TimezoneCmd extends Command {
                 ZoneId zoneId = ZoneId.of(timezone);
                 guildConfig.setTimezone(zoneId.toString());
                 guildConfig.save();
-                e.getTextChannel().sendMessage("Changed timezone to: " + zoneId.getId()).complete();
+                e.getTextChannel().sendMessage(Message.CMD_TIMEZONE_CHANGED.get(e.getGuild(), zoneId.getId())).complete();
                 return true;
             } catch (ZoneRulesException exc){
-                e.getTextChannel().sendMessage("Wrong timezone given, please try again.").complete();
+                e.getTextChannel().sendMessage(Message.CMD_TIMEZONE_WRONG.get(e.getGuild())).complete();
                 return true;
             }
         }
