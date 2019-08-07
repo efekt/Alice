@@ -93,6 +93,7 @@ public class Alice {
         getCmdManager().setExecutor(new ServersCmd("servers"));
         getCmdManager().setExecutor(new PlayAgainCmd("playa"));
         getCmdManager().setExecutor(new ReplyCmd("reply"));
+        getCmdManager().setExecutor(new TimezoneCmd("timezone"));
     }
 
     private void startSchedulers(){

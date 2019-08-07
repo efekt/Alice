@@ -8,6 +8,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.Date;
 
 @Entity
 @Table(name="guild_config", schema = "alice_bot_db")
@@ -19,6 +24,9 @@ public class GuildConfig extends AliceDb{
 
     @Column(name="prefix")
     private String prefix;
+
+    @Column(name="timezone")
+    private String timezone;
 
     // Id of TextChannel
     @Column(name="log_channel")
@@ -83,6 +91,23 @@ public class GuildConfig extends AliceDb{
 
     public void setPrefix(String prefix) {
         this.prefix = prefix;
+    }
+
+    public String getTimezone() {
+        return timezone;
+    }
+
+    public void setTimezone(String timezone) {
+        this.timezone = timezone;
+    }
+
+    public ZonedDateTime getGuildDateTime(){
+        if (this.timezone == null){
+            return ZonedDateTime.now();
+        } else {
+            ZonedDateTime nowGuildTime = ZonedDateTime.ofInstant(Instant.now(), ZoneId.of(this.timezone));
+            return nowGuildTime;
+        }
     }
 
     public boolean isCmdDisabled(String cmdAlias){
