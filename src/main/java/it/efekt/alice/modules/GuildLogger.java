@@ -21,7 +21,7 @@ import net.dv8tion.jda.core.exceptions.InsufficientPermissionException;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class GuildLogger extends ListenerAdapter {
@@ -135,7 +135,8 @@ public class GuildLogger extends ListenerAdapter {
 
             try {
                 DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss");
-                String dateTime = LocalDateTime.now().format(dateFormat);
+                ZonedDateTime guildDateTime =  alice.getGuildConfigManager().getGuildConfig(guild).getGuildDateTime();
+                String dateTime = guildDateTime.format(dateFormat);
                 logChannel.sendMessage("`[" + dateTime + "]` " + message).queue();
             } catch(InsufficientPermissionException exc) {
                 User guildOwner = guild.getOwner().getUser();
