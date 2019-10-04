@@ -49,6 +49,15 @@ public class HentaiCmd extends Command {
                     case "6+girls":
                         danbooru.sendPicture(e, DanbooruRating.EXPLICIT, "6%2Bgirls");
                         return true;
+                    case "rin":
+                        danbooru.sendPicture(e, DanbooruRating.EXPLICIT, "toosaka_rin");
+                        return true;
+                    case "gray":
+                        danbooru.sendPicture(e, DanbooruRating.EXPLICIT, "gray_(lord_el-melloi_ii)");
+                        return true;
+                    case "ishtar":
+                        danbooru.sendPicture(e, DanbooruRating.EXPLICIT, "ishtar_(fate/grand_order)");
+                        return true;
                     default:
                         danbooru.sendPicture(e, DanbooruRating.EXPLICIT, category);
                         return true;
@@ -117,6 +126,12 @@ public class HentaiCmd extends Command {
         this.categories.add("armor");
         this.categories.add("high_heels");
         this.categories.add("gun");
+        this.categories.add("rin");
+        this.categories.add("saber");
+        this.categories.add("megumin");
+        this.categories.add("gray");
+        this.categories.add("ishtar");
+
     }
 
     private String getCategoriesString(){
