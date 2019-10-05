@@ -51,7 +51,7 @@ public class AnimeCharacterCmd extends Command {
                         danbooru.sendPicture(e, DanbooruRating.SAFE, "ishtar_(fate/grand_order)");
                         return true;
                     case "jeanne":
-                        danbooru.sendPicture(e, DanbooruRating.SAFE, "jeanne_d'arc_(fate)_(all)");
+                        danbooru.sendPicture(e, DanbooruRating.SAFE, "jeanne_d'arc_(fate)");
                         return true;
                     case "senko":
                         danbooru.sendPicture(e, DanbooruRating.SAFE, "senko_(sewayaki_kitsune_no_senko-san)");
