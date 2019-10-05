@@ -6,6 +6,7 @@ import it.efekt.alice.commands.fun.*;
 import it.efekt.alice.commands.games.ApexStatsCmd;
 import it.efekt.alice.commands.games.GameStatsCmd;
 import it.efekt.alice.commands.games.MinecraftStatusCmd;
+import it.efekt.alice.commands.nsfw.AnimeCharacterCmd;
 import it.efekt.alice.commands.util.*;
 import it.efekt.alice.commands.core.CommandManager;
 import it.efekt.alice.commands.nsfw.HentaiCmd;
@@ -94,6 +95,7 @@ public class Alice {
         getCmdManager().setExecutor(new PlayAgainCmd("playa"));
         getCmdManager().setExecutor(new ReplyCmd("reply"));
         getCmdManager().setExecutor(new TimezoneCmd("timezone"));
+        getCmdManager().setExecutor(new AnimeCharacterCmd("a"));
     }
 
     private void startSchedulers(){
