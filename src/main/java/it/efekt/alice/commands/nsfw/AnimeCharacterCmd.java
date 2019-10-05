@@ -112,7 +112,6 @@ public class AnimeCharacterCmd extends Command {
         this.categories.add("miki_sayaka");
         this.categories.add("sakura_kyouko");
         this.categories.add("tomoe_mami");
-        this.categories.add("miki_sayaka");
     }
 
     private String getCategoriesString(){
