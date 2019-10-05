@@ -50,6 +50,24 @@ public class AnimeCharacterCmd extends Command {
                     case "ishtar":
                         danbooru.sendPicture(e, DanbooruRating.SAFE, "ishtar_(fate/grand_order)");
                         return true;
+                    case "jeanne":
+                        danbooru.sendPicture(e, DanbooruRating.SAFE, "jeanne_d'arc_(fate)_(all)");
+                        return true;
+                    case "senko":
+                        danbooru.sendPicture(e, DanbooruRating.SAFE, "senko_(sewayaki_kitsune_no_senko-san)");
+                        return true;
+                    case "asuna":
+                        danbooru.sendPicture(e, DanbooruRating.SAFE, "asuna_(sao)");
+                        return true;
+                    case "yue":
+                        danbooru.sendPicture(e, DanbooruRating.SAFE, "yue_(arifureta)");
+                        return true;
+                    case "asuka":
+                        danbooru.sendPicture(e, DanbooruRating.SAFE, "souryuu_asuka_langley");
+                        return true;
+                    case "violet_evergarden":
+                        danbooru.sendPicture(e, DanbooruRating.SAFE, "violet_evergarden_(character)");
+                        return true;
                     default:
                         danbooru.sendPicture(e, DanbooruRating.SAFE, category);
                         return true;
@@ -67,6 +85,34 @@ public class AnimeCharacterCmd extends Command {
         this.categories.add("megumin");
         this.categories.add("gray");
         this.categories.add("ishtar");
+        this.categories.add("jeanne");
+        this.categories.add("senko");
+        this.categories.add("asuna");
+        this.categories.add("sinon");
+        this.categories.add("yue");
+        this.categories.add("asuka");
+        this.categories.add("ayanami_rei");
+        this.categories.add("makise_kurisu");
+        this.categories.add("hatori_chise");
+        this.categories.add("christa_renz");
+        this.categories.add("mikasa_ackerman");
+        this.categories.add("kamado_nezuko");
+        this.categories.add("seras_victoria");
+        this.categories.add("chitanda_eru");
+        this.categories.add("mori_yuki");
+        this.categories.add("hinazuki_kayo");
+        this.categories.add("mori_yuki");
+        this.categories.add("violet_evergarden");
+        this.categories.add("shana");
+        this.categories.add("kusanagi_motoko");
+        this.categories.add("watanabe_saki");
+        this.categories.add("miyazono_kawori");
+        this.categories.add("kaname_madoka");
+        this.categories.add("akemi_homura");
+        this.categories.add("miki_sayaka");
+        this.categories.add("sakura_kyouko ");
+        this.categories.add("tomoe_mami");
+        this.categories.add("miki_sayaka");
     }
 
     private String getCategoriesString(){
