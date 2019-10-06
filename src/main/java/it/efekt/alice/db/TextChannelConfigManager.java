@@ -4,41 +4,46 @@ import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.db.model.TextChannelConfig;
 import net.dv8tion.jda.core.entities.TextChannel;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import javax.persistence.NoResultException;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TextChannelConfigManager {
     private Logger logger = LoggerFactory.getLogger(TextChannelConfigManager.class);
-    private List<TextChannelConfig> textChannelConfigs = new ArrayList<>();
-
-    public TextChannelConfigManager(){
-        loadAll();
-    }
-
-    public void loadAll(){
-        logger.info("Loading text channel configs...");
-        Session session = AliceBootstrap.hibernate.getSession();
-        session.beginTransaction();
-        this.textChannelConfigs.addAll(session.createQuery("from TextChannelConfig").getResultList());
-        session.getTransaction().commit();
-        logger.info("Loaded all " + this.textChannelConfigs.size() + " text channel configs");
-    }
-
-    public void saveAll(){
-        this.textChannelConfigs.forEach(TextChannelConfig::save);
-    }
 
     public TextChannelConfig get(TextChannel textChannel){
-        for (TextChannelConfig config : this.textChannelConfigs){
-            if (config.getChannelId().equalsIgnoreCase(textChannel.getId())){
-                return config;
-            }
+        Session session = AliceBootstrap.hibernate.getSession();
+        session.beginTransaction();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<TextChannelConfig> criteriaQuery = criteriaBuilder.createQuery(TextChannelConfig.class);
+        Root<TextChannelConfig> textChannelConfigRoot = criteriaQuery.from(TextChannelConfig.class);
+
+        List<Predicate> conditions = new ArrayList<>();
+        conditions.add(criteriaBuilder.equal(textChannelConfigRoot.get("channelId"), textChannel.getId()));
+
+        criteriaQuery.select(textChannelConfigRoot).where(conditions.toArray(new Predicate[0]));
+
+        Query<TextChannelConfig> query = session.createQuery(criteriaQuery);
+        TextChannelConfig result;
+
+        try {
+            result = query.getSingleResult();
+            session.getTransaction().commit();
+        } catch (NoResultException exc){
+            session.getTransaction().rollback();
+            TextChannelConfig textChannelConfig = new TextChannelConfig(textChannel.getId());
+            textChannelConfig.save();
+            return textChannelConfig;
         }
-        TextChannelConfig textChannelConfig = new TextChannelConfig(textChannel.getId());
-        this.textChannelConfigs.add(textChannelConfig);
-        return textChannelConfig;
+
+        return result;
     }
 
 }
