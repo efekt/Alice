@@ -1,66 +1,70 @@
 package it.efekt.alice.db;
 
-import it.efekt.alice.core.Alice;
 import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.db.model.UserStats;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.User;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import javax.persistence.NoResultException;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserStatsManager {
     private Logger logger = LoggerFactory.getLogger(UserStatsManager.class);
-    private Alice alice;
-    private List<UserStats> userStats = new ArrayList<>();
-
-    public UserStatsManager(Alice alice){
-        this.alice = alice;
-        loadUserStats();
-    }
-
-    public void loadUserStats(){
-        logger.info("Loading user stats...");
-        Session session = AliceBootstrap.hibernate.getSession();
-        session.beginTransaction();
-        this.userStats.addAll(session.createQuery("from UserStats").getResultList());
-        session.getTransaction().commit();
-        logger.info("Loaded all " + this.userStats.size() + " user stats");
-    }
-
-    public void saveAllUserStats(){
-        userStats.forEach(UserStats::save);
-    }
 
     public UserStats getUserStats(User user, Guild guild){
-        for (UserStats userStats : this.userStats){
-            if (userStats.getGuildId().equalsIgnoreCase(guild.getId()) && userStats.getUserId().equalsIgnoreCase(user.getId())){
-                return userStats;
-            }
+        Session session = AliceBootstrap.hibernate.getSession();
+        session.beginTransaction();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<UserStats> criteriaQuery = criteriaBuilder.createQuery(UserStats.class);
+        Root<UserStats> userStatsRoot = criteriaQuery.from(UserStats.class);
+
+        List<Predicate> conditions = new ArrayList<>();
+        conditions.add(criteriaBuilder.equal(userStatsRoot.get("guildId"), guild.getId()));
+        conditions.add(criteriaBuilder.equal(userStatsRoot.get("userId"), user.getId()));
+
+        criteriaQuery.select(userStatsRoot).where(conditions.toArray(new Predicate[0]));
+
+        Query<UserStats> query = session.createQuery(criteriaQuery);
+        UserStats result;
+
+        try {
+            result = query.getSingleResult();
+            session.getTransaction().commit();
+        } catch (NoResultException exc){
+            session.getTransaction().rollback();
+            UserStats userStats = new UserStats(user.getId(), guild.getId());
+            userStats.save();
+            return userStats;
         }
-        UserStats newUserStats = new UserStats(user.getId(), guild.getId());
-        this.userStats.add(newUserStats);
-        return newUserStats;
+        return result;
     }
 
     public List<UserStats> getUserStats(Guild guild){
-        List<UserStats> stats = new ArrayList<>();
-        for (UserStats userStats : this.userStats){
-            if (userStats.getGuildId().equalsIgnoreCase(guild.getId())){
-                stats.add(userStats);
-            }
-        }
+        Session session = AliceBootstrap.hibernate.getSession();
+        session.beginTransaction();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<UserStats> criteriaQuery = criteriaBuilder.createQuery(UserStats.class);
+        Root<UserStats> userStatsRoot = criteriaQuery.from(UserStats.class);
 
-        return stats;
+        List<Predicate> conditions = new ArrayList<>();
+        conditions.add(criteriaBuilder.equal(userStatsRoot.get("guildId"), guild.getId()));
+
+        criteriaQuery.select(userStatsRoot).where(conditions.toArray(new Predicate[0]));
+
+        Query<UserStats> query = session.createQuery(criteriaQuery);
+        List<UserStats> results = query.getResultList();
+
+        session.getTransaction().commit();
+
+        return results;
     }
 
-    public void removeAllInvalidUsers(){
-        this.userStats.removeIf(UserStats::isInvalidUser);
-    }
-
-    public void removeAll(Guild guild){
-        this.userStats.removeIf(uStats -> uStats.getGuildId().equals(guild.getId()) && uStats.remove());
-    }
 }

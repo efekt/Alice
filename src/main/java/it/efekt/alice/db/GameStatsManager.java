@@ -1,6 +1,5 @@
 package it.efekt.alice.db;
 
-import it.efekt.alice.core.Alice;
 import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.db.model.GameStats;
 import net.dv8tion.jda.core.entities.Guild;
@@ -20,11 +19,6 @@ import java.util.List;
 
 public class GameStatsManager {
     private Logger logger = LoggerFactory.getLogger(GameStatsManager.class);
-    private Alice alice;
-
-    public GameStatsManager(Alice alice){
-        this.alice = alice;
-    }
 
     public GameStats getGameStats(User user, Guild guild, String gameName){
         Session session = AliceBootstrap.hibernate.getSession();

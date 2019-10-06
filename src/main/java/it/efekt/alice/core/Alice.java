@@ -152,8 +152,8 @@ public class Alice {
             this.getJDA().getPresence().setGame(Game.playing("gathering info..."));
             this.guildConfigManager = new GuildConfigManager();
             this.cmdManager = new CommandManager(this);
-            this.userStatsManager = new UserStatsManager(this);
-            this.gameStatsManager = new GameStatsManager(this);
+            this.userStatsManager = new UserStatsManager();
+            this.gameStatsManager = new GameStatsManager();
             this.languageManager = new LanguageManager();
             this.aliceAudioManager = new AliceAudioManager();
             this.textChannelConfigManager = new TextChannelConfigManager();
