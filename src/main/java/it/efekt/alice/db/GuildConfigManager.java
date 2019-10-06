@@ -1,62 +1,70 @@
 package it.efekt.alice.db;
 
-import it.efekt.alice.core.Alice;
 import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.db.model.GuildConfig;
 import net.dv8tion.jda.core.entities.Guild;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.HashMap;
+import javax.persistence.NoResultException;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GuildConfigManager {
     private Logger logger = LoggerFactory.getLogger(GuildConfigManager.class);
-    private HashMap<String, GuildConfig> guildConfigs = new HashMap<>();
-    private Alice alice;
-
-
-    public GuildConfigManager(Alice alice){
-        this.alice = alice;
-        loadAll();
-    }
 
     public GuildConfig getGuildConfig(Guild guild){
-        if (!this.guildConfigs.containsKey(guild.getId())){
-            GuildConfig config = new GuildConfig(guild.getId(), AliceBootstrap.DEFAULT_PREFIX);
-            this.guildConfigs.put(guild.getId(), config);
-            return this.guildConfigs.get(guild.getId());
-        }
+        Session session = AliceBootstrap.hibernate.getSession();
+        session.beginTransaction();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<GuildConfig> criteriaQuery = criteriaBuilder.createQuery(GuildConfig.class);
+        Root<GuildConfig> guildConfigRoot = criteriaQuery.from(GuildConfig.class);
 
-        return this.guildConfigs.get(guild.getId());
+        List<Predicate> conditions = new ArrayList<>();
+        conditions.add(criteriaBuilder.equal(guildConfigRoot.get("id"), guild.getId()));
+
+        criteriaQuery.select(guildConfigRoot).where(conditions.toArray(new Predicate[0]));
+
+        Query<GuildConfig> query = session.createQuery(criteriaQuery);
+        GuildConfig result;
+
+        try {
+            result = query.getSingleResult();
+            session.getTransaction().commit();
+        } catch (NoResultException exc){
+            session.getTransaction().rollback();
+            GuildConfig guildConfig = new GuildConfig(guild.getId(), AliceBootstrap.DEFAULT_PREFIX);
+            guildConfig.save();
+            return guildConfig;
+        }
+        return result;
     }
 
     public boolean hasConfig(String guildId){
-        return this.guildConfigs.containsKey(guildId);
-    }
-
-    public void updateConfig(GuildConfig guildConfig){
-        if (hasConfig(guildConfig.getId())){
-            this.guildConfigs.put(guildConfig.getId(), guildConfig);
-            guildConfig.save();
-        }
-    }
-
-    public void loadAll(){
-        // Load all config files
         Session session = AliceBootstrap.hibernate.getSession();
         session.beginTransaction();
-        List<GuildConfig> configs = session.createQuery("from GuildConfig").getResultList();
-        configs.forEach(config -> guildConfigs.put(config.getId(), config));
-        session.getTransaction().commit();
-        logger.info("Loaded all " + this.guildConfigs.size() + " guild configs");
-    }
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<GuildConfig> criteriaQuery = criteriaBuilder.createQuery(GuildConfig.class);
+        Root<GuildConfig> guildConfigRoot = criteriaQuery.from(GuildConfig.class);
 
-    public void saveAll(){
-        logger.info("Saving all guild configs to database...");
-        this.guildConfigs.values().forEach(GuildConfig::save);
-        logger.info("Saving all guild configs to database... completed.");
-    }
+        List<Predicate> conditions = new ArrayList<>();
+        conditions.add(criteriaBuilder.equal(guildConfigRoot.get("id"), guildId));
 
+        criteriaQuery.select(guildConfigRoot).where(conditions.toArray(new Predicate[0]));
+
+        Query<GuildConfig> query = session.createQuery(criteriaQuery);
+
+        try {
+            query.getSingleResult();
+            session.getTransaction().commit();
+            return true;
+        } catch (NoResultException exc){
+            return false;
+        }
+    }
 }

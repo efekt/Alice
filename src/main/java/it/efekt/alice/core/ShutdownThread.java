@@ -9,7 +9,6 @@ public class ShutdownThread extends Thread{
 
     @Override
     public void run() {
-        alice.getGuildConfigManager().saveAll();
         System.out.println("Byeee Eugeo!");
     }
 }

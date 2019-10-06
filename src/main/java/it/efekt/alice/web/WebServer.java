@@ -61,7 +61,7 @@ public class WebServer {
             return new Gson().toJson(new StandardResponse(StatusResponse.ERROR, "Guild not found"));
          }
          GuildConfig newConfig = new Gson().fromJson(req.body(), GuildConfig.class);
-         alice.getGuildConfigManager().updateConfig(newConfig);
+         newConfig.save();
 
          return new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS, new Gson().toJsonTree(newConfig)));
       });

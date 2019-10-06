@@ -150,7 +150,7 @@ public class Alice {
         try {
             this.jda = new JDABuilder(AccountType.BOT).setToken(this.getConfig().getToken()).addEventListener(new ReadyListener()).build();
             this.getJDA().getPresence().setGame(Game.playing("gathering info..."));
-            this.guildConfigManager = new GuildConfigManager(this);
+            this.guildConfigManager = new GuildConfigManager();
             this.cmdManager = new CommandManager(this);
             this.userStatsManager = new UserStatsManager(this);
             this.gameStatsManager = new GameStatsManager(this);
