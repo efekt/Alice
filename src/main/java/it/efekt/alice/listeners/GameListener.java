@@ -62,13 +62,17 @@ public class GameListener extends ListenerAdapter {
                     }
                 }
 
-                GameStats gameStats = AliceBootstrap.alice.getGameStatsManager().getGameStats(user, guild, gameName);
-                gameStats.addTimePlayed(elapsed);
-                gameStats.save();
-                lastUpdate.put(guild.getId().concat(user.getId()), System.currentTimeMillis());
-                logger.debug("saved");
-                logger.debug("user: " + user.getId() + " nick: " + user.getName() + " server: " + guild.getId() + " game: " + gameName + " addedTime: " + elapsed + "min" + " took: " + (System.currentTimeMillis() - beforeTime) + "ms");
-                AliceBootstrap.alice.getGuildLogger().log(e.getGuild(), Message.LOGGER_USER_STOPPED_PLAYING.get(e.getGuild(), user.getName(), gameName,String.valueOf(elapsed)));
+                Runnable runnable = () -> {
+                    GameStats gameStats = AliceBootstrap.alice.getGameStatsManager().getGameStats(user, guild, gameName);
+                    gameStats.addTimePlayed(elapsed);
+                    gameStats.save();
+                    lastUpdate.put(guild.getId().concat(user.getId()), System.currentTimeMillis());
+                    logger.debug("saved");
+                    logger.debug("user: " + user.getId() + " nick: " + user.getName() + " server: " + guild.getId() + " game: " + gameName + " addedTime: " + elapsed + "min" + " took: " + (System.currentTimeMillis() - beforeTime) + "ms");
+                    AliceBootstrap.alice.getGuildLogger().log(e.getGuild(), Message.LOGGER_USER_STOPPED_PLAYING.get(e.getGuild(), user.getName(), gameName, String.valueOf(elapsed)));
+                };
+                new Thread(runnable).start();
+
             }
         } catch (Exception exc){
             exc.printStackTrace();
