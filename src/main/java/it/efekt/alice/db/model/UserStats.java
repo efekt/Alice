@@ -1,13 +1,14 @@
-package it.efekt.alice.db;
+package it.efekt.alice.db.model;
 
 import it.efekt.alice.core.AliceBootstrap;
+import it.efekt.alice.db.AliceDb;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "user_stats", schema = "alice_bot_db")
-public class UserStats extends AliceDb{
+public class UserStats extends AliceDb {
     @Id
     @Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

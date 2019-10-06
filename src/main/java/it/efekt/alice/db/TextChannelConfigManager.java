@@ -1,7 +1,7 @@
-package it.efekt.alice.modules;
+package it.efekt.alice.db;
 
 import it.efekt.alice.core.AliceBootstrap;
-import it.efekt.alice.db.TextChannelConfig;
+import it.efekt.alice.db.model.TextChannelConfig;
 import net.dv8tion.jda.core.entities.TextChannel;
 import org.hibernate.Session;
 import org.slf4j.Logger;

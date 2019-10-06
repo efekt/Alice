@@ -3,7 +3,7 @@ package it.efekt.alice.commands.util;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
-import it.efekt.alice.db.UserStats;
+import it.efekt.alice.db.model.UserStats;
 import it.efekt.alice.modules.SpamLevelManager;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.User;

@@ -1,8 +1,8 @@
-package it.efekt.alice.config;
+package it.efekt.alice.db;
 
 import it.efekt.alice.core.Alice;
 import it.efekt.alice.core.AliceBootstrap;
-import it.efekt.alice.db.GuildConfig;
+import it.efekt.alice.db.model.GuildConfig;
 import net.dv8tion.jda.core.entities.Guild;
 import org.hibernate.Session;
 import org.slf4j.Logger;

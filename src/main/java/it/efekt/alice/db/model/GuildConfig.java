@@ -1,8 +1,9 @@
-package it.efekt.alice.db;
+package it.efekt.alice.db.model;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import it.efekt.alice.db.AliceDb;
 import org.hibernate.annotations.ColumnDefault;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,7 +17,7 @@ import java.util.Date;
 
 @Entity
 @Table(name="guild_config", schema = "alice_bot_db")
-public class GuildConfig extends AliceDb{
+public class GuildConfig extends AliceDb {
 
     @Id
     @Column(name="id")

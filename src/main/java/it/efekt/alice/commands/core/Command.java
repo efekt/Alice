@@ -1,7 +1,7 @@
 package it.efekt.alice.commands.core;
 
 import it.efekt.alice.core.AliceBootstrap;
-import it.efekt.alice.db.GuildConfig;
+import it.efekt.alice.db.model.GuildConfig;
 import it.efekt.alice.lang.LangCode;
 import it.efekt.alice.lang.Language;
 import it.efekt.alice.lang.Message;

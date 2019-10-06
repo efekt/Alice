@@ -2,7 +2,7 @@ package it.efekt.alice.modules;
 
 import it.efekt.alice.core.Alice;
 import it.efekt.alice.core.AliceBootstrap;
-import it.efekt.alice.db.GuildConfig;
+import it.efekt.alice.db.model.GuildConfig;
 import it.efekt.alice.lang.LangCode;
 import it.efekt.alice.lang.Message;
 import net.dv8tion.jda.core.entities.Guild;

@@ -1,11 +1,13 @@
-package it.efekt.alice.db;
+package it.efekt.alice.db.model;
 
 import it.efekt.alice.core.AliceBootstrap;
+import it.efekt.alice.db.AliceDb;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name="game_stats", schema = "alice_bot_db")
-public class GameStats extends AliceDb{
+public class GameStats extends AliceDb {
 
     @Id
     @Column(name="id")

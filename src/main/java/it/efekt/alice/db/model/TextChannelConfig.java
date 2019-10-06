@@ -1,5 +1,6 @@
-package it.efekt.alice.db;
+package it.efekt.alice.db.model;
 
+import it.efekt.alice.db.AliceDb;
 import org.hibernate.annotations.Type;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,7 +9,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="textchannel_config", schema = "alice_bot_db")
-public class TextChannelConfig extends AliceDb{
+public class TextChannelConfig extends AliceDb {
 
     @Id
     @Column(name="id")

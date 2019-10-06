@@ -1,10 +1,10 @@
 package it.efekt.alice.commands.core;
 
 import it.efekt.alice.config.Config;
-import it.efekt.alice.db.GameStats;
-import it.efekt.alice.db.GuildConfig;
-import it.efekt.alice.db.TextChannelConfig;
-import it.efekt.alice.db.UserStats;
+import it.efekt.alice.db.model.GameStats;
+import it.efekt.alice.db.model.GuildConfig;
+import it.efekt.alice.db.model.TextChannelConfig;
+import it.efekt.alice.db.model.UserStats;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;

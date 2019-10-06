@@ -1,8 +1,8 @@
-package it.efekt.alice.modules;
+package it.efekt.alice.db;
 
 import it.efekt.alice.core.Alice;
 import it.efekt.alice.core.AliceBootstrap;
-import it.efekt.alice.db.UserStats;
+import it.efekt.alice.db.model.UserStats;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.User;
 import org.hibernate.Session;
