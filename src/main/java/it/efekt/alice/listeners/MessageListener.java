@@ -43,8 +43,14 @@ public class MessageListener extends ListenerAdapter {
             }
 
             Runnable runnable = () -> {
-                UserStats userStats = AliceBootstrap.alice.getUserStatsManager().getUserStats(user, guild);
-                userStats.addAndSave(1);
+                try {
+                    UserStats userStats = AliceBootstrap.alice.getUserStatsManager().getUserStats(user, guild);
+                    if (!userStats.isInvalidUser()) {
+                        userStats.addAndSave(1);
+                    }
+                } catch(Exception exc){
+                    exc.printStackTrace();
+                }
             };
             new Thread(runnable).start();
         } catch (Exception exc){

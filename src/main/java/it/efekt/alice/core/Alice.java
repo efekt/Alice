@@ -54,7 +54,7 @@ public class Alice {
     private void registerListeners(){
         this.jda.addEventListener(new JoinQuitListener());
         this.jda.addEventListener(new Greetings());
-        //this.jda.addEventListener(new MessageListener());
+        this.jda.addEventListener(new MessageListener());
         this.guildLogger = new GuildLogger(this);
         this.jda.addEventListener(guildLogger);
         this.jda.addEventListener(new GameListener());
