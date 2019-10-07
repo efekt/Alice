@@ -68,6 +68,9 @@ public class AnimeCharacterCmd extends Command {
                     case "violet_evergarden":
                         danbooru.sendPicture(e, DanbooruRating.SAFE, "violet_evergarden_(character)");
                         return true;
+                    case "ichigo":
+                        danbooru.sendPicture(e, DanbooruRating.SAFE, "ichigo_(darling_in_the_franxx)");
+                        return true;
                     default:
                         danbooru.sendPicture(e, DanbooruRating.SAFE, category);
                         return true;
@@ -112,6 +115,8 @@ public class AnimeCharacterCmd extends Command {
         this.categories.add("miki_sayaka");
         this.categories.add("sakura_kyouko");
         this.categories.add("tomoe_mami");
+        this.categories.add("ichigo");
+        this.categories.add("hatsune_miku");
     }
 
     private String getCategoriesString(){
