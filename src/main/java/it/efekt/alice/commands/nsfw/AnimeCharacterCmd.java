@@ -71,6 +71,9 @@ public class AnimeCharacterCmd extends Command {
                     case "ichigo":
                         danbooru.sendPicture(e, DanbooruRating.SAFE, "ichigo_(darling_in_the_franxx)");
                         return true;
+                    case "zero_two":
+                        danbooru.sendPicture(e, DanbooruRating.SAFE, "zero_two_(darling_in_the_franxx)");
+                        return true;
                     default:
                         danbooru.sendPicture(e, DanbooruRating.SAFE, category);
                         return true;
@@ -117,6 +120,7 @@ public class AnimeCharacterCmd extends Command {
         this.categories.add("tomoe_mami");
         this.categories.add("ichigo");
         this.categories.add("hatsune_miku");
+        this.categories.add("zero_two");
     }
 
     private String getCategoriesString(){
