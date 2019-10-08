@@ -3,9 +3,9 @@ package it.efekt.alice.commands.util;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.lang.Message;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class HistoryDeletionCmd extends Command {
     public HistoryDeletionCmd(String alias) {

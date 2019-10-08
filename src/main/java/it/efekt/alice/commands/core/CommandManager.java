@@ -1,13 +1,10 @@
 package it.efekt.alice.commands.core;
 
 import it.efekt.alice.core.Alice;
-import net.dv8tion.jda.core.hooks.ListenerAdapter;
-
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 public class CommandManager extends ListenerAdapter {
     private HashMap<String, Command> commands = new HashMap<>();

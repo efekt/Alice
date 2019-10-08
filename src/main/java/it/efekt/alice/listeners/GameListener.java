@@ -2,11 +2,12 @@ package it.efekt.alice.listeners;
 
 import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.lang.Message;
-import net.dv8tion.jda.core.OnlineStatus;
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.User;
-import net.dv8tion.jda.core.events.user.update.UserUpdateGameEvent;
-import net.dv8tion.jda.core.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.OnlineStatus;
+import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.events.user.update.UserUpdateActivityOrderEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.time.temporal.ChronoUnit;
@@ -18,13 +19,24 @@ public class GameListener extends ListenerAdapter {
     private HashMap<String, Long> lastUpdate = new HashMap<>();
 
     @Override
-    public void onUserUpdateGame(UserUpdateGameEvent e) {
+    public void onUserUpdateActivityOrder(UserUpdateActivityOrderEvent e) {
         long beforeTime = System.currentTimeMillis();
         try {
             User user = e.getUser();
             Guild guild = e.getGuild();
 
-            if (e.getOldGame() == null || user.isBot()) {
+            Activity oldGame;
+            Activity newGame;
+
+            try {
+                oldGame = e.getOldValue().get(0);
+                newGame = e.getNewValue().get(0);
+
+            } catch (NullPointerException exc){
+                return;
+            }
+
+            if (oldGame == null || user.isBot()) {
                 return;
             }
 
@@ -32,18 +44,18 @@ public class GameListener extends ListenerAdapter {
                 return;
             }
 
-            if (e.getNewGame() != null && e.getNewGame().getName().equalsIgnoreCase(e.getOldGame().getName())) {
+            if (newGame != null && newGame.getName().equalsIgnoreCase(oldGame.getName())) {
                 return;
             }
 
-            if (e.getOldGame().getTimestamps() == null) {
+            if (oldGame.getTimestamps() == null) {
                 return;
             }
 
-            String gameName = e.getOldGame().getName();
+            String gameName = oldGame.getName();
 
-            long elapsed = e.getOldGame().getTimestamps().getElapsedTime(ChronoUnit.MINUTES);
-            long elapsedMilis = e.getOldGame().getTimestamps().getElapsedTime(ChronoUnit.MILLIS);
+            long elapsed = oldGame.getTimestamps().getElapsedTime(ChronoUnit.MINUTES);
+            long elapsedMilis = oldGame.getTimestamps().getElapsedTime(ChronoUnit.MILLIS);
 //            long sinceStartupTime = System.currentTimeMillis() - AliceBootstrap.STARTUP_TIME;
 
             if (elapsed >= 1) {

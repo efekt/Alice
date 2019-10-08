@@ -24,10 +24,10 @@ import it.efekt.alice.lang.LanguageManager;
 import it.efekt.alice.listeners.JoinQuitListener;
 import it.efekt.alice.listeners.MessageListener;
 import it.efekt.alice.listeners.ReadyListener;
-import net.dv8tion.jda.core.AccountType;
-import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.JDABuilder;
-import net.dv8tion.jda.core.entities.Game;
+import net.dv8tion.jda.api.AccountType;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.entities.Activity;
 import javax.security.auth.login.LoginException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -52,6 +52,7 @@ public class Alice {
     }
 
     private void registerListeners(){
+        this.jda.addEventListener(new ReadyListener());
         this.jda.addEventListener(new JoinQuitListener());
         this.jda.addEventListener(new Greetings());
         this.jda.addEventListener(new MessageListener());
@@ -148,8 +149,8 @@ public class Alice {
     private void init(){
         Runtime.getRuntime().addShutdownHook(new ShutdownThread(this));
         try {
-            this.jda = new JDABuilder(AccountType.BOT).setToken(this.getConfig().getToken()).addEventListener(new ReadyListener()).build();
-            this.getJDA().getPresence().setGame(Game.playing("gathering info..."));
+            this.jda = new JDABuilder(AccountType.BOT).setToken(this.getConfig().getToken()).build();
+            this.getJDA().getPresence().setActivity(Activity.playing("gathering info..."));
             this.guildConfigManager = new GuildConfigManager();
             this.cmdManager = new CommandManager(this);
             this.userStatsManager = new UserStatsManager();

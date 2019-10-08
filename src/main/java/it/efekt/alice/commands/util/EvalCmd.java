@@ -4,7 +4,7 @@ import com.udojava.evalex.Expression;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.lang.Message;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class EvalCmd extends Command {
     public EvalCmd(String alias) {

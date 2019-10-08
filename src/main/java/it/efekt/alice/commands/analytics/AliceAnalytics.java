@@ -2,9 +2,8 @@ package it.efekt.alice.commands.analytics;
 
 import com.brsanthu.googleanalytics.GoogleAnalytics;
 import it.efekt.alice.config.Config;
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.User;
-
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.User;
 
 public class AliceAnalytics {
     private GoogleAnalytics ga;

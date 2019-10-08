@@ -1,8 +1,8 @@
 package it.efekt.alice.modules;
 
 import it.efekt.alice.core.AliceBootstrap;
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.User;
 
 public class SpamLevelManager {
     private final double STEP = 100d;

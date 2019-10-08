@@ -2,8 +2,8 @@ package it.efekt.alice.commands.admin;
 
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
-import net.dv8tion.jda.core.entities.Game;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class StatusCmd extends Command {
 
@@ -17,13 +17,13 @@ public class StatusCmd extends Command {
     public boolean onCommand(MessageReceivedEvent e) {
         String status = String.join(" ", getArgs());
         if (!status.isEmpty()){
-            e.getJDA().getPresence().setGame(Game.listening(status));
+            e.getJDA().getPresence().setActivity(Activity.listening(status));
             return true;
         } else {
             int guilds = e.getJDA().getGuilds().size();
             int users = e.getJDA().getUsers().size();
 
-            e.getJDA().getPresence().setGame(Game.listening(users + " users on " + guilds + " servers"));
+            e.getJDA().getPresence().setActivity(Activity.listening(users + " users on " + guilds + " servers"));
             return true;
         }
     }

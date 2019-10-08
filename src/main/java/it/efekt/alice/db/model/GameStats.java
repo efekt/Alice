@@ -2,7 +2,6 @@ package it.efekt.alice.db.model;
 
 import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.db.AliceDb;
-
 import javax.persistence.*;
 
 @Entity

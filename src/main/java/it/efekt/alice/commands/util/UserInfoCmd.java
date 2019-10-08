@@ -5,11 +5,10 @@ import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.db.model.UserStats;
 import it.efekt.alice.modules.SpamLevelManager;
-import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.entities.User;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.core.entities.Message;
-
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import java.time.format.DateTimeFormatter;
 
 public class UserInfoCmd extends Command {
@@ -43,7 +42,7 @@ public class UserInfoCmd extends Command {
 
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss");
 
-        embedBuilder.addField(it.efekt.alice.lang.Message.CMD_USERINFO_ACCOUNT_CREATED.get(e), user.getCreationTime().format(dateFormat), false);
+        embedBuilder.addField(it.efekt.alice.lang.Message.CMD_USERINFO_ACCOUNT_CREATED.get(e), user.getTimeCreated().format(dateFormat), false);
         UserStats userStats = AliceBootstrap.alice.getUserStatsManager().getUserStats(user, e.getGuild());
         if (!user.isBot()) {
             embedBuilder.addField(it.efekt.alice.lang.Message.CMD_USERINFO_SPAM_LVL.get(e), String.valueOf((int) new SpamLevelManager().getPlayerLevel(user, e.getGuild())), false);

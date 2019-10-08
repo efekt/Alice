@@ -1,18 +1,16 @@
 package it.efekt.alice.listeners;
 
-import net.dv8tion.jda.core.events.Event;
-import net.dv8tion.jda.core.events.ReadyEvent;
-import net.dv8tion.jda.core.hooks.EventListener;
+import net.dv8tion.jda.api.events.ReadyEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ReadyListener implements EventListener {
+
+public class ReadyListener extends ListenerAdapter {
     private Logger logger = LoggerFactory.getLogger(ReadyListener.class);
 
     @Override
-    public void onEvent(Event event) {
-        if (event instanceof ReadyEvent){
+    public void onReady(ReadyEvent event) {
             logger.info("Alice bot has been loaded completely.\n Started listening...");
-        }
     }
 }

@@ -2,8 +2,8 @@ package it.efekt.alice.db;
 
 import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.db.model.GameStats;
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.User;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;

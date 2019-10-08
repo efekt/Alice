@@ -34,7 +34,7 @@ public class WebServer {
       get(url("/status"), (req, res) -> {
          res.type("application/json");
          Status status = new Status();
-         status.setPing(alice.getJDA().getPing());
+         status.setPing(alice.getJDA().getGatewayPing());
          status.setServerCount(alice.getJDA().getGuilds().size());
          status.setUserCount(alice.getJDA().getUsers().size());
          return new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS, new Gson().toJsonTree(status)));

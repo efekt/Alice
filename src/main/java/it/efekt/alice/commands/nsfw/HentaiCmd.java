@@ -5,7 +5,7 @@ import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.lang.Message;
 import it.efekt.alice.modules.DanbooruApi;
 import it.efekt.alice.modules.DanbooruRating;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import java.util.*;
 
 public class HentaiCmd extends Command {

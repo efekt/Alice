@@ -2,12 +2,12 @@ package it.efekt.alice.modules;
 
 import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.lang.Message;
-import net.dv8tion.jda.core.MessageBuilder;
-import net.dv8tion.jda.core.audio.AudioReceiveHandler;
-import net.dv8tion.jda.core.audio.CombinedAudio;
-import net.dv8tion.jda.core.audio.UserAudio;
-import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.api.MessageBuilder;
+import net.dv8tion.jda.api.audio.AudioReceiveHandler;
+import net.dv8tion.jda.api.audio.CombinedAudio;
+import net.dv8tion.jda.api.audio.UserAudio;
+import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.User;
 import ws.schild.jave.*;
 import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -153,7 +153,7 @@ public class AliceReceiveHandler implements AudioReceiveHandler {
         if (!this.recordedUsers.isEmpty()){
             this.recordedUsers.forEach(user -> messageBuilder.append(user.getName() + " "));
         }
-        channel.sendFile(file, "Alice_" + dateTime + ".mp3", messageBuilder.build()).complete();
+        channel.sendMessage(messageBuilder.build()).addFile(file, "Alice_" + dateTime + ".mp3").complete();
         this.reset();
         file.delete();
     }

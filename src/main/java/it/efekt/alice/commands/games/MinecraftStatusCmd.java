@@ -6,8 +6,8 @@ import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.exceptions.MinecraftServerNotFoundException;
 import it.efekt.alice.lang.Message;
 import it.efekt.alice.modules.MinecraftServerStatus;
-import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class MinecraftStatusCmd extends Command {
     String[] chatColorCodes = {"§4", "§c", "§6", "§e","§2","§a","§b","§3","§1","§9","§d", "§5","§f","§7","§8","§0", "§r", "§l","§o", "§n", "§m", "§k"};

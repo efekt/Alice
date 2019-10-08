@@ -3,7 +3,7 @@ package it.efekt.alice.commands.util;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.lang.Message;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class PingCmd extends Command {
 
@@ -15,7 +15,7 @@ public class PingCmd extends Command {
 
     @Override
     public boolean onCommand(MessageReceivedEvent e) {
-        e.getChannel().sendMessage(Message.CMD_PING_RESPONSE.get(e, String.valueOf(e.getJDA().getPing()))).complete();
+        e.getChannel().sendMessage(Message.CMD_PING_RESPONSE.get(e, String.valueOf(e.getJDA().getGatewayPing()))).complete();
         return true;
     }
 }

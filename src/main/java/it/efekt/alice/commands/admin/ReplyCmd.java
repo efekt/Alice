@@ -2,8 +2,9 @@ package it.efekt.alice.commands.admin;
 
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
@@ -35,7 +36,7 @@ public class ReplyCmd extends Command {
                 replyMessage = replyMessage.concat(getArgs()[i]).concat(" ");
             }
 
-            Message originMessage = e.getJDA().getGuildById(guildId).getTextChannelById(channelId).getMessageById(msgId).complete();
+            Message originMessage = e.getJDA().getGuildById(guildId).getTextChannelById(channelId).retrieveMessageById(msgId).complete();
             replyMessage = replyMessage.replace("@user", originMessage.getAuthor().getAsMention());
             originMessage.getTextChannel().sendTyping().complete();
             originMessage.getTextChannel().sendMessage(replyMessage).completeAfter(3, TimeUnit.SECONDS);

@@ -1,6 +1,6 @@
 package it.efekt.alice.core;
 
-import net.dv8tion.jda.core.entities.Game;
+import net.dv8tion.jda.api.entities.Activity;
 import org.discordbots.api.client.DiscordBotListAPI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +25,7 @@ public class BotStatusRefresher implements Runnable{
     private void setPresence(){
         int guilds = this.alice.getJDA().getGuilds().size();
         int users = this.alice.getJDA().getUsers().size();
-        this.alice.getJDA().getPresence().setGame(Game.listening(users + " users on " + guilds + " servers"));
+        this.alice.getJDA().getPresence().setActivity(Activity.listening(users + " users on " + guilds + " servers"));
     }
 
     private void updateDiscordBotList(){

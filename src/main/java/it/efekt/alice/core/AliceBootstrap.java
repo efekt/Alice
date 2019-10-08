@@ -4,7 +4,7 @@ import it.efekt.alice.commands.analytics.AliceAnalytics;
 import it.efekt.alice.commands.core.HibernateHandler;
 import it.efekt.alice.config.Config;
 import it.efekt.alice.web.WebServer;
-import net.dv8tion.jda.core.requests.RestAction;
+import net.dv8tion.jda.api.requests.RestAction;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +31,7 @@ public static AliceAnalytics analytics;
         logger.info("Alice loaded in " + TimeUnit.MILLISECONDS.toSeconds(totalTime) + " seconds ("+totalTime+"ms)");
         new WebServer();
         RestAction.setPassContext(true);
-        RestAction.DEFAULT_FAILURE = Throwable::printStackTrace;
+        RestAction.setDefaultFailure(Throwable::printStackTrace);
     }
 
     private static void init(){
