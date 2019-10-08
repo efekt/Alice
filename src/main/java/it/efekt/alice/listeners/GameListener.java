@@ -63,9 +63,10 @@ public class GameListener extends ListenerAdapter {
                 }
 
                 Runnable runnable = () -> {
-                    GameStats gameStats = AliceBootstrap.alice.getGameStatsManager().getGameStats(user, guild, gameName);
-                    gameStats.addTimePlayed(elapsed);
-                    gameStats.save();
+//                    GameStats gameStats = AliceBootstrap.alice.getGameStatsManager().getGameStats(user, guild, gameName);
+//                    gameStats.addTimePlayed(elapsed);
+//                    gameStats.save();
+                    AliceBootstrap.alice.getGameStatsManager().addTimePlayed(user, guild, gameName, elapsed);
                     lastUpdate.put(guild.getId().concat(user.getId()), System.currentTimeMillis());
                     logger.debug("saved");
                     logger.debug("user: " + user.getId() + " nick: " + user.getName() + " server: " + guild.getId() + " game: " + gameName + " addedTime: " + elapsed + "min" + " took: " + (System.currentTimeMillis() - beforeTime) + "ms");

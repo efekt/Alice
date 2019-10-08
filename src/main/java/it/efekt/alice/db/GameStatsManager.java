@@ -20,6 +20,25 @@ import java.util.List;
 public class GameStatsManager {
     private Logger logger = LoggerFactory.getLogger(GameStatsManager.class);
 
+
+    public void addTimePlayed(User user, Guild guild, String gameName, long time){
+        String userId = user.getId();
+        String guildId = guild.getId();
+
+        Session session = AliceBootstrap.hibernate.getSession();
+        session.beginTransaction();
+
+        String hql = "Update GameStats gs set gs.timePlayed =(gs.timePlayed + :time) where gs.userId =:userId and gs.guildId = :guildId and gs.gameName = :gameName";
+        Query query = session.createQuery(hql);
+        query.setParameter("time", time);
+        query.setParameter("userId", userId);
+        query.setParameter("guildId", guildId);
+        query.setParameter("gameName", gameName);
+
+        query.executeUpdate();
+        session.getTransaction().commit();
+    }
+
     public GameStats getGameStats(User user, Guild guild, String gameName){
         Session session = AliceBootstrap.hibernate.getSession();
         session.beginTransaction();

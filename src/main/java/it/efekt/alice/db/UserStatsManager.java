@@ -19,6 +19,23 @@ import java.util.List;
 public class UserStatsManager {
     private Logger logger = LoggerFactory.getLogger(UserStatsManager.class);
 
+    public void addMessageCount(User user, Guild guild, int messageCount){
+        String userId = user.getId();
+        String guildId = guild.getId();
+
+        Session session = AliceBootstrap.hibernate.getSession();
+        session.beginTransaction();
+
+        String hql = "Update UserStats us set us.messagesAmount =(us.messagesAmount + :messageCount) where us.userId =:userId and us.guildId = :guildId";
+        Query query = session.createQuery(hql);
+        query.setParameter("messageCount", messageCount);
+        query.setParameter("userId", userId);
+        query.setParameter("guildId", guildId);
+
+        query.executeUpdate();
+        session.getTransaction().commit();
+    }
+
     public UserStats getUserStats(User user, Guild guild){
         Session session = AliceBootstrap.hibernate.getSession();
         session.beginTransaction();
