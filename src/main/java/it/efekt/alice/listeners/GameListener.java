@@ -1,7 +1,6 @@
 package it.efekt.alice.listeners;
 
 import it.efekt.alice.core.AliceBootstrap;
-import it.efekt.alice.db.model.GameStats;
 import it.efekt.alice.lang.Message;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.Guild;

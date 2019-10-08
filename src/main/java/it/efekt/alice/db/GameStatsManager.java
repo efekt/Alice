@@ -20,7 +20,6 @@ import java.util.List;
 public class GameStatsManager {
     private Logger logger = LoggerFactory.getLogger(GameStatsManager.class);
 
-
     public void addTimePlayed(User user, Guild guild, String gameName, long time){
         String userId = user.getId();
         String guildId = guild.getId();

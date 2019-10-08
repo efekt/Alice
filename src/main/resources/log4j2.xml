@@ -29,9 +29,9 @@
         </RollingFile>
     </Appenders>
     <Loggers>
-        <Root level="DEBUG" additivity="false">
+        <Root level="INFO" additivity="false">
             <AppenderRef ref="rollingFile" level="INFO" />
-            <AppenderRef ref="console" level="DEBUG" />
+            <AppenderRef ref="console" level="INFO" />
         </Root>
     </Loggers>
 </Configuration>
