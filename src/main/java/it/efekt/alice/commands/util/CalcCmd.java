@@ -6,12 +6,12 @@ import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.lang.Message;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-public class EvalCmd extends Command {
-    public EvalCmd(String alias) {
+public class CalcCmd extends Command {
+    public CalcCmd(String alias) {
         super(alias);
         setCategory(CommandCategory.UTILS);
-        setDescription(Message.CMD_EVAL_DESC);
-        setShortUsageInfo(Message.CMD_EVAL_SHORT_USAGE_INFO);
+        setDescription(Message.CMD_CALC_DESC);
+        setShortUsageInfo(Message.CMD_CALC_SHORT_USAGE_INFO);
     }
 
     @Override
