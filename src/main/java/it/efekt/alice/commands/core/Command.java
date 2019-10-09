@@ -157,66 +157,70 @@ public abstract class Command extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(MessageReceivedEvent e){
-        String[] allArgs = e.getMessage().getContentRaw().split("\\s+");
-        // getting alias and cmd args accordingly to prefix (mention vs standard prefix)
-        if (isMentioningSelf(allArgs) || allArgs[0].startsWith(getGuildPrefix(e.getGuild()))){
+        try {
+            String[] allArgs = e.getMessage().getContentRaw().split("\\s+");
+            // getting alias and cmd args accordingly to prefix (mention vs standard prefix)
+            if (isMentioningSelf(allArgs) || allArgs[0].startsWith(getGuildPrefix(e.getGuild()))) {
                 String cmdAlias;
                 String[] args;
-            if (!isMentioningSelf(allArgs)) {
-                cmdAlias = allArgs[0].replaceFirst(Pattern.quote(getGuildPrefix(e.getGuild())), "");
-                args = Arrays.copyOfRange(allArgs, 1, allArgs.length);
-            } else {
-                cmdAlias = allArgs[1];
-                args = Arrays.copyOfRange(allArgs, 2, allArgs.length);
-            }
-
-            if (this.alias.equalsIgnoreCase(cmdAlias)){
-                if (e.isFromType(ChannelType.PRIVATE)){
-                    if (!isPrivateChannelCmd) {
-                        return;
-                    }
+                if (!isMentioningSelf(allArgs)) {
+                    cmdAlias = allArgs[0].replaceFirst(Pattern.quote(getGuildPrefix(e.getGuild())), "");
+                    args = Arrays.copyOfRange(allArgs, 1, allArgs.length);
                 } else {
-                    if (isPrivateChannelCmd){
-                        e.getTextChannel().sendMessage("This command can be used on private channel only.").complete();
+                    cmdAlias = allArgs[1];
+                    args = Arrays.copyOfRange(allArgs, 2, allArgs.length);
+                }
+
+                if (this.alias.equalsIgnoreCase(cmdAlias)) {
+                    if (e.isFromType(ChannelType.PRIVATE)) {
+                        if (!isPrivateChannelCmd) {
+                            return;
+                        }
+                    } else {
+                        if (isPrivateChannelCmd) {
+                            e.getTextChannel().sendMessage("This command can be used on private channel only.").complete();
+                            return;
+                        }
+                    }
+
+
+                    if (!isPrivateChannelCmd) {
+                        this.logger.debug("User: " + e.getAuthor().getName() + " id:" + e.getAuthor().getId() + " is requesting cmd: " + cmdAlias + " with msg: " + e.getMessage().getContentDisplay());
+                    }
+                    // Prevent bots from using commands
+                    if (e.getAuthor().isBot()) {
                         return;
                     }
-                }
 
-
-                if (!isPrivateChannelCmd) {
-                    this.logger.debug("User: " + e.getAuthor().getName() + " id:" + e.getAuthor().getId() + " is requesting cmd: " + cmdAlias + " with msg: " + e.getMessage().getContentDisplay());
-                }
-                // Prevent bots from using commands
-                if (e.getAuthor().isBot()){
-                    return;
-                }
-
-                if (!isPrivateChannelCmd && getGuildConfig(e.getGuild()).isCmdDisabled(cmdAlias)){
-                    return;
-                }
-
-                // Only for debug purposes, change it later //todo implement better admin commands
-                if (isAdminCommand() && !e.getAuthor().getId().equalsIgnoreCase(BOT_AUTHOR_ID)){
-                    return;
-                }
-                // checking for author is important to filter private message commands, that are for admin only
-                if (e.getAuthor().getId().equalsIgnoreCase(BOT_AUTHOR_ID) || canUseCmd(e.getMember())){
-                    if (isNsfw() && !e.getTextChannel().isNSFW()){
-                        e.getChannel().sendMessage(new EmbedBuilder()
-                                .setThumbnail("https://i.imgur.com/L3o8Xq0.jpg")
-                                .setTitle(Message.CMD_THIS_IS_NSFW_CMD.get(e))
-                                .setColor(AliceBootstrap.EMBED_COLOR)
-                                .setDescription(Message.CMD_NSFW_ALLOWED_ONLY.get(e))
-                                .build()).queue();
-                        return; // nsfw content on not-nsfw channel
+                    if (!isPrivateChannelCmd && getGuildConfig(e.getGuild()).isCmdDisabled(cmdAlias)) {
+                        return;
                     }
 
-                    this.args = args;
-                    e.getChannel().sendTyping().queue();
-                    this.execute(e);
-                    this.logger.info("User: " + e.getAuthor().getName() + " id:" + e.getAuthor().getId() + " executed cmd: " + cmdAlias + " with msg: " + e.getMessage().getContentDisplay());
+                    // Only for debug purposes, change it later //todo implement better admin commands
+                    if (isAdminCommand() && !e.getAuthor().getId().equalsIgnoreCase(BOT_AUTHOR_ID)) {
+                        return;
+                    }
+                    // checking for author is important to filter private message commands, that are for admin only
+                    if (e.getAuthor().getId().equalsIgnoreCase(BOT_AUTHOR_ID) || canUseCmd(e.getMember())) {
+                        if (isNsfw() && !e.getTextChannel().isNSFW()) {
+                            e.getChannel().sendMessage(new EmbedBuilder()
+                                    .setThumbnail("https://i.imgur.com/L3o8Xq0.jpg")
+                                    .setTitle(Message.CMD_THIS_IS_NSFW_CMD.get(e))
+                                    .setColor(AliceBootstrap.EMBED_COLOR)
+                                    .setDescription(Message.CMD_NSFW_ALLOWED_ONLY.get(e))
+                                    .build()).queue();
+                            return; // nsfw content on not-nsfw channel
+                        }
+
+                        this.args = args;
+                        e.getChannel().sendTyping().queue();
+                        this.execute(e);
+                        this.logger.info("User: " + e.getAuthor().getName() + " id:" + e.getAuthor().getId() + " executed cmd: " + cmdAlias + " with msg: " + e.getMessage().getContentDisplay());
+                    }
                 }
             }
+        } catch (Exception exc){
+            exc.printStackTrace();
         }
     }
 }
