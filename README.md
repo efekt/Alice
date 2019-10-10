@@ -3,7 +3,7 @@
 
 # Alice - multipurpose discord bot
 ## Features:
-- Multi-language support  
+- Multi-language support
 - Music Player
     - YouTube
     - SoundCloud
@@ -12,6 +12,7 @@
     - Twitch streams
     - http urls
 - Voice Recorder
+- Timezones support
 - Logger (logs events to a specified #channel)  
   - user joins/leaves the server  
   - user enters/leaves/changes voice channel  
@@ -23,15 +24,14 @@
   - Minecraft (server status)  
 - SpamLevel (counting messages sent by users + levels system)  
 - Customizable (enable/disable any command on a server) 
-- NSFW images and gifs
 
 and more
 
 ## Commands
 
-You can check all of the available commands on [wiki](https://github.com/efekt/Alice/wiki/Commands) or by accessing `<help` command after inviting her.
+You can check all of the available commands on our [wiki](https://github.com/efekt/Alice/wiki/Commands) or by accessing `<help` command after inviting Alice.
 
-## Using Alice bot:
+## Using the Alice bot:
 You can invite her just by clicking [here](https://discordapp.com/api/oauth2/authorize?client_id=537011515014774785&scope=bot&permissions=3533888).
 
 ## Dependencies:
