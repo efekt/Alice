@@ -6,7 +6,7 @@ import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.user.update.UserUpdateActivityOrderEvent;
+import net.dv8tion.jda.api.events.user.UserActivityEndEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,24 +19,23 @@ public class GameListener extends ListenerAdapter {
     private HashMap<String, Long> lastUpdate = new HashMap<>();
 
     @Override
-    public void onUserUpdateActivityOrder(UserUpdateActivityOrderEvent e) {
+    public void onUserActivityEnd(UserActivityEndEvent e) {
         long beforeTime = System.currentTimeMillis();
+        System.out.println("fired");
         try {
             User user = e.getUser();
             Guild guild = e.getGuild();
 
             Activity oldGame;
-            Activity newGame;
 
             try {
-                oldGame = e.getOldValue().get(0);
-                newGame = e.getNewValue().get(0);
-
+                oldGame = e.getOldActivity();
             } catch (NullPointerException exc){
+                exc.printStackTrace();
                 return;
             }
 
-            if (oldGame == null || user.isBot()) {
+            if (user.isBot()) {
                 return;
             }
 
@@ -44,7 +43,7 @@ public class GameListener extends ListenerAdapter {
                 return;
             }
 
-            if (newGame != null && newGame.getName().equalsIgnoreCase(oldGame.getName())) {
+            if (e.getMember().getActivities().stream().anyMatch(activity -> activity.getType().equals(oldGame.getType()))){
                 return;
             }
 
@@ -74,9 +73,6 @@ public class GameListener extends ListenerAdapter {
                 }
 
                 Runnable runnable = () -> {
-//                    GameStats gameStats = AliceBootstrap.alice.getGameStatsManager().getGameStats(user, guild, gameName);
-//                    gameStats.addTimePlayed(elapsed);
-//                    gameStats.save();
                     AliceBootstrap.alice.getGameStatsManager().addTimePlayed(user, guild, gameName, elapsed);
                     lastUpdate.put(guild.getId().concat(user.getId()), System.currentTimeMillis());
                     logger.debug("saved");
