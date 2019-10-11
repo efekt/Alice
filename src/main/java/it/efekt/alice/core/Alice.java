@@ -100,6 +100,7 @@ public class Alice {
         getCmdManager().setExecutor(new ReplyCmd("reply"));
         getCmdManager().setExecutor(new TimezoneCmd("timezone"));
         getCmdManager().setExecutor(new AnimeCharacterCmd("a"));
+        getCmdManager().setExecutor(new VoteCmd("vote"));
     }
 
     private void startSchedulers(){

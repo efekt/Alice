@@ -1,5 +1,6 @@
 package it.efekt.alice.commands.core;
 
+import it.efekt.alice.commands.util.VoteCmd;
 import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.db.model.GuildConfig;
 import it.efekt.alice.lang.LangCode;
@@ -20,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Pattern;
@@ -164,18 +167,20 @@ public abstract class Command extends ListenerAdapter {
     }
 
     private boolean hasVoted(String userId){
-        AtomicBoolean voted = new AtomicBoolean();
+
 
         if (this.usersTimeVoted.containsKey(userId)) {
             if (TimeUnit.MILLISECONDS.toHours(System.currentTimeMillis() - this.usersTimeVoted.get(userId)) <= 24) {
-                System.out.println("znaleziono usera na liscie tymczasowej");
+                logger.info("user found on the temporary list, true");
                 return true;
             } else {
                 this.usersTimeVoted.remove(userId);
+                logger.info("the time is up, user deleted from the temp list, false");
+
                 return false;
             }
         }
-
+        AtomicBoolean voted = new AtomicBoolean();
         try {
             DiscordBotListAPI api = new DiscordBotListAPI.Builder()
                     .token(AliceBootstrap.alice.getConfig().getDiscordBotListApiToken())
@@ -183,16 +188,20 @@ public abstract class Command extends ListenerAdapter {
                     .build();
             api.hasVoted(userId).whenComplete((hasVoted, exc) -> {
                 if (hasVoted) {
+                    logger.info("got info from botlist, " + hasVoted.toString());
+
                     this.usersTimeVoted.put(userId, System.currentTimeMillis());
                     voted.set(true);
                 }
-            });
+            }).toCompletableFuture().get();
 
+
+            logger.info("returning final hasVoted value, " + voted.get());
+            return voted.get();
         } catch (Exception exc){
             logger.warn("There was a problem while connecting to DiscordBotListAPI, checking for votes has been omitted");
             return true;
         }
-        return voted.get();
     }
 
     protected boolean isMentioningSelf(String[] args){
@@ -261,9 +270,9 @@ public abstract class Command extends ListenerAdapter {
                         // check if user-vote is required in order to execute this command
                         if (this.isVoteRequired && !hasVoted(e.getAuthor().getId())){
                             e.getChannel().sendMessage(new EmbedBuilder()
-                                    .setTitle("Please consider voting for me! :blush:")
+                                    .setTitle(Message.VOTE_REQUIRED_TITLE.get(e))
                                     .setColor(AliceBootstrap.EMBED_COLOR)
-                                    .setDescription("This command is for voters only!\nVoting once per day will prevent this message from showing up:\nhttps://top.gg/bot/537011515014774785/vote")
+                                    .setDescription(Message.VOTE_REQUIRED_INFO.get(e) + VoteCmd.VOTE_URL)
                                     .build()).queue();
                         }
 

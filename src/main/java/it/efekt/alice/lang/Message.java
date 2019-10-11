@@ -168,6 +168,10 @@ public enum Message {
     CMD_TIMEZONE_CURRENT("Timezone: {1} \nCurrent date and time: "),
     CMD_TIMEZONE_WRONG("Wrong timezone given, please try again."),
     CMD_TIMEZONE_CHANGED("Changed timezone to: {1}"),
+    CMD_VOTE_DESC("If you like Alice bot, please vote!\nIt will help to spread an info about Alice.\n\nBy voting once per day you will get full access to restricted commands!\n\n Thank You!"),
+    CMD_VOTE_RESPONSE("Do you want to vote for me? Thank you! :heart_eyes:"),
+    VOTE_REQUIRED_TITLE("Please consider voting for me! :blush:"),
+    VOTE_REQUIRED_INFO("This command is for voters only!\nVoting once per day will prevent this message from showing up:\n"),
 
     BLANK(""); // leave it alone ;)
 
