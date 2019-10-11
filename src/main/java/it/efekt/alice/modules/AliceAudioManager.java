@@ -5,6 +5,7 @@ import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import com.sedmelluq.discord.lavaplayer.track.AudioTrackState;
 import it.efekt.alice.commands.voice.TrackScheduler;
 import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.lang.Message;
@@ -94,6 +95,15 @@ public class AliceAudioManager {
 
     public boolean isRecording(Guild guild){
         return getReceiveHandler(guild).isRecording();
+    }
+
+    public long getCurrentPlaybackCount(){
+       return  sendHandlers.values().stream().filter(handler -> !handler.getAudioPlayer().isPaused()).count();
+
+    }
+
+    public long getCurrentAudioChannelJoinedCount(){
+        return AliceBootstrap.alice.getJDA().getAudioManagers().stream().filter(AudioManager::isConnected).count();
     }
 
     public void play(MessageReceivedEvent e, String content){
