@@ -21,7 +21,6 @@ public class GameListener extends ListenerAdapter {
     @Override
     public void onUserActivityEnd(UserActivityEndEvent e) {
         long beforeTime = System.currentTimeMillis();
-        System.out.println("fired");
         try {
             User user = e.getUser();
             Guild guild = e.getGuild();
