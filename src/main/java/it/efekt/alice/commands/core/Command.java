@@ -13,11 +13,15 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import org.discordbots.api.client.DiscordBotListAPI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Pattern;
 
 public abstract class Command extends ListenerAdapter {
@@ -34,8 +38,9 @@ public abstract class Command extends ListenerAdapter {
     private boolean isNsfw = false;
     private boolean isAdminCommand = false;
     private boolean isPrivateChannelCmd = false;
+    private boolean isVoteRequired = false;
+    private HashMap<String, Long> usersTimeVoted = new HashMap<>();
     private CommandCategory category = CommandCategory.BLANK;
-
     public Command(String alias){
         this.alias = alias;
     }
@@ -85,19 +90,27 @@ public abstract class Command extends ListenerAdapter {
         this.alias = alias;
     }
 
-    public boolean isAdminCommand(){
+    private boolean isAdminCommand(){
         return this.isAdminCommand;
     }
 
-    public void setIsAdminCommand(boolean isAdminCommand){
+    protected void setIsAdminCommand(boolean isAdminCommand){
         this.isAdminCommand = isAdminCommand;
+    }
+
+    private boolean isVoteRequired(){
+        return this.isVoteRequired;
+    }
+
+    public void setIsVoteRequired(boolean isVoteRequired){
+        this.isVoteRequired = isVoteRequired;
     }
 
     public boolean isNsfw(){
         return this.isNsfw;
     }
 
-    public void setNsfw(boolean isNsfw){
+    protected void setNsfw(boolean isNsfw){
         this.isNsfw = isNsfw;
     }
 
@@ -150,6 +163,38 @@ public abstract class Command extends ListenerAdapter {
         return AliceBootstrap.alice.getLanguageManager().getLang(LangCode.valueOf(locale));
     }
 
+    private boolean hasVoted(String userId){
+        AtomicBoolean voted = new AtomicBoolean();
+
+        if (this.usersTimeVoted.containsKey(userId)) {
+            if (TimeUnit.MILLISECONDS.toHours(System.currentTimeMillis() - this.usersTimeVoted.get(userId)) <= 24) {
+                System.out.println("znaleziono usera na liscie tymczasowej");
+                return true;
+            } else {
+                this.usersTimeVoted.remove(userId);
+                return false;
+            }
+        }
+
+        try {
+            DiscordBotListAPI api = new DiscordBotListAPI.Builder()
+                    .token(AliceBootstrap.alice.getConfig().getDiscordBotListApiToken())
+                    .botId(AliceBootstrap.alice.getJDA().getSelfUser().getId())
+                    .build();
+            api.hasVoted(userId).whenComplete((hasVoted, exc) -> {
+                if (hasVoted) {
+                    this.usersTimeVoted.put(userId, System.currentTimeMillis());
+                    voted.set(true);
+                }
+            });
+
+        } catch (Exception exc){
+            logger.warn("There was a problem while connecting to DiscordBotListAPI, checking for votes has been omitted");
+            return true;
+        }
+        return voted.get();
+    }
+
     protected boolean isMentioningSelf(String[] args){
         //removing "!" from mention (it occurs when mentioned user has it's nickname changed)
         return args[0].replace("!", "").equalsIgnoreCase(AliceBootstrap.alice.getJDA().getSelfUser().getAsMention()) && args.length>=2;
@@ -157,6 +202,7 @@ public abstract class Command extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(MessageReceivedEvent e){
+        long commandStartTime = System.currentTimeMillis();
         try {
             String[] allArgs = e.getMessage().getContentRaw().split("\\s+");
             // getting alias and cmd args accordingly to prefix (mention vs standard prefix)
@@ -212,10 +258,19 @@ public abstract class Command extends ListenerAdapter {
                             return; // nsfw content on not-nsfw channel
                         }
 
+                        // check if user-vote is required in order to execute this command
+                        if (this.isVoteRequired && !hasVoted(e.getAuthor().getId())){
+                            e.getChannel().sendMessage(new EmbedBuilder()
+                                    .setTitle("Please consider voting for me! :blush:")
+                                    .setColor(AliceBootstrap.EMBED_COLOR)
+                                    .setDescription("This command is for voters only!\nVoting once per day will prevent this message from showing up:\nhttps://top.gg/bot/537011515014774785/vote")
+                                    .build()).queue();
+                        }
+
                         this.args = args;
                         e.getChannel().sendTyping().queue();
                         this.execute(e);
-                        this.logger.info("User: " + e.getAuthor().getName() + " id:" + e.getAuthor().getId() + " executed cmd: " + cmdAlias + " with msg: " + e.getMessage().getContentDisplay());
+                        this.logger.info("User: " + e.getAuthor().getName() + " id:" + e.getAuthor().getId() + " executed cmd: " + cmdAlias + " with msg: " + e.getMessage().getContentDisplay() +" took: " + (System.currentTimeMillis() - commandStartTime) + "ms");
                     }
                 }
             }

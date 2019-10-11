@@ -30,8 +30,8 @@ public class BotStatusRefresher implements Runnable{
 
     private void updateDiscordBotList(){
         DiscordBotListAPI api = new DiscordBotListAPI.Builder()
-                .token(this.alice.getConfig().getDiscordBotListApiToken())
-                .botId(this.alice.getJDA().getSelfUser().getId())
+                .token(AliceBootstrap.alice.getConfig().getDiscordBotListApiToken())
+                .botId(AliceBootstrap.alice.getJDA().getSelfUser().getId())
                 .build();
         api.setStats(this.alice.getJDA().getGuilds().size());
     }

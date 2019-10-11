@@ -11,6 +11,7 @@ public class StatsCmd extends Command {
         super(alias);
         setCategory(CommandCategory.BOT_ADMIN);
         setIsAdminCommand(true);
+        setIsVoteRequired(true);
     }
 
     @Override
