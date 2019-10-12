@@ -106,8 +106,11 @@ public class AliceAudioManager {
     }
 
     public long getCurrentPlaybackCount(){
-       return  sendHandlers.values().stream().filter(handler -> !handler.getAudioPlayer().isPaused()).count();
+       return  sendHandlers.values().stream().filter(handler -> handler.getAudioPlayer().getPlayingTrack() != null).count();
+    }
 
+    public long getCurrentPausedCount(){
+        return  sendHandlers.values().stream().filter(handler -> handler.getAudioPlayer().isPaused()).count();
     }
 
     public long getCurrentAudioChannelJoinedCount(){
