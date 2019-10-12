@@ -1,5 +1,5 @@
 [![Discord Bots](https://discordbots.org/api/widget/status/537011515014774785.svg)](https://discordbots.org/bot/537011515014774785)
-<img align="right" src="https://cdn.discordapp.com/attachments/582702538877435914/582702573153157139/perfect_alice_avatar.png" height="200" width="200">
+<img align="right" src="https://cdn.discordapp.com/attachments/582702538877435914/632705414563364884/alice_avatar_cropped.png" height="200" width="200">
 
 # Alice - multipurpose discord bot
 ## Features:
