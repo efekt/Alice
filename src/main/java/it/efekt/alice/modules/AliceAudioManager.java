@@ -5,10 +5,10 @@ import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
-import com.sedmelluq.discord.lavaplayer.track.AudioTrackState;
 import it.efekt.alice.commands.voice.TrackScheduler;
 import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.lang.Message;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.VoiceChannel;
@@ -24,6 +24,7 @@ public class AliceAudioManager {
     private HashMap<String, AliceSendHandler> sendHandlers = new HashMap<>();
     private HashMap<String, AliceReceiveHandler> receiveHandlers = new HashMap<>();
     private HashMap<String, String> lastPlayedContent = new HashMap<>();
+    private HashMap<String, TrackScheduler> trackSchedulers = new HashMap<>();
 
     public AliceAudioManager(){
         this.audioPlayerManager = new DefaultAudioPlayerManager();
@@ -61,7 +62,9 @@ public class AliceAudioManager {
         AudioSourceManagers.registerRemoteSources(getAudioPlayerManager());
         AudioSourceManagers.registerLocalSource(getAudioPlayerManager());
         getAudioPlayerManager().getConfiguration().setResamplingQuality(AudioConfiguration.ResamplingQuality.HIGH);
-        getAudioPlayer(guild).addListener(new TrackScheduler());
+        // yeah, it's not so nice, both player and track scheduler should be handled differently, todo: refactor this someday
+        getAudioPlayer(guild).removeListener(getTrackScheduler(guild));
+        getAudioPlayer(guild).addListener(getTrackScheduler(guild));
         AudioManager audioManager = guild.getAudioManager();
         audioManager.setSendingHandler(getSendHandler(guild));
         return this.audioPlayerManager.loadItem(content, audioLoadResultHandler);
@@ -97,6 +100,11 @@ public class AliceAudioManager {
         return getReceiveHandler(guild).isRecording();
     }
 
+    public TrackScheduler getTrackScheduler(Guild guild){
+       this.trackSchedulers.putIfAbsent(guild.getId(), new TrackScheduler(getAudioPlayer(guild)));
+       return this.trackSchedulers.get(guild.getId());
+    }
+
     public long getCurrentPlaybackCount(){
        return  sendHandlers.values().stream().filter(handler -> !handler.getAudioPlayer().isPaused()).count();
 
@@ -111,14 +119,14 @@ public class AliceAudioManager {
         playRemoteSource(e.getGuild(), content, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack audioTrack) {
-                getAudioPlayer(e.getGuild()).playTrack(audioTrack);
-                AliceBootstrap.alice.getCmdManager().getCommand("np").onCommand(e);
+                getTrackScheduler(e.getGuild()).queue(audioTrack);
+                sendLoadedMessage(e, audioTrack);
             }
 
             @Override
             public void playlistLoaded(AudioPlaylist audioPlaylist) {
-                getAudioPlayer(e.getGuild()).playTrack(audioPlaylist.getTracks().get(0));
-                AliceBootstrap.alice.getCmdManager().getCommand("np").onCommand(e);
+                getTrackScheduler(e.getGuild()).queue(audioPlaylist.getTracks().get(0));
+                sendLoadedMessage(e, audioPlaylist.getTracks().get(0));
             }
 
             @Override
@@ -134,5 +142,14 @@ public class AliceAudioManager {
         });
     }
 
+    private void sendLoadedMessage(MessageReceivedEvent e, AudioTrack audioTrack){
+        EmbedBuilder embedBuilder = new EmbedBuilder();
+        embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
+        embedBuilder.setTitle(audioTrack.getInfo().title, audioTrack.getInfo().uri);
+        embedBuilder.addField(Message.CMD_PLAY_LOADED_AND_QUEUED.get(e), "", false);
+        String prefix = AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild()).getPrefix();
+        embedBuilder.setFooter(prefix + Message.CMD_PLAY_LOADED_FOOTER.get(e, "np"), e.getJDA().getSelfUser().getEffectiveAvatarUrl());
+        e.getChannel().sendMessage(embedBuilder.build()).complete();
+    }
 
 }
