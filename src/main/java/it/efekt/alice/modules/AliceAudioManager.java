@@ -9,6 +9,7 @@ import it.efekt.alice.commands.voice.TrackScheduler;
 import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.lang.Message;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.VoiceChannel;
@@ -114,7 +115,12 @@ public class AliceAudioManager {
     }
 
     public long getCurrentAudioChannelJoinedCount(){
-        return AliceBootstrap.alice.getJDA().getAudioManagers().stream().filter(AudioManager::isConnected).count();
+        long totalAudioChannelJoined = 0;
+        for (JDA jda : AliceBootstrap.alice.getShardManager().getShards()){
+            totalAudioChannelJoined += jda.getAudioManagers().stream().filter(AudioManager::isConnected).count();
+        }
+
+        return totalAudioChannelJoined;
     }
 
     public void play(MessageReceivedEvent e, String content){

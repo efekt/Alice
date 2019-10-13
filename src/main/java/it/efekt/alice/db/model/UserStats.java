@@ -72,10 +72,10 @@ public class UserStats extends AliceDb {
     }
 
     public boolean isBot(){
-            return AliceBootstrap.alice.getJDA().getUserById(this.userId).isBot();
+            return AliceBootstrap.alice.getShardManager().getUserById(this.userId).isBot();
     }
 
     public boolean isInvalidUser(){
-        return AliceBootstrap.alice.getJDA().getUserById(this.userId) == null;
+        return AliceBootstrap.alice.getShardManager().getUserById(this.userId) == null;
     }
 }

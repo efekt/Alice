@@ -24,18 +24,21 @@ import it.efekt.alice.lang.LanguageManager;
 import it.efekt.alice.listeners.JoinQuitListener;
 import it.efekt.alice.listeners.MessageListener;
 import it.efekt.alice.listeners.ReadyListener;
-import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
+import net.dv8tion.jda.api.sharding.ShardManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import javax.security.auth.login.LoginException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class Alice {
+    public final static Logger logger = LoggerFactory.getLogger(Alice.class);
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-    private JDA jda;
+    private ShardManager shardManager;
     private Config config;
     private CommandManager cmdManager;
     private GuildConfigManager guildConfigManager;
@@ -51,17 +54,16 @@ public class Alice {
             this.init();
     }
 
-    private void registerListeners(){
-        this.jda.addEventListener(new ReadyListener());
-        this.jda.addEventListener(new JoinQuitListener());
-        this.jda.addEventListener(new Greetings());
-        this.jda.addEventListener(new MessageListener());
+    public void registerListeners(){
+        this.shardManager.addEventListener(new JoinQuitListener());
+        this.shardManager.addEventListener(new Greetings());
+        this.shardManager.addEventListener(new MessageListener());
         this.guildLogger = new GuildLogger(this);
-        this.jda.addEventListener(guildLogger);
-        this.jda.addEventListener(new GameListener());
+        this.shardManager.addEventListener(guildLogger);
+        this.shardManager.addEventListener(new GameListener());
     }
 
-    private void registerCommands(){
+    public void registerCommands(){
         getCmdManager().setExecutor(new PingCmd("ping"));
         getCmdManager().setExecutor(new HelpCmd("help"));
         getCmdManager().setExecutor(new PrefixCmd("prefix"));
@@ -104,12 +106,12 @@ public class Alice {
         getCmdManager().setExecutor(new SkipCmd("skip"));
     }
 
-    private void startSchedulers(){
+    public void startSchedulers(){
         this.scheduler.scheduleAtFixedRate(new BotStatusRefresher(this), 10, 60, TimeUnit.SECONDS);
     }
 
-    public JDA getJDA(){
-        return this.jda;
+    public ShardManager getShardManager(){
+        return this.shardManager;
     }
 
     public Config getConfig(){
@@ -148,11 +150,22 @@ public class Alice {
         return textChannelConfigManager;
     }
 
+    public void setActivity(Activity activity){
+        for (JDA jda : getShardManager().getShards()){
+            jda.getPresence().setActivity(activity);
+        }
+    }
+
     private void init(){
         Runtime.getRuntime().addShutdownHook(new ShutdownThread(this));
         try {
-            this.jda = new JDABuilder(AccountType.BOT).setToken(this.getConfig().getToken()).build();
-            this.getJDA().getPresence().setActivity(Activity.playing("gathering info..."));
+            DefaultShardManagerBuilder builder = new DefaultShardManagerBuilder();
+                builder.setToken(this.getConfig().getToken());
+                builder.setShardsTotal(getConfig().getShardsTotal());
+                builder.setActivity(Activity.playing("breaking the seal of the right eye..."));
+                builder.addEventListeners(new ReadyListener());
+                this.shardManager = builder.build();
+
             this.guildConfigManager = new GuildConfigManager();
             this.cmdManager = new CommandManager(this);
             this.userStatsManager = new UserStatsManager();
@@ -160,9 +173,6 @@ public class Alice {
             this.languageManager = new LanguageManager();
             this.aliceAudioManager = new AliceAudioManager();
             this.textChannelConfigManager = new TextChannelConfigManager();
-            registerCommands();
-            registerListeners();
-            startSchedulers();
         } catch (LoginException e) {
             e.printStackTrace();
         }

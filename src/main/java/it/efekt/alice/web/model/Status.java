@@ -1,7 +1,7 @@
 package it.efekt.alice.web.model;
 
 public class Status {
-    private long ping;
+    private double ping;
     private long userCount;
     private long serverCount;
 
@@ -14,11 +14,11 @@ public class Status {
         this.serverCount = serverCount;
     }
 
-    public long getPing() {
+    public double getPing() {
         return ping;
     }
 
-    public void setPing(long ping) {
+    public void setPing(double ping) {
         this.ping = ping;
     }
 

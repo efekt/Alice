@@ -15,7 +15,7 @@ public class CommandManager extends ListenerAdapter {
     }
 
     public void setExecutor(Command command){
-        this.alice.getJDA().addEventListener(command);
+        this.alice.getShardManager().addEventListener(command);
         this.commands.put(command.getAlias(), command);
     }
 

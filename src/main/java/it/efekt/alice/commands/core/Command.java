@@ -21,8 +21,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionStage;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Pattern;
@@ -184,7 +182,7 @@ public abstract class Command extends ListenerAdapter {
         try {
             DiscordBotListAPI api = new DiscordBotListAPI.Builder()
                     .token(AliceBootstrap.alice.getConfig().getDiscordBotListApiToken())
-                    .botId(AliceBootstrap.alice.getJDA().getSelfUser().getId())
+                    .botId(AliceBootstrap.alice.getShardManager().getShards().get(0).getSelfUser().getId())
                     .build();
             api.hasVoted(userId).whenComplete((hasVoted, exc) -> {
                 if (hasVoted) {
@@ -206,7 +204,7 @@ public abstract class Command extends ListenerAdapter {
 
     protected boolean isMentioningSelf(String[] args){
         //removing "!" from mention (it occurs when mentioned user has it's nickname changed)
-        return args[0].replace("!", "").equalsIgnoreCase(AliceBootstrap.alice.getJDA().getSelfUser().getAsMention()) && args.length>=2;
+        return args[0].replace("!", "").equalsIgnoreCase(AliceBootstrap.alice.getShardManager().getShards().get(0).getSelfUser().getAsMention()) && args.length>=2;
     }
 
     @Override

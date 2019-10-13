@@ -74,8 +74,8 @@ public class TopCmd extends Command {
         for (UserStats userStats : userStatsList){
             index++;
 
-            int level = (int) spamLevelManager.getPlayerLevel(AliceBootstrap.alice.getJDA().getUserById(userStats.getUserId()), e.getGuild());
-            list = list.concat("**"+index+".** **"+ AliceBootstrap.alice.getJDA().getUserById(userStats.getUserId()).getName()+ "** - "+ userStats.getMessagesAmount() + " _("+level+")_" +"\n");
+            int level = (int) spamLevelManager.getPlayerLevel(AliceBootstrap.alice.getShardManager().getUserById(userStats.getUserId()), e.getGuild());
+            list = list.concat("**"+index+".** **"+ AliceBootstrap.alice.getShardManager().getUserById(userStats.getUserId()).getName()+ "** - "+ userStats.getMessagesAmount() + " _("+level+")_" +"\n");
 
             if (startIndex >= MAX_PER_PAGE * page){
                 break;

@@ -34,9 +34,9 @@ public class WebServer {
       get(url("/status"), (req, res) -> {
          res.type("application/json");
          Status status = new Status();
-         status.setPing(alice.getJDA().getGatewayPing());
-         status.setServerCount(alice.getJDA().getGuilds().size());
-         status.setUserCount(alice.getJDA().getUsers().size());
+         status.setPing(alice.getShardManager().getAverageGatewayPing());
+         status.setServerCount(alice.getShardManager().getGuilds().size());
+         status.setUserCount(alice.getShardManager().getUsers().size());
          return new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS, new Gson().toJsonTree(status)));
       });
 
@@ -49,7 +49,7 @@ public class WebServer {
             return new Gson().toJson(new StandardResponse(StatusResponse.ERROR, "Guild not found"));
          }
 
-         return new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS, new Gson().toJsonTree(alice.getGuildConfigManager().getGuildConfig(alice.getJDA().getGuildById(guildId)))));
+         return new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS, new Gson().toJsonTree(alice.getGuildConfigManager().getGuildConfig(alice.getShardManager().getGuildById(guildId)))));
       });
 
       // REPLACE CONFIG
@@ -70,7 +70,7 @@ public class WebServer {
          System.out.println("spam");
          res.type("application/json");
          String guildId = req.params(":guildId");
-         List<UserStats> userStats = alice.getUserStatsManager().getUserStats(alice.getJDA().getGuildById(guildId));
+         List<UserStats> userStats = alice.getUserStatsManager().getUserStats(alice.getShardManager().getGuildById(guildId));
 
          return new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS, new Gson().toJsonTree(userStats)));
       });
@@ -81,7 +81,7 @@ public class WebServer {
          String guildId = req.params(":guildId");
          String userId = req.params(":userId");
 
-         UserStats userStats = alice.getUserStatsManager().getUserStats(alice.getJDA().getUserById(userId), alice.getJDA().getGuildById(guildId));
+         UserStats userStats = alice.getUserStatsManager().getUserStats(alice.getShardManager().getUserById(userId), alice.getShardManager().getGuildById(guildId));
 
          return new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS, new Gson().toJsonTree(userStats)));
       });

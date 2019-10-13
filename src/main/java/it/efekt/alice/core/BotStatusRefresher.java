@@ -23,16 +23,16 @@ public class BotStatusRefresher implements Runnable{
     }
 
     private void setPresence(){
-        int guilds = this.alice.getJDA().getGuilds().size();
-        int users = this.alice.getJDA().getUsers().size();
-        this.alice.getJDA().getPresence().setActivity(Activity.playing("on " + guilds + " servers | " + users + " users" + " | alice-bot.net"));
+        int guilds = this.alice.getShardManager().getGuilds().size();
+        int users = this.alice.getShardManager().getUsers().size();
+        this.alice.setActivity(Activity.playing("on " + guilds + " servers | " + users + " users" + " | alice-bot.net"));
     }
 
     private void updateDiscordBotList(){
         DiscordBotListAPI api = new DiscordBotListAPI.Builder()
                 .token(AliceBootstrap.alice.getConfig().getDiscordBotListApiToken())
-                .botId(AliceBootstrap.alice.getJDA().getSelfUser().getId())
+                .botId(AliceBootstrap.alice.getShardManager().getShards().get(0).getSelfUser().getId())
                 .build();
-        api.setStats(this.alice.getJDA().getGuilds().size());
+        api.setStats(this.alice.getShardManager().getGuilds().size());
     }
 }

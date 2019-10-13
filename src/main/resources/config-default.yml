@@ -1,4 +1,5 @@
 token: hereYourToken
+shardsTotal: 5
 imgurClientId: imgurClientId
 googleAnalyticsId: analyticsTrackingId
 mysqlDatabase: dbName

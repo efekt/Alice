@@ -50,7 +50,7 @@ public class AliceReceiveHandler implements AudioReceiveHandler {
             if (curTime/1000 >= MAX_RECORD_TIME * 60){
                 String channelId = this.channelHolderId;
                 this.reset();
-                this.sendMessageWithFile(stopRecordingAndGetFile(), AliceBootstrap.alice.getJDA().getTextChannelById(channelId));
+                this.sendMessageWithFile(stopRecordingAndGetFile(), AliceBootstrap.alice.getShardManager().getTextChannelById(channelId));
             }
 
             curTime += 20;

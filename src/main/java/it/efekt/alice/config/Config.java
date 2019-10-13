@@ -7,6 +7,7 @@ import static java.lang.String.format;
 public class Config {
     private final Logger logger = LoggerFactory.getLogger(Config.class);
     private String token;
+    private int shardsTotal;
     private String imgurClientId;
     private String googleAnalyticsId;
     private String mysqlPassword;
@@ -113,6 +114,14 @@ public class Config {
 
     public void setDiscordBotListApiToken(String discordBotListApiToken) {
         this.discordBotListApiToken = discordBotListApiToken;
+    }
+
+    public int getShardsTotal() {
+        return shardsTotal;
+    }
+
+    public void setShardsTotal(int shardsTotal) {
+        this.shardsTotal = shardsTotal;
     }
 
     @Override
