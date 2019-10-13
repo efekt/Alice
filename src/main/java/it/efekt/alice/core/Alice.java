@@ -21,7 +21,7 @@ import it.efekt.alice.modules.mentions.Greetings;
 import it.efekt.alice.config.Config;
 import it.efekt.alice.db.GuildConfigManager;
 import it.efekt.alice.lang.LanguageManager;
-import it.efekt.alice.listeners.JoinQuitListener;
+import it.efekt.alice.listeners.AnalyticsListener;
 import it.efekt.alice.listeners.MessageListener;
 import it.efekt.alice.listeners.ReadyListener;
 import net.dv8tion.jda.api.JDA;
@@ -55,7 +55,7 @@ public class Alice {
     }
 
     public void registerListeners(){
-        this.shardManager.addEventListener(new JoinQuitListener());
+        this.shardManager.addEventListener(new AnalyticsListener());
         this.shardManager.addEventListener(new Greetings());
         this.shardManager.addEventListener(new MessageListener());
         this.guildLogger = new GuildLogger(this);

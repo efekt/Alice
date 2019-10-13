@@ -24,7 +24,14 @@ public class AliceAnalytics {
                 .sendAsync();
 
         this.ga.event().clientId(user.getId()).userId(user.getId()).eventCategory("command").eventAction(alias.toLowerCase()).eventLabel(args.toLowerCase()).sendAsync();
-
         this.ga.screenView().sessionControl("end").sendAsync();
+    }
+
+    public void reportGuildJoin(Guild guild){
+        this.ga.event().eventCategory("guild").eventAction("join").campaignSource(guild.getId()).eventLabel(guild.getName()).eventValue(guild.getMembers().size()).sendAsync();
+    }
+
+    public void reportGuildLeave(Guild guild){
+        this.ga.event().eventCategory("guild").eventAction("leave").campaignSource(guild.getId()).eventLabel(guild.getName()).eventValue(-guild.getMembers().size()).sendAsync();
     }
 }
