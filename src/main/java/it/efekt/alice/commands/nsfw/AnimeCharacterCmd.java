@@ -20,6 +20,7 @@ public class AnimeCharacterCmd extends Command {
         setShortUsageInfo(Message.CMD_ANIMECHARACTER_SHORT_USAGE_INFO);
         setFullUsageInfo(Message.CMD_ANIMECHARACTER_FULL_USAGE_INFO);
         setCategory(CommandCategory.NSFW);
+        setIsVoteRequired(true);
         loadCategories();
     }
 
