@@ -213,7 +213,7 @@ public abstract class Command extends ListenerAdapter {
         try {
             String[] allArgs = e.getMessage().getContentRaw().split("\\s+");
             // getting alias and cmd args accordingly to prefix (mention vs standard prefix)
-            if (isMentioningSelf(allArgs) || allArgs[0].startsWith(getGuildPrefix(e.getGuild()))) {
+            if (isMentioningSelf(allArgs) || (e.isFromGuild() && allArgs[0].startsWith(getGuildPrefix(e.getGuild())))) {
                 String cmdAlias;
                 String[] args;
                 if (!isMentioningSelf(allArgs)) {
@@ -235,7 +235,6 @@ public abstract class Command extends ListenerAdapter {
                             return;
                         }
                     }
-
 
                     if (!isPrivateChannelCmd) {
                         this.logger.debug("User: " + e.getAuthor().getName() + " id:" + e.getAuthor().getId() + " is requesting cmd: " + cmdAlias + " with msg: " + e.getMessage().getContentDisplay());
