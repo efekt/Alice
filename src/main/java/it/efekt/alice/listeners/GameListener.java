@@ -1,6 +1,7 @@
 package it.efekt.alice.listeners;
 
 import it.efekt.alice.core.AliceBootstrap;
+import it.efekt.alice.db.model.GameStats;
 import it.efekt.alice.lang.Message;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
@@ -72,7 +73,10 @@ public class GameListener extends ListenerAdapter {
                 }
 
                 Runnable runnable = () -> {
-                    AliceBootstrap.alice.getGameStatsManager().addTimePlayed(user, guild, gameName, elapsed);
+                    //AliceBootstrap.alice.getGameStatsManager().addTimePlayed(user, guild, gameName, elapsed);
+                    GameStats gameStats = AliceBootstrap.alice.getGameStatsManager().getGameStats(user, guild, gameName);
+                    gameStats.addTimePlayed(elapsed);
+                    gameStats.save();
                     lastUpdate.put(guild.getId().concat(user.getId()), System.currentTimeMillis());
                     logger.debug("saved");
                     logger.debug("user: " + user.getId() + " nick: " + user.getName() + " server: " + guild.getId() + " game: " + gameName + " addedTime: " + elapsed + "min" + " took: " + (System.currentTimeMillis() - beforeTime) + "ms");
