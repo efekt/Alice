@@ -272,7 +272,6 @@ public abstract class Command extends ListenerAdapter {
                                     .setDescription(Message.VOTE_REQUIRED_INFO.get(e) + VoteCmd.VOTE_URL)
                                     .build()).queue();
                         }
-
                         this.args = args;
                         e.getChannel().sendTyping().queue();
                         this.execute(e);

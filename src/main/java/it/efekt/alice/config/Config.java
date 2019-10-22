@@ -19,6 +19,7 @@ public class Config {
     private String discordBotListApiToken;
     private String restUser;
     private String restPassword;
+    private String lavaPlayerNodeUrl;
 
     public void setImgurClientId(String imgurClientId){
         this.imgurClientId = imgurClientId;
@@ -122,6 +123,14 @@ public class Config {
 
     public void setShardsTotal(int shardsTotal) {
         this.shardsTotal = shardsTotal;
+    }
+
+    public String getLavaPlayerNodeUrl() {
+        return lavaPlayerNodeUrl;
+    }
+
+    public void setLavaPlayerNodeUrl(String lavaPlayerNodeUrl) {
+        this.lavaPlayerNodeUrl = lavaPlayerNodeUrl;
     }
 
     @Override

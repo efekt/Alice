@@ -171,7 +171,7 @@ public class Alice {
             this.userStatsManager = new UserStatsManager();
             this.gameStatsManager = new GameStatsManager();
             this.languageManager = new LanguageManager();
-            this.aliceAudioManager = new AliceAudioManager();
+            this.aliceAudioManager = new AliceAudioManager(getConfig());
             this.textChannelConfigManager = new TextChannelConfigManager();
         } catch (LoginException e) {
             e.printStackTrace();

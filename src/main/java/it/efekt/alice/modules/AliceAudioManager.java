@@ -6,6 +6,7 @@ import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import it.efekt.alice.commands.voice.TrackScheduler;
+import it.efekt.alice.config.Config;
 import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.lang.Message;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -17,6 +18,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.managers.AudioManager;
 import ws.schild.jave.EncoderException;
 import java.io.*;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.concurrent.Future;
 
@@ -27,8 +29,12 @@ public class AliceAudioManager {
     private HashMap<String, String> lastPlayedContent = new HashMap<>();
     private HashMap<String, TrackScheduler> trackSchedulers = new HashMap<>();
 
-    public AliceAudioManager(){
+    public AliceAudioManager(Config config){
         this.audioPlayerManager = new DefaultAudioPlayerManager();
+
+        if (config.getLavaPlayerNodeUrl() != null && !config.getLavaPlayerNodeUrl().isEmpty()){
+            this.audioPlayerManager.useRemoteNodes(config.getLavaPlayerNodeUrl());
+        }
     }
 
     public AliceSendHandler getSendHandler(Guild guild){
@@ -146,6 +152,9 @@ public class AliceAudioManager {
             @Override
             public void loadFailed(FriendlyException exc) {
                 e.getChannel().sendMessage(Message.VOICE_LOADING_FAILED.get(e.getGuild()) + "\n"+exc.getLocalizedMessage()).complete();
+                if (isValidURL(content)){
+                    e.getChannel().sendMessage("Please try using keywords instead of the direct url").complete();
+                }
 
             }
         });
@@ -159,6 +168,15 @@ public class AliceAudioManager {
         String prefix = AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild()).getPrefix();
         embedBuilder.setFooter(prefix + Message.CMD_PLAY_LOADED_FOOTER.get(e, "np"), e.getJDA().getSelfUser().getEffectiveAvatarUrl());
         e.getChannel().sendMessage(embedBuilder.build()).complete();
+    }
+
+    private boolean isValidURL(String url){
+        try {
+            new URL(url);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
 }
