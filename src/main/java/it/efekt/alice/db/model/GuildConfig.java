@@ -72,8 +72,9 @@ public class GuildConfig extends AliceDb {
         return logChannel;
     }
 
-    public void setLogChannel(String logChannel) {
+    public void setLogChannelAndSave(String logChannel) {
         this.logChannel = logChannel;
+        save();
     }
 
     public String getId() {

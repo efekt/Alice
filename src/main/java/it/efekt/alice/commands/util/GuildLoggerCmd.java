@@ -35,13 +35,11 @@ public class GuildLoggerCmd extends Command {
 
         if (getArgs().length == 1 && !e.getMessage().getMentionedChannels().isEmpty()){
             TextChannel mentionedChannel = e.getMessage().getMentionedChannels().stream().findFirst().get();
-            config.setLogChannel(mentionedChannel.getId());
-            config.save();
+            config.setLogChannelAndSave(mentionedChannel.getId());
             e.getChannel().sendMessage(Message.CMD_LOGGER_SET.get(e, mentionedChannel.getAsMention())).complete();
             return true;
         } else if(getArgs().length == 1 && getArgs()[0].equalsIgnoreCase("disable")){
-            config.setLogChannel(null);
-            config.save();
+            config.setLogChannelAndSave(null);
             e.getChannel().sendMessage(Message.CMD_LOGGER_DISABLED.get(e)).complete();
             return true;
         }

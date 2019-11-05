@@ -140,7 +140,7 @@ public class GuildLogger extends ListenerAdapter {
                 logChannel.sendMessage("`[" + dateTime + "]` " + message).queue();
             } catch(InsufficientPermissionException exc) {
                 User guildOwner = guild.getOwner().getUser();
-                getGuildConfig(guild).setLogChannel(null);
+                getGuildConfig(guild).setLogChannelAndSave(null);
                 guildOwner.openPrivateChannel().queue(privateChannel -> {
                     privateChannel.sendMessage(Message.MODULE_LOGGER_INSUFFICIENT_PERMS.get(AliceBootstrap.alice.getLanguageManager().getLang(LangCode.valueOf(getGuildConfig(guild).getLocale())), guildOwner.getAsMention(), logChannel.getAsMention())).queue();
                 });
