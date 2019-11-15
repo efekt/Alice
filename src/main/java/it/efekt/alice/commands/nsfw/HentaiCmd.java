@@ -42,7 +42,7 @@ public class HentaiCmd extends Command {
                         danbooru.sendPicture(e, DanbooruRating.EXPLICIT, "cat_girl");
                         return true;
                     case "alice":
-                        danbooru.sendPicture(e, DanbooruRating.QUESTIONABLE, "alice_schuberg");
+                        danbooru.sendPicture(e, DanbooruRating.EXPLICIT, "alice_schuberg");
                         return true;
                     case "pantyhose":
                         danbooru.sendPicture(e, DanbooruRating.EXPLICIT, "black_legwear");
@@ -58,6 +58,9 @@ public class HentaiCmd extends Command {
                         return true;
                     case "ishtar":
                         danbooru.sendPicture(e, DanbooruRating.EXPLICIT, "ishtar_(fate/grand_order)");
+                        return true;
+                    case "mordred":
+                        danbooru.sendPicture(e, DanbooruRating.EXPLICIT, "mordred_(fate)_(all)");
                         return true;
                     default:
                         danbooru.sendPicture(e, DanbooruRating.EXPLICIT, category);
@@ -132,6 +135,7 @@ public class HentaiCmd extends Command {
         this.categories.add("megumin");
         this.categories.add("gray");
         this.categories.add("ishtar");
+        this.categories.add("mordred");
 
     }
 
