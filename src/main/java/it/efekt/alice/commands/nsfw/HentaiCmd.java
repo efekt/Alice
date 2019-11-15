@@ -42,7 +42,7 @@ public class HentaiCmd extends Command {
                         danbooru.sendPicture(e, DanbooruRating.EXPLICIT, "cat_girl");
                         return true;
                     case "alice":
-                        danbooru.sendPicture(e, DanbooruRating.EXPLICIT, "alice_schuberg");
+                        danbooru.sendPicture(e, DanbooruRating.QUESTIONABLE, "alice_schuberg");
                         return true;
                     case "pantyhose":
                         danbooru.sendPicture(e, DanbooruRating.EXPLICIT, "black_legwear");
