@@ -8,7 +8,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import it.efekt.alice.commands.voice.TrackScheduler;
 import it.efekt.alice.config.Config;
 import it.efekt.alice.core.AliceBootstrap;
-import it.efekt.alice.lang.Message;
+import it.efekt.alice.lang.AMessage;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
@@ -146,12 +146,12 @@ public class AliceAudioManager {
 
             @Override
             public void noMatches() {
-                e.getChannel().sendMessage(Message.VOICE_NOTHING_FOUND.get(e.getGuild())).complete();
+                e.getChannel().sendMessage(AMessage.VOICE_NOTHING_FOUND.get(e.getGuild())).complete();
             }
 
             @Override
             public void loadFailed(FriendlyException exc) {
-                e.getChannel().sendMessage(Message.VOICE_LOADING_FAILED.get(e.getGuild()) + "\n"+exc.getLocalizedMessage()).complete();
+                e.getChannel().sendMessage(AMessage.VOICE_LOADING_FAILED.get(e.getGuild()) + "\n"+exc.getLocalizedMessage()).complete();
                 if (isValidURL(content)){
                     e.getChannel().sendMessage("Please try using keywords instead of the direct url").complete();
                 }
@@ -164,9 +164,9 @@ public class AliceAudioManager {
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
         embedBuilder.setTitle(audioTrack.getInfo().title, audioTrack.getInfo().uri);
-        embedBuilder.addField(Message.CMD_PLAY_LOADED_AND_QUEUED.get(e), "", false);
+        embedBuilder.addField(AMessage.CMD_PLAY_LOADED_AND_QUEUED.get(e), "", false);
         String prefix = AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild()).getPrefix();
-        embedBuilder.setFooter(prefix + Message.CMD_PLAY_LOADED_FOOTER.get(e, "np"), e.getJDA().getSelfUser().getEffectiveAvatarUrl());
+        embedBuilder.setFooter(prefix + AMessage.CMD_PLAY_LOADED_FOOTER.get(e, "np"), e.getJDA().getSelfUser().getEffectiveAvatarUrl());
         e.getChannel().sendMessage(embedBuilder.build()).complete();
     }
 

@@ -7,7 +7,7 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
-import it.efekt.alice.lang.Message;
+import it.efekt.alice.lang.AMessage;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.json.JSONObject;
@@ -20,8 +20,8 @@ public class WikiCmd extends Command {
     public WikiCmd(String alias) {
         super(alias);
         setCategory(CommandCategory.UTILS);
-        setDescription(Message.CMD_WIKI_DESC);
-        setShortUsageInfo(Message.CMD_WIKI_SHORT_USAGE_INFO);
+        setDescription(AMessage.CMD_WIKI_DESC);
+        setShortUsageInfo(AMessage.CMD_WIKI_SHORT_USAGE_INFO);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class WikiCmd extends Command {
             JSONObject wikiPage = query(query);
 
             if (wikiPage == null){
-                e.getChannel().sendMessage(Message.CMD_WIKI_NOT_FOUND.get(e)).complete();
+                e.getChannel().sendMessage(AMessage.CMD_WIKI_NOT_FOUND.get(e)).complete();
                 return true;
             }
 
@@ -50,13 +50,13 @@ public class WikiCmd extends Command {
 
 
             if (wikiPage.getJSONObject("pageprops").has("disambiguation")){
-                desc = Message.CMD_WIKI_MULTIPLE_FOUND.get(e);
+                desc = AMessage.CMD_WIKI_MULTIPLE_FOUND.get(e);
             }
 
             EmbedBuilder embedBuilder = new EmbedBuilder();
             embedBuilder.setTitle(wikiPage.getString("title"), pageUrl);
             embedBuilder.setDescription(desc);
-            embedBuilder.setFooter(Message.CMD_WIKI_SOURCE.get(e)+": Wikipedia", WIKIPEDIA_LOGO_URL);
+            embedBuilder.setFooter(AMessage.CMD_WIKI_SOURCE.get(e)+": Wikipedia", WIKIPEDIA_LOGO_URL);
             embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
             e.getChannel().sendMessage(embedBuilder.build()).complete();
             return true;

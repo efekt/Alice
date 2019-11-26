@@ -3,8 +3,8 @@ package it.efekt.alice.modules;
 import it.efekt.alice.core.Alice;
 import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.db.model.GuildConfig;
+import it.efekt.alice.lang.AMessage;
 import it.efekt.alice.lang.LangCode;
-import it.efekt.alice.lang.Message;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
@@ -50,12 +50,12 @@ public class GuildLogger extends ListenerAdapter {
 
                 if (e instanceof GuildMemberJoinEvent) {
                     GuildMemberJoinEvent event = (GuildMemberJoinEvent) e;
-                    log(e.getGuild(), Message.LOGGER_USER_JOINS_GUILD.get(e.getGuild(), event.getMember().getEffectiveName()));
+                    log(e.getGuild(), AMessage.LOGGER_USER_JOINS_GUILD.get(e.getGuild(), event.getMember().getEffectiveName()));
                 }
 
                 if (e instanceof GuildMemberLeaveEvent) {
                     GuildMemberLeaveEvent event = (GuildMemberLeaveEvent) e;
-                    log(e.getGuild(), Message.LOGGER_USER_LEAVES_GUILD.get(e.getGuild(), event.getMember().getEffectiveName()));
+                    log(e.getGuild(), AMessage.LOGGER_USER_LEAVES_GUILD.get(e.getGuild(), event.getMember().getEffectiveName()));
                 }
             }
         } catch (Exception exc){
@@ -66,7 +66,7 @@ public class GuildLogger extends ListenerAdapter {
     @Override
     public void onUserUpdateOnlineStatus(UserUpdateOnlineStatusEvent e){
         try {
-            log(e.getGuild(), Message.LOGGER_USER_CHANGES_STATUS.get(e.getGuild(), e.getUser().getName(), e.getNewOnlineStatus().name()));
+            log(e.getGuild(), AMessage.LOGGER_USER_CHANGES_STATUS.get(e.getGuild(), e.getUser().getName(), e.getNewOnlineStatus().name()));
         } catch(Exception exc){
             exc.printStackTrace();
         }
@@ -75,7 +75,7 @@ public class GuildLogger extends ListenerAdapter {
     @Override
     public void onGuildVoiceJoin(GuildVoiceJoinEvent e){
         try {
-        log(e.getGuild(), Message.LOGGER_USER_JOINS_VOICE.get(e.getGuild(), e.getMember().getEffectiveName(), e.getChannelJoined().getName()));
+        log(e.getGuild(), AMessage.LOGGER_USER_JOINS_VOICE.get(e.getGuild(), e.getMember().getEffectiveName(), e.getChannelJoined().getName()));
         } catch(Exception exc){
             exc.printStackTrace();
         }
@@ -84,7 +84,7 @@ public class GuildLogger extends ListenerAdapter {
     @Override
     public void onGuildVoiceLeave(GuildVoiceLeaveEvent e){
         try {
-        log(e.getGuild(), Message.LOGGER_USER_LEAVES_VOICE.get(e.getGuild(), e.getMember().getEffectiveName(), e.getChannelLeft().getName()));
+        log(e.getGuild(), AMessage.LOGGER_USER_LEAVES_VOICE.get(e.getGuild(), e.getMember().getEffectiveName(), e.getChannelLeft().getName()));
         } catch(Exception exc){
             exc.printStackTrace();
         }
@@ -93,7 +93,7 @@ public class GuildLogger extends ListenerAdapter {
     @Override
     public void onGuildVoiceMove(GuildVoiceMoveEvent e){
         try {
-        log(e.getGuild(), Message.LOGGER_USER_SWITCHES_VOICE.get(e.getGuild(), e.getMember().getEffectiveName(), e.getChannelLeft().getName(), e.getChannelJoined().getName()));
+        log(e.getGuild(), AMessage.LOGGER_USER_SWITCHES_VOICE.get(e.getGuild(), e.getMember().getEffectiveName(), e.getChannelLeft().getName(), e.getChannelJoined().getName()));
         } catch(Exception exc){
             exc.printStackTrace();
         }
@@ -142,7 +142,7 @@ public class GuildLogger extends ListenerAdapter {
                 User guildOwner = guild.getOwner().getUser();
                 getGuildConfig(guild).setLogChannelAndSave(null);
                 guildOwner.openPrivateChannel().queue(privateChannel -> {
-                    privateChannel.sendMessage(Message.MODULE_LOGGER_INSUFFICIENT_PERMS.get(AliceBootstrap.alice.getLanguageManager().getLang(LangCode.valueOf(getGuildConfig(guild).getLocale())), guildOwner.getAsMention(), logChannel.getAsMention())).queue();
+                    privateChannel.sendMessage(AMessage.MODULE_LOGGER_INSUFFICIENT_PERMS.get(AliceBootstrap.alice.getLanguageManager().getLang(LangCode.valueOf(getGuildConfig(guild).getLocale())), guildOwner.getAsMention(), logChannel.getAsMention())).queue();
                 });
             }
         }

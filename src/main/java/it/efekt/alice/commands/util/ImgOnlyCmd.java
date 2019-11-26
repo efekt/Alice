@@ -4,7 +4,7 @@ import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.db.model.TextChannelConfig;
-import it.efekt.alice.lang.Message;
+import it.efekt.alice.lang.AMessage;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
@@ -16,8 +16,8 @@ public class ImgOnlyCmd extends Command {
         super(alias);
         addPermission(Permission.ADMINISTRATOR);
         setCategory(CommandCategory.DISCORD_ADMIN_UTILS);
-        setDescription(Message.CMD_IMGONLY_DESC);
-        setFullUsageInfo(Message.CMD_IMGONLY_FULL_USAGE_INFO);
+        setDescription(AMessage.CMD_IMGONLY_DESC);
+        setFullUsageInfo(AMessage.CMD_IMGONLY_FULL_USAGE_INFO);
     }
 
     @Override

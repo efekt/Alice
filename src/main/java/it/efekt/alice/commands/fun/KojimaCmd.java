@@ -3,14 +3,14 @@ package it.efekt.alice.commands.fun;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
-import it.efekt.alice.lang.Message;
+import it.efekt.alice.lang.AMessage;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class KojimaCmd extends Command {
     public KojimaCmd(String alias) {
         super(alias);
-        setDescription(Message.CMD_KOJIMA_DESC);
+        setDescription(AMessage.CMD_KOJIMA_DESC);
         setCategory(CommandCategory.FUN);
     }
 

@@ -40,7 +40,7 @@ public class ReplyCmd extends Command {
             replyMessage = replyMessage.replace("@user", originMessage.getAuthor().getAsMention());
             originMessage.getTextChannel().sendTyping().complete();
             originMessage.getTextChannel().sendMessage(replyMessage).completeAfter(3, TimeUnit.SECONDS);
-            e.getPrivateChannel().sendMessage("Message sent in reply to " + originMessage.getAuthor().getName() + ":\n```" + replyMessage + "```").complete();
+            e.getPrivateChannel().sendMessage("AMessage sent in reply to " + originMessage.getAuthor().getName() + ":\n```" + replyMessage + "```").complete();
             return true;
 
         } else {

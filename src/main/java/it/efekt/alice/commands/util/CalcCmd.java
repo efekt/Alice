@@ -3,15 +3,15 @@ package it.efekt.alice.commands.util;
 import com.udojava.evalex.Expression;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
-import it.efekt.alice.lang.Message;
+import it.efekt.alice.lang.AMessage;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class CalcCmd extends Command {
     public CalcCmd(String alias) {
         super(alias);
         setCategory(CommandCategory.UTILS);
-        setDescription(Message.CMD_CALC_DESC);
-        setShortUsageInfo(Message.CMD_CALC_SHORT_USAGE_INFO);
+        setDescription(AMessage.CMD_CALC_DESC);
+        setShortUsageInfo(AMessage.CMD_CALC_SHORT_USAGE_INFO);
     }
 
     @Override

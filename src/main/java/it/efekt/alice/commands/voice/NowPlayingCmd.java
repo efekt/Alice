@@ -4,7 +4,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
-import it.efekt.alice.lang.Message;
+import it.efekt.alice.lang.AMessage;
 import it.efekt.alice.modules.AliceAudioManager;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -18,7 +18,7 @@ public class NowPlayingCmd extends Command {
     public NowPlayingCmd(String alias) {
         super(alias);
         setCategory(CommandCategory.VOICE);
-        setDescription(Message.CMD_NOWPLAYING_DESC);
+        setDescription(AMessage.CMD_NOWPLAYING_DESC);
     }
 
     @Override
@@ -30,11 +30,11 @@ public class NowPlayingCmd extends Command {
         int queueSize = trackScheduler.getQueue().size();
 
         if (trackScheduler.getAudioPlayer().getPlayingTrack() == null){
-            e.getChannel().sendMessage(Message.CMD_NOWPLAYING_NOTHING.get(e)).complete();
+            e.getChannel().sendMessage(AMessage.CMD_NOWPLAYING_NOTHING.get(e)).complete();
             return true;
         }
 
-        String output = "**"+Message.CMD_NOWPLAYING_QUEUE.get(e)+"**\n";
+        String output = "**"+ AMessage.CMD_NOWPLAYING_QUEUE.get(e)+"**\n";
 
         AudioTrack currentTrack = trackScheduler.getAudioPlayer().getPlayingTrack();
 
@@ -60,7 +60,7 @@ public class NowPlayingCmd extends Command {
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
         embedBuilder.setTitle(playingNowTitle, url);
-        embedBuilder.setFooter(guildPrefix + Message.CMD_NOWPLAYING_FOOTER.get(e, "skip"), e.getJDA().getSelfUser().getEffectiveAvatarUrl());
+        embedBuilder.setFooter(guildPrefix + AMessage.CMD_NOWPLAYING_FOOTER.get(e, "skip"), e.getJDA().getSelfUser().getEffectiveAvatarUrl());
 
         if (queueSize == 0){
             embedBuilder.addField(playingNowInfo, "", false);
@@ -82,7 +82,7 @@ public class NowPlayingCmd extends Command {
             if (i >= MAX_QUEUE_DISPLAY_SIZE){
                 if (trackScheduler.getQueue().size() > MAX_QUEUE_DISPLAY_SIZE){
                     String leftInQueue = String.valueOf(trackScheduler.getQueue().size() - MAX_QUEUE_DISPLAY_SIZE);
-                    output = output.concat("**" + Message.CMD_NOWPLAYING_LEFT_IN_QUEUE.get(e, leftInQueue)+ "**");
+                    output = output.concat("**" + AMessage.CMD_NOWPLAYING_LEFT_IN_QUEUE.get(e, leftInQueue)+ "**");
                 }
                 break;
             }

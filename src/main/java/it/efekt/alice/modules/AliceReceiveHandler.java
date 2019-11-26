@@ -1,7 +1,7 @@
 package it.efekt.alice.modules;
 
 import it.efekt.alice.core.AliceBootstrap;
-import it.efekt.alice.lang.Message;
+import it.efekt.alice.lang.AMessage;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.audio.AudioReceiveHandler;
 import net.dv8tion.jda.api.audio.CombinedAudio;
@@ -149,7 +149,7 @@ public class AliceReceiveHandler implements AudioReceiveHandler {
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy.MM.dd HH.mm.ss");
         String dateTime = LocalDateTime.now().format(dateFormat);
         MessageBuilder messageBuilder = new MessageBuilder();
-        messageBuilder.append(Message.CMD_REC_USERS.get(channel.getGuild()) + "\n");
+        messageBuilder.append(AMessage.CMD_REC_USERS.get(channel.getGuild()) + "\n");
         if (!this.recordedUsers.isEmpty()){
             this.recordedUsers.forEach(user -> messageBuilder.append(user.getName() + " "));
         }

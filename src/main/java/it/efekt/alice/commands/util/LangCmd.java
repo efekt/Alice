@@ -2,8 +2,8 @@ package it.efekt.alice.commands.util;
 
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
+import it.efekt.alice.lang.AMessage;
 import it.efekt.alice.lang.LangCode;
-import it.efekt.alice.lang.Message;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -17,8 +17,8 @@ public class LangCmd extends Command {
         super(alias);
         addPermission(Permission.ADMINISTRATOR);
         setCategory(CommandCategory.DISCORD_ADMIN_UTILS);
-        setDescription(Message.CMD_LANG_DESC);
-        setShortUsageInfo(Message.CMD_LANG_SHORT_USAGE_INFO);
+        setDescription(AMessage.CMD_LANG_DESC);
+        setShortUsageInfo(AMessage.CMD_LANG_SHORT_USAGE_INFO);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class LangCmd extends Command {
         if (getArgs().length == 1 && isLang(getArgs()[0])){
             LangCode langCode = LangCode.valueOf(getArgs()[0]);
             setGuildLanguage(e.getGuild(), langCode);
-            e.getChannel().sendMessage(Message.CMD_LANG_LANGUAGE_CHANGED.get(e, langCode.name())).complete();
+            e.getChannel().sendMessage(AMessage.CMD_LANG_LANGUAGE_CHANGED.get(e, langCode.name())).complete();
             return true;
         }
         return false;
@@ -49,7 +49,7 @@ public class LangCmd extends Command {
      }
 
      private void showAvailableLanguages(MessageReceivedEvent e){
-         e.getChannel().sendMessage(Message.CMD_LANG_AVAILABLE_LANGS.get(e, String.join(" ", getLangValues()))).queue();
+         e.getChannel().sendMessage(AMessage.CMD_LANG_AVAILABLE_LANGS.get(e, String.join(" ", getLangValues()))).queue();
      }
 
      private void setGuildLanguage(Guild guild, LangCode langCode){

@@ -3,7 +3,7 @@ package it.efekt.alice.commands.util;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
-import it.efekt.alice.lang.Message;
+import it.efekt.alice.lang.AMessage;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -13,7 +13,7 @@ public class FeaturesCmd extends Command {
 
     public FeaturesCmd(String alias) {
         super(alias);
-        setDescription(Message.CMD_FEATURES_DESC);
+        setDescription(AMessage.CMD_FEATURES_DESC);
         setCategory(CommandCategory.DISCORD_ADMIN_UTILS);
         addPermission(Permission.ADMINISTRATOR);
     }
@@ -31,24 +31,24 @@ public class FeaturesCmd extends Command {
             String chosenAlias = getArgs()[1];
 
             if (chosenAlias == null || chosenAlias.isEmpty() || !cmds.containsKey(chosenAlias)){
-                e.getChannel().sendMessage(Message.CMD_FEATURES_WRONG_FEATURE_GIVEN.get(e)).complete();
+                e.getChannel().sendMessage(AMessage.CMD_FEATURES_WRONG_FEATURE_GIVEN.get(e)).complete();
                 return true;
             }
 
             if (chosenAlias.equalsIgnoreCase(getAlias())){
-                e.getChannel().sendMessage(Message.CMD_FEATURES_CANNOT_DISABLE.get(e)).complete();
+                e.getChannel().sendMessage(AMessage.CMD_FEATURES_CANNOT_DISABLE.get(e)).complete();
                 return true;
             }
 
             if (arg.equalsIgnoreCase("disable")){
                 AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild()).setCmdDisabled(chosenAlias);
-                e.getChannel().sendMessage(Message.CMD_FEATURES_HAS_BEEN_DISABLED.get(e, chosenAlias)).complete();
+                e.getChannel().sendMessage(AMessage.CMD_FEATURES_HAS_BEEN_DISABLED.get(e, chosenAlias)).complete();
                 return true;
             }
 
             if (arg.equalsIgnoreCase("enable")){
                 AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild()).setCmdEnabled(chosenAlias);
-                e.getChannel().sendMessage(Message.CMD_FEATURES_HAS_BEEN_ENABLED.get(e, chosenAlias)).complete();
+                e.getChannel().sendMessage(AMessage.CMD_FEATURES_HAS_BEEN_ENABLED.get(e, chosenAlias)).complete();
                 return true;
             }
         }
@@ -59,7 +59,7 @@ public class FeaturesCmd extends Command {
         HashMap<String, Command> cmds = AliceBootstrap.alice.getCmdManager().getCommands();
 
         EmbedBuilder embedBuilder = new EmbedBuilder();
-        embedBuilder.setTitle(Message.CMD_FEATURES_LIST.get(e));
+        embedBuilder.setTitle(AMessage.CMD_FEATURES_LIST.get(e));
         embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
 
         for (Command cmd : cmds.values()){

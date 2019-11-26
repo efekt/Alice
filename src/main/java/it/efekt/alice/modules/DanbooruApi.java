@@ -4,8 +4,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import it.efekt.alice.core.AEmoji;
 import it.efekt.alice.core.AliceBootstrap;
-import it.efekt.alice.lang.Message;
+import it.efekt.alice.lang.AMessage;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import java.io.BufferedReader;
@@ -79,7 +80,7 @@ public class DanbooruApi {
             // if nothing has been found (applies usually to the cases when current tag's images has been all already sent)
             if (bestRatingObject == null){
                 this.lastPictures.get(guildId).clear();
-                event.getChannel().sendMessage(Message.CMD_HENTAI_ERROR_NOT_FOUND.get(event)).queue();
+                event.getChannel().sendMessage(AMessage.CMD_HENTAI_ERROR_NOT_FOUND.get(event)).queue();
                 return;
             }
 
@@ -88,7 +89,7 @@ public class DanbooruApi {
             imgId = bestRatingObject.get("id").getAsInt();
 
             if (imgUrl.isEmpty()){
-                event.getChannel().sendMessage(Message.CMD_HENTAI_ERROR_NOT_FOUND.get(event)).queue();
+                event.getChannel().sendMessage(AMessage.CMD_HENTAI_ERROR_NOT_FOUND.get(event)).queue();
                 return;
             }
 
@@ -101,7 +102,8 @@ public class DanbooruApi {
 
             // add id to last retrieved img ids
             addId(guildId, imgId);
-
+            //hearts, todo
+        //    event.getChannel().sendMessage(embedBuilder.build()).queue(message -> message.addReaction(AEmoji.HEART.get()).queue());
             event.getChannel().sendMessage(embedBuilder.build()).queue();
         } catch(IOException exc){
             exc.printStackTrace();

@@ -29,7 +29,7 @@ public class Language {
             return new LanguageString(this.langStrings.get(key));
         }
         logger.debug("Language key " + key + " not found, displaying default value");
-        return new LanguageString(Message.getDefaultMessage(key).getDefaultValue());
+        return new LanguageString(AMessage.getDefaultMessage(key).getDefaultValue());
     }
 
     public String get(String key){

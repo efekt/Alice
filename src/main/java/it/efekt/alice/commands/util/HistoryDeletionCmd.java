@@ -2,7 +2,7 @@ package it.efekt.alice.commands.util;
 
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
-import it.efekt.alice.lang.Message;
+import it.efekt.alice.lang.AMessage;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -12,8 +12,8 @@ public class HistoryDeletionCmd extends Command {
         super(alias);
         addPermission(Permission.ADMINISTRATOR);
         setCategory(CommandCategory.DISCORD_ADMIN_UTILS);
-        setDescription(Message.CMD_HISTORYDEL_DESC);
-        setShortUsageInfo(Message.CMD_HISTORYDEL_SHORT_USAGE_INFO);
+        setDescription(AMessage.CMD_HISTORYDEL_DESC);
+        setShortUsageInfo(AMessage.CMD_HISTORYDEL_SHORT_USAGE_INFO);
     }
 
     @Override
@@ -28,7 +28,7 @@ public class HistoryDeletionCmd extends Command {
                     removeLast(e.getTextChannel(), toRemove);
                     return true;
                 } else {
-                    e.getChannel().sendMessage(Message.CMD_HISTORYDEL_RANGE.get(e)).complete();
+                    e.getChannel().sendMessage(AMessage.CMD_HISTORYDEL_RANGE.get(e)).complete();
                     return true;
                 }
             }

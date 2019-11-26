@@ -2,7 +2,7 @@ package it.efekt.alice.commands.nsfw;
 
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
-import it.efekt.alice.lang.Message;
+import it.efekt.alice.lang.AMessage;
 import it.efekt.alice.modules.DanbooruApi;
 import it.efekt.alice.modules.DanbooruRating;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -14,10 +14,10 @@ public class HentaiCmd extends Command {
 
     public HentaiCmd(String alias) {
         super(alias);
-        setDescription(Message.CMD_HENTAI_DESC);
+        setDescription(AMessage.CMD_HENTAI_DESC);
         setNsfw(true);
-        setShortUsageInfo(Message.CMD_HENTAI_SHORT_USAGE_INFO);
-        setFullUsageInfo(Message.CMD_HENTAI_FULL_USAGE_INFO);
+        setShortUsageInfo(AMessage.CMD_HENTAI_SHORT_USAGE_INFO);
+        setFullUsageInfo(AMessage.CMD_HENTAI_FULL_USAGE_INFO);
         setCategory(CommandCategory.NSFW);
         setIsVoteRequired(true);
         loadCategories();
@@ -29,7 +29,7 @@ public class HentaiCmd extends Command {
         if (getArgs().length >= 1){
             String category = getArgs()[0].toLowerCase();
             if (category.equalsIgnoreCase("list") || !this.categories.contains(getArgs()[0].toLowerCase())){
-                e.getChannel().sendMessage(Message.CMD_HENTAI_CATEGORIES.get(e,getCategoriesString())).complete();
+                e.getChannel().sendMessage(AMessage.CMD_HENTAI_CATEGORIES.get(e,getCategoriesString())).complete();
                 return true;
             }
 

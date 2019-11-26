@@ -2,7 +2,7 @@ package it.efekt.alice.commands.nsfw;
 
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
-import it.efekt.alice.lang.Message;
+import it.efekt.alice.lang.AMessage;
 import it.efekt.alice.modules.DanbooruApi;
 import it.efekt.alice.modules.DanbooruRating;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -12,7 +12,7 @@ public class NekoCmd extends Command {
 
     public NekoCmd(String alias) {
         super(alias);
-        setDescription(Message.CMD_NEKO_DESC);
+        setDescription(AMessage.CMD_NEKO_DESC);
         setCategory(CommandCategory.NSFW);
         setNsfw(true);
     }

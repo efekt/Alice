@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
-import it.efekt.alice.lang.Message;
+import it.efekt.alice.lang.AMessage;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -24,7 +24,7 @@ public class GameStatsCmd extends Command {
     public GameStatsCmd(String alias) {
         super(alias);
         setCategory(CommandCategory.GAMES);
-        setDescription(Message.CMD_GAMESTATS_DESC);
+        setDescription(AMessage.CMD_GAMESTATS_DESC);
         try {
             loadBlacklist();
         } catch (FileNotFoundException e) {
@@ -52,7 +52,7 @@ public class GameStatsCmd extends Command {
         }
 
         if (guildGameStats.isEmpty()){
-            e.getChannel().sendMessage(Message.CMD_TOP_NOTHING_FOUND.get(e)).complete();
+            e.getChannel().sendMessage(AMessage.CMD_TOP_NOTHING_FOUND.get(e)).complete();
             return true;
         }
 
@@ -75,7 +75,7 @@ public class GameStatsCmd extends Command {
         int maxPages = (int) Math.ceil((float)gamesList.size() / (float)MAX_TO_PRINT);
 
         if (page <= 0 || gamesList.size() < beginIndex){
-            e.getChannel().sendMessage(Message.CMD_TOP_WRONG_PAGE.get(e, String.valueOf(maxPages))).complete();
+            e.getChannel().sendMessage(AMessage.CMD_TOP_WRONG_PAGE.get(e, String.valueOf(maxPages))).complete();
             return true;
         }
 
@@ -102,9 +102,9 @@ public class GameStatsCmd extends Command {
 
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
-        embedBuilder.setTitle(Message.CMD_GAMESTATS_EMBED_TITLE.get(e));
-        embedBuilder.addField(Message.CMD_TOP_FOOTER.get(e, String.valueOf(beginIndex)), output, false);
-        embedBuilder.setFooter(Message.CMD_GAMESTATS_PAGE.get(e, String.valueOf(page), String.valueOf(maxPages)), e.getJDA().getSelfUser().getEffectiveAvatarUrl());
+        embedBuilder.setTitle(AMessage.CMD_GAMESTATS_EMBED_TITLE.get(e));
+        embedBuilder.addField(AMessage.CMD_TOP_FOOTER.get(e, String.valueOf(beginIndex)), output, false);
+        embedBuilder.setFooter(AMessage.CMD_GAMESTATS_PAGE.get(e, String.valueOf(page), String.valueOf(maxPages)), e.getJDA().getSelfUser().getEffectiveAvatarUrl());
         logger.info(guildGameStats.size() + " GameStats gathered and sorted in: " + (System.currentTimeMillis() - timeBefore) + "ms");
         e.getChannel().sendMessage(embedBuilder.build()).complete();
         return true;

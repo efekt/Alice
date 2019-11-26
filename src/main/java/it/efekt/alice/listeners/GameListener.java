@@ -2,7 +2,7 @@ package it.efekt.alice.listeners;
 
 import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.db.model.GameStats;
-import it.efekt.alice.lang.Message;
+import it.efekt.alice.lang.AMessage;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
@@ -80,7 +80,7 @@ public class GameListener extends ListenerAdapter {
                     lastUpdate.put(guild.getId().concat(user.getId()), System.currentTimeMillis());
                     logger.debug("saved");
                     logger.debug("user: " + user.getId() + " nick: " + user.getName() + " server: " + guild.getId() + " game: " + gameName + " addedTime: " + elapsed + "min" + " took: " + (System.currentTimeMillis() - beforeTime) + "ms");
-                    AliceBootstrap.alice.getGuildLogger().log(e.getGuild(), Message.LOGGER_USER_STOPPED_PLAYING.get(e.getGuild(), user.getName(), gameName, String.valueOf(elapsed)));
+                    AliceBootstrap.alice.getGuildLogger().log(e.getGuild(), AMessage.LOGGER_USER_STOPPED_PLAYING.get(e.getGuild(), user.getName(), gameName, String.valueOf(elapsed)));
                 };
                 new Thread(runnable).start();
 

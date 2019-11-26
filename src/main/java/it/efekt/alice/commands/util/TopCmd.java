@@ -4,6 +4,7 @@ import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.db.model.UserStats;
+import it.efekt.alice.lang.AMessage;
 import it.efekt.alice.modules.SpamLevelManager;
 import it.efekt.alice.db.UserStatsManager;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -20,9 +21,9 @@ public class TopCmd extends Command {
     public TopCmd(String alias) {
         super(alias);
         setCategory(CommandCategory.FUN);
-        setDescription(it.efekt.alice.lang.Message.CMD_TOP_DESC);
-        setShortUsageInfo(it.efekt.alice.lang.Message.CMD_TOP_USAGE_INFO);
-        setFullUsageInfo(it.efekt.alice.lang.Message.CMD_TOP_FULL_USAGE_INFO);
+        setDescription(AMessage.CMD_TOP_DESC);
+        setShortUsageInfo(AMessage.CMD_TOP_USAGE_INFO);
+        setFullUsageInfo(AMessage.CMD_TOP_FULL_USAGE_INFO);
     }
 
     @Override
@@ -42,7 +43,7 @@ public class TopCmd extends Command {
        }
 
        if (userStatsList.isEmpty()){
-           e.getChannel().sendMessage(it.efekt.alice.lang.Message.CMD_TOP_NOTHING_FOUND.get(e)).complete();
+           e.getChannel().sendMessage(AMessage.CMD_TOP_NOTHING_FOUND.get(e)).complete();
            return true;
        }
 
@@ -50,7 +51,7 @@ public class TopCmd extends Command {
        int maxPages = (int) Math.ceil((float)userStatsList.size() / (float)MAX_PER_PAGE);
 
        if (page <= 0 || userStatsList.size() < beginIndex){
-           e.getChannel().sendMessage(it.efekt.alice.lang.Message.CMD_TOP_WRONG_PAGE.get(e, String.valueOf(maxPages))).complete();
+           e.getChannel().sendMessage(AMessage.CMD_TOP_WRONG_PAGE.get(e, String.valueOf(maxPages))).complete();
            return true;
        }
 
@@ -63,9 +64,9 @@ public class TopCmd extends Command {
 
     private void printTop(int startIndex, int page,int maxPages, List<UserStats> userStatsList, MessageReceivedEvent e){
         EmbedBuilder embedBuilder = new EmbedBuilder();
-        embedBuilder.setTitle(it.efekt.alice.lang.Message.CMD_TOP_LIST_TITLE.get(e, e.getGuild().getName()));
+        embedBuilder.setTitle(AMessage.CMD_TOP_LIST_TITLE.get(e, e.getGuild().getName()));
         embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
-        embedBuilder.setFooter(it.efekt.alice.lang.Message.CMD_GAMESTATS_PAGE.get(e, String.valueOf(page), String.valueOf(maxPages)), e.getJDA().getSelfUser().getEffectiveAvatarUrl());
+        embedBuilder.setFooter(AMessage.CMD_GAMESTATS_PAGE.get(e, String.valueOf(page), String.valueOf(maxPages)), e.getJDA().getSelfUser().getEffectiveAvatarUrl());
 
         SpamLevelManager spamLevelManager = new SpamLevelManager();
 

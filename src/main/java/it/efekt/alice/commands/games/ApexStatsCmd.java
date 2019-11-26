@@ -5,7 +5,7 @@ import com.google.gson.JsonParser;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
-import it.efekt.alice.lang.Message;
+import it.efekt.alice.lang.AMessage;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import java.io.BufferedReader;
@@ -22,9 +22,9 @@ public class ApexStatsCmd extends Command {
     public ApexStatsCmd(String alias) {
         super(alias);
         setCategory(CommandCategory.GAMES);
-        setShortUsageInfo(Message.CMD_APEX_SHORT_USAGE_INFO);
-        setFullUsageInfo(Message.CMD_APEX_FULL_USAGE_INFO);
-        setDescription(Message.CMD_APEX_DESC);
+        setShortUsageInfo(AMessage.CMD_APEX_SHORT_USAGE_INFO);
+        setFullUsageInfo(AMessage.CMD_APEX_FULL_USAGE_INFO);
+        setDescription(AMessage.CMD_APEX_DESC);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class ApexStatsCmd extends Command {
                 String playerName = getArgs()[1];
 
                 if (getPlayerInfo(playerName, platform) == null || !getPlayerInfo(playerName, platform).get("playerfound").getAsBoolean()){
-                    e.getChannel().sendMessage(Message.CMD_APEX_PLAYER_NOT_FOUND.get(e)).complete();
+                    e.getChannel().sendMessage(AMessage.CMD_APEX_PLAYER_NOT_FOUND.get(e)).complete();
                     return true;
                 }
 
@@ -50,45 +50,45 @@ public class ApexStatsCmd extends Command {
 
                 EmbedBuilder embedBuilder = new EmbedBuilder();
                 embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
-                embedBuilder.setTitle(Message.CMD_APEX_EMBED_TITLE.get(e) + " " + platform.toUpperCase());
-                embedBuilder.setDescription(Message.CMD_APEX_EMBED_DESC.get(e));
+                embedBuilder.setTitle(AMessage.CMD_APEX_EMBED_TITLE.get(e) + " " + platform.toUpperCase());
+                embedBuilder.setDescription(AMessage.CMD_APEX_EMBED_DESC.get(e));
                 embedBuilder.setThumbnail(avatarUrl);
-                embedBuilder.addField(Message.CMD_APEX_PLAYERNAME.get(e), name, true);
-                embedBuilder.addField(Message.CMD_APEX_LEVEL.get(e), String.valueOf(level), true);
-                embedBuilder.addField(Message.CMD_APEX_KILLS.get(e), String.valueOf(kills), true);
-                embedBuilder.addField(Message.CMD_APEX_HEADSHOTS.get(e), String.valueOf(headshots), true);
+                embedBuilder.addField(AMessage.CMD_APEX_PLAYERNAME.get(e), name, true);
+                embedBuilder.addField(AMessage.CMD_APEX_LEVEL.get(e), String.valueOf(level), true);
+                embedBuilder.addField(AMessage.CMD_APEX_KILLS.get(e), String.valueOf(kills), true);
+                embedBuilder.addField(AMessage.CMD_APEX_HEADSHOTS.get(e), String.valueOf(headshots), true);
                 embedBuilder.addBlankField(false);
-                embedBuilder.addField("Bloodhound", "\n" + Message.CMD_APEX_MATCHES.get(e) + " " + playerInfo.get("matches_Bloodhound").getAsString() +
-                                "\n" + Message.CMD_APEX_LEGEND_KILLS.get(e) + playerInfo.get("kills_Bloodhound").getAsString() +
-                                "\n" + Message.CMD_APEX_LEGEND_HEADSHOTS.get(e) + playerInfo.get("headshots_Bloodhound").getAsString()
+                embedBuilder.addField("Bloodhound", "\n" + AMessage.CMD_APEX_MATCHES.get(e) + " " + playerInfo.get("matches_Bloodhound").getAsString() +
+                                "\n" + AMessage.CMD_APEX_LEGEND_KILLS.get(e) + playerInfo.get("kills_Bloodhound").getAsString() +
+                                "\n" + AMessage.CMD_APEX_LEGEND_HEADSHOTS.get(e) + playerInfo.get("headshots_Bloodhound").getAsString()
                         , true);
-                embedBuilder.addField("Gibraltar", "\n" + Message.CMD_APEX_MATCHES.get(e) + " "  + playerInfo.get("matches_Gibraltar").getAsString() +
-                                "\n" + Message.CMD_APEX_LEGEND_KILLS.get(e) + playerInfo.get("kills_Gibraltar").getAsString() +
-                                "\n" + Message.CMD_APEX_LEGEND_HEADSHOTS.get(e) + playerInfo.get("headshots_Gibraltar").getAsString()
+                embedBuilder.addField("Gibraltar", "\n" + AMessage.CMD_APEX_MATCHES.get(e) + " "  + playerInfo.get("matches_Gibraltar").getAsString() +
+                                "\n" + AMessage.CMD_APEX_LEGEND_KILLS.get(e) + playerInfo.get("kills_Gibraltar").getAsString() +
+                                "\n" + AMessage.CMD_APEX_LEGEND_HEADSHOTS.get(e) + playerInfo.get("headshots_Gibraltar").getAsString()
                         , true);
-                embedBuilder.addField("Lifeline", "\n" + Message.CMD_APEX_MATCHES.get(e) + " "  + playerInfo.get("matches_Lifeline").getAsString() +
-                                "\n" + Message.CMD_APEX_LEGEND_KILLS.get(e) + playerInfo.get("kills_Lifeline").getAsString() +
-                                "\n" + Message.CMD_APEX_LEGEND_HEADSHOTS.get(e) + playerInfo.get("headshots_Lifeline").getAsString()
+                embedBuilder.addField("Lifeline", "\n" + AMessage.CMD_APEX_MATCHES.get(e) + " "  + playerInfo.get("matches_Lifeline").getAsString() +
+                                "\n" + AMessage.CMD_APEX_LEGEND_KILLS.get(e) + playerInfo.get("kills_Lifeline").getAsString() +
+                                "\n" + AMessage.CMD_APEX_LEGEND_HEADSHOTS.get(e) + playerInfo.get("headshots_Lifeline").getAsString()
                         , true);
-                embedBuilder.addField("Pathfinder", "\n" + Message.CMD_APEX_MATCHES.get(e) + " "  + playerInfo.get("matches_Pathfinder").getAsString() +
-                                "\n" + Message.CMD_APEX_LEGEND_KILLS.get(e) + playerInfo.get("kills_Pathfinder").getAsString() +
-                                "\n" + Message.CMD_APEX_LEGEND_HEADSHOTS.get(e) + playerInfo.get("headshots_Pathfinder").getAsString()
+                embedBuilder.addField("Pathfinder", "\n" + AMessage.CMD_APEX_MATCHES.get(e) + " "  + playerInfo.get("matches_Pathfinder").getAsString() +
+                                "\n" + AMessage.CMD_APEX_LEGEND_KILLS.get(e) + playerInfo.get("kills_Pathfinder").getAsString() +
+                                "\n" + AMessage.CMD_APEX_LEGEND_HEADSHOTS.get(e) + playerInfo.get("headshots_Pathfinder").getAsString()
                         , true);
-                embedBuilder.addField("Wraith", "\n" + Message.CMD_APEX_MATCHES.get(e) + " "  + playerInfo.get("matches_Wraith").getAsString() +
-                                "\n" + Message.CMD_APEX_LEGEND_KILLS.get(e) + playerInfo.get("kills_Wraith").getAsString() +
-                                "\n" + Message.CMD_APEX_LEGEND_HEADSHOTS.get(e) + playerInfo.get("headshots_Wraith").getAsString()
+                embedBuilder.addField("Wraith", "\n" + AMessage.CMD_APEX_MATCHES.get(e) + " "  + playerInfo.get("matches_Wraith").getAsString() +
+                                "\n" + AMessage.CMD_APEX_LEGEND_KILLS.get(e) + playerInfo.get("kills_Wraith").getAsString() +
+                                "\n" + AMessage.CMD_APEX_LEGEND_HEADSHOTS.get(e) + playerInfo.get("headshots_Wraith").getAsString()
                         , true);
-                embedBuilder.addField("Bangalore", "\n" + Message.CMD_APEX_MATCHES.get(e) + " "  + playerInfo.get("matches_Bangalore").getAsString() +
-                                "\n" + Message.CMD_APEX_LEGEND_KILLS.get(e) + playerInfo.get("kills_Bangalore").getAsString() +
-                                "\n" + Message.CMD_APEX_LEGEND_HEADSHOTS.get(e) + playerInfo.get("headshots_Bangalore").getAsString()
+                embedBuilder.addField("Bangalore", "\n" + AMessage.CMD_APEX_MATCHES.get(e) + " "  + playerInfo.get("matches_Bangalore").getAsString() +
+                                "\n" + AMessage.CMD_APEX_LEGEND_KILLS.get(e) + playerInfo.get("kills_Bangalore").getAsString() +
+                                "\n" + AMessage.CMD_APEX_LEGEND_HEADSHOTS.get(e) + playerInfo.get("headshots_Bangalore").getAsString()
                         , true);
-                embedBuilder.addField("Caustic", "\n" + Message.CMD_APEX_MATCHES.get(e) + " "  + playerInfo.get("matches_Caustic").getAsString() +
-                                "\n" + Message.CMD_APEX_LEGEND_KILLS.get(e) + playerInfo.get("kills_Caustic").getAsString() +
-                                "\n" + Message.CMD_APEX_LEGEND_HEADSHOTS.get(e) + playerInfo.get("headshots_Caustic").getAsString()
+                embedBuilder.addField("Caustic", "\n" + AMessage.CMD_APEX_MATCHES.get(e) + " "  + playerInfo.get("matches_Caustic").getAsString() +
+                                "\n" + AMessage.CMD_APEX_LEGEND_KILLS.get(e) + playerInfo.get("kills_Caustic").getAsString() +
+                                "\n" + AMessage.CMD_APEX_LEGEND_HEADSHOTS.get(e) + playerInfo.get("headshots_Caustic").getAsString()
                         , true);
-                embedBuilder.addField("Mirage", "\n" + Message.CMD_APEX_MATCHES.get(e) + " "  + playerInfo.get("matches_Mirage").getAsString() +
-                                "\n" + Message.CMD_APEX_LEGEND_KILLS.get(e) + playerInfo.get("kills_Mirage").getAsString() +
-                                "\n" + Message.CMD_APEX_LEGEND_HEADSHOTS.get(e) + playerInfo.get("headshots_Mirage").getAsString()
+                embedBuilder.addField("Mirage", "\n" + AMessage.CMD_APEX_MATCHES.get(e) + " "  + playerInfo.get("matches_Mirage").getAsString() +
+                                "\n" + AMessage.CMD_APEX_LEGEND_KILLS.get(e) + playerInfo.get("kills_Mirage").getAsString() +
+                                "\n" + AMessage.CMD_APEX_LEGEND_HEADSHOTS.get(e) + playerInfo.get("headshots_Mirage").getAsString()
                         , true);
                 e.getChannel().sendMessage(embedBuilder.build()).complete();
                 return true;

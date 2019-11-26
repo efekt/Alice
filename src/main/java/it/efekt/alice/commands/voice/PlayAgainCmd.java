@@ -3,7 +3,7 @@ package it.efekt.alice.commands.voice;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
-import it.efekt.alice.lang.Message;
+import it.efekt.alice.lang.AMessage;
 import it.efekt.alice.modules.AliceAudioManager;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
@@ -11,7 +11,7 @@ public class PlayAgainCmd extends Command {
     public PlayAgainCmd(String alias) {
         super(alias);
         setCategory(CommandCategory.VOICE);
-        setDescription(Message.CMD_PLAYAGAIN_DESC);
+        setDescription(AMessage.CMD_PLAYAGAIN_DESC);
     }
 
     @Override

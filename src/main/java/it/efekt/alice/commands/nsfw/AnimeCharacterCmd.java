@@ -2,10 +2,17 @@ package it.efekt.alice.commands.nsfw;
 
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
-import it.efekt.alice.lang.Message;
+import it.efekt.alice.core.AEmoji;
+import it.efekt.alice.core.AliceBootstrap;
+import it.efekt.alice.lang.AMessage;
 import it.efekt.alice.modules.DanbooruApi;
 import it.efekt.alice.modules.DanbooruRating;
+import net.dv8tion.jda.api.entities.Emote;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageReaction;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.internal.requests.Route;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,10 +22,10 @@ public class AnimeCharacterCmd extends Command {
 
     public AnimeCharacterCmd(String alias) {
         super(alias);
-        setDescription(Message.CMD_ANIMECHARACTER_DESC);
+        setDescription(AMessage.CMD_ANIMECHARACTER_DESC);
         setNsfw(true);
-        setShortUsageInfo(Message.CMD_ANIMECHARACTER_SHORT_USAGE_INFO);
-        setFullUsageInfo(Message.CMD_ANIMECHARACTER_FULL_USAGE_INFO);
+        setShortUsageInfo(AMessage.CMD_ANIMECHARACTER_SHORT_USAGE_INFO);
+        setFullUsageInfo(AMessage.CMD_ANIMECHARACTER_FULL_USAGE_INFO);
         setCategory(CommandCategory.NSFW);
         setIsVoteRequired(true);
         loadCategories();
@@ -30,7 +37,7 @@ public class AnimeCharacterCmd extends Command {
         if (getArgs().length >= 1){
             String category = getArgs()[0].toLowerCase();
             if (category.equalsIgnoreCase("list") || !this.categories.contains(getArgs()[0].toLowerCase())){
-                e.getChannel().sendMessage(Message.CMD_ANIMECHARACTER_CATEGORIES.get(e,getCategoriesString())).complete();
+                e.getChannel().sendMessage(AMessage.CMD_ANIMECHARACTER_CATEGORIES.get(e,getCategoriesString())).complete();
                 return true;
             }
 

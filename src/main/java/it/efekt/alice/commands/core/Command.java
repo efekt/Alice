@@ -3,9 +3,9 @@ package it.efekt.alice.commands.core;
 import it.efekt.alice.commands.util.VoteCmd;
 import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.db.model.GuildConfig;
+import it.efekt.alice.lang.AMessage;
 import it.efekt.alice.lang.LangCode;
 import it.efekt.alice.lang.Language;
-import it.efekt.alice.lang.Message;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.ChannelType;
@@ -29,11 +29,11 @@ public abstract class Command extends ListenerAdapter {
     private String BOT_AUTHOR_ID = "128146616094818304";
     protected String alias;
     private String[] args;
-    private Message desc = Message.BLANK;
+    private AMessage desc = AMessage.BLANK;
     // Short line next to command alias
-    private Message shortUsageInfo = Message.BLANK;
+    private AMessage shortUsageInfo = AMessage.BLANK;
     // Full explanation of all arguments in commands
-    private Message fullUsageInfo = Message.BLANK;
+    private AMessage fullUsageInfo = AMessage.BLANK;
     private List<Permission> permissions = new ArrayList<>();
     private Logger logger = LoggerFactory.getLogger(Command.class);
     private boolean isNsfw = false;
@@ -56,11 +56,11 @@ public abstract class Command extends ListenerAdapter {
             }
                 try {
                     if (!this.onCommand(e)) {
-                        e.getChannel().sendMessage(Message.CMD_CHECK_IF_IS_CORRECT.get(e, "Type `<help` `" + getAlias() + "` to see the command's help")).queue();
+                        e.getChannel().sendMessage(AMessage.CMD_CHECK_IF_IS_CORRECT.get(e, "Type `<help` `" + getAlias() + "` to see the command's help")).queue();
                         return;
                     }
                 } catch (InsufficientPermissionException exc){
-                    e.getChannel().sendMessage(Message.PERMISSION_NEEDED.get(e, exc.getPermission().name())).queue();
+                    e.getChannel().sendMessage(AMessage.PERMISSION_NEEDED.get(e, exc.getPermission().name())).queue();
                 }
 
         };
@@ -83,7 +83,7 @@ public abstract class Command extends ListenerAdapter {
         return this.category;
     }
 
-    protected void setDescription(Message desc){
+    protected void setDescription(AMessage desc){
         this.desc = desc;
     }
 
@@ -115,7 +115,7 @@ public abstract class Command extends ListenerAdapter {
         this.isNsfw = isNsfw;
     }
 
-    public Message getDesc(){
+    public AMessage getDesc(){
         return this.desc;
     }
 
@@ -123,7 +123,7 @@ public abstract class Command extends ListenerAdapter {
         return this.alias;
     }
 
-    public Message getShortUsageInfo(){
+    public AMessage getShortUsageInfo(){
         return this.shortUsageInfo;
     }
 
@@ -131,15 +131,15 @@ public abstract class Command extends ListenerAdapter {
         return this.permissions;
     }
 
-    public Message getFullUsageInfo() {
+    public AMessage getFullUsageInfo() {
         return this.fullUsageInfo;
     }
 
-    protected void setFullUsageInfo(Message fullUsageInfo) {
+    protected void setFullUsageInfo(AMessage fullUsageInfo) {
         this.fullUsageInfo = fullUsageInfo;
     }
 
-    protected void setShortUsageInfo(Message shortUsageInfo){
+    protected void setShortUsageInfo(AMessage shortUsageInfo){
         this.shortUsageInfo = shortUsageInfo;
     }
 
@@ -257,9 +257,9 @@ public abstract class Command extends ListenerAdapter {
                         if (isNsfw() && !e.getTextChannel().isNSFW()) {
                             e.getChannel().sendMessage(new EmbedBuilder()
                                     .setThumbnail("https://i.imgur.com/L3o8Xq0.jpg")
-                                    .setTitle(Message.CMD_THIS_IS_NSFW_CMD.get(e))
+                                    .setTitle(AMessage.CMD_THIS_IS_NSFW_CMD.get(e))
                                     .setColor(AliceBootstrap.EMBED_COLOR)
-                                    .setDescription(Message.CMD_NSFW_ALLOWED_ONLY.get(e))
+                                    .setDescription(AMessage.CMD_NSFW_ALLOWED_ONLY.get(e))
                                     .build()).queue();
                             return; // nsfw content on not-nsfw channel
                         }
@@ -267,9 +267,9 @@ public abstract class Command extends ListenerAdapter {
                         // check if user-vote is required in order to execute this command
                         if (this.isVoteRequired && !hasVoted(e.getAuthor().getId())){
                             e.getChannel().sendMessage(new EmbedBuilder()
-                                    .setTitle(Message.VOTE_REQUIRED_TITLE.get(e))
+                                    .setTitle(AMessage.VOTE_REQUIRED_TITLE.get(e))
                                     .setColor(AliceBootstrap.EMBED_COLOR)
-                                    .setDescription(Message.VOTE_REQUIRED_INFO.get(e) + VoteCmd.VOTE_URL)
+                                    .setDescription(AMessage.VOTE_REQUIRED_INFO.get(e) + VoteCmd.VOTE_URL)
                                     .build()).queue();
                         }
                         this.args = args;

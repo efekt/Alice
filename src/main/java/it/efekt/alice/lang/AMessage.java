@@ -8,7 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 
-public enum Message {
+public enum AMessage {
     ALICE_GOODBYE_RESPONSE("Good night! {1}"),
     ALICE_GOODBYE_REQUIRED("good night"),
     ALICE_MORNING_RESPONSE("Good Morning! {1}"),
@@ -185,7 +185,7 @@ public enum Message {
 
     private String defaultValue;
 
-    Message(String defaultText){
+    AMessage(String defaultText){
         this.defaultValue = defaultText;
     }
 
@@ -216,8 +216,8 @@ public enum Message {
         return AliceBootstrap.alice.getLanguageManager().getLang(LangCode.valueOf(locale));
     }
 
-    public static Message getDefaultMessage(String key){
-        return Arrays.stream(Message.values()).filter(msg -> msg.getKey().equals(key)).findFirst().get();
+    public static AMessage getDefaultMessage(String key){
+        return Arrays.stream(AMessage.values()).filter(msg -> msg.getKey().equals(key)).findFirst().get();
     }
 
     public static void main(String[] args){
@@ -227,9 +227,9 @@ public enum Message {
             JsonWriter jsonWriter = new JsonWriter(new FileWriter("./en_US.json"));
             jsonWriter.beginObject();
             jsonWriter.setIndent("  ");
-            for (Message message : Message.values()){
-                if(!message.equals(Message.BLANK)) {
-                    jsonWriter.name(message.getKey()).value(message.getDefaultValue());
+            for (AMessage AMessage : AMessage.values()){
+                if(!AMessage.equals(AMessage.BLANK)) {
+                    jsonWriter.name(AMessage.getKey()).value(AMessage.getDefaultValue());
                 }
             }
             jsonWriter.endObject();
