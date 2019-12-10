@@ -137,7 +137,7 @@ public enum AMessage {
     CMD_PLAY_FULL_USAGE_INFO("`keywords` - searches YouTube\n`url` - plays audio from url\nexample: `play darude sandstorm`"),
     CMD_PLAY_SHORT_USAGE_INFO("`url` or `keywords`"),
     CMD_PLAY_TRACK_RESUMED("Track resumed"),
-    CMD_PLAY_LOADED_AND_QUEUED("Loaded and queued"),
+    CMD_PLAY_LOADED_AND_QUEUED("Loaded and queued...\nLately, we are experiencing some issues with being rate limited by YouTube/Google and SoundCloud\nPlease try to load a track from a different source by using `play <url>`\nSorry for the inconvenience\n"),
     CMD_PLAY_LOADED_FOOTER("{1} - shows currently playing and queued audio tracks"),
     CMD_PLAYAGAIN_DESC("Adds previously played track to the end of the queue"),
     CMD_PAUSE_DESC("Pauses currently playing track"),
