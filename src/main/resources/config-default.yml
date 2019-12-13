@@ -12,3 +12,5 @@ discordBotListApiToken:
 restUser:
 restPassword:
 lavaPlayerNodeUrl:
+# used for yt-ip-rotator, not active if null
+ipv6Block:

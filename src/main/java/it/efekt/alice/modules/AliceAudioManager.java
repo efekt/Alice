@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.concurrent.Future;
 
 public class AliceAudioManager {
+    private Config config;
     private AudioPlayerManager audioPlayerManager; // single instance in whole app
     private HashMap<String, AliceSendHandler> sendHandlers = new HashMap<>();
     private HashMap<String, AliceReceiveHandler> receiveHandlers = new HashMap<>();
@@ -40,6 +41,7 @@ public class AliceAudioManager {
     private final int MAX_QUEUE_SIZE = 10;
 
     public AliceAudioManager(Config config){
+        this.config = config;
         this.audioPlayerManager = new DefaultAudioPlayerManager();
 
         if (config.getLavaPlayerNodeUrl() != null && !config.getLavaPlayerNodeUrl().isEmpty()){
@@ -55,12 +57,13 @@ public class AliceAudioManager {
                 .setCookieSpec(CookieSpecs.IGNORE_COOKIES)
                 .build());
 
-        AbstractRoutePlanner planner;
-        List<IpBlock> ipBlocks = Collections.singletonList(new Ipv6Block("2a01:4f8:200:2250::/64"));
+        if (this.config.getIpv6Block() != null) {
+            AbstractRoutePlanner planner;
+            List<IpBlock> ipBlocks = Collections.singletonList(new Ipv6Block(this.config.getIpv6Block()));
 
-        planner = new NanoIpRoutePlanner(ipBlocks, true);
-        new YoutubeIpRotatorSetup(planner).withRetryLimit(5).forSource(youtubeAudioSourceManager).setup();
-
+            planner = new NanoIpRoutePlanner(ipBlocks, true);
+            new YoutubeIpRotatorSetup(planner).withRetryLimit(5).forSource(youtubeAudioSourceManager).setup();
+        }
         this.audioPlayerManager.registerSourceManager(youtubeAudioSourceManager);
 
     }

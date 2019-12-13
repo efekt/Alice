@@ -20,6 +20,7 @@ public class Config {
     private String restUser;
     private String restPassword;
     private String lavaPlayerNodeUrl;
+    private String ipv6Block;
 
     public void setImgurClientId(String imgurClientId){
         this.imgurClientId = imgurClientId;
@@ -131,6 +132,14 @@ public class Config {
 
     public void setLavaPlayerNodeUrl(String lavaPlayerNodeUrl) {
         this.lavaPlayerNodeUrl = lavaPlayerNodeUrl;
+    }
+
+    public String getIpv6Block() {
+        return ipv6Block;
+    }
+
+    public void setIpv6Block(String ipv6Block) {
+        this.ipv6Block = ipv6Block;
     }
 
     @Override
