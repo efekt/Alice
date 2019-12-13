@@ -2,9 +2,14 @@ package it.efekt.alice.modules;
 
 import com.sedmelluq.discord.lavaplayer.player.*;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
+import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import com.sedmelluq.lava.extensions.youtuberotator.YoutubeIpRotatorSetup;
+import com.sedmelluq.lava.extensions.youtuberotator.planner.*;
+import com.sedmelluq.lava.extensions.youtuberotator.tools.ip.IpBlock;
+import com.sedmelluq.lava.extensions.youtuberotator.tools.ip.Ipv6Block;
 import it.efekt.alice.commands.voice.TrackScheduler;
 import it.efekt.alice.config.Config;
 import it.efekt.alice.core.AliceBootstrap;
@@ -16,10 +21,14 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.managers.AudioManager;
+import org.apache.http.client.config.CookieSpecs;
+import org.apache.http.client.config.RequestConfig;
 import ws.schild.jave.EncoderException;
 import java.io.*;
 import java.net.URL;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.Future;
 
 public class AliceAudioManager {
@@ -28,6 +37,7 @@ public class AliceAudioManager {
     private HashMap<String, AliceReceiveHandler> receiveHandlers = new HashMap<>();
     private HashMap<String, String> lastPlayedContent = new HashMap<>();
     private HashMap<String, TrackScheduler> trackSchedulers = new HashMap<>();
+    private final int MAX_QUEUE_SIZE = 10;
 
     public AliceAudioManager(Config config){
         this.audioPlayerManager = new DefaultAudioPlayerManager();
@@ -35,6 +45,24 @@ public class AliceAudioManager {
         if (config.getLavaPlayerNodeUrl() != null && !config.getLavaPlayerNodeUrl().isEmpty()){
             this.audioPlayerManager.useRemoteNodes(config.getLavaPlayerNodeUrl());
         }
+
+        registerAudioSources();
+    }
+
+    private void registerAudioSources(){
+        YoutubeAudioSourceManager youtubeAudioSourceManager = new YoutubeAudioSourceManager();
+        youtubeAudioSourceManager.configureRequests(config -> RequestConfig.copy(config)
+                .setCookieSpec(CookieSpecs.IGNORE_COOKIES)
+                .build());
+
+        AbstractRoutePlanner planner;
+        List<IpBlock> ipBlocks = Collections.singletonList(new Ipv6Block("2a01:4f8:200:2250::/64"));
+
+        planner = new NanoIpRoutePlanner(ipBlocks, true);
+        new YoutubeIpRotatorSetup(planner).withRetryLimit(5).forSource(youtubeAudioSourceManager).setup();
+
+        this.audioPlayerManager.registerSourceManager(youtubeAudioSourceManager);
+
     }
 
     public AliceSendHandler getSendHandler(Guild guild){
@@ -130,6 +158,13 @@ public class AliceAudioManager {
     }
 
     public void play(MessageReceivedEvent e, String content){
+        // if guild/user rate limit is being met, do not allow alice to even try to load a new track
+
+        if (getTrackScheduler(e.getGuild()).getQueue().size() >= this.MAX_QUEUE_SIZE){
+            e.getChannel().sendMessage("You can queue max up to " + this.MAX_QUEUE_SIZE + " tracks").complete();
+            return;
+        }
+
         this.lastPlayedContent.put(e.getGuild().getId(), content);
         playRemoteSource(e.getGuild(), content, new AudioLoadResultHandler() {
             @Override
@@ -156,6 +191,18 @@ public class AliceAudioManager {
                     e.getChannel().sendMessage("Please try using keywords instead of the direct url").complete();
                 }
 
+                if (exc.getMessage() != null){
+
+                    // on youtube block
+                    if (exc.getMessage().contains("Loading information for a YouTube track failed.") && exc.getCause() != null && exc.getCause().getMessage().contains("YouTube rate limit reached")){
+                        e.getChannel().sendMessage(AMessage.VOICE_LOADING_RATE_LIMITED.get(e.getGuild())).complete();
+                    }
+
+                    // On retry limit
+                    if (exc.getMessage().contains("Loading information for a YouTube track failed.") && exc.getCause() != null && exc.getCause().getMessage().contains("Retry aborted, too many retries on ratelimit.")){
+                        e.getChannel().sendMessage(AMessage.VOICE_LOADING_RATE_LIMITED.get(e.getGuild())).complete();
+                    }
+                }
             }
         });
     }

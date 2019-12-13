@@ -133,6 +133,7 @@ public enum AMessage {
     CMD_WIKI_SHORT_USAGE_INFO("`phrase`"),
     VOICE_NOTHING_FOUND("Nothing found"),
     VOICE_LOADING_FAILED("Loading failed"),
+    VOICE_LOADING_RATE_LIMITED("Got rate limited from google. Please try again later."),
     CMD_PLAY_DESC("Plays audio from specified url or keywords"),
     CMD_PLAY_FULL_USAGE_INFO("`keywords` - searches YouTube\n`url` - plays audio from url\nexample: `play darude sandstorm`"),
     CMD_PLAY_SHORT_USAGE_INFO("`url` or `keywords`"),
