@@ -8,6 +8,8 @@ import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.lang.AMessage;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+
+import javax.annotation.Nullable;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -99,7 +101,7 @@ public class ApexStatsCmd extends Command {
     }
 
 
-    private JsonObject getPlayerInfo(String playerName, String platform){
+    private @Nullable JsonObject getPlayerInfo(String playerName, String platform){
         return getPlayer(getPlayerId(playerName, platform));
     }
 
@@ -134,7 +136,7 @@ public class ApexStatsCmd extends Command {
         return playerObject;
     }
 
-    private String getPlayerId(String playerName, String platform){
+    private @Nullable String getPlayerId(String playerName, String platform){
         String playerId = null;
 
         try {
@@ -143,7 +145,7 @@ public class ApexStatsCmd extends Command {
             connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
 
             if (connection.getResponseCode() != 200){
-                throw new IOException(connection.getResponseMessage());
+                return null;
             }
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
