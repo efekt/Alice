@@ -18,7 +18,6 @@ import java.util.concurrent.TimeUnit;
 public class GameStatsCmd extends Command {
     private Logger logger = LoggerFactory.getLogger(GameStatsCmd.class);
     private List<String> blacklist = new ArrayList<>();
-    private String userName;
     private final String BLACKLIST_PATH = "./games_blacklist.json";
     private final int MIN_TIME_PLAYED = 30;
     private final int MAX_TO_PRINT = 15;
@@ -40,6 +39,7 @@ public class GameStatsCmd extends Command {
         Guild guild = e.getGuild();
         HashMap<String, Long> guildGameStats = AliceBootstrap.alice.getGameStatsManager().getGameTimesOnGuild(guild);
         int page = 1;
+        String userName = null;
 
         if (getArgs().length == 1 && getArgs()[0].matches("-?\\d+")) {
             page = Integer.parseInt(getArgs()[0]);
@@ -53,10 +53,15 @@ public class GameStatsCmd extends Command {
             guildGameStats = AliceBootstrap.alice.getGameStatsManager().getAllGameTimeStats();
         }
 
+        // checking user's stats
         if (getArgs().length >= 1 && !e.getMessage().getMentionedUsers().isEmpty()){
             User user = e.getMessage().getMentionedUsers().get(0);
             guildGameStats = AliceBootstrap.alice.getGameStatsManager().getGameStats(e.getGuild(), user);
             userName = user.getName();
+            // if page number is given
+            if (getArgs().length >= 2 && getArgs()[1].matches("-?\\d+")){
+                page = Integer.parseInt(getArgs()[1]);
+            }
         }
 
         if (guildGameStats.isEmpty()){
@@ -82,7 +87,7 @@ public class GameStatsCmd extends Command {
 
         int maxPages = (int) Math.ceil((float)gamesList.size() / (float)MAX_TO_PRINT);
 
-        if (page <= 0 || gamesList.size() < beginIndex){
+        if (page <= 0 || gamesList.size() <= beginIndex){
             e.getChannel().sendMessage(AMessage.CMD_TOP_WRONG_PAGE.get(e, String.valueOf(maxPages))).complete();
             return true;
         }
@@ -111,10 +116,10 @@ public class GameStatsCmd extends Command {
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
         // if userName is not set = no user was provided with a mention
-        if (this.userName == null) {
+        if (userName == null) {
             embedBuilder.setTitle(AMessage.CMD_GAMESTATS_EMBED_TITLE.get(e));
         } else {
-            embedBuilder.setTitle(AMessage.CMD_GAMESTATS_EMBED_TITLE_USER.get(e, this.userName));
+            embedBuilder.setTitle(AMessage.CMD_GAMESTATS_EMBED_TITLE_USER.get(e, userName));
         }
         embedBuilder.addField(AMessage.CMD_TOP_FOOTER.get(e, String.valueOf(beginIndex)), output, false);
         embedBuilder.setFooter(AMessage.CMD_GAMESTATS_PAGE.get(e, String.valueOf(page), String.valueOf(maxPages)), e.getJDA().getSelfUser().getEffectiveAvatarUrl());
