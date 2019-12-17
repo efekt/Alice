@@ -19,7 +19,7 @@ import java.util.List;
 
 public class GameStatsManager {
     private Logger logger = LoggerFactory.getLogger(GameStatsManager.class);
-//
+
 //    public void addTimePlayed(User user, Guild guild, String gameName, long time){
 //        String userId = user.getId();
 //        String guildId = guild.getId();
@@ -69,7 +69,8 @@ public class GameStatsManager {
         return result;
     }
 
-    public List<GameStats> getGameStats(Guild guild){
+    public HashMap<String, Long> getGameStats(Guild guild, User user){
+        HashMap<String, Long> gameTimes = new HashMap<>();
         Session session = AliceBootstrap.hibernate.getSession();
         session.beginTransaction();
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
@@ -78,6 +79,7 @@ public class GameStatsManager {
 
         List<Predicate> conditions = new ArrayList<>();
         conditions.add(criteriaBuilder.equal(gameStatsRoot.get("guildId"), guild.getId()));
+        conditions.add(criteriaBuilder.equal(gameStatsRoot.get("userId"), user.getId()));
 
         criteriaQuery.select(gameStatsRoot).where(conditions.toArray(new Predicate[0]));
 
@@ -86,7 +88,15 @@ public class GameStatsManager {
 
         session.getTransaction().commit();
 
-        return results;
+        for (GameStats gameStats : results){
+            if (gameTimes.containsKey(gameStats.getGameName())){
+                gameTimes.put(gameStats.getGameName(), gameTimes.get(gameStats.getGameName()) + gameStats.getTimePlayed());
+            } else {
+                gameTimes.put(gameStats.getGameName(), gameStats.getTimePlayed());
+            }
+        }
+
+        return gameTimes;
     }
 
     public HashMap<String, Long> getAllGameTimeStats(){

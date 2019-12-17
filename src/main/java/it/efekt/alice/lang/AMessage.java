@@ -124,6 +124,7 @@ public enum AMessage {
     LOGGER_USER_STOPPED_PLAYING("{1} exits {2}, {3}min"),
     CMD_GAMESTATS_DESC("Shows the most played games on this discord server"),
     CMD_GAMESTATS_EMBED_TITLE("Most played games on this server"),
+    CMD_GAMESTATS_EMBED_TITLE_USER("{1}'s most played games on this server"),
     CMD_GAMESTATS_PAGE("Page {1}/{2}"),
     CMD_TOP_FOOTER("TOP-{1}"),
     CMD_WIKI_NOT_FOUND("Wikipedia article not found"),
