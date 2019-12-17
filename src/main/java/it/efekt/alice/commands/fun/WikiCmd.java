@@ -1,16 +1,20 @@
 package it.efekt.alice.commands.fun;
-
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.lang.AMessage;
+import kong.unirest.HttpResponse;
+import kong.unirest.JsonNode;
+import kong.unirest.Unirest;
+import kong.unirest.UnirestException;
+import kong.unirest.json.JSONObject;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import org.json.JSONObject;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.CookieSpecs;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.impl.client.HttpClients;
+
 import java.util.Set;
 
 public class WikiCmd extends Command {
@@ -66,8 +70,9 @@ public class WikiCmd extends Command {
 
     private JSONObject query(String keyword){
         try {
+            Unirest.primaryInstance().config().cookieSpec(CookieSpecs.IGNORE_COOKIES);
             HttpResponse<JsonNode> jsonResponse = Unirest.get("https://"+lang+".wikipedia.org/w/api.php")
-                    .header("accept", "application/json")
+                    .header("Accept", "application/json")
                     .queryString("action", "query")
                     .queryString("format", "json")
 
