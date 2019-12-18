@@ -87,7 +87,7 @@ public class GameStatsCmd extends Command {
 
         int maxPages = (int) Math.ceil((float)gamesList.size() / (float)MAX_TO_PRINT);
 
-        if (page <= 0 || gamesList.size() <= beginIndex){
+        if (page <= 0 || gamesList.size() < beginIndex){
             e.getChannel().sendMessage(AMessage.CMD_TOP_WRONG_PAGE.get(e, String.valueOf(maxPages))).complete();
             return true;
         }
