@@ -6,7 +6,11 @@ import it.efekt.alice.core.Alice;
 import it.efekt.alice.core.AliceBootstrap;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import java.text.DateFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class StatsCmd extends Command {
     public StatsCmd(String alias) {
@@ -39,6 +43,25 @@ public class StatsCmd extends Command {
 
         builder.addField("Memory usage", sb.toString(), false);
 
+        StringBuilder globalBuilder = new StringBuilder();
+
+        Date startupTime = new Date(AliceBootstrap.STARTUP_TIME);
+        DateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+
+        long secondsTotal = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - AliceBootstrap.STARTUP_TIME);
+
+        int days = (int) TimeUnit.MILLISECONDS.toDays(secondsTotal);
+        long hours = TimeUnit.SECONDS.toHours(secondsTotal) - TimeUnit.DAYS.toHours(days);
+        long minutes = TimeUnit.SECONDS.toMinutes(secondsTotal) -
+                TimeUnit.DAYS.toMinutes(days) -
+                TimeUnit.HOURS.toMinutes(hours);
+        long seconds = TimeUnit.SECONDS.toSeconds(secondsTotal) -
+                TimeUnit.DAYS.toSeconds(days) -
+                TimeUnit.HOURS.toSeconds(hours) -
+                TimeUnit.MINUTES.toSeconds(minutes);
+
+        builder.addField("Uptime", days + "d " + hours + "h " + minutes + "m " + seconds + "s ", true);
+        builder.addField("Startup time", df.format(startupTime), true);
         e.getTextChannel().sendMessage(builder.build()).complete();
         return true;
     }
