@@ -38,8 +38,7 @@ public class StatsCmd extends Command {
 
         sb.append("Current Usage: " + format.format(currentUsage)  + " / " + format.format(maxMemory) + " MB\n");
         sb.append("Connected audio channels: " + alice.getAliceAudioManager().getCurrentAudioChannelJoinedCount() + "\n");
-        sb.append("Currently playing: " + alice.getAliceAudioManager().getCurrentPlaybackCount());
-        sb.append("\nCurrently paused: " + alice.getAliceAudioManager().getCurrentPausedCount());
+        sb.append("Currently playing: " + alice.getAliceAudioManager().getCurrentPlaybackCount() + " (" + alice.getAliceAudioManager().getCurrentPausedCount() + " paused)");
 
         builder.addField("Memory usage", sb.toString(), false);
 
