@@ -16,13 +16,13 @@ import java.util.concurrent.TimeUnit;
 
 public class AliceBootstrap {
 
-public final static Logger logger = LoggerFactory.getLogger(AliceBootstrap.class);
-public static Alice alice;
-public static final int EMBED_COLOR = 15648332;
-public static final String DEFAULT_PREFIX = "<";
-public static final long STARTUP_TIME = System.currentTimeMillis();
-public static HibernateHandler hibernate;
-public static AliceAnalytics analytics;
+    public final static Logger logger = LoggerFactory.getLogger(AliceBootstrap.class);
+    public static Alice alice;
+    public static final int EMBED_COLOR = 15648332;
+    public static final String DEFAULT_PREFIX = "<";
+    public static final long STARTUP_TIME = System.currentTimeMillis();
+    public static HibernateHandler hibernate;
+    public static AliceAnalytics analytics;
 
     public static void main(String[] args) {
         long beforeTime = System.currentTimeMillis();
