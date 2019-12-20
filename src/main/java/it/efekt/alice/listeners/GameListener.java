@@ -39,6 +39,10 @@ public class GameListener extends ListenerAdapter {
                 return;
             }
 
+            if (!oldGame.getType().equals(Activity.ActivityType.DEFAULT)){
+                return;
+            }
+
             if (!e.getMember().getOnlineStatus().equals(OnlineStatus.ONLINE)){
                 return;
             }
@@ -57,7 +61,7 @@ public class GameListener extends ListenerAdapter {
             long elapsedMilis = oldGame.getTimestamps().getElapsedTime(ChronoUnit.MILLIS);
 //            long sinceStartupTime = System.currentTimeMillis() - AliceBootstrap.STARTUP_TIME;
 
-            if (elapsed >= 1) {
+            if (elapsed >= 0) {
 //                if (elapsedMilis > sinceStartupTime){
 //                    return;
 //                }
