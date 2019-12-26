@@ -49,7 +49,7 @@ public class StatsCmd extends Command {
 
         long secondsTotal = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - AliceBootstrap.STARTUP_TIME);
 
-        int days = (int) TimeUnit.MILLISECONDS.toDays(secondsTotal);
+        int days = (int) TimeUnit.SECONDS.toDays(secondsTotal);
         long hours = TimeUnit.SECONDS.toHours(secondsTotal) - TimeUnit.DAYS.toHours(days);
         long minutes = TimeUnit.SECONDS.toMinutes(secondsTotal) -
                 TimeUnit.DAYS.toMinutes(days) -
