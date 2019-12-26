@@ -136,6 +136,7 @@ public class HentaiCmd extends Command {
         this.categories.add("gray");
         this.categories.add("ishtar");
         this.categories.add("mordred");
+        this.categories.add("christmas");
 
     }
 
