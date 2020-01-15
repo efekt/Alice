@@ -85,6 +85,12 @@ public class AnimeCharacterCmd extends Command {
                     case "mordred":
                         danbooru.sendPicture(e, DanbooruRating.SAFE, "mordred_(fate)_(all)");
                         return true;
+                    case "2b":
+                        danbooru.sendPicture(e, DanbooruRating.SAFE, "yorha_no._2_type_b");
+                        return true;
+                    case "a2":
+                        danbooru.sendPicture(e, DanbooruRating.SAFE, "yorha_type_a_no._2");
+                        return true;
                     default:
                         danbooru.sendPicture(e, DanbooruRating.SAFE, category);
                         return true;
@@ -133,6 +139,8 @@ public class AnimeCharacterCmd extends Command {
         this.categories.add("hatsune_miku");
         this.categories.add("zero_two");
         this.categories.add("mordred");
+        this.categories.add("2b");
+        this.categories.add("a2");
     }
 
     private String getCategoriesString(){

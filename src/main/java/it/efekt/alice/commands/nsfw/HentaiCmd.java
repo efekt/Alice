@@ -62,6 +62,12 @@ public class HentaiCmd extends Command {
                     case "mordred":
                         danbooru.sendPicture(e, DanbooruRating.EXPLICIT, "mordred_(fate)_(all)");
                         return true;
+                    case "2b":
+                        danbooru.sendPicture(e, DanbooruRating.EXPLICIT, "yorha_no._2_type_b");
+                        return true;
+                    case "a2":
+                        danbooru.sendPicture(e, DanbooruRating.EXPLICIT, "yorha_type_a_no._2");
+                        return true;
                     default:
                         danbooru.sendPicture(e, DanbooruRating.EXPLICIT, category);
                         return true;
@@ -137,6 +143,8 @@ public class HentaiCmd extends Command {
         this.categories.add("ishtar");
         this.categories.add("mordred");
         this.categories.add("christmas");
+        this.categories.add("2b");
+        this.categories.add("a2");
 
     }
 
