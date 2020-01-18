@@ -6,7 +6,8 @@ import it.efekt.alice.lang.AMessage;
 import it.efekt.alice.modules.DanbooruApi;
 import it.efekt.alice.modules.DanbooruRating;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HentaiCmd extends Command {
     private List<String> categories = new ArrayList<>();

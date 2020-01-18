@@ -1,19 +1,15 @@
 package it.efekt.alice.commands.core;
 
-import it.efekt.alice.commands.util.VoteCmd;
 import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.db.model.GuildConfig;
 import it.efekt.alice.lang.AMessage;
 import it.efekt.alice.lang.LangCode;
 import it.efekt.alice.lang.Language;
-import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.discordbots.api.client.DiscordBotListAPI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,53 +19,52 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.regex.Pattern;
 
-public abstract class Command extends ListenerAdapter {
-    private String BOT_AUTHOR_ID = "128146616094818304";
-    protected String alias;
-    private String[] args;
-    private AMessage desc = AMessage.BLANK;
-    // Short line next to command alias
-    private AMessage shortUsageInfo = AMessage.BLANK;
-    // Full explanation of all arguments in commands
-    private AMessage fullUsageInfo = AMessage.BLANK;
-    private List<Permission> permissions = new ArrayList<>();
+public abstract class Command {
     private Logger logger = LoggerFactory.getLogger(Command.class);
-    private boolean isNsfw = false;
-    private boolean isAdminCommand = false;
-    private boolean isPrivateChannelCmd = false;
-    private boolean isVoteRequired = false;
-    private HashMap<String, Long> usersTimeVoted = new HashMap<>();
-    private CommandCategory category = CommandCategory.BLANK;
+
+    protected String alias;
+    protected String[] args;
+    protected AMessage desc = AMessage.BLANK;
+    // Short line next to command alias
+    protected AMessage shortUsageInfo = AMessage.BLANK;
+    // Full explanation of all arguments in commands
+    protected AMessage fullUsageInfo = AMessage.BLANK;
+    protected List<Permission> permissions = new ArrayList<>();
+    protected boolean isNsfw = false;
+    protected boolean isAdminCommand = false;
+    protected boolean isPrivateChannelCmd = false;
+    protected boolean isVoteRequired = false;
+    protected HashMap<String, Long> usersTimeVoted = new HashMap<>();
+    protected CommandCategory category = CommandCategory.BLANK;
+
     public Command(String alias){
         this.alias = alias;
     }
 
+
     public abstract boolean onCommand(MessageReceivedEvent e);
 
-    private void execute(MessageReceivedEvent e) {
+    protected void execute(MessageReceivedEvent e) {
         Runnable runnable = () -> {
             // If command is returning false, means that something is wrong
             if (!isPrivateChannelCmd) {
                 AliceBootstrap.analytics.reportCmdUsage(getAlias(), Arrays.asList(getArgs()).toString(), e.getGuild(), e.getAuthor());
             }
-                try {
-                    if (!this.onCommand(e)) {
-                        e.getChannel().sendMessage(AMessage.CMD_CHECK_IF_IS_CORRECT.get(e, "Type `<help` `" + getAlias() + "` to see the command's help")).queue();
-                        return;
-                    }
-                } catch (InsufficientPermissionException exc){
-                    e.getChannel().sendMessage(AMessage.PERMISSION_NEEDED.get(e, exc.getPermission().name())).queue();
+            try {
+                if (!this.onCommand(e)) {
+                    e.getChannel().sendMessage(AMessage.CMD_CHECK_IF_IS_CORRECT.get(e, "Type `<help` `" + getAlias() + "` to see the command's help")).queue();
+                    return;
                 }
+            } catch (InsufficientPermissionException exc){
+                e.getChannel().sendMessage(AMessage.PERMISSION_NEEDED.get(e, exc.getPermission().name())).queue();
+            }
 
         };
         new Thread(runnable).start();
     }
 
-    protected String getGuildPrefix(Guild guild){
-        return AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(guild).getPrefix();
-    }
+
 
     public boolean canUseCmd(Member member){
         return member.hasPermission(this.permissions);
@@ -91,7 +86,7 @@ public abstract class Command extends ListenerAdapter {
         this.alias = alias;
     }
 
-    private boolean isAdminCommand(){
+    protected boolean isAdminCommand(){
         return this.isAdminCommand;
     }
 
@@ -159,12 +154,17 @@ public abstract class Command extends ListenerAdapter {
         return AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(guild);
     }
 
+    protected String getGuildPrefix(Guild guild){
+        return AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(guild).getPrefix();
+    }
+
     protected Language lang(MessageReceivedEvent e){
         String locale = getGuildConfig(e.getGuild()).getLocale();
         return AliceBootstrap.alice.getLanguageManager().getLang(LangCode.valueOf(locale));
     }
 
-    private boolean hasVoted(String userId){
+
+    protected boolean hasVoted(String userId){
 
 
         if (this.usersTimeVoted.containsKey(userId)) {
@@ -202,85 +202,5 @@ public abstract class Command extends ListenerAdapter {
         }
     }
 
-    protected boolean isMentioningSelf(String[] args){
-        //removing "!" from mention (it occurs when mentioned user has it's nickname changed)
-        return args[0].replace("!", "").equalsIgnoreCase(AliceBootstrap.alice.getShardManager().getShards().get(0).getSelfUser().getAsMention()) && args.length>=2;
-    }
 
-    @Override
-    public void onMessageReceived(MessageReceivedEvent e){
-        long commandStartTime = System.currentTimeMillis();
-        try {
-            String[] allArgs = e.getMessage().getContentRaw().split("\\s+");
-            // getting alias and cmd args accordingly to prefix (mention vs standard prefix)
-            if (isMentioningSelf(allArgs) || (e.isFromGuild() && allArgs[0].startsWith(getGuildPrefix(e.getGuild())))) {
-                String cmdAlias;
-                String[] args;
-                if (!isMentioningSelf(allArgs)) {
-                    cmdAlias = allArgs[0].replaceFirst(Pattern.quote(getGuildPrefix(e.getGuild())), "");
-                    args = Arrays.copyOfRange(allArgs, 1, allArgs.length);
-                } else {
-                    cmdAlias = allArgs[1];
-                    args = Arrays.copyOfRange(allArgs, 2, allArgs.length);
-                }
-
-                if (this.alias.equalsIgnoreCase(cmdAlias)) {
-                    if (e.isFromType(ChannelType.PRIVATE)) {
-                        if (!isPrivateChannelCmd) {
-                            return;
-                        }
-                    } else {
-                        if (isPrivateChannelCmd) {
-                            e.getTextChannel().sendMessage("This command can be used on private channel only.").complete();
-                            return;
-                        }
-                    }
-
-                    if (!isPrivateChannelCmd) {
-                        this.logger.debug("User: " + e.getAuthor().getName() + " id:" + e.getAuthor().getId() + " is requesting cmd: " + cmdAlias + " with msg: " + e.getMessage().getContentDisplay());
-                    }
-                    // Prevent bots from using commands
-                    if (e.getAuthor().isBot()) {
-                        return;
-                    }
-
-                    if (!isPrivateChannelCmd && getGuildConfig(e.getGuild()).isCmdDisabled(cmdAlias)) {
-                        return;
-                    }
-
-                    // Only for debug purposes, change it later //todo implement better admin commands
-                    if (isAdminCommand() && !e.getAuthor().getId().equalsIgnoreCase(BOT_AUTHOR_ID)) {
-                        return;
-                    }
-                    // checking for author is important to filter private message commands, that are for admin only
-                    if (e.getAuthor().getId().equalsIgnoreCase(BOT_AUTHOR_ID) || canUseCmd(e.getMember())) {
-                        if (isNsfw() && !e.getTextChannel().isNSFW()) {
-                            e.getChannel().sendMessage(new EmbedBuilder()
-                                    .setThumbnail("https://i.imgur.com/L3o8Xq0.jpg")
-                                    .setTitle(AMessage.CMD_THIS_IS_NSFW_CMD.get(e))
-                                    .setColor(AliceBootstrap.EMBED_COLOR)
-                                    .setDescription(AMessage.CMD_NSFW_ALLOWED_ONLY.get(e))
-                                    .build()).queue();
-                            return; // nsfw content on not-nsfw channel
-                        }
-
-                        // check if user-vote is required in order to execute this command
-                        if (this.isVoteRequired && !hasVoted(e.getAuthor().getId())){
-                            e.getChannel().sendMessage(new EmbedBuilder()
-                                    .setTitle(AMessage.VOTE_REQUIRED_TITLE.get(e))
-                                    .setColor(AliceBootstrap.EMBED_COLOR)
-                                    .setDescription(AMessage.VOTE_REQUIRED_INFO.get(e) + VoteCmd.VOTE_URL)
-                                    .build()).queue();
-                        }
-                        this.args = args;
-                        e.getChannel().sendTyping().queue();
-                        this.execute(e);
-                        this.logger.info("User: " + e.getAuthor().getName() + " id:" + e.getAuthor().getId() + " executed cmd: " + cmdAlias + " with msg: " + e.getMessage().getContentDisplay() +" took: " + (System.currentTimeMillis() - commandStartTime) + "ms");
-                    }
-                }
-            }
-        } catch (Exception exc){
-            exc.printStackTrace();
-        }
-    }
 }

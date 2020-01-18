@@ -3,15 +3,16 @@ package it.efekt.alice.commands.util;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
+import it.efekt.alice.db.UserStatsManager;
 import it.efekt.alice.db.model.UserStats;
 import it.efekt.alice.lang.AMessage;
 import it.efekt.alice.modules.SpamLevelManager;
-import it.efekt.alice.db.UserStatsManager;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;

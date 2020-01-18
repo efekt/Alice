@@ -4,7 +4,6 @@ import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 

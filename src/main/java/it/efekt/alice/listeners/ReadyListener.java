@@ -7,7 +7,6 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 public class ReadyListener extends ListenerAdapter {
     private Logger logger = LoggerFactory.getLogger(ReadyListener.class);
 
@@ -21,12 +20,17 @@ public class ReadyListener extends ListenerAdapter {
         logger.info("Guilds in shard id " + shardId + ": " + event.getGuildTotalCount());
             if (shardId + 1 == totalShards){
                 logger.info("All shards has been fully loaded!");
+                logger.info("Registering managers...");
+                AliceBootstrap.alice.registerManagers();
+                logger.info("Starting schedulers...");
                 AliceBootstrap.alice.startSchedulers();
                 // Wait for all shards to load before registering commands and listeners
-                AliceBootstrap.alice.registerCommands();
                 logger.info("Registering commands...");
-                AliceBootstrap.alice.registerListeners();
+                AliceBootstrap.alice.registerCommands();
                 logger.info("Registered " + AliceBootstrap.alice.getCmdManager().getCommands().size() + " commands");
+
+                logger.info("Registering listeners...");
+                AliceBootstrap.alice.registerListeners();
                 logger.info("Alice bot has been fully loaded, started listening...");
             }
     }

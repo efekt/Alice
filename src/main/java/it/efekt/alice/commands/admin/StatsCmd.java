@@ -59,6 +59,7 @@ public class StatsCmd extends Command {
                 TimeUnit.HOURS.toSeconds(hours) -
                 TimeUnit.MINUTES.toSeconds(minutes);
 
+        builder.addField("Current threads", String.valueOf(Thread.activeCount()), false);
         builder.addField("Uptime", days + "d " + hours + "h " + minutes + "m " + seconds + "s ", true);
         builder.addField("Startup time", df.format(startupTime), true);
         e.getTextChannel().sendMessage(builder.build()).complete();

@@ -2,6 +2,7 @@ package it.efekt.alice.core;
 
 import it.efekt.alice.commands.HelpCmd;
 import it.efekt.alice.commands.admin.*;
+import it.efekt.alice.commands.core.CommandListener;
 import it.efekt.alice.commands.fun.*;
 import it.efekt.alice.commands.games.ApexStatsCmd;
 import it.efekt.alice.commands.games.GameStatsCmd;
@@ -61,6 +62,17 @@ public class Alice {
         this.guildLogger = new GuildLogger(this);
         this.shardManager.addEventListener(guildLogger);
         this.shardManager.addEventListener(new GameListener());
+        this.shardManager.addEventListener(new CommandListener(this.cmdManager, this));
+    }
+
+    public void registerManagers(){
+        this.guildConfigManager = new GuildConfigManager();
+        this.cmdManager = new CommandManager(this);
+        this.userStatsManager = new UserStatsManager();
+        this.gameStatsManager = new GameStatsManager();
+        this.languageManager = new LanguageManager();
+        this.aliceAudioManager = new AliceAudioManager(getConfig());
+        this.textChannelConfigManager = new TextChannelConfigManager();
     }
 
     public void registerCommands(){
@@ -165,14 +177,6 @@ public class Alice {
                 builder.setActivity(Activity.playing("breaking the seal of the right eye..."));
                 builder.addEventListeners(new ReadyListener());
                 this.shardManager = builder.build();
-
-            this.guildConfigManager = new GuildConfigManager();
-            this.cmdManager = new CommandManager(this);
-            this.userStatsManager = new UserStatsManager();
-            this.gameStatsManager = new GameStatsManager();
-            this.languageManager = new LanguageManager();
-            this.aliceAudioManager = new AliceAudioManager(getConfig());
-            this.textChannelConfigManager = new TextChannelConfigManager();
         } catch (LoginException e) {
             e.printStackTrace();
         }

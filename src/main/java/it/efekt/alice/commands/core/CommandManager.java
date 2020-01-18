@@ -7,15 +7,15 @@ import java.util.HashMap;
 import java.util.List;
 
 public class CommandManager extends ListenerAdapter {
-    private HashMap<String, Command> commands = new HashMap<>();
+    private HashMap<String, Command> commands;
     private Alice alice;
 
     public CommandManager(Alice alice){
         this.alice = alice;
+        this.commands = new HashMap<>();
     }
 
     public void setExecutor(Command command){
-        this.alice.getShardManager().addEventListener(command);
         this.commands.put(command.getAlias(), command);
     }
 

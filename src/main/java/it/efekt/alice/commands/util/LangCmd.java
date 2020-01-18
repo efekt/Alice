@@ -7,6 +7,7 @@ import it.efekt.alice.lang.LangCode;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
