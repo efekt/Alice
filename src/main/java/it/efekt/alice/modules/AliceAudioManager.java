@@ -220,6 +220,12 @@ public class AliceAudioManager {
         e.getChannel().sendMessage(embedBuilder.build()).complete();
     }
 
+    public void closeAudioConnAndUnload(Guild guild){
+        guild.getAudioManager().closeAudioConnection();
+        AliceBootstrap.alice.getAliceAudioManager().getAudioPlayer(guild).destroy();
+        AliceBootstrap.alice.getAliceAudioManager().getTrackScheduler(guild).getQueue().clear();
+    }
+
     private boolean isValidURL(String url){
         try {
             new URL(url);
