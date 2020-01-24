@@ -69,6 +69,9 @@ public class HentaiCmd extends Command {
                     case "a2":
                         danbooru.sendPicture(e, DanbooruRating.EXPLICIT, "yorha_type_a_no._2");
                         return true;
+                    case "kallen":
+                        danbooru.sendPicture(e, DanbooruRating.EXPLICIT, "kallen_stadtfeld");
+                        return true;
                     default:
                         danbooru.sendPicture(e, DanbooruRating.EXPLICIT, category);
                         return true;
@@ -146,6 +149,8 @@ public class HentaiCmd extends Command {
         this.categories.add("christmas");
         this.categories.add("2b");
         this.categories.add("a2");
+        this.categories.add("c.c.");
+        this.categories.add("kallen");
 
     }
 

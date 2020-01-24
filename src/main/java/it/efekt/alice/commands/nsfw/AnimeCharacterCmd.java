@@ -84,6 +84,9 @@ public class AnimeCharacterCmd extends Command {
                     case "a2":
                         danbooru.sendPicture(e, DanbooruRating.SAFE, "yorha_type_a_no._2");
                         return true;
+                    case "kallen":
+                        danbooru.sendPicture(e, DanbooruRating.SAFE, "kallen_stadtfeld");
+                        return true;
                     default:
                         danbooru.sendPicture(e, DanbooruRating.SAFE, category);
                         return true;
@@ -134,6 +137,8 @@ public class AnimeCharacterCmd extends Command {
         this.categories.add("mordred");
         this.categories.add("2b");
         this.categories.add("a2");
+        this.categories.add("c.c.");
+        this.categories.add("kallen");
     }
 
     private String getCategoriesString(){
