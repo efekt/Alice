@@ -34,6 +34,6 @@ public class HibernateHandler {
                 .addAnnotatedClass(UserStats.class)
                 .addAnnotatedClass(GameStats.class)
                 .addAnnotatedClass(TextChannelConfig.class);
-        sessionFactory = configuration.buildSessionFactory();
+        this.sessionFactory = configuration.buildSessionFactory();
     }
 }
