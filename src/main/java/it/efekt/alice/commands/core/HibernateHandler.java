@@ -17,7 +17,7 @@ public class HibernateHandler {
     }
 
     public Session getSession(){
-        return this.sessionFactory.getCurrentSession();
+        return this.sessionFactory.openSession();
     }
 
     public SessionFactory getSessionFactory(){

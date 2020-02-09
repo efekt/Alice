@@ -5,6 +5,7 @@ import it.efekt.alice.db.model.GameStats;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,29 +42,40 @@ public class GameStatsManager {
 
     public GameStats getGameStats(User user, Guild guild, String gameName){
         Session session = AliceBootstrap.hibernate.getSession();
-        session.beginTransaction();
-        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-        CriteriaQuery<GameStats> criteriaQuery = criteriaBuilder.createQuery(GameStats.class);
-        Root<GameStats> gameStatsRoot = criteriaQuery.from(GameStats.class);
-
-        List<Predicate> conditions = new ArrayList<>();
-        conditions.add(criteriaBuilder.equal(gameStatsRoot.get("guildId"), guild.getId()));
-        conditions.add(criteriaBuilder.equal(gameStatsRoot.get("userId"), user.getId()));
-        conditions.add(criteriaBuilder.equal(gameStatsRoot.get("gameName"), gameName));
-
-        criteriaQuery.select(gameStatsRoot).where(conditions.toArray(new Predicate[0]));
-
-        Query<GameStats> query = session.createQuery(criteriaQuery);
-        GameStats result;
+        Transaction transaction = session.beginTransaction();
+        GameStats result = null;
 
         try {
-            result = query.getSingleResult();
-            session.getTransaction().commit();
-        } catch (NoResultException exc){
-            session.getTransaction().rollback();
-            GameStats gameStats = new GameStats(user.getId(), guild.getId(), gameName);
-            gameStats.save();
-            return gameStats;
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaQuery<GameStats> criteriaQuery = criteriaBuilder.createQuery(GameStats.class);
+            Root<GameStats> gameStatsRoot = criteriaQuery.from(GameStats.class);
+
+            List<Predicate> conditions = new ArrayList<>();
+            conditions.add(criteriaBuilder.equal(gameStatsRoot.get("guildId"), guild.getId()));
+            conditions.add(criteriaBuilder.equal(gameStatsRoot.get("userId"), user.getId()));
+            conditions.add(criteriaBuilder.equal(gameStatsRoot.get("gameName"), gameName));
+
+            criteriaQuery.select(gameStatsRoot).where(conditions.toArray(new Predicate[0]));
+
+            Query<GameStats> query = session.createQuery(criteriaQuery);
+
+            try {
+                result = query.getSingleResult();
+                transaction.commit();
+            } catch (NoResultException exc) {
+                transaction.rollback();
+                GameStats gameStats = new GameStats(user.getId(), guild.getId(), gameName);
+                gameStats.save();
+                return gameStats;
+            }
+
+        } catch (Exception exc){
+            if (transaction != null){
+                transaction.rollback();
+                exc.printStackTrace();
+            }
+        } finally {
+            session.close();
         }
 
         return result;
@@ -72,29 +84,40 @@ public class GameStatsManager {
     public HashMap<String, Long> getGameStats(Guild guild, User user){
         HashMap<String, Long> gameTimes = new HashMap<>();
         Session session = AliceBootstrap.hibernate.getSession();
-        session.beginTransaction();
-        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-        CriteriaQuery<GameStats> criteriaQuery = criteriaBuilder.createQuery(GameStats.class);
-        Root<GameStats> gameStatsRoot = criteriaQuery.from(GameStats.class);
+        Transaction transaction = session.beginTransaction();
 
-        List<Predicate> conditions = new ArrayList<>();
-        conditions.add(criteriaBuilder.equal(gameStatsRoot.get("guildId"), guild.getId()));
-        conditions.add(criteriaBuilder.equal(gameStatsRoot.get("userId"), user.getId()));
+        try {
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaQuery<GameStats> criteriaQuery = criteriaBuilder.createQuery(GameStats.class);
+            Root<GameStats> gameStatsRoot = criteriaQuery.from(GameStats.class);
 
-        criteriaQuery.select(gameStatsRoot).where(conditions.toArray(new Predicate[0]));
+            List<Predicate> conditions = new ArrayList<>();
+            conditions.add(criteriaBuilder.equal(gameStatsRoot.get("guildId"), guild.getId()));
+            conditions.add(criteriaBuilder.equal(gameStatsRoot.get("userId"), user.getId()));
 
-        Query<GameStats> query = session.createQuery(criteriaQuery);
-        List<GameStats> results = query.getResultList();
+            criteriaQuery.select(gameStatsRoot).where(conditions.toArray(new Predicate[0]));
 
-        session.getTransaction().commit();
+            Query<GameStats> query = session.createQuery(criteriaQuery);
+            List<GameStats> results = query.getResultList();
 
-        for (GameStats gameStats : results){
-            if (gameTimes.containsKey(gameStats.getGameName())){
-                gameTimes.put(gameStats.getGameName(), gameTimes.get(gameStats.getGameName()) + gameStats.getTimePlayed());
-            } else {
-                gameTimes.put(gameStats.getGameName(), gameStats.getTimePlayed());
+            transaction.commit();
+
+            for (GameStats gameStats : results) {
+                if (gameTimes.containsKey(gameStats.getGameName())) {
+                    gameTimes.put(gameStats.getGameName(), gameTimes.get(gameStats.getGameName()) + gameStats.getTimePlayed());
+                } else {
+                    gameTimes.put(gameStats.getGameName(), gameStats.getTimePlayed());
+                }
             }
+        } catch (Exception exc){
+            if (transaction != null){
+                transaction.rollback();
+                exc.printStackTrace();
+            }
+        } finally {
+            session.close();
         }
+
 
         return gameTimes;
     }
@@ -102,23 +125,35 @@ public class GameStatsManager {
     public HashMap<String, Long> getAllGameTimeStats(){
         HashMap<String, Long> gameTimes = new HashMap<>();
         Session session = AliceBootstrap.hibernate.getSession();
-        session.beginTransaction();
-        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-        CriteriaQuery<GameStats> criteriaQuery = criteriaBuilder.createQuery(GameStats.class);
-        Root<GameStats> gameStatsRoot = criteriaQuery.from(GameStats.class);
+        Transaction transaction = session.beginTransaction();
 
-        criteriaQuery.select(gameStatsRoot);
+        try {
 
-        Query<GameStats> query = session.createQuery(criteriaQuery);
-        List<GameStats> results = query.getResultList();
-        session.getTransaction().commit();
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaQuery<GameStats> criteriaQuery = criteriaBuilder.createQuery(GameStats.class);
+            Root<GameStats> gameStatsRoot = criteriaQuery.from(GameStats.class);
 
-        for (GameStats gameStats : results){
-            if (gameTimes.containsKey(gameStats.getGameName())){
-                gameTimes.put(gameStats.getGameName(), gameTimes.get(gameStats.getGameName()) + gameStats.getTimePlayed());
-            } else {
-                gameTimes.put(gameStats.getGameName(), gameStats.getTimePlayed());
+            criteriaQuery.select(gameStatsRoot);
+
+            Query<GameStats> query = session.createQuery(criteriaQuery);
+            List<GameStats> results = query.getResultList();
+            transaction.commit();
+
+            for (GameStats gameStats : results) {
+                if (gameTimes.containsKey(gameStats.getGameName())) {
+                    gameTimes.put(gameStats.getGameName(), gameTimes.get(gameStats.getGameName()) + gameStats.getTimePlayed());
+                } else {
+                    gameTimes.put(gameStats.getGameName(), gameStats.getTimePlayed());
+                }
             }
+
+        } catch (Exception exc){
+            if (transaction != null){
+                transaction.rollback();
+                exc.printStackTrace();
+            }
+        } finally {
+            session.close();
         }
 
         return gameTimes;
@@ -127,28 +162,37 @@ public class GameStatsManager {
     public HashMap<String, Long> getGameTimesOnGuild(Guild guild){
         HashMap<String, Long> gameTimes = new HashMap<>();
         Session session = AliceBootstrap.hibernate.getSession();
-        session.beginTransaction();
-        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-        CriteriaQuery<GameStats> criteriaQuery = criteriaBuilder.createQuery(GameStats.class);
-        Root<GameStats> gameStatsRoot = criteriaQuery.from(GameStats.class);
+        Transaction transaction = session.beginTransaction();
 
-        List<Predicate> conditions = new ArrayList<>();
-        conditions.add(criteriaBuilder.equal(gameStatsRoot.get("guildId"), guild.getId()));
+        try {
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaQuery<GameStats> criteriaQuery = criteriaBuilder.createQuery(GameStats.class);
+            Root<GameStats> gameStatsRoot = criteriaQuery.from(GameStats.class);
 
-        criteriaQuery.select(gameStatsRoot).where(conditions.toArray(new Predicate[0]));
+            List<Predicate> conditions = new ArrayList<>();
+            conditions.add(criteriaBuilder.equal(gameStatsRoot.get("guildId"), guild.getId()));
 
-        Query<GameStats> query = session.createQuery(criteriaQuery);
-        List<GameStats> results = query.getResultList();
-        session.getTransaction().commit();
+            criteriaQuery.select(gameStatsRoot).where(conditions.toArray(new Predicate[0]));
 
-        for (GameStats gameStats : results){
-            if (gameTimes.containsKey(gameStats.getGameName())){
-                gameTimes.put(gameStats.getGameName(), gameTimes.get(gameStats.getGameName()) + gameStats.getTimePlayed());
-            } else {
-                gameTimes.put(gameStats.getGameName(), gameStats.getTimePlayed());
+            Query<GameStats> query = session.createQuery(criteriaQuery);
+            List<GameStats> results = query.getResultList();
+            transaction.commit();
+
+            for (GameStats gameStats : results) {
+                if (gameTimes.containsKey(gameStats.getGameName())) {
+                    gameTimes.put(gameStats.getGameName(), gameTimes.get(gameStats.getGameName()) + gameStats.getTimePlayed());
+                } else {
+                    gameTimes.put(gameStats.getGameName(), gameStats.getTimePlayed());
+                }
             }
+        } catch (Exception exc){
+            if (transaction != null){
+                transaction.rollback();
+                exc.printStackTrace();
+            }
+        } finally {
+            session.close();
         }
-
         return gameTimes;
     }
 }
