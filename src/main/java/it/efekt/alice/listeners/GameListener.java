@@ -57,6 +57,10 @@ public class GameListener extends ListenerAdapter {
 
             String gameName = oldGame.getName();
 
+            if (gameName.length() > 128){
+                return;
+            }
+
             long elapsed = oldGame.getTimestamps().getElapsedTime(ChronoUnit.MINUTES);
             long elapsedMilis = oldGame.getTimestamps().getElapsedTime(ChronoUnit.MILLIS);
 //            long sinceStartupTime = System.currentTimeMillis() - AliceBootstrap.STARTUP_TIME;
