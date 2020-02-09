@@ -1,4 +1,5 @@
 package it.efekt.alice.web;
+
 import com.google.gson.Gson;
 import it.efekt.alice.core.Alice;
 import it.efekt.alice.core.AliceBootstrap;
@@ -7,11 +8,16 @@ import it.efekt.alice.db.model.UserStats;
 import it.efekt.alice.web.model.StandardResponse;
 import it.efekt.alice.web.model.Status;
 import it.efekt.alice.web.model.StatusResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import spark.Spark;
+
 import java.util.List;
+
 import static spark.Spark.*;
 
 public class WebServer {
+   private final Logger logger = LoggerFactory.getLogger(WebServer.class);
    private Alice alice = AliceBootstrap.alice;
    private final int PORT = 3214;
    private final String BASE_URL = "/api/v1";
@@ -23,6 +29,12 @@ public class WebServer {
 
    public void init(){
       before((req, res) ->{
+         logger.info(req.ip() + " requested " + req.url());
+
+         if (req.uri().equalsIgnoreCase(url("/status"))){
+            return;
+         }
+
          String method = req.requestMethod();
          String authentication = req.headers(AliceBootstrap.alice.getConfig().getRestUser());
             if (!AliceBootstrap.alice.getConfig().getRestPassword().equals(authentication)){
