@@ -1,7 +1,7 @@
 package it.efekt.alice.core;
 
 import it.efekt.alice.commands.analytics.AliceAnalytics;
-import it.efekt.alice.commands.core.HibernateHandler;
+import it.efekt.alice.db.HibernateHandler;
 import it.efekt.alice.config.Config;
 import it.efekt.alice.web.WebServer;
 import net.dv8tion.jda.api.requests.RestAction;

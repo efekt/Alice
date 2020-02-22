@@ -1,4 +1,4 @@
-package it.efekt.alice.commands.core;
+package it.efekt.alice.db;
 
 import it.efekt.alice.config.Config;
 import it.efekt.alice.db.model.GameStats;
