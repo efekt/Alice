@@ -116,6 +116,7 @@ public class Alice {
         getCmdManager().setExecutor(new AnimeCharacterCmd("a"));
         getCmdManager().setExecutor(new VoteCmd("vote"));
         getCmdManager().setExecutor(new SkipCmd("skip"));
+        getCmdManager().setExecutor(new ChooseCommand("choose"));
     }
 
     public void startSchedulers(){

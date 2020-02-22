@@ -171,5 +171,9 @@
   "cmd-vote-desc": "If you like Alice bot, please vote!\nIt will help to spread an info about Alice.\n\nBy voting once per day you will get full access to restricted commands!\n\n Thank You!",
   "cmd-vote-response": "Do you want to vote for me? Thank you! :heart_eyes:",
   "vote-required-title": "Please consider voting for me! :blush:",
-  "vote-required-info": "This command is for voters only!\nVoting once per day will prevent this message from showing up:\n"
+  "vote-required-info": "This command is for voters only!\nVoting once per day will prevent this message from showing up:\n",
+  "cmd-choose-desc": "Randomly chooses one of the given options",
+  "cmd-choose-short-usage-info": "`option1` `option2` `option3` etc. (max 5)",
+  "cmd-choose-msg-max": "You can type max up to 5 options",
+  "cmd-choose-msg-1-option-given": "Whoa! That was a hard one! So many options! :zany_face:"
 }

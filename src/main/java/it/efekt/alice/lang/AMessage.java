@@ -182,6 +182,10 @@ public enum AMessage {
     CMD_VOTE_RESPONSE("Do you want to vote for me? Thank you! :heart_eyes:"),
     VOTE_REQUIRED_TITLE("Please consider voting for me! :blush:"),
     VOTE_REQUIRED_INFO("This command is for voters only!\nVoting once per day will prevent this message from showing up:\n"),
+    CMD_CHOOSE_DESC("Randomly chooses one of the given options"),
+    CMD_CHOOSE_SHORT_USAGE_INFO("`option1` `option2` `option3` etc. (max 5)"),
+    CMD_CHOOSE_MSG_MAX("You can type max up to 5 options"),
+    CMD_CHOOSE_MSG_1_OPTION_GIVEN("Whoa! That was a hard one! So many options! :zany_face:"),
 
     BLANK(""); // leave it alone ;)
 
