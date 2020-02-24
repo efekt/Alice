@@ -7,7 +7,6 @@ import it.efekt.alice.db.model.TextChannelConfig;
 import it.efekt.alice.lang.AMessage;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-
 import java.util.concurrent.TimeUnit;
 
 public class ImgOnlyCmd extends Command {
@@ -23,14 +22,13 @@ public class ImgOnlyCmd extends Command {
     @Override
     public boolean onCommand(MessageReceivedEvent e) {
         TextChannelConfig textChannelConfig = AliceBootstrap.alice.getTextChannelConfigManager().get(e.getTextChannel());
-        e.getMessage().delete().complete();
 
         if (textChannelConfig.isImgOnly()){
             textChannelConfig.setImgOnly(false);
-            e.getTextChannel().sendMessage("disabled imgOnly").complete().delete().completeAfter(1, TimeUnit.SECONDS);
+            e.getTextChannel().sendMessage("disabled image only channel (this message will delete itself)").complete().delete().completeAfter(1, TimeUnit.SECONDS);
         } else {
             textChannelConfig.setImgOnly(true);
-            e.getTextChannel().sendMessage("enabled imgOnly").queue();
+            e.getTextChannel().sendMessage("enabled image only channel (this message will delete itself)").complete().delete().completeAfter(5, TimeUnit.SECONDS);
         }
         return true;
     }

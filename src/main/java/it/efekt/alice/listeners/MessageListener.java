@@ -22,32 +22,31 @@ public class MessageListener extends ListenerAdapter {
         if (e.isFromType(ChannelType.PRIVATE)){
             return;
         }
+
+        Guild guild = e.getGuild();
+        User user = e.getAuthor();
+
+        // ignoring bots
+        if (user.isBot()){
+            return;
+        }
+
+        // Adding msg count to users
         try {
-            Guild guild = e.getGuild();
-            User user = e.getAuthor();
-            TextChannelConfig textChannelConfig = AliceBootstrap.alice.getTextChannelConfigManager().get(e.getTextChannel());
-
-            if (textChannelConfig.isImgOnly() && !e.getMessage().getAttachments().stream().anyMatch(Message.Attachment::isImage)){
-                try {
-                    // send dm to the person that was trying to send msg.
-                    e.getMessage().delete().completeAfter(1, TimeUnit.SECONDS);
-                } catch (ErrorResponseException exc){
-                    logger.debug("Couldn't remove message, was already removed");
-                }
-            }
-
-            // ignoring bots
-            if (user.isBot()){
-                return;
-            }
-
-                try {
-                    AliceBootstrap.alice.getUserStatsManager().addMessageCount(user, guild, 1);
-                } catch(Exception exc){
-                    exc.printStackTrace();
-                }
-        } catch (Exception exc){
+            AliceBootstrap.alice.getUserStatsManager().addMessageCount(user, guild, 1);
+        } catch(Exception exc){
             exc.printStackTrace();
+        }
+
+        TextChannelConfig textChannelConfig = AliceBootstrap.alice.getTextChannelConfigManager().get(e.getTextChannel());
+
+        if (textChannelConfig.isImgOnly() && e.getMessage().getAttachments().stream().noneMatch(Message.Attachment::isImage)){
+            try {
+                // send dm to the person that was trying to send msg.
+                e.getMessage().delete().completeAfter(1, TimeUnit.SECONDS);
+            } catch (ErrorResponseException exc){
+                logger.debug("Couldn't remove message, was already removed");
+            }
         }
     }
 }
