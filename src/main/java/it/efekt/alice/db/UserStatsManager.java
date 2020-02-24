@@ -9,7 +9,6 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -24,6 +23,13 @@ public class UserStatsManager {
     public void addMessageCount(User user, Guild guild, int messageCount){
         String userId = user.getId();
         String guildId = guild.getId();
+
+        // If not exist, create with default value of 1
+        if (getUserStats(user, guild) == null){
+            UserStats userStats = new UserStats(userId, guildId);
+            userStats.addAndSave(1);
+            return;
+        }
 
         Session session = AliceBootstrap.hibernate.getSession();
         Transaction transaction = session.beginTransaction();
@@ -82,7 +88,6 @@ public class UserStatsManager {
         } finally {
             session.close();
         }
-
         return result;
     }
 
@@ -113,7 +118,6 @@ public class UserStatsManager {
         } finally {
             session.close();
         }
-
         return results;
     }
 
