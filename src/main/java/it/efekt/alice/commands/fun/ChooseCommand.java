@@ -3,6 +3,7 @@ package it.efekt.alice.commands.fun;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.lang.AMessage;
+import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
@@ -28,7 +29,9 @@ public class ChooseCommand extends Command {
 
         int randomInt = ThreadLocalRandom.current().nextInt(0, getArgs().length);
         String output = getArgs()[randomInt];
-        e.getChannel().sendMessage(String.format("**%s**", output)).complete();
+        MessageBuilder msgBuilder = new MessageBuilder(String.format("**%s**", output));
+        msgBuilder.stripMentions(e.getGuild());
+        e.getChannel().sendMessage(msgBuilder.build()).complete();
 
         if (getArgs().length == 1){
             e.getChannel().sendMessage(AMessage.CMD_CHOOSE_MSG_1_OPTION_GIVEN.get(e.getGuild())).completeAfter(2, TimeUnit.SECONDS);
