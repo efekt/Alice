@@ -29,9 +29,13 @@
         </RollingFile>
     </Appenders>
     <Loggers>
-        <Root level="DEBUG" additivity="false">
-            <AppenderRef ref="rollingFile" level="INFO" />
-            <AppenderRef ref="console" level="INFO" />
+        <Logger name="it.efekt" level="debug" additivity="false">
+            <AppenderRef ref="console" level="info"/>
+            <AppenderRef ref="rollingFile"/>
+        </Logger>
+        <Root level="error">
+            <AppenderRef ref="rollingFile"/>
+            <AppenderRef ref="console"/>
         </Root>
     </Loggers>
 </Configuration>
