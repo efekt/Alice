@@ -9,6 +9,8 @@ import net.dv8tion.jda.api.audio.UserAudio;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import ws.schild.jave.*;
+
+import javax.annotation.Nullable;
 import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -25,7 +27,7 @@ import java.util.UUID;
 public class AliceReceiveHandler implements AudioReceiveHandler {
     private ByteArrayOutputStream out = new ByteArrayOutputStream();
     private boolean recording = false;
-    private final float MAX_RECORD_TIME = 5f; // in Minutes
+    private final long MAX_RECORD_TIME = 3; // in Minutes
     private long curTime = 0; // in seconds
     private String channelHolderId;
     private Set<User> recordedUsers = new HashSet<>();
@@ -50,7 +52,9 @@ public class AliceReceiveHandler implements AudioReceiveHandler {
             if (curTime/1000 >= MAX_RECORD_TIME * 60){
                 String channelId = this.channelHolderId;
                 this.reset();
-                this.sendMessageWithFile(stopRecordingAndGetFile(), AliceBootstrap.alice.getShardManager().getTextChannelById(channelId));
+                TextChannel textChannel = AliceBootstrap.alice.getShardManager().getTextChannelById(channelId);
+                this.sendMessageWithFile(stopRecordingAndGetFile(), textChannel);
+
             }
 
             curTime += 20;
@@ -145,7 +149,12 @@ public class AliceReceiveHandler implements AudioReceiveHandler {
         return target;
     }
 
-    public void sendMessageWithFile(File file, TextChannel channel){
+    public void sendMessageWithFile(File file, @Nullable TextChannel channel){
+        if (channel == null){
+            file.delete();
+            return;
+        }
+
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy.MM.dd HH.mm.ss");
         String dateTime = LocalDateTime.now().format(dateFormat);
         MessageBuilder messageBuilder = new MessageBuilder();
