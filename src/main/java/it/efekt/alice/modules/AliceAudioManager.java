@@ -7,7 +7,8 @@ import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.lava.extensions.youtuberotator.YoutubeIpRotatorSetup;
-import com.sedmelluq.lava.extensions.youtuberotator.planner.*;
+import com.sedmelluq.lava.extensions.youtuberotator.planner.AbstractRoutePlanner;
+import com.sedmelluq.lava.extensions.youtuberotator.planner.NanoIpRoutePlanner;
 import com.sedmelluq.lava.extensions.youtuberotator.tools.ip.IpBlock;
 import com.sedmelluq.lava.extensions.youtuberotator.tools.ip.Ipv6Block;
 import it.efekt.alice.commands.voice.TrackScheduler;
@@ -23,8 +24,12 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.managers.AudioManager;
 import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.config.RequestConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ws.schild.jave.EncoderException;
-import java.io.*;
+
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Collections;
 import java.util.HashMap;
@@ -33,6 +38,7 @@ import java.util.concurrent.Future;
 
 public class AliceAudioManager {
     private Config config;
+    private Logger logger = LoggerFactory.getLogger(AliceAudioManager.class);
     private AudioPlayerManager audioPlayerManager; // single instance in whole app
     private HashMap<String, AliceSendHandler> sendHandlers = new HashMap<>();
     private HashMap<String, AliceReceiveHandler> receiveHandlers = new HashMap<>();
@@ -58,11 +64,11 @@ public class AliceAudioManager {
                 .build());
 
         if (this.config.getIpv6Block() != null) {
-            AbstractRoutePlanner planner;
             List<IpBlock> ipBlocks = Collections.singletonList(new Ipv6Block(this.config.getIpv6Block()));
 
-            planner = new NanoIpRoutePlanner(ipBlocks, true);
-            new YoutubeIpRotatorSetup(planner).withRetryLimit(5).forSource(youtubeAudioSourceManager).setup();
+            AbstractRoutePlanner planner = new NanoIpRoutePlanner(ipBlocks, true);
+            new YoutubeIpRotatorSetup(planner).forSource(youtubeAudioSourceManager).setup();
+            logger.info("YouTube rotator set up, ips: "+ ipBlocks);
         }
         this.audioPlayerManager.registerSourceManager(youtubeAudioSourceManager);
 
@@ -104,6 +110,7 @@ public class AliceAudioManager {
         getAudioPlayer(guild).removeListener(getTrackScheduler(guild));
         getAudioPlayer(guild).addListener(getTrackScheduler(guild));
         AudioManager audioManager = guild.getAudioManager();
+        audioManager.setAutoReconnect(true);
         audioManager.setSendingHandler(getSendHandler(guild));
         return this.audioPlayerManager.loadItem(content, audioLoadResultHandler);
     }
