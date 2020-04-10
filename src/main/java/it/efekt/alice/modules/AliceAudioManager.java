@@ -50,6 +50,7 @@ public class AliceAudioManager {
         this.config = config;
         this.audioPlayerManager = new DefaultAudioPlayerManager();
 
+
         if (config.getLavaPlayerNodeUrl() != null && !config.getLavaPlayerNodeUrl().isEmpty()){
             this.audioPlayerManager.useRemoteNodes(config.getLavaPlayerNodeUrl());
         }
@@ -196,6 +197,7 @@ public class AliceAudioManager {
 
             @Override
             public void loadFailed(FriendlyException exc) {
+                exc.printStackTrace();
                 e.getChannel().sendMessage(AMessage.VOICE_LOADING_FAILED.get(e.getGuild()) + "\n"+exc.getLocalizedMessage()).complete();
                 if (isValidURL(content)){
                     e.getChannel().sendMessage("Please try using keywords instead of the direct url").complete();

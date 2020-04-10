@@ -2,8 +2,10 @@ package it.efekt.alice.commands.voice;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
+import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
+
 import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -37,6 +39,12 @@ public class TrackScheduler extends AudioEventAdapter {
 
     public AudioPlayer getAudioPlayer(){
         return this.audioPlayer;
+    }
+
+    @Override
+    public void onTrackException(AudioPlayer player, AudioTrack track, FriendlyException exception) {
+        // An already playing track threw an exception (track end event will still be received separately)
+        exception.printStackTrace();
     }
 
     @Override

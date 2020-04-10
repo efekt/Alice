@@ -33,6 +33,9 @@
             <AppenderRef ref="console" level="info"/>
             <AppenderRef ref="rollingFile"/>
         </Logger>
+        <Logger name="com.sedmelluq" level="debug" additivity="false">
+            <AppenderRef ref="rollingFile"/>
+        </Logger>
         <Root level="error">
             <AppenderRef ref="rollingFile"/>
             <AppenderRef ref="console"/>
