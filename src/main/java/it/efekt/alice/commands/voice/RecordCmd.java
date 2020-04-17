@@ -39,6 +39,7 @@ public class RecordCmd extends Command {
                 e.getChannel().sendMessage(AMessage.CMD_REC_STOPPED.get(e)).complete();
                 File file = audioManager.stopRecordingAndGetFile(e.getGuild());
                 audioManager.getReceiveHandler(e.getGuild()).sendMessageWithFile(file, e.getTextChannel());
+                e.getGuild().getAudioManager().closeAudioConnection();
             } catch (IOException e1) {
                 e1.printStackTrace();
             } catch (EncoderException e1) {
