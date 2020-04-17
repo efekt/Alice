@@ -72,8 +72,8 @@ public class AliceAudioManager {
             new YoutubeIpRotatorSetup(planner).forSource(youtubeAudioSourceManager).setup();
             logger.info("YouTube rotator set up, ips: "+ ipBlocks);
         }
-        this.audioPlayerManager.registerSourceManager(youtubeAudioSourceManager);
 
+        this.audioPlayerManager.registerSourceManager(youtubeAudioSourceManager);
     }
 
     public AliceSendHandler getSendHandler(Guild guild){
