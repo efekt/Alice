@@ -8,7 +8,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.lava.extensions.youtuberotator.YoutubeIpRotatorSetup;
 import com.sedmelluq.lava.extensions.youtuberotator.planner.AbstractRoutePlanner;
-import com.sedmelluq.lava.extensions.youtuberotator.planner.NanoIpRoutePlanner;
+import com.sedmelluq.lava.extensions.youtuberotator.planner.RotatingNanoIpRoutePlanner;
 import com.sedmelluq.lava.extensions.youtuberotator.tools.ip.IpBlock;
 import com.sedmelluq.lava.extensions.youtuberotator.tools.ip.Ipv6Block;
 import it.efekt.alice.commands.voice.TrackScheduler;
@@ -49,7 +49,8 @@ public class AliceAudioManager {
     public AliceAudioManager(Config config){
         this.config = config;
         this.audioPlayerManager = new DefaultAudioPlayerManager();
-
+        this.audioPlayerManager.setFrameBufferDuration(3000);
+        this.audioPlayerManager.getConfiguration().setFilterHotSwapEnabled(true);
 
         if (config.getLavaPlayerNodeUrl() != null && !config.getLavaPlayerNodeUrl().isEmpty()){
             this.audioPlayerManager.useRemoteNodes(config.getLavaPlayerNodeUrl());
@@ -67,7 +68,7 @@ public class AliceAudioManager {
         if (this.config.getIpv6Block() != null) {
             List<IpBlock> ipBlocks = Collections.singletonList(new Ipv6Block(this.config.getIpv6Block()));
 
-            AbstractRoutePlanner planner = new NanoIpRoutePlanner(ipBlocks, true);
+            AbstractRoutePlanner planner = new RotatingNanoIpRoutePlanner(ipBlocks);
             new YoutubeIpRotatorSetup(planner).forSource(youtubeAudioSourceManager).setup();
             logger.info("YouTube rotator set up, ips: "+ ipBlocks);
         }
@@ -192,11 +193,21 @@ public class AliceAudioManager {
 
             @Override
             public void noMatches() {
+                // if queue is empty and no matches, destroy player
+                if (getAudioPlayer(e.getGuild()).getPlayingTrack() == null  && getTrackScheduler(e.getGuild()).getQueue().isEmpty()){
+                    getAudioPlayer(e.getGuild()).destroy();
+                }
+
                 e.getChannel().sendMessage(AMessage.VOICE_NOTHING_FOUND.get(e.getGuild())).complete();
             }
 
             @Override
             public void loadFailed(FriendlyException exc) {
+                // if queue is empty and no matches, destroy player
+                if (getAudioPlayer(e.getGuild()).getPlayingTrack() == null  && getTrackScheduler(e.getGuild()).getQueue().isEmpty()){
+                    getAudioPlayer(e.getGuild()).destroy();
+                }
+
                 exc.printStackTrace();
                 e.getChannel().sendMessage(AMessage.VOICE_LOADING_FAILED.get(e.getGuild()) + "\n"+exc.getLocalizedMessage()).complete();
                 if (isValidURL(content)){
@@ -204,7 +215,6 @@ public class AliceAudioManager {
                 }
 
                 if (exc.getMessage() != null){
-
                     // on youtube block
                     if (exc.getMessage().contains("Loading information for a YouTube track failed.") && exc.getCause() != null && exc.getCause().getMessage().contains("YouTube rate limit reached")){
                         e.getChannel().sendMessage(AMessage.VOICE_LOADING_RATE_LIMITED.get(e.getGuild())).complete();
