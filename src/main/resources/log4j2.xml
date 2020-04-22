@@ -29,16 +29,13 @@
         </RollingFile>
     </Appenders>
     <Loggers>
-        <Logger name="it.efekt" level="debug" additivity="false">
-            <AppenderRef ref="console" level="info"/>
-            <AppenderRef ref="rollingFile"/>
-        </Logger>
-        <Logger name="com.sedmelluq" level="debug" additivity="false">
-            <AppenderRef ref="rollingFile"/>
-        </Logger>
-        <Root level="error">
-            <AppenderRef ref="rollingFile"/>
-            <AppenderRef ref="console"/>
+        <Root level="debug">
+            <AppenderRef ref="rollingFile" level="info" addivity="true"/>
+            <AppenderRef ref="console" level="info" addivity="true"/>
+            <AppenderRef ref="rollingFileDebug" level="debug" addivity="true"/>
         </Root>
+
+        <Logger name="org.hibernate" level="off" additivity="true" />
+
     </Loggers>
 </Configuration>
