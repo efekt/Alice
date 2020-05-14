@@ -5,6 +5,7 @@ import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.db.model.GuildConfig;
 import it.efekt.alice.lang.AMessage;
 import it.efekt.alice.lang.LangCode;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
@@ -21,6 +22,7 @@ import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -122,16 +124,28 @@ public class GuildLogger extends ListenerAdapter {
 
     public void log(Guild guild, String message){
         try {
+
         if (isLoggerSet(guild)){
+            TextChannel logChannel;
+
             try {
-                if (guild.getJDA().getTextChannelById(getGuildConfig(guild).getLogChannel()) == null) {
-                    return;
-                }
+                logChannel = guild.getJDA().getTextChannelById(getGuildConfig(guild).getLogChannel());
             } catch(IllegalArgumentException exc){
                 return;
             }
 
-            TextChannel logChannel = guild.getJDA().getTextChannelById(getGuildConfig(guild).getLogChannel());
+            if (logChannel == null){
+                return;
+            }
+
+            boolean containsInvalidUser = logChannel.getMembers().stream().anyMatch(member -> !member.hasPermission(Permission.ADMINISTRATOR) || !member.hasPermission(Permission.MANAGE_SERVER));
+            boolean hasAliceCorrectPermissions = guild.getSelfMember().hasPermission(Permission.ADMINISTRATOR) || guild.getSelfMember().hasPermission(Permission.MANAGE_SERVER);
+
+            if (!hasAliceCorrectPermissions){
+                message = "I need to have Administrator or MANAGE_SERVER permission to be able to write a correct log message or disable this feature";
+            } else if (containsInvalidUser){
+                message = "This channel can only be accessible by users with Administrator or Manage Server permissions. Adjust your permissions to see log messages or disable this feature";
+            }
 
             try {
                 DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss");
