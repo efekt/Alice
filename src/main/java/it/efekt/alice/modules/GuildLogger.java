@@ -164,7 +164,7 @@ public class GuildLogger extends ListenerAdapter {
                 return;
             }
 
-            boolean containsInvalidUser = logChannel.getMembers().stream().anyMatch(member -> !member.hasPermission(Permission.ADMINISTRATOR) || !member.hasPermission(Permission.MANAGE_SERVER));
+            boolean containsInvalidUser = logChannel.getMembers().stream().anyMatch(member -> !member.hasPermission(Permission.ADMINISTRATOR) && !member.hasPermission(Permission.MANAGE_SERVER));
             boolean hasAliceCorrectPermissions = guild.getSelfMember().hasPermission(Permission.ADMINISTRATOR) || guild.getSelfMember().hasPermission(Permission.MANAGE_SERVER);
 
             if (!hasAliceCorrectPermissions){
