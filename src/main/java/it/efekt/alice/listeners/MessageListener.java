@@ -33,7 +33,9 @@ public class MessageListener extends ListenerAdapter {
 
         // Adding msg count to users
         try {
-            AliceBootstrap.alice.getUserStatsManager().addMessageCount(user, guild, 1);
+            if (!AliceBootstrap.alice.getUserStatsManager().getUserStats(user, guild).isSpamLvlOptedOut()) {
+                AliceBootstrap.alice.getUserStatsManager().addMessageCount(user, guild, 1);
+            }
         } catch(Exception exc){
             exc.printStackTrace();
         }

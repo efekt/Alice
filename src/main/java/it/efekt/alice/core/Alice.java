@@ -119,6 +119,7 @@ public class Alice {
         getCmdManager().setExecutor(new VoteCmd("vote"));
         getCmdManager().setExecutor(new SkipCmd("skip"));
         getCmdManager().setExecutor(new ChooseCommand("choose"));
+        getCmdManager().setExecutor(new OptCommand("opt"));
     }
 
     public void startSchedulers(){

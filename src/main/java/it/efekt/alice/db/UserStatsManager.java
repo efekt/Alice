@@ -27,7 +27,7 @@ public class UserStatsManager {
         // If not exist, create with default value of 1
         if (getUserStats(user, guild) == null){
             UserStats userStats = new UserStats(userId, guildId);
-            userStats.addAndSave(1);
+            userStats.addMessagesAmountAndSave(1);
             return;
         }
 

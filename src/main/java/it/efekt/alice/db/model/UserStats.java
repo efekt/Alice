@@ -23,6 +23,15 @@ public class UserStats extends AliceDb {
     @ColumnDefault("0")
     private int messagesAmount;
 
+    @Column(name="optout_logger")
+    private boolean isLoggerOptedOut;
+
+    @Column(name="optout_spamlvl")
+    private boolean isSpamLvlOptedOut;
+
+    @Column(name="optout_gamestats")
+    private boolean isGameStatsOptedOut;
+
     public UserStats(){}
 
     public UserStats(String userId, String guildId){
@@ -66,15 +75,41 @@ public class UserStats extends AliceDb {
         this.setMessagesAmount(this.messagesAmount += amount);
     }
 
-    public void addAndSave(int messagesAmount){
+    public void addMessagesAmountAndSave(int messagesAmount){
         addMessagesAmount(messagesAmount);
         save();
     }
 
+    public boolean isLoggerOptedOut() {
+        return isLoggerOptedOut;
+    }
+
+    public void setLoggerOptedOut(boolean loggerOptedOut) {
+        isLoggerOptedOut = loggerOptedOut;
+    }
+
+    public boolean isSpamLvlOptedOut() {
+        return isSpamLvlOptedOut;
+    }
+
+    public void setSpamLvlOptedOut(boolean spamLvlOptedOut) {
+        isSpamLvlOptedOut = spamLvlOptedOut;
+    }
+
+    public boolean isGameStatsOptedOut() {
+        return isGameStatsOptedOut;
+    }
+
+    public void setGameStatsOptedOut(boolean gameStatsOptedOut) {
+        isGameStatsOptedOut = gameStatsOptedOut;
+    }
+
+    @Transient
     public boolean isBot(){
             return AliceBootstrap.alice.getShardManager().getUserById(this.userId).isBot();
     }
 
+    @Transient
     public boolean isInvalidUser(){
         return AliceBootstrap.alice.getShardManager().getUserById(this.userId) == null;
     }

@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.events.user.UserActivityEndEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 
@@ -25,6 +26,10 @@ public class GameListener extends ListenerAdapter {
         try {
             User user = e.getUser();
             Guild guild = e.getGuild();
+
+            if (AliceBootstrap.alice.getUserStatsManager().getUserStats(user, guild).isGameStatsOptedOut()){
+                return;
+            }
 
             Activity oldGame;
 

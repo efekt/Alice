@@ -13,7 +13,7 @@ import net.dv8tion.jda.api.events.guild.GenericGuildEvent;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
-import net.dv8tion.jda.api.events.guild.member.GuildMemberLeaveEvent;
+import net.dv8tion.jda.api.events.guild.member.GuildMemberRemoveEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceMoveEvent;
@@ -36,6 +36,7 @@ public class GuildLogger extends ListenerAdapter {
 
     @Override
     public void onGenericGuild(GenericGuildEvent e){
+
         try {
             if (e instanceof GuildJoinEvent){
                 GuildJoinEvent event = (GuildJoinEvent) e;
@@ -48,15 +49,24 @@ public class GuildLogger extends ListenerAdapter {
             }
 
             if (isLoggerSet(e.getGuild())) {
-                GuildConfig config = AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild());
 
                 if (e instanceof GuildMemberJoinEvent) {
                     GuildMemberJoinEvent event = (GuildMemberJoinEvent) e;
+
+                    if (isOptedOut(event.getUser(), e.getGuild())){
+                        return;
+                    }
+
                     log(e.getGuild(), AMessage.LOGGER_USER_JOINS_GUILD.get(e.getGuild(), event.getMember().getEffectiveName()));
                 }
 
-                if (e instanceof GuildMemberLeaveEvent) {
-                    GuildMemberLeaveEvent event = (GuildMemberLeaveEvent) e;
+                if (e instanceof GuildMemberRemoveEvent) {
+                    GuildMemberRemoveEvent event = (GuildMemberRemoveEvent) e;
+
+                    if (isOptedOut(event.getUser(), e.getGuild())){
+                        return;
+                    }
+
                     log(e.getGuild(), AMessage.LOGGER_USER_LEAVES_GUILD.get(e.getGuild(), event.getMember().getEffectiveName()));
                 }
             }
@@ -67,6 +77,10 @@ public class GuildLogger extends ListenerAdapter {
 
     @Override
     public void onUserUpdateOnlineStatus(UserUpdateOnlineStatusEvent e){
+        if (isOptedOut(e.getUser(), e.getGuild())){
+            return;
+        }
+
         try {
             log(e.getGuild(), AMessage.LOGGER_USER_CHANGES_STATUS.get(e.getGuild(), e.getUser().getName(), e.getNewOnlineStatus().name()));
         } catch(Exception exc){
@@ -76,6 +90,10 @@ public class GuildLogger extends ListenerAdapter {
 
     @Override
     public void onGuildVoiceJoin(GuildVoiceJoinEvent e){
+        if (isOptedOut(e.getEntity().getUser(), e.getGuild())){
+            return;
+        }
+
         try {
         log(e.getGuild(), AMessage.LOGGER_USER_JOINS_VOICE.get(e.getGuild(), e.getMember().getEffectiveName(), e.getChannelJoined().getName()));
         } catch(Exception exc){
@@ -85,6 +103,10 @@ public class GuildLogger extends ListenerAdapter {
 
     @Override
     public void onGuildVoiceLeave(GuildVoiceLeaveEvent e){
+        if (isOptedOut(e.getEntity().getUser(), e.getGuild())){
+            return;
+        }
+
         try {
         log(e.getGuild(), AMessage.LOGGER_USER_LEAVES_VOICE.get(e.getGuild(), e.getMember().getEffectiveName(), e.getChannelLeft().getName()));
         } catch(Exception exc){
@@ -94,6 +116,10 @@ public class GuildLogger extends ListenerAdapter {
 
     @Override
     public void onGuildVoiceMove(GuildVoiceMoveEvent e){
+        if (isOptedOut(e.getEntity().getUser(), e.getGuild())){
+            return;
+        }
+
         try {
         log(e.getGuild(), AMessage.LOGGER_USER_SWITCHES_VOICE.get(e.getGuild(), e.getMember().getEffectiveName(), e.getChannelLeft().getName(), e.getChannelJoined().getName()));
         } catch(Exception exc){
@@ -142,9 +168,9 @@ public class GuildLogger extends ListenerAdapter {
             boolean hasAliceCorrectPermissions = guild.getSelfMember().hasPermission(Permission.ADMINISTRATOR) || guild.getSelfMember().hasPermission(Permission.MANAGE_SERVER);
 
             if (!hasAliceCorrectPermissions){
-                message = "I need to have Administrator or MANAGE_SERVER permission to be able to write a correct log message or disable this feature";
+                message = AMessage.LOGGER_ALICE_NO_PERMS.get(guild);
             } else if (containsInvalidUser){
-                message = "This channel can only be accessible by users with Administrator or Manage Server permissions. Adjust your permissions to see log messages or disable this feature";
+                message = AMessage.LOGGER_CHANNEL_USER_WRONG_PERMS.get(guild);
             }
 
             try {
@@ -163,6 +189,10 @@ public class GuildLogger extends ListenerAdapter {
         } catch(Exception exc){
             exc.printStackTrace();
         }
+    }
+
+    private boolean isOptedOut(User user, Guild guild){
+        return AliceBootstrap.alice.getUserStatsManager().getUserStats(user, guild).isLoggerOptedOut();
     }
 
 }
