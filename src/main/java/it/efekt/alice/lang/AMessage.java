@@ -189,7 +189,7 @@ public enum AMessage {
     CMD_OPTOUT_DESC("Opt in or out from any of the data collecting features"),
     CMD_OPTOUT_EMBED_TITLE("Your active features on this server"),
     CMD_OPTOUT_EMBED_DESC("In order to opt in/out, please type a command written below"),
-    LOGGER_ALICE_NO_PERMS("I need to have Administrator or MANAGE_SERVER permission to be able to write a correct log message or disable this feature"),
+    LOGGER_ALICE_NO_PERMS("I need to have Administrator or MANAGE_SERVER permission to be able to write a correct log message. Adjust my permissions or disable this feature"),
     LOGGER_CHANNEL_USER_WRONG_PERMS("This channel can only be accessible by users with Administrator or Manage Server permissions. Adjust your permissions to see log messages or disable this feature"),
 
     BLANK(""); // leave it alone ;)
