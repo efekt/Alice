@@ -15,7 +15,7 @@ public class CommandManager extends ListenerAdapter {
         this.commands = new HashMap<>();
     }
 
-    public void setExecutor(Command command){
+    public void addCommand(Command command){
         this.commands.put(command.getAlias(), command);
     }
 
