@@ -11,7 +11,7 @@
     - Vimeo
     - Twitch streams
     - http urls
-- Voice Recorder
+- Voice Recorder (temporarily disabled)
 - Timezones support
 - Logger (logs events to a specified #channel)  
   - user joins/leaves the server  

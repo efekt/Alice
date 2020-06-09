@@ -107,7 +107,7 @@ public class Alice {
         getCmdManager().setExecutor(new NowPlayingCmd("np"));
         getCmdManager().setExecutor(new PauseCmd("pause"));
         getCmdManager().setExecutor(new CalcCmd("calc"));
-        getCmdManager().setExecutor(new RecordCmd("rec"));
+        //getCmdManager().setExecutor(new RecordCmd("rec"));
         getCmdManager().setExecutor(new ImgOnlyCmd("img-only"));
         getCmdManager().setExecutor(new StatsCmd("stats"));
         getCmdManager().setExecutor(new BlacklistReload("topgames-blacklist"));
