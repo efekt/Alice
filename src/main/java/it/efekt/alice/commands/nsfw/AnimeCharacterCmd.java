@@ -139,6 +139,7 @@ public class AnimeCharacterCmd extends Command {
         this.categories.add("a2");
         this.categories.add("c.c.");
         this.categories.add("kallen");
+        this.categories.add("playstation");
     }
 
     private String getCategoriesString(){
