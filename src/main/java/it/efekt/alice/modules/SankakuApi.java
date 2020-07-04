@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class DanbooruApi {
+public class SankakuApi {
     private final int LIMIT = 20;
     // HashMap<ServerId, List<PictureId>>
     private HashMap<String, List<Integer>> lastPictures= new HashMap<>();
@@ -26,7 +26,8 @@ public class DanbooruApi {
     public void sendPicture(MessageReceivedEvent event, DanbooruRating rating, String tag){
         String guildId = event.getGuild().getId();
         try {
-            URL url = new URL("https://danbooru.donmai.us/posts.json?random=true&limit="+LIMIT+"&tags=rating:"+rating.getName()+"%20"+tag);
+            URL url = new URL("https://iapi.sankakucomplex.com/post/index.json?random=true&limit="+LIMIT+"&tags=rating:"+rating.getName()+"%20"+tag);
+
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
 
@@ -48,7 +49,7 @@ public class DanbooruApi {
 
             JsonArray array = new JsonParser().parse(sb.toString()).getAsJsonArray();
             String imgUrl;
-            String character;
+           // String character;
             int imgId;
             int score;
 
@@ -63,14 +64,14 @@ public class DanbooruApi {
                         continue;
                     }
 
-                        score = jsonObject.get("score").getAsInt();
+                        score = jsonObject.get("total_score").getAsInt();
                         // if bestRatingObject doesn't exist, assign current one to it
                         if (bestRatingObject == null){
                             bestRatingObject = jsonObject;
                         } else {
                             // if score of current jsonObject is greater than the one that is already in bestRatingObject
                             // assign new bestRatingObject
-                            if (score > bestRatingObject.get("score").getAsInt()){
+                            if (score > bestRatingObject.get("total_score").getAsInt()){
                                 bestRatingObject = jsonObject;
                             }
                         }
@@ -85,7 +86,7 @@ public class DanbooruApi {
             }
 
             imgUrl = bestRatingObject.get("file_url").getAsString();
-            character = bestRatingObject.get("tag_string_character").getAsString();
+            //character = bestRatingObject.get("tag_string_character").getAsString();
             imgId = bestRatingObject.get("id").getAsInt();
 
             if (imgUrl.isEmpty()){
@@ -96,9 +97,9 @@ public class DanbooruApi {
             EmbedBuilder embedBuilder = new EmbedBuilder();
             embedBuilder.setImage(imgUrl);
             embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
-            if (!character.isEmpty()){
-                embedBuilder.setFooter(character, null);
-            }
+//            if (!character.isEmpty()){
+//                embedBuilder.setFooter(character, null);
+//            }
 
             // add id to last retrieved img ids
             addId(guildId, imgId);

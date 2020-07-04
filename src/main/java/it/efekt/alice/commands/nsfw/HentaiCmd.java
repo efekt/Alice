@@ -6,6 +6,7 @@ import it.efekt.alice.lang.AMessage;
 import it.efekt.alice.modules.DanbooruApi;
 import it.efekt.alice.modules.DanbooruRating;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,6 +72,9 @@ public class HentaiCmd extends Command {
                         return true;
                     case "kallen":
                         danbooru.sendPicture(e, DanbooruRating.EXPLICIT, "kallen_stadtfeld");
+                        return true;
+                    case "playstation":
+                        danbooru.sendPicture(e, DanbooruRating.EXPLICIT, "playstation_5");
                         return true;
                     default:
                         danbooru.sendPicture(e, DanbooruRating.EXPLICIT, category);

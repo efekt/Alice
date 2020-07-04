@@ -87,6 +87,9 @@ public class AnimeCharacterCmd extends Command {
                     case "kallen":
                         danbooru.sendPicture(e, DanbooruRating.SAFE, "kallen_stadtfeld");
                         return true;
+                    case "playstation":
+                        danbooru.sendPicture(e, DanbooruRating.SAFE, "playstation_5");
+                        return true;
                     default:
                         danbooru.sendPicture(e, DanbooruRating.SAFE, category);
                         return true;
