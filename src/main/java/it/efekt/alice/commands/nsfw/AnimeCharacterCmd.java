@@ -29,6 +29,13 @@ public class AnimeCharacterCmd extends Command {
 
         if (getArgs().length >= 1){
             String category = getArgs()[0].toLowerCase();
+
+            // dev version, custom characters
+            if (category.equalsIgnoreCase("dev") && getArgs().length == 2){
+                danbooru.sendPicture(e, DanbooruRating.SAFE, getArgs()[1]);
+                return true;
+            }
+
             if (category.equalsIgnoreCase("list") || !this.categories.contains(getArgs()[0].toLowerCase())){
                 e.getChannel().sendMessage(AMessage.CMD_ANIMECHARACTER_CATEGORIES.get(e,getCategoriesString())).complete();
                 return true;
