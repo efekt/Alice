@@ -8,6 +8,8 @@ import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.lang.AMessage;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -22,6 +24,7 @@ public class DanbooruApi {
     private final int LIMIT = 20;
     // HashMap<ServerId, List<PictureId>>
     private HashMap<String, List<Integer>> lastPictures= new HashMap<>();
+    private final Logger logger = LoggerFactory.getLogger(DanbooruApi.class);
 
     public void sendPicture(MessageReceivedEvent event, DanbooruRating rating, String tag){
         String guildId = event.getGuild().getId();
@@ -79,7 +82,9 @@ public class DanbooruApi {
 
             // if nothing has been found (applies usually to the cases when current tag's images has been all already sent)
             if (bestRatingObject == null){
-                this.lastPictures.get(guildId).clear();
+                if (this.lastPictures.containsKey(guildId)) {
+                    this.lastPictures.get(guildId).clear();
+                }
                 event.getChannel().sendMessage(AMessage.CMD_HENTAI_ERROR_NOT_FOUND.get(event)).queue();
                 return;
             }
@@ -96,15 +101,23 @@ public class DanbooruApi {
             EmbedBuilder embedBuilder = new EmbedBuilder();
             embedBuilder.setImage(imgUrl);
             embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
-            if (!character.isEmpty()){
-                embedBuilder.setFooter(character, null);
-            }
+
+            String commandSenderInfo = "["+event.getMessage().getContentDisplay()+"]" + " requested by " + event.getAuthor().getName();
+            character = character.isEmpty() ? "unknown" : character;
+
+            embedBuilder.setFooter(commandSenderInfo + "\ncharacters: " + character, null);
+
 
             // add id to last retrieved img ids
             addId(guildId, imgId);
             //hearts, todo
         //    event.getChannel().sendMessage(embedBuilder.build()).queue(message -> message.addReaction(AEmoji.HEART.get()).queue());
             event.getChannel().sendMessage(embedBuilder.build()).queue();
+            try {
+                event.getMessage().delete().queue();
+            } catch (Exception exc){
+              logger.warn("Message already deleted.");
+            }
         } catch(IOException exc){
             exc.printStackTrace();
         }
