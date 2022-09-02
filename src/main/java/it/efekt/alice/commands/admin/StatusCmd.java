@@ -1,5 +1,6 @@
 package it.efekt.alice.commands.admin;
 
+import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import net.dv8tion.jda.api.entities.Activity;
@@ -14,7 +15,7 @@ public class StatusCmd extends Command {
     }
 
     @Override
-    public boolean onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(CombinedCommandEvent e) {
         String status = String.join(" ", getArgs());
         if (!status.isEmpty()){
             e.getJDA().getPresence().setActivity(Activity.listening(status));

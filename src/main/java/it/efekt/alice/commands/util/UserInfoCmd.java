@@ -1,5 +1,6 @@
 package it.efekt.alice.commands.util;
 
+import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
@@ -23,20 +24,20 @@ public class UserInfoCmd extends Command {
     }
 
     @Override
-    public boolean onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(CombinedCommandEvent e) {
         Message msg = e.getMessage();
 
-        if (getArgs().length >= 1 && !msg.getMentionedUsers().isEmpty()){
-            User user = msg.getMentionedUsers().stream().findFirst().get();
+        if (getArgs().length >= 1 && !msg.getMentions().getUsers().isEmpty()){
+            User user = msg.getMentions().getUsers().stream().findFirst().get();
             showInfo(e, user);
             return true;
         } else {
-            showInfo(e, e.getAuthor());
+            showInfo(e, e.getUser());
             return true;
         }
     }
 
-    private void showInfo(MessageReceivedEvent e, User user){
+    private void showInfo(CombinedCommandEvent e, User user){
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setTitle(AMessage.CMD_USERINFO_TITLE.get(e,  user.getName()));
         embedBuilder.setThumbnail(user.getEffectiveAvatarUrl());
@@ -50,7 +51,7 @@ public class UserInfoCmd extends Command {
             embedBuilder.addField(AMessage.CMD_USERINFO_SPAM_LVL.get(e), String.valueOf((int) new SpamLevelManager().getPlayerLevel(user, e.getGuild())), false);
             embedBuilder.addField(AMessage.CMD_USERINFO_MSGS_SENT.get(e), String.valueOf(userStats.getMessagesAmount()), false);
         }
-        e.getChannel().sendMessage(embedBuilder.build()).complete();
+        e.getChannel().sendMessageEmbeds(embedBuilder.build()).complete();
     }
 
 }

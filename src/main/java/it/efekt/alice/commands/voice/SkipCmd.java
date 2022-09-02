@@ -1,5 +1,6 @@
 package it.efekt.alice.commands.voice;
 
+import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
@@ -16,7 +17,7 @@ public class SkipCmd extends Command {
     }
 
     @Override
-    public boolean onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(CombinedCommandEvent e) {
         AliceAudioManager aliceAudioManager = AliceBootstrap.alice.getAliceAudioManager();
         TrackScheduler trackScheduler = aliceAudioManager.getTrackScheduler(e.getGuild());
 

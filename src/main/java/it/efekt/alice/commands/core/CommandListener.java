@@ -9,6 +9,8 @@ import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
+import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,6 +39,9 @@ public class CommandListener extends ListenerAdapter {
     @Override
     public void onMessageReceived(MessageReceivedEvent e){
         long commandStartTime = System.currentTimeMillis();
+
+        CombinedCommandEvent combinedCommandEvent = new CombinedCommandEvent(e);
+
         try {
             String[] allArgs = e.getMessage().getContentRaw().split("\\s+");
             // getting alias and cmd args accordingly to prefix (mention vs standard prefix)
@@ -63,7 +68,7 @@ public class CommandListener extends ListenerAdapter {
                         }
                     } else {
                         if (cmd.isPrivateChannelCmd) {
-                            e.getTextChannel().sendMessage("This command can be used on private channel only.").complete();
+                            e.getChannel().asTextChannel().sendMessage("This command can be used on private channel only.").complete();
                             return;
                         }
                     }
@@ -86,27 +91,27 @@ public class CommandListener extends ListenerAdapter {
                     }
                     // checking for author is important to filter private message commands, that are for admin only
                     if (e.getAuthor().getId().equalsIgnoreCase(BOT_AUTHOR_ID) || cmd.canUseCmd(e.getMember())) {
-                        if (cmd.isNsfw() && !e.getTextChannel().isNSFW()) {
-                            e.getChannel().sendMessage(new EmbedBuilder()
+                        if (cmd.isNsfw() && !e.getChannel().asTextChannel().isNSFW()) {
+                            e.getChannel().sendMessageEmbeds( new EmbedBuilder()
                                     .setThumbnail("https://i.imgur.com/L3o8Xq0.jpg")
-                                    .setTitle(AMessage.CMD_THIS_IS_NSFW_CMD.get(e))
+                                    .setTitle(AMessage.CMD_THIS_IS_NSFW_CMD.get(combinedCommandEvent))
                                     .setColor(AliceBootstrap.EMBED_COLOR)
-                                    .setDescription(AMessage.CMD_NSFW_ALLOWED_ONLY.get(e))
+                                    .setDescription(AMessage.CMD_NSFW_ALLOWED_ONLY.get(combinedCommandEvent))
                                     .build()).queue();
                             return; // nsfw content on not-nsfw channel
                         }
 
                         // check if user-vote is required in order to execute this command
                         if (cmd.isVoteRequired && !cmd.hasVoted(e.getAuthor().getId())){
-                            e.getChannel().sendMessage(new EmbedBuilder()
-                                    .setTitle(AMessage.VOTE_REQUIRED_TITLE.get(e))
+                            e.getChannel().sendMessageEmbeds(new EmbedBuilder()
+                                    .setTitle(AMessage.VOTE_REQUIRED_TITLE.get(combinedCommandEvent))
                                     .setColor(AliceBootstrap.EMBED_COLOR)
-                                    .setDescription(AMessage.VOTE_REQUIRED_INFO.get(e) + VoteCmd.VOTE_URL)
+                                    .setDescription(AMessage.VOTE_REQUIRED_INFO.get(combinedCommandEvent) + VoteCmd.VOTE_URL)
                                     .build()).queue();
                         }
                         cmd.args = args;
                         e.getChannel().sendTyping().queue();
-                        cmd.execute(e);
+                        cmd.execute(combinedCommandEvent);
                         this.logger.info("User: " + e.getAuthor().getName() + " id:" + e.getAuthor().getId() + " executed cmd: " + cmdAlias + " with msg: " + e.getMessage().getContentDisplay() +" took: " + (System.currentTimeMillis() - commandStartTime) + "ms");
                     }
 

@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
@@ -28,7 +29,7 @@ public class AsunaCmd extends Command {
     }
 
     @Override
-    public boolean onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(CombinedCommandEvent e) {
         EmbedBuilder embedBuilder = new EmbedBuilder();
 
         String imgurClientId = AliceBootstrap.alice.getConfig().getImgurClientId();
@@ -64,7 +65,7 @@ public class AsunaCmd extends Command {
             Random rand = new Random();
             embedBuilder.setImage(urls.get(rand.nextInt(urls.size())));
             embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
-            e.getChannel().sendMessage(embedBuilder.build()).complete();
+            e.getChannel().sendMessageEmbeds(embedBuilder.build()).complete();
             return true;
         } catch(IOException exc){
             exc.printStackTrace();

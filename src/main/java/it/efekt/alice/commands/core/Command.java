@@ -42,14 +42,13 @@ public abstract class Command {
         this.alias = alias;
     }
 
+    public abstract boolean onCommand(CombinedCommandEvent e);
 
-    public abstract boolean onCommand(MessageReceivedEvent e);
-
-    protected void execute(MessageReceivedEvent e) {
+    protected void execute(CombinedCommandEvent e) {
         Runnable runnable = () -> {
             // If command is returning false, means that something is wrong
             if (!isPrivateChannelCmd) {
-                AliceBootstrap.analytics.reportCmdUsage(getAlias(), Arrays.asList(getArgs()).toString(), e.getGuild(), e.getAuthor());
+                AliceBootstrap.analytics.reportCmdUsage(getAlias(), Arrays.asList(getArgs()).toString(), e.getGuild(), e.getUser());
             }
             try {
                 if (!this.onCommand(e)) {

@@ -1,5 +1,6 @@
 package it.efekt.alice.commands.util;
 
+import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.lang.AMessage;
@@ -14,8 +15,8 @@ public class PingCmd extends Command {
     }
 
     @Override
-    public boolean onCommand(MessageReceivedEvent e) {
-        e.getChannel().sendMessage(AMessage.CMD_PING_RESPONSE.get(e, String.valueOf(e.getJDA().getGatewayPing()))).complete();
+    public boolean onCommand(CombinedCommandEvent e) {
+        e.sendMessageToChannel(AMessage.CMD_PING_RESPONSE.get(e, String.valueOf(e.getJDA().getGatewayPing())));
         return true;
     }
 }

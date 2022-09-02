@@ -1,5 +1,6 @@
 package it.efekt.alice.commands.util;
 
+import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
@@ -28,7 +29,7 @@ public class TopCmd extends Command {
     }
 
     @Override
-    public boolean onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(CombinedCommandEvent e) {
 
        Guild guild = e.getGuild();
        UserStatsManager userStatsManager = AliceBootstrap.alice.getUserStatsManager();
@@ -63,7 +64,7 @@ public class TopCmd extends Command {
     return true;
     }
 
-    private void printTop(int startIndex, int page,int maxPages, List<UserStats> userStatsList, MessageReceivedEvent e){
+    private void printTop(int startIndex, int page,int maxPages, List<UserStats> userStatsList, CombinedCommandEvent e){
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setTitle(AMessage.CMD_TOP_LIST_TITLE.get(e, e.getGuild().getName()));
         embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
@@ -86,7 +87,7 @@ public class TopCmd extends Command {
         }
         embedBuilder.addField("TOP-"+index, list, false);
 
-        e.getChannel().sendMessage(embedBuilder.build()).complete();
+        e.getChannel().sendMessageEmbeds(embedBuilder.build()).complete();
     }
 
     private List<Message> getAllTextMessagesOnGuild(Guild guild){

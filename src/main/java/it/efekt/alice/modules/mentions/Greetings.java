@@ -10,7 +10,7 @@ public class Greetings extends ListenerAdapter {
     @Override
     public void onMessageReceived(MessageReceivedEvent e){
         Message msg = e.getMessage();
-        if (msg.isMentioned(e.getJDA().getSelfUser(), Message.MentionType.USER)){
+        if (msg.getMentions().isMentioned(e.getJDA().getSelfUser(), Message.MentionType.USER)){
             if (msg.getContentDisplay().toLowerCase().contains(AMessage.ALICE_GOODBYE_REQUIRED.get(e))){
                 e.getChannel().sendMessage(AMessage.ALICE_GOODBYE_RESPONSE.get(e, e.getAuthor().getAsMention())).queue();
             }

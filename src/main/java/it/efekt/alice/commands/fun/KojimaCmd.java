@@ -1,5 +1,6 @@
 package it.efekt.alice.commands.fun;
 
+import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
@@ -15,8 +16,8 @@ public class KojimaCmd extends Command {
     }
 
     @Override
-    public boolean onCommand(MessageReceivedEvent e) {
-        e.getChannel().sendMessage(new EmbedBuilder().setImage("https://i.imgur.com/18C9F73.jpg").setColor(AliceBootstrap.EMBED_COLOR).build()).complete();
+    public boolean onCommand(CombinedCommandEvent e) {
+        e.getChannel().sendMessageEmbeds(new EmbedBuilder().setImage("https://i.imgur.com/18C9F73.jpg").setColor(AliceBootstrap.EMBED_COLOR).build()).complete();
         return true;
     }
 }

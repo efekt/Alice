@@ -1,10 +1,11 @@
 package it.efekt.alice.commands.fun;
 
+import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.lang.AMessage;
-import net.dv8tion.jda.api.MessageBuilder;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
+
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
@@ -17,7 +18,7 @@ public class ChooseCommand extends Command {
     }
 
     @Override
-    public boolean onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(CombinedCommandEvent e) {
         if (getArgs().length == 0){
             return false;
         }
@@ -29,8 +30,9 @@ public class ChooseCommand extends Command {
 
         int randomInt = ThreadLocalRandom.current().nextInt(0, getArgs().length);
         String output = getArgs()[randomInt];
-        MessageBuilder msgBuilder = new MessageBuilder(String.format("**%s**", output));
-        msgBuilder.stripMentions(e.getGuild());
+        MessageCreateBuilder msgBuilder = new MessageCreateBuilder();
+        msgBuilder.addContent(String.format("**%s**", output));
+        msgBuilder.addContent(e.getGuild().getName());
         e.getChannel().sendMessage(msgBuilder.build()).complete();
 
         if (getArgs().length == 1){

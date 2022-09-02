@@ -44,7 +44,7 @@ public class GameListener extends ListenerAdapter {
                 return;
             }
 
-            if (!oldGame.getType().equals(Activity.ActivityType.DEFAULT)){
+            if (!oldGame.getType().equals(Activity.ActivityType.PLAYING)){
                 return;
             }
 

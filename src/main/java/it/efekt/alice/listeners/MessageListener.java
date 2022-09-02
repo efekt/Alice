@@ -40,7 +40,7 @@ public class MessageListener extends ListenerAdapter {
             exc.printStackTrace();
         }
 
-        TextChannelConfig textChannelConfig = AliceBootstrap.alice.getTextChannelConfigManager().get(e.getTextChannel());
+        TextChannelConfig textChannelConfig = AliceBootstrap.alice.getTextChannelConfigManager().get(e.getChannel().asTextChannel());
 
         if (textChannelConfig.isImgOnly() && e.getMessage().getAttachments().stream().noneMatch(Message.Attachment::isImage)){
             try {

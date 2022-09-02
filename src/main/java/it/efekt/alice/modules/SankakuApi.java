@@ -105,7 +105,7 @@ public class SankakuApi {
             addId(guildId, imgId);
             //hearts, todo
         //    event.getChannel().sendMessage(embedBuilder.build()).queue(message -> message.addReaction(AEmoji.HEART.get()).queue());
-            event.getChannel().sendMessage(embedBuilder.build()).queue();
+            event.getChannel().sendMessageEmbeds(embedBuilder.build()).queue();
         } catch(IOException exc){
             exc.printStackTrace();
         }

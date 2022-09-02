@@ -1,5 +1,6 @@
 package it.efekt.alice.commands.util;
 
+import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.lang.AMessage;
@@ -17,7 +18,7 @@ public class HistoryDeletionCmd extends Command {
     }
 
     @Override
-    public boolean onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(CombinedCommandEvent e) {
         if (getArgs().length == 1){
             // Checks if String is a valid integer
             //-?    negative sign, could have none or one
@@ -25,7 +26,7 @@ public class HistoryDeletionCmd extends Command {
             if (getArgs()[0].matches("-?\\d+")) {
                 int toRemove = Integer.parseInt(getArgs()[0]);
                 if (toRemove <= 99){
-                    removeLast(e.getTextChannel(), toRemove);
+                    removeLast(e.getChannel(), toRemove);
                     return true;
                 } else {
                     e.getChannel().sendMessage(AMessage.CMD_HISTORYDEL_RANGE.get(e)).complete();

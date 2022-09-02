@@ -1,5 +1,6 @@
 package it.efekt.alice.commands.fun;
 
+import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
@@ -26,7 +27,7 @@ public class WikiCmd extends Command {
     }
 
     @Override
-    public boolean onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(CombinedCommandEvent e) {
         lang = AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild()).getLocale().split("_", 2)[0];
 
         if (getArgs().length >= 1){
@@ -59,7 +60,7 @@ public class WikiCmd extends Command {
             embedBuilder.setDescription(desc);
             embedBuilder.setFooter(AMessage.CMD_WIKI_SOURCE.get(e)+": Wikipedia", WIKIPEDIA_LOGO_URL);
             embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
-            e.getChannel().sendMessage(embedBuilder.build()).complete();
+            e.getChannel().sendMessageEmbeds(embedBuilder.build()).complete();
             return true;
         }
         return false;

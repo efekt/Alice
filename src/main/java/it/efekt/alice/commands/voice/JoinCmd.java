@@ -1,8 +1,10 @@
 package it.efekt.alice.commands.voice;
 
+import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.lang.AMessage;
+import net.dv8tion.jda.api.entities.AudioChannel;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.managers.AudioManager;
@@ -15,15 +17,15 @@ public class JoinCmd extends Command {
     }
 
     @Override
-    public boolean onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(CombinedCommandEvent e) {
 
-        if (e.getMember().getVoiceState().inVoiceChannel()){
+        if (e.getMember().getVoiceState().inAudioChannel()){
             if (e.getGuild().getAudioManager().isConnected() && e.getMember().getVoiceState().getChannel().getId().equalsIgnoreCase(e.getGuild().getAudioManager().getConnectedChannel().getId())){
                 return true;
             }
 
 
-            VoiceChannel voiceChannel = e.getMember().getVoiceState().getChannel();
+            AudioChannel voiceChannel = e.getMember().getVoiceState().getChannel();
             AudioManager audioManager = e.getGuild().getAudioManager();
             audioManager.openAudioConnection(voiceChannel);
             e.getChannel().sendMessage(AMessage.CMD_JOIN_JOINED.get(e, voiceChannel.getName())).complete();

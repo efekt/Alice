@@ -1,5 +1,6 @@
 package it.efekt.alice.commands.util;
 
+import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
@@ -19,12 +20,12 @@ public class OptCommand extends Command {
     }
 
     @Override
-    public boolean onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(CombinedCommandEvent e) {
         Guild guild = e.getGuild();
 
         if (getArgs().length == 0){
-            UserStats userStats = AliceBootstrap.alice.getUserStatsManager().getUserStats(e.getAuthor(), e.getGuild());
-            e.getTextChannel().sendMessage(getOptOutEmbed(guild, userStats)).complete();
+            UserStats userStats = AliceBootstrap.alice.getUserStatsManager().getUserStats(e.getUser(), e.getGuild());
+            e.getChannel().sendMessageEmbeds(getOptOutEmbed(guild, userStats)).complete();
             return true;
         }
 
@@ -34,24 +35,24 @@ public class OptCommand extends Command {
 
         String feature = getArgs()[0];
 
-        UserStats userStats = AliceBootstrap.alice.getUserStatsManager().getUserStats(e.getAuthor(), e.getGuild());
+        UserStats userStats = AliceBootstrap.alice.getUserStatsManager().getUserStats(e.getUser(), e.getGuild());
 
         switch(feature){
             case "logger":
                 userStats.setLoggerOptedOut(!userStats.isLoggerOptedOut());
-                e.getTextChannel().sendMessage(getOptOutEmbed(guild, userStats)).complete();
+                e.getChannel().sendMessageEmbeds(getOptOutEmbed(guild, userStats)).complete();
                 userStats.save();
                 return true;
 
             case "gameStats":
                 userStats.setGameStatsOptedOut(!userStats.isGameStatsOptedOut());
-                e.getTextChannel().sendMessage(getOptOutEmbed(guild, userStats)).complete();
+                e.getChannel().sendMessageEmbeds(getOptOutEmbed(guild, userStats)).complete();
                 userStats.save();
                 return true;
 
             case "spamLvl":
                 userStats.setSpamLvlOptedOut(!userStats.isSpamLvlOptedOut());
-                e.getTextChannel().sendMessage(getOptOutEmbed(guild, userStats)).complete();
+                e.getChannel().sendMessageEmbeds(getOptOutEmbed(guild, userStats)).complete();
                 userStats.save();
                 return true;
 

@@ -1,5 +1,6 @@
 package it.efekt.alice.commands.util;
 
+import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
@@ -20,7 +21,7 @@ public class FeaturesCmd extends Command {
     }
 
     @Override
-    public boolean onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(CombinedCommandEvent e) {
         HashMap<String, Command> cmds = AliceBootstrap.alice.getCmdManager().getCommands();
         if (getArgs().length == 0){
             printFeatures(e);
@@ -56,7 +57,7 @@ public class FeaturesCmd extends Command {
         return false;
     }
 
-    private void printFeatures(MessageReceivedEvent e){
+    private void printFeatures(CombinedCommandEvent e){
         HashMap<String, Command> cmds = AliceBootstrap.alice.getCmdManager().getCommands();
 
         EmbedBuilder embedBuilder = new EmbedBuilder();
@@ -69,6 +70,6 @@ public class FeaturesCmd extends Command {
 
             embedBuilder.addField(featureStatus + cmd.getAlias(), "", false);
         }
-        e.getChannel().sendMessage(embedBuilder.build()).complete();
+        e.getChannel().sendMessageEmbeds(embedBuilder.build()).complete();
     }
 }

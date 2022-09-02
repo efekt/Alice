@@ -1,5 +1,6 @@
 package it.efekt.alice.commands.util;
 
+import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.lang.AMessage;
@@ -14,7 +15,7 @@ public class VoteCmd extends Command {
     }
 
     @Override
-    public boolean onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(CombinedCommandEvent e) {
         e.getChannel().sendMessage(AMessage.CMD_VOTE_RESPONSE.get(e)+"\n" + VOTE_URL).complete();
         return true;
     }

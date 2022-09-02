@@ -1,5 +1,6 @@
 package it.efekt.alice.commands.games;
 
+import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
@@ -21,7 +22,7 @@ public class MinecraftStatusCmd extends Command {
     }
 
     @Override
-    public boolean onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(CombinedCommandEvent e) {
         if (getArgs().length == 1){
             MinecraftServerStatus status = new MinecraftServerStatus();
             try {
@@ -39,7 +40,7 @@ public class MinecraftStatusCmd extends Command {
                 embedBuilder.setThumbnail(status.getFaviconUrl());
                 embedBuilder.addField(AMessage.CMD_MC_SERVER_PLAYER_COUNT.get(e), status.getCurrentPlayers() + "/" + status.getMaxPlayers(), false);
 
-                e.getChannel().sendMessage(embedBuilder.build()).complete();
+                e.getChannel().sendMessageEmbeds(embedBuilder.build()).complete();
                 return true;
             } else {
                 e.getChannel().sendMessage(AMessage.CMD_MC_SERVER_OFFLINE.get(e)).complete();

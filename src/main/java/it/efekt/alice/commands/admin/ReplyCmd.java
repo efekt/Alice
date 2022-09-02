@@ -1,5 +1,6 @@
 package it.efekt.alice.commands.admin;
 
+import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import net.dv8tion.jda.api.entities.Message;
@@ -18,9 +19,9 @@ public class ReplyCmd extends Command {
     }
 
     @Override
-    public boolean onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(CombinedCommandEvent e) {
         if (getArgs().length < 2){
-            e.getPrivateChannel().sendMessage("You need to provide at least 2 arguments: \n- message url\n- your reply").complete();
+            e.getChannel().sendMessage("You need to provide at least 2 arguments: \n- message url\n- your reply").complete();
             return true;
         }
 
@@ -37,13 +38,13 @@ public class ReplyCmd extends Command {
 
             Message originMessage = e.getJDA().getGuildById(guildId).getTextChannelById(channelId).retrieveMessageById(msgId).complete();
             replyMessage = replyMessage.replace("@user", originMessage.getAuthor().getAsMention());
-            originMessage.getTextChannel().sendTyping().complete();
-            originMessage.getTextChannel().sendMessage(replyMessage).completeAfter(3, TimeUnit.SECONDS);
-            e.getPrivateChannel().sendMessage("AMessage sent in reply to " + originMessage.getAuthor().getName() + ":\n```" + replyMessage + "```").complete();
+            originMessage.getChannel().sendTyping().complete();
+            originMessage.getChannel().sendMessage(replyMessage).completeAfter(3, TimeUnit.SECONDS);
+            e.getChannel().sendMessage("AMessage sent in reply to " + originMessage.getAuthor().getName() + ":\n```" + replyMessage + "```").complete();
             return true;
 
         } else {
-            e.getPrivateChannel().sendMessage("You need to provide me a valid url and a message").queue();
+            e.getChannel().sendMessage("You need to provide me a valid url and a message").queue();
             return true;
         }
     }

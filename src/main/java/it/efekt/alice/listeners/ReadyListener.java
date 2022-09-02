@@ -29,6 +29,10 @@ public class ReadyListener extends ListenerAdapter {
                 AliceBootstrap.alice.registerCommands();
                 logger.info("Registered " + AliceBootstrap.alice.getCmdManager().getCommands().size() + " commands");
 
+                logger.info("Registering slash commands...");
+                AliceBootstrap.alice.registerSlashCommands();
+                logger.info("Registering slash commands...DONE");
+
                 logger.info("Registering listeners...");
                 AliceBootstrap.alice.registerListeners();
                 logger.info("Alice bot has been fully loaded, started listening...");

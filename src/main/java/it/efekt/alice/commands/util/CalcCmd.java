@@ -1,6 +1,7 @@
 package it.efekt.alice.commands.util;
 
 import com.udojava.evalex.Expression;
+import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.lang.AMessage;
@@ -15,7 +16,7 @@ public class CalcCmd extends Command {
     }
 
     @Override
-    public boolean onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(CombinedCommandEvent e) {
         if (getArgs().length < 1){
             return false;
         }

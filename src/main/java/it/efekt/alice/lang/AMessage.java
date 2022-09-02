@@ -1,8 +1,10 @@
 package it.efekt.alice.lang;
 
 import com.google.gson.stream.JsonWriter;
+import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.core.AliceBootstrap;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -218,12 +220,16 @@ public enum AMessage {
         return language.getLanguageString(getKey()).var(vars);
     }
 
-    public String get(MessageReceivedEvent e, String... vars){
-       return getLanguage(e).getLanguageString(getKey()).var(vars);
+    public String get(CombinedCommandEvent e, String... vars){
+       return getLanguage(e.getGuild()).getLanguageString(getKey()).var(vars);
     }
 
-    public Language getLanguage(MessageReceivedEvent e){
-        String locale = AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild()).getLocale();
+    public String get(MessageReceivedEvent e, String... vars){
+        return getLanguage(e.getGuild()).getLanguageString(getKey()).var(vars);
+    }
+
+    public Language getLanguage(Guild e){
+        String locale = AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e).getLocale();
         return AliceBootstrap.alice.getLanguageManager().getLang(LangCode.valueOf(locale));
     }
 

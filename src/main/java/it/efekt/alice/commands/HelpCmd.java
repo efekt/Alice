@@ -1,5 +1,6 @@
 package it.efekt.alice.commands;
 
+import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.commands.core.CommandManager;
@@ -7,7 +8,6 @@ import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.lang.AMessage;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class HelpCmd extends Command {
     }
 
     @Override
-    public boolean onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(CombinedCommandEvent e) {
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setTitle(AMessage.CMD_HELP_TITLE.get(e));
         embedBuilder.setThumbnail(e.getJDA().getSelfUser().getEffectiveAvatarUrl());
@@ -96,7 +96,7 @@ public class HelpCmd extends Command {
             }
         }
 
-        e.getChannel().sendMessage(embedBuilder.build()).complete();
+        e.sendEmbeddedMessageToChannel(embedBuilder.build());
         return true;
     }
 }

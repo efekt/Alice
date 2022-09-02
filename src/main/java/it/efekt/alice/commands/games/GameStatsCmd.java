@@ -1,6 +1,7 @@
 package it.efekt.alice.commands.games;
 
 import com.google.gson.Gson;
+import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
@@ -36,7 +37,7 @@ public class GameStatsCmd extends Command {
     }
 
     @Override
-    public boolean onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(CombinedCommandEvent e) {
         long timeBefore = System.currentTimeMillis();
         Guild guild = e.getGuild();
         HashMap<String, Long> guildGameStats = AliceBootstrap.alice.getGameStatsManager().getGameTimesOnGuild(guild);
@@ -56,8 +57,8 @@ public class GameStatsCmd extends Command {
         }
 
         // checking user's stats
-        if (getArgs().length >= 1 && !e.getMessage().getMentionedUsers().isEmpty()){
-            User user = e.getMessage().getMentionedUsers().get(0);
+        if (getArgs().length >= 1 && !e.getMessage().getMentions().getUsers().isEmpty()){
+            User user = e.getMessage().getMentions().getUsers().get(0);
             guildGameStats = AliceBootstrap.alice.getGameStatsManager().getGameStats(e.getGuild(), user);
             userName = user.getName();
             // if page number is given
@@ -126,7 +127,7 @@ public class GameStatsCmd extends Command {
         embedBuilder.addField(AMessage.CMD_TOP_FOOTER.get(e, String.valueOf(beginIndex)), output, false);
         embedBuilder.setFooter(AMessage.CMD_GAMESTATS_PAGE.get(e, String.valueOf(page), String.valueOf(maxPages)), e.getJDA().getSelfUser().getEffectiveAvatarUrl());
         logger.info(guildGameStats.size() + " GameStats gathered and sorted in: " + (System.currentTimeMillis() - timeBefore) + "ms");
-        e.getChannel().sendMessage(embedBuilder.build()).complete();
+        e.getChannel().sendMessageEmbeds(embedBuilder.build()).complete();
         return true;
     }
 

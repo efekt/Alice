@@ -1,11 +1,11 @@
 package it.efekt.alice.commands.voice;
 
+import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.lang.AMessage;
 import it.efekt.alice.modules.AliceAudioManager;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import ws.schild.jave.EncoderException;
 
 import java.io.File;
@@ -20,11 +20,11 @@ public class RecordCmd extends Command {
     }
 
     @Override
-    public boolean onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(CombinedCommandEvent e) {
 
         AliceAudioManager audioManager = AliceBootstrap.alice.getAliceAudioManager();
 
-        if (!e.getMember().getVoiceState().inVoiceChannel()){
+        if (!e.getMember().getVoiceState().inAudioChannel()){
             e.getChannel().sendMessage(AMessage.CMD_REC_USER_NOT_CONNECTED.get(e)).complete();
             return true;
         }
@@ -38,7 +38,7 @@ public class RecordCmd extends Command {
             try {
                 e.getChannel().sendMessage(AMessage.CMD_REC_STOPPED.get(e)).complete();
                 File file = audioManager.stopRecordingAndGetFile(e.getGuild());
-                audioManager.getReceiveHandler(e.getGuild()).sendMessageWithFile(file, e.getTextChannel());
+                audioManager.getReceiveHandler(e.getGuild()).sendMessageWithFile(file, e.getChannel().asTextChannel());
                 e.getGuild().getAudioManager().closeAudioConnection();
             } catch (IOException e1) {
                 e1.printStackTrace();
@@ -46,7 +46,7 @@ public class RecordCmd extends Command {
                 e1.printStackTrace();
             }
         } else {
-            audioManager.startRecording(e.getGuild(), e.getTextChannel());
+            audioManager.startRecording(e.getGuild(), e.getChannel().asTextChannel());
             e.getChannel().sendMessage( AMessage.CMD_REC_STARTED.get(e, String.valueOf(audioManager.getReceiveHandler(e.getGuild()).getMAX_RECORD_TIME()))).complete();
         }
 

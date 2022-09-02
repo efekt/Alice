@@ -1,5 +1,6 @@
 package it.efekt.alice.commands.util;
 
+import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.lang.AMessage;
@@ -23,7 +24,7 @@ public class LangCmd extends Command {
     }
 
     @Override
-    public boolean onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(CombinedCommandEvent e) {
         if (getArgs().length == 0 || (getArgs().length == 1 && !isLang(getArgs()[0]))){
             showAvailableLanguages(e);
             return true;
@@ -49,7 +50,7 @@ public class LangCmd extends Command {
         return getLangValues().contains(langCode);
      }
 
-     private void showAvailableLanguages(MessageReceivedEvent e){
+     private void showAvailableLanguages(CombinedCommandEvent e){
          e.getChannel().sendMessage(AMessage.CMD_LANG_AVAILABLE_LANGS.get(e, String.join(" ", getLangValues()))).queue();
      }
 

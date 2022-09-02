@@ -1,5 +1,6 @@
 package it.efekt.alice.commands.admin;
 
+import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import net.dv8tion.jda.api.entities.Guild;
@@ -20,7 +21,7 @@ public class ServersCmd extends Command {
     }
 
     @Override
-    public boolean onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(CombinedCommandEvent e) {
         List<Guild> guilds = new ArrayList<>();
         guilds.addAll(e.getJDA().getGuilds());
         guilds.sort(Comparator.comparing((Guild item) -> item.getMembers().size()).reversed());
@@ -29,7 +30,7 @@ public class ServersCmd extends Command {
             logger.info(guild.getName() + " : " + guild.getMembers().size());
         }
 
-        e.getTextChannel().sendMessage("List printed out into console.");
+        e.getChannel().sendMessage("List printed out into console.");
 
         return true;
     }

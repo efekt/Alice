@@ -11,6 +11,7 @@ import com.sedmelluq.lava.extensions.youtuberotator.planner.AbstractRoutePlanner
 import com.sedmelluq.lava.extensions.youtuberotator.planner.RotatingNanoIpRoutePlanner;
 import com.sedmelluq.lava.extensions.youtuberotator.tools.ip.IpBlock;
 import com.sedmelluq.lava.extensions.youtuberotator.tools.ip.Ipv6Block;
+import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.commands.voice.TrackScheduler;
 import it.efekt.alice.config.Config;
 import it.efekt.alice.core.AliceBootstrap;
@@ -169,7 +170,7 @@ public class AliceAudioManager {
         return totalAudioChannelJoined;
     }
 
-    public void play(MessageReceivedEvent e, String content){
+    public void play(CombinedCommandEvent e, String content){
         // if guild/user rate limit is being met, do not allow alice to even try to load a new track
 
         if (getTrackScheduler(e.getGuild()).getQueue().size() >= this.MAX_QUEUE_SIZE){
@@ -229,14 +230,14 @@ public class AliceAudioManager {
         });
     }
 
-    private void sendLoadedMessage(MessageReceivedEvent e, AudioTrack audioTrack){
+    private void sendLoadedMessage(CombinedCommandEvent e, AudioTrack audioTrack){
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
         embedBuilder.setTitle(audioTrack.getInfo().title, audioTrack.getInfo().uri);
         embedBuilder.addField(AMessage.CMD_PLAY_LOADED_AND_QUEUED.get(e), "", false);
         String prefix = AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild()).getPrefix();
         embedBuilder.setFooter(prefix + AMessage.CMD_PLAY_LOADED_FOOTER.get(e, "np"), e.getJDA().getSelfUser().getEffectiveAvatarUrl());
-        e.getChannel().sendMessage(embedBuilder.build()).complete();
+        e.getChannel().sendMessageEmbeds(embedBuilder.build()).complete();
     }
 
     public void closeAudioConnAndUnload(Guild guild){

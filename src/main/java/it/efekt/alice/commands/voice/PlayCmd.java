@@ -1,5 +1,6 @@
 package it.efekt.alice.commands.voice;
 
+import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
@@ -19,7 +20,7 @@ public class PlayCmd extends Command {
     }
 
     @Override
-    public boolean onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(CombinedCommandEvent e) {
         AliceAudioManager aliceAudioManager = AliceBootstrap.alice.getAliceAudioManager();
         if (getArgs().length >= 1){
             String query = String.join(" ", getArgs());
@@ -39,7 +40,7 @@ public class PlayCmd extends Command {
         return false;
     }
 
-    private void play(MessageReceivedEvent e, String query){
+    private void play(CombinedCommandEvent e, String query){
         AliceAudioManager aliceAudioManager = AliceBootstrap.alice.getAliceAudioManager();
         if (AliceBootstrap.alice.getCmdManager().getCommand("join").onCommand(e)){
             aliceAudioManager.play(e, query);

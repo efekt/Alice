@@ -2,6 +2,7 @@ package it.efekt.alice.commands.games;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
@@ -29,7 +30,7 @@ public class ApexStatsCmd extends Command {
     }
 
     @Override
-    public boolean onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(CombinedCommandEvent e) {
 
         if (getArgs().length == 2){
             String platform = getArgs()[0];
@@ -91,7 +92,7 @@ public class ApexStatsCmd extends Command {
                                 "\n" + AMessage.CMD_APEX_LEGEND_KILLS.get(e) + playerInfo.get("kills_Mirage").getAsString() +
                                 "\n" + AMessage.CMD_APEX_LEGEND_HEADSHOTS.get(e) + playerInfo.get("headshots_Mirage").getAsString()
                         , true);
-                e.getChannel().sendMessage(embedBuilder.build()).complete();
+                e.getChannel().sendMessageEmbeds(embedBuilder.build()).complete();
                 return true;
 
             }

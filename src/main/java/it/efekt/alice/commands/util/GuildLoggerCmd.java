@@ -1,11 +1,13 @@
 package it.efekt.alice.commands.util;
 
+import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.db.model.GuildConfig;
 import it.efekt.alice.lang.AMessage;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.GuildChannel;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
@@ -21,7 +23,7 @@ public class GuildLoggerCmd extends Command {
     }
 
     @Override
-    public boolean onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(CombinedCommandEvent e) {
         GuildConfig config = AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild());
 
         if (getArgs().length == 0){
@@ -33,8 +35,8 @@ public class GuildLoggerCmd extends Command {
             return true;
         }
 
-        if (getArgs().length == 1 && !e.getMessage().getMentionedChannels().isEmpty()){
-            TextChannel mentionedChannel = e.getMessage().getMentionedChannels().stream().findFirst().get();
+        if (getArgs().length == 1 && !e.getMessage().getMentions().getChannels().isEmpty()){
+            GuildChannel mentionedChannel = e.getMessage().getMentions().getChannels().stream().findFirst().get();
             config.setLogChannelAndSave(mentionedChannel.getId());
             e.getChannel().sendMessage(AMessage.CMD_LOGGER_SET.get(e, mentionedChannel.getAsMention())).complete();
             return true;
