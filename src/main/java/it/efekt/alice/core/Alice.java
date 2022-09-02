@@ -175,8 +175,7 @@ public class Alice {
     private void init(){
         Runtime.getRuntime().addShutdownHook(new ShutdownThread(this));
         try {
-            DefaultShardManagerBuilder builder = new DefaultShardManagerBuilder();
-                builder.setToken(this.getConfig().getToken());
+            DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(this.getConfig().getToken());
                 builder.setShardsTotal(getConfig().getShardsTotal());
                 builder.setActivity(Activity.playing("breaking the seal of the right eye..."));
                 builder.addEventListeners(new ReadyListener());

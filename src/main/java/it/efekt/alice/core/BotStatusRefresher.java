@@ -25,7 +25,7 @@ public class BotStatusRefresher implements Runnable{
     private void setPresence(){
         int guilds = this.alice.getShardManager().getGuilds().size();
         int users = this.alice.getShardManager().getUsers().size();
-        this.alice.setActivity(Activity.playing("on " + guilds + " servers | " + users + " users" + " | alice-bot.net"));
+        this.alice.setActivity(Activity.playing("@ALICE to use commands! | " + guilds + " servers | " + users + " users" + " | alice-bot.net"));
     }
 
     private void updateDiscordBotList(){
