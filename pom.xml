@@ -65,6 +65,12 @@
         </dependency>
 
         <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <version>3.4.2</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.8.6</version>
@@ -113,9 +119,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.discordbots</groupId>
-            <artifactId>DBL-Java-Library</artifactId>
-            <version>2.0.1</version>
+            <groupId>com.github.top-gg</groupId>
+            <artifactId>java-sdk</artifactId>
+            <version>2.1.2</version>
         </dependency>
 
         <dependency>
