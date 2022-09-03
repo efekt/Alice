@@ -86,7 +86,7 @@ public class DanbooruApi {
                 if (this.lastPictures.containsKey(guildId)) {
                     this.lastPictures.get(guildId).clear();
                 }
-                event.getChannel().sendMessage(AMessage.CMD_HENTAI_ERROR_NOT_FOUND.get(event)).queue();
+                event.sendMessageToChannel(AMessage.CMD_HENTAI_ERROR_NOT_FOUND.get(event));
                 return;
             }
 
@@ -95,7 +95,7 @@ public class DanbooruApi {
             imgId = bestRatingObject.get("id").getAsInt();
 
             if (imgUrl.isEmpty()){
-                event.getChannel().sendMessage(AMessage.CMD_HENTAI_ERROR_NOT_FOUND.get(event)).queue();
+                event.sendMessageToChannel(AMessage.CMD_HENTAI_ERROR_NOT_FOUND.get(event));
                 return;
             }
 
@@ -113,9 +113,9 @@ public class DanbooruApi {
             addId(guildId, imgId);
             //hearts, todo
         //    event.getChannel().sendMessage(embedBuilder.build()).queue(message -> message.addReaction(AEmoji.HEART.get()).queue());
-            event.getChannel().sendMessageEmbeds(embedBuilder.build()).queue();
+            event.sendEmbeddedMessageToChannel(embedBuilder.build());
             try {
-                event.getMessage().delete().queue();
+                event.deleteMessage();
             } catch (Exception exc){
               logger.warn("Message already deleted.");
             }

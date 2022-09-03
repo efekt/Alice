@@ -6,7 +6,11 @@ import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.utils.FileUpload;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class CombinedCommandEvent
 {
@@ -66,7 +70,7 @@ public class CombinedCommandEvent
     {
         if(isSlash)
         {
-            slashCommandInteractionEvent.reply(message).complete();
+            slashCommandInteractionEvent.getHook().sendMessage(message).queue();
         }
         else
         {
@@ -78,7 +82,7 @@ public class CombinedCommandEvent
     {
         if(isSlash)
         {
-            slashCommandInteractionEvent.replyEmbeds(message).complete();
+            slashCommandInteractionEvent.getHook().sendMessageEmbeds(message).queue();
         }
         else
         {
@@ -90,11 +94,39 @@ public class CombinedCommandEvent
     {
         if(isSlash)
         {
-            slashCommandInteractionEvent.replyFiles(file).complete();
+            slashCommandInteractionEvent.getHook().sendFiles(file).queue();
         }
         else
         {
             messageReceivedEvent.getChannel().sendFiles(file).complete();
+        }
+    }
+
+    public void deleteMessage()
+    {
+        if(!isSlash)
+        {
+            messageReceivedEvent.getMessage().delete().queue();
+        }
+    }
+
+    public void sendSlashConfirmation(String message)
+    {
+        if(isSlash)
+        {
+            slashCommandInteractionEvent.getHook().sendMessage(message).setEphemeral(true).queue();
+        }
+    }
+
+    public Mentions getMentions()
+    {
+        if(isSlash)
+        {
+            return slashCommandInteractionEvent.getOptions().get(0).getMentions(); //Usually only first option is mention
+        }
+        else
+        {
+            return messageReceivedEvent.getMessage().getMentions();
         }
     }
 }

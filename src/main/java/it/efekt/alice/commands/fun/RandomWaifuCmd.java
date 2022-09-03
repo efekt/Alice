@@ -15,6 +15,8 @@ public class RandomWaifuCmd extends Command {
         super(alias);
         setCategory(CommandCategory.FUN);
         setDescription(AMessage.CMD_RANDOMWAIFU_DESC);
+
+        setSlashCommand();
     }
 
     @Override
@@ -24,7 +26,7 @@ public class RandomWaifuCmd extends Command {
         embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
         embedBuilder.setTitle("Your random Waifu");
         embedBuilder.setImage("https://www.thiswaifudoesnotexist.net/example-"+imageNr+".jpg");
-        e.getChannel().sendMessageEmbeds(embedBuilder.build()).complete();
+        e.sendEmbeddedMessageToChannel(embedBuilder.build());
 
         return true;
     }

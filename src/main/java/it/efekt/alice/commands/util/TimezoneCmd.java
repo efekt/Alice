@@ -7,6 +7,8 @@ import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.db.model.GuildConfig;
 import it.efekt.alice.lang.AMessage;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -24,6 +26,9 @@ public class TimezoneCmd extends Command {
         setDescription(AMessage.CMD_TIMEZONE_DESC);
         setFullUsageInfo(AMessage.CMD_TIMEZONE_FULL_USAGE_INFO);
         setShortUsageInfo(AMessage.CMD_TIMEZONE_SHORT_USAGE_INFO);
+
+        optionData.add(new OptionData(OptionType.STRING, "timezone", "timezone", false));
+        setSlashCommand();
     }
 
     @Override
@@ -35,7 +40,7 @@ public class TimezoneCmd extends Command {
             DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss");
             String dateTime = guildDateTime.format(dateFormat);
             String timezoneName =  guildDateTime.getZone().getDisplayName(TextStyle.SHORT_STANDALONE, Locale.ENGLISH);
-            e.getChannel().sendMessage( AMessage.CMD_TIMEZONE_CURRENT.get(e.getGuild(), timezoneName) + dateTime + " ("+ guildDateTime.getOffset().toString()+")").complete();
+            e.sendMessageToChannel( AMessage.CMD_TIMEZONE_CURRENT.get(e.getGuild(), timezoneName) + dateTime + " ("+ guildDateTime.getOffset().toString()+")");
             return true;
         }
 
@@ -44,7 +49,7 @@ public class TimezoneCmd extends Command {
 
             // make sure that all timezones are saved in the same format...
             if (!timezone.contains("GMT")){
-                e.getChannel().sendMessage(AMessage.CMD_TIMEZONE_WRONG.get(e.getGuild())).complete();
+                e.sendMessageToChannel(AMessage.CMD_TIMEZONE_WRONG.get(e.getGuild()));
                 return true;
             }
 
@@ -52,10 +57,10 @@ public class TimezoneCmd extends Command {
                 ZoneId zoneId = ZoneId.of(timezone);
                 guildConfig.setTimezone(zoneId.toString());
                 guildConfig.save();
-                e.getChannel().sendMessage(AMessage.CMD_TIMEZONE_CHANGED.get(e.getGuild(), zoneId.getId())).complete();
+                e.sendMessageToChannel(AMessage.CMD_TIMEZONE_CHANGED.get(e.getGuild(), zoneId.getId()));
                 return true;
             } catch (ZoneRulesException exc){
-                e.getChannel().sendMessage(AMessage.CMD_TIMEZONE_WRONG.get(e.getGuild())).complete();
+                e.sendMessageToChannel(AMessage.CMD_TIMEZONE_WRONG.get(e.getGuild()));
                 return true;
             }
         }

@@ -11,6 +11,8 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
 import java.time.format.DateTimeFormatter;
 
@@ -21,14 +23,15 @@ public class UserInfoCmd extends Command {
         setCategory(CommandCategory.UTILS);
         setDescription(AMessage.CMD_USERINFO_DESC);
         setShortUsageInfo(AMessage.CMD_USERINFO_USAGE_INFO);
+
+        optionData.add(new OptionData(OptionType.STRING, "user", "user", false));
+        setSlashCommand();
     }
 
     @Override
     public boolean onCommand(CombinedCommandEvent e) {
-        Message msg = e.getMessage();
-
-        if (getArgs().length >= 1 && !msg.getMentions().getUsers().isEmpty()){
-            User user = msg.getMentions().getUsers().stream().findFirst().get();
+        if (getArgs().length >= 1 && !e.getMentions().getUsers().isEmpty()){
+            User user = e.getMentions().getUsers().stream().findFirst().get();
             showInfo(e, user);
             return true;
         } else {
@@ -51,7 +54,7 @@ public class UserInfoCmd extends Command {
             embedBuilder.addField(AMessage.CMD_USERINFO_SPAM_LVL.get(e), String.valueOf((int) new SpamLevelManager().getPlayerLevel(user, e.getGuild())), false);
             embedBuilder.addField(AMessage.CMD_USERINFO_MSGS_SENT.get(e), String.valueOf(userStats.getMessagesAmount()), false);
         }
-        e.getChannel().sendMessageEmbeds(embedBuilder.build()).complete();
+        e.sendEmbeddedMessageToChannel(embedBuilder.build());
     }
 
 }

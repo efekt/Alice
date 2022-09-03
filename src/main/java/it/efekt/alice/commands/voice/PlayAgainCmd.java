@@ -13,13 +13,15 @@ public class PlayAgainCmd extends Command {
         super(alias);
         setCategory(CommandCategory.VOICE);
         setDescription(AMessage.CMD_PLAYAGAIN_DESC);
+
+        setSlashCommand();
     }
 
     @Override
     public boolean onCommand(CombinedCommandEvent e) {
         AliceAudioManager aliceAudioManager = AliceBootstrap.alice.getAliceAudioManager();
         if (aliceAudioManager.getLastPlayed(e.getGuild()) == null){
-            e.getChannel().sendMessage("I didn't play anything yet").queue();
+            e.sendMessageToChannel("I didn't play anything yet");
             return true;
         } else {
             if (AliceBootstrap.alice.getCmdManager().getCommand("join").onCommand(e)){
@@ -27,6 +29,8 @@ public class PlayAgainCmd extends Command {
                 return true;
             }
         }
+        // No slash confirmation
+        e.sendSlashConfirmation(AMessage.CMD_PLAYAGAIN_DESC.get(e));
         return false;
     }
 }

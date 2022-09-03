@@ -16,7 +16,7 @@ public class VoteCmd extends Command {
 
     @Override
     public boolean onCommand(CombinedCommandEvent e) {
-        e.getChannel().sendMessage(AMessage.CMD_VOTE_RESPONSE.get(e)+"\n" + VOTE_URL).complete();
+        e.sendMessageToChannel(AMessage.CMD_VOTE_RESPONSE.get(e)+"\n" + VOTE_URL);
         return true;
     }
 }

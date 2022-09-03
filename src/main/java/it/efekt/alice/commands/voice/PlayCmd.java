@@ -7,6 +7,8 @@ import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.lang.AMessage;
 import it.efekt.alice.modules.AliceAudioManager;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
 import java.net.URL;
 
@@ -17,6 +19,9 @@ public class PlayCmd extends Command {
         setShortUsageInfo(AMessage.CMD_PLAY_SHORT_USAGE_INFO);
         setDescription(AMessage.CMD_PLAY_DESC);
         setFullUsageInfo(AMessage.CMD_PLAY_FULL_USAGE_INFO);
+
+        optionData.add(new OptionData(OptionType.STRING, "query", "query"));
+        setSlashCommand();
     }
 
     @Override
@@ -33,7 +38,7 @@ public class PlayCmd extends Command {
         } else {
             if (aliceAudioManager.getAudioPlayer(e.getGuild()).isPaused()){
                 aliceAudioManager.getAudioPlayer(e.getGuild()).setPaused(false);
-                e.getChannel().sendMessage(AMessage.CMD_PLAY_TRACK_RESUMED.get(e.getGuild())).complete();
+                e.sendMessageToChannel(AMessage.CMD_PLAY_TRACK_RESUMED.get(e.getGuild()));
                 return true;
             }
         }

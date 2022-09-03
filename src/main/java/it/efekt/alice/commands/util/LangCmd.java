@@ -33,7 +33,7 @@ public class LangCmd extends Command {
         if (getArgs().length == 1 && isLang(getArgs()[0])){
             LangCode langCode = LangCode.valueOf(getArgs()[0]);
             setGuildLanguage(e.getGuild(), langCode);
-            e.getChannel().sendMessage(AMessage.CMD_LANG_LANGUAGE_CHANGED.get(e, langCode.name())).complete();
+            e.sendMessageToChannel(AMessage.CMD_LANG_LANGUAGE_CHANGED.get(e, langCode.name()));
             return true;
         }
         return false;
@@ -51,7 +51,7 @@ public class LangCmd extends Command {
      }
 
      private void showAvailableLanguages(CombinedCommandEvent e){
-         e.getChannel().sendMessage(AMessage.CMD_LANG_AVAILABLE_LANGS.get(e, String.join(" ", getLangValues()))).queue();
+         e.sendMessageToChannel(AMessage.CMD_LANG_AVAILABLE_LANGS.get(e, String.join(" ", getLangValues())));
      }
 
      private void setGuildLanguage(Guild guild, LangCode langCode){

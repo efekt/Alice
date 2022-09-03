@@ -12,6 +12,7 @@ public class PingCmd extends Command {
         super(alias);
         setCategory(CommandCategory.UTILS);
         setDescription(AMessage.CMD_PING_DESC);
+        setSlashCommand();
     }
 
     @Override

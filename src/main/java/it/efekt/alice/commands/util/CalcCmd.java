@@ -6,6 +6,8 @@ import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.lang.AMessage;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
 public class CalcCmd extends Command {
     public CalcCmd(String alias) {
@@ -13,6 +15,9 @@ public class CalcCmd extends Command {
         setCategory(CommandCategory.UTILS);
         setDescription(AMessage.CMD_CALC_DESC);
         setShortUsageInfo(AMessage.CMD_CALC_SHORT_USAGE_INFO);
+
+        optionData.add(new OptionData(OptionType.STRING, "query", "query", true));
+        setSlashCommand();
     }
 
     @Override
@@ -24,9 +29,9 @@ public class CalcCmd extends Command {
         String expressionString = String.join(" ", getArgs());
 
         try {
-            e.getChannel().sendMessage(new Expression(expressionString).eval().toString()).complete();
-        } catch (Expression.ExpressionException exc){
-            e.getChannel().sendMessage(exc.getLocalizedMessage()).complete();
+            e.sendMessageToChannel(expressionString + "=" + new Expression(expressionString).eval().toString());
+        } catch (Expression.ExpressionException | ArithmeticException exc){
+            e.sendMessageToChannel(exc.getLocalizedMessage());
         }
         return true;
     }

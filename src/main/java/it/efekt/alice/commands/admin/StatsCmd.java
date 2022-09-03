@@ -6,7 +6,6 @@ import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.Alice;
 import it.efekt.alice.core.AliceBootstrap;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -19,6 +18,8 @@ public class StatsCmd extends Command {
         setCategory(CommandCategory.BOT_ADMIN);
         setIsAdminCommand(true);
         setIsVoteRequired(true);
+
+        //setSlashCommand();
     }
 
     @Override
@@ -63,7 +64,7 @@ public class StatsCmd extends Command {
         builder.addField("Current threads", String.valueOf(Thread.activeCount()), false);
         builder.addField("Uptime", days + "d " + hours + "h " + minutes + "m " + seconds + "s ", true);
         builder.addField("Startup time", df.format(startupTime), true);
-        e.getChannel().sendMessageEmbeds(builder.build()).complete();
+        e.sendEmbeddedMessageToChannel(builder.build());
         return true;
     }
 }

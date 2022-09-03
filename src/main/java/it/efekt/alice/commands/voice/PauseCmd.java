@@ -14,6 +14,8 @@ public class PauseCmd extends Command {
         super(alias);
         setCategory(CommandCategory.VOICE);
         setDescription(AMessage.CMD_PAUSE_DESC);
+
+        setSlashCommand();
     }
 
     @Override
@@ -23,14 +25,16 @@ public class PauseCmd extends Command {
         if (audioPlayer.getPlayingTrack() != null){
             if (!audioPlayer.isPaused()){
                 audioPlayer.setPaused(true);
-                e.getChannel().sendMessage(AMessage.CMD_PAUSE_PAUSED.get(e)).complete();
+                e.sendMessageToChannel(AMessage.CMD_PAUSE_PAUSED.get(e));
                 return true;
             } else {
                 audioPlayer.setPaused(false);
-                e.getChannel().sendMessage(AMessage.CMD_PLAY_TRACK_RESUMED.get(e)).complete();
+                e.sendMessageToChannel(AMessage.CMD_PLAY_TRACK_RESUMED.get(e));
                 return true;
             }
         }
+        //No confirmation here for slash
+        e.sendSlashConfirmation(AMessage.CMD_PAUSE_DESC.get(e));
         return true;
     }
 }

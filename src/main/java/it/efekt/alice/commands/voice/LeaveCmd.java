@@ -13,6 +13,8 @@ public class LeaveCmd extends Command {
         super(alias);
         setCategory(CommandCategory.VOICE);
         setDescription(AMessage.CMD_LEAVE_DESC);
+
+        setSlashCommand();
     }
 
     @Override
@@ -20,11 +22,11 @@ public class LeaveCmd extends Command {
         AudioManager audioManager = e.getGuild().getAudioManager();
         if (audioManager.isConnected()){
             AliceBootstrap.alice.getAliceAudioManager().closeAudioConnAndUnload(e.getGuild());
-            e.getChannel().sendMessage(AMessage.CMD_LEAVE_LEFT.get(e)).complete();
+            e.sendMessageToChannel(AMessage.CMD_LEAVE_LEFT.get(e));
             return true;
         }
 
-        e.getChannel().sendMessage(AMessage.CMD_LEAVE_NOT_CONNECTED.get(e)).complete();
+        e.sendMessageToChannel(AMessage.CMD_LEAVE_NOT_CONNECTED.get(e));
         return true;
     }
 }

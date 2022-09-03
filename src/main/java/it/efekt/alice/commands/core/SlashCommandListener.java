@@ -13,6 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class SlashCommandListener extends ListenerAdapter
@@ -106,10 +107,10 @@ public class SlashCommandListener extends ListenerAdapter
                                 .setDescription(AMessage.VOTE_REQUIRED_INFO.get(combinedCommandEvent) + VoteCmd.VOTE_URL)
                                 .build()).queue();
                     }
-                    cmd.args = args.stream().map(OptionMapping::getName).toArray(String[]::new);
-                    e.getChannel().sendTyping().queue();
+                    cmd.args = String.join(" ",args.stream().map(OptionMapping::getAsString).toArray(String[]::new)).split(" ");
+                    e.deferReply().queue();
                     cmd.execute(combinedCommandEvent);
-                    this.logger.info("User: " + e.getUser().getName() + " id:" + e.getUser().getId() + " is requesting cmd: " + cmdAlias  +" took: " + (System.currentTimeMillis() - commandStartTime) + "ms");
+                    this.logger.info("User: " + e.getUser().getName() + " id:" + e.getUser().getId() + " is requesting cmd: " + cmdAlias + " args: "+ Arrays.toString(cmd.args) +" took: " + (System.currentTimeMillis() - commandStartTime) + "ms");
                 }
 
             }

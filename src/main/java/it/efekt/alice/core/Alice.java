@@ -33,10 +33,8 @@ import it.efekt.alice.modules.mentions.Greetings;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.requests.restaction.CommandCreateAction;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
-import net.dv8tion.jda.internal.interactions.CommandDataImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -87,57 +85,60 @@ public class Alice {
 
     public void registerSlashCommands()
     {
-        Guild guild = shardManager.getGuildById("823611908623958046");
+        Guild guild = shardManager.getGuildById("734146627174137976");
 
         for (Command c : cmdManager.getCommands().values())
         {
-            guild.upsertCommand(c.getAlias(), c.getDesc().get(new Language(LangCode.en_US))).queue();
+            if(c.isSlashCommand())
+            {
+                guild.upsertCommand(c.getCommandData()).queue();
+            }
         }
     }
 
     public void registerCommands(){
         getCmdManager().addCommand(new PingCmd("ping"));
         getCmdManager().addCommand(new HelpCmd("help"));
-//        getCmdManager().addCommand(new PrefixCmd("prefix"));
-        getCmdManager().addCommand(new TomekCmd("tomek"));
-        getCmdManager().addCommand(new TomaszCmd("tomasz"));
-//        getCmdManager().addCommand(new AsunaCmd("asuna"));
-//        getCmdManager().addCommand(new NekoCmd("neko"));
-//        getCmdManager().addCommand(new KojimaCmd("kojima"));
-//        getCmdManager().addCommand(new HentaiCmd("h"));
-//        getCmdManager().addCommand(new StopCmd("stop"));
-//        getCmdManager().addCommand(new StatusCmd("status"));
-//        getCmdManager().addCommand(new HistoryDeletionCmd("clean"));
-//        getCmdManager().addCommand(new GuildLoggerCmd("logger"));
-//        getCmdManager().addCommand(new UserInfoCmd("info"));
-//        getCmdManager().addCommand(new TopCmd("top"));
-//        getCmdManager().addCommand(new ApexStatsCmd("apex"));
-//        getCmdManager().addCommand(new MinecraftStatusCmd("mc"));
-//        getCmdManager().addCommand(new FeaturesCmd("cmd"));
-//        getCmdManager().addCommand(new LangCmd("lang"));
-//        getCmdManager().addCommand(new RandomWaifuCmd("random-waifu"));
-//        getCmdManager().addCommand(new GameStatsCmd("topgames"));
-//        getCmdManager().addCommand(new LoliCmd("loli"));
-//        getCmdManager().addCommand(new WikiCmd("wiki"));
-//        getCmdManager().addCommand(new JoinCmd("join"));
-//        getCmdManager().addCommand(new LeaveCmd("leave"));
-//        getCmdManager().addCommand(new PlayCmd("play"));
-//        getCmdManager().addCommand(new NowPlayingCmd("np"));
-//        getCmdManager().addCommand(new PauseCmd("pause"));
-//        getCmdManager().addCommand(new CalcCmd("calc"));
-        //getCmdManager().setExecutor(new RecordCmd("rec"));
-//        getCmdManager().addCommand(new ImgOnlyCmd("img-only"));
-//        getCmdManager().addCommand(new StatsCmd("stats"));
-//        getCmdManager().addCommand(new BlacklistReload("topgames-blacklist"));
-//        getCmdManager().addCommand(new ServersCmd("servers"));
-//        getCmdManager().addCommand(new PlayAgainCmd("playa"));
-//        getCmdManager().addCommand(new ReplyCmd("reply"));
-//        getCmdManager().addCommand(new TimezoneCmd("timezone"));
-//        getCmdManager().addCommand(new AnimeCharacterCmd("a"));
-//        getCmdManager().addCommand(new VoteCmd("vote"));
-//        getCmdManager().addCommand(new SkipCmd("skip"));
-//        getCmdManager().addCommand(new ChooseCommand("choose"));
-//        getCmdManager().addCommand(new OptCommand("opt"));
+        getCmdManager().addCommand(new PrefixCmd("prefix")); //excluded
+        getCmdManager().addCommand(new TomekCmd("tomek")); //excluded
+        getCmdManager().addCommand(new TomaszCmd("tomasz")); //excluded
+        getCmdManager().addCommand(new AsunaCmd("asuna"));
+        getCmdManager().addCommand(new NekoCmd("neko"));
+        getCmdManager().addCommand(new KojimaCmd("kojima")); //excluded
+        getCmdManager().addCommand(new HentaiCmd("h"));
+        getCmdManager().addCommand(new StopCmd("stop")); //excluded
+        getCmdManager().addCommand(new StatusCmd("status")); //excluded
+        getCmdManager().addCommand(new HistoryDeletionCmd("clean"));
+        getCmdManager().addCommand(new GuildLoggerCmd("logger"));
+        getCmdManager().addCommand(new UserInfoCmd("info"));
+        getCmdManager().addCommand(new TopCmd("top")); //excluded
+        getCmdManager().addCommand(new ApexStatsCmd("apex"));
+        getCmdManager().addCommand(new MinecraftStatusCmd("mc"));
+        getCmdManager().addCommand(new FeaturesCmd("cmd")); //excluded
+        getCmdManager().addCommand(new LangCmd("lang")); //excluded
+        getCmdManager().addCommand(new RandomWaifuCmd("randomwaifu"));
+        getCmdManager().addCommand(new GameStatsCmd("topgames")); //excluded
+        getCmdManager().addCommand(new LoliCmd("loli")); //excluded
+        getCmdManager().addCommand(new WikiCmd("wiki"));
+        getCmdManager().addCommand(new JoinCmd("join"));
+        getCmdManager().addCommand(new LeaveCmd("leave"));
+        getCmdManager().addCommand(new PlayCmd("play"));
+        getCmdManager().addCommand(new NowPlayingCmd("np"));
+        getCmdManager().addCommand(new PauseCmd("pause"));
+        getCmdManager().addCommand(new CalcCmd("calc"));
+//        getCmdManager().setExecutor(new RecordCmd("rec")); //deprecated
+        getCmdManager().addCommand(new ImgOnlyCmd("img-only")); //excluded
+        getCmdManager().addCommand(new StatsCmd("stats")); //excluded there is no description
+        getCmdManager().addCommand(new BlacklistReload("topgames-blacklist")); //excluded
+        getCmdManager().addCommand(new ServersCmd("servers")); //excluded
+        getCmdManager().addCommand(new PlayAgainCmd("playa"));
+        getCmdManager().addCommand(new ReplyCmd("reply")); //excluded
+        getCmdManager().addCommand(new TimezoneCmd("timezone"));
+        getCmdManager().addCommand(new AnimeCharacterCmd("a"));
+        getCmdManager().addCommand(new VoteCmd("vote")); // exclude ??
+        getCmdManager().addCommand(new SkipCmd("skip"));
+        getCmdManager().addCommand(new ChooseCommand("choose"));
+        getCmdManager().addCommand(new OptCommand("opt")); //exclude
     }
 
     public void startSchedulers(){

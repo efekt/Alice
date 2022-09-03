@@ -26,6 +26,7 @@ public class AsunaCmd extends Command {
         super(alias);
         setDescription(AMessage.CMD_ASUNA_DESC);
         setCategory(CommandCategory.FUN);
+        setSlashCommand();
     }
 
     @Override
@@ -65,7 +66,7 @@ public class AsunaCmd extends Command {
             Random rand = new Random();
             embedBuilder.setImage(urls.get(rand.nextInt(urls.size())));
             embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
-            e.getChannel().sendMessageEmbeds(embedBuilder.build()).complete();
+            e.sendEmbeddedMessageToChannel(embedBuilder.build());
             return true;
         } catch(IOException exc){
             exc.printStackTrace();

@@ -10,6 +10,10 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
+import net.dv8tion.jda.api.interactions.DiscordLocale;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import org.discordbots.api.client.DiscordBotListAPI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +42,10 @@ public abstract class Command {
     protected HashMap<String, Long> usersTimeVoted = new HashMap<>();
     protected CommandCategory category = CommandCategory.BLANK;
 
+    protected boolean isSlashCommand = false;
+    protected SlashCommandData commandData;
+    protected List<OptionData> optionData = new ArrayList<>();
+
     public Command(String alias){
         this.alias = alias;
     }
@@ -52,11 +60,11 @@ public abstract class Command {
             }
             try {
                 if (!this.onCommand(e)) {
-                    e.getChannel().sendMessage(AMessage.CMD_CHECK_IF_IS_CORRECT.get(e, "Type `<help` `" + getAlias() + "` to see the command's help")).queue();
+                    e.sendMessageToChannel(AMessage.CMD_CHECK_IF_IS_CORRECT.get(e, "Type `<help` `" + getAlias() + "` to see the command's help"));
                     return;
                 }
             } catch (InsufficientPermissionException exc){
-                e.getChannel().sendMessage(AMessage.PERMISSION_NEEDED.get(e, exc.getPermission().name())).queue();
+                e.sendMessageToChannel(AMessage.PERMISSION_NEEDED.get(e, exc.getPermission().name()));
             }
 
         };
@@ -162,6 +170,23 @@ public abstract class Command {
         return AliceBootstrap.alice.getLanguageManager().getLang(LangCode.valueOf(locale));
     }
 
+    protected void setSlashCommand()
+    {
+        isSlashCommand = true;
+        commandData = Commands.slash(alias, desc.get(AliceBootstrap.alice.getLanguageManager().getLang(LangCode.en_US)));
+        if(!optionData.isEmpty()) commandData.addOptions(optionData);
+        commandData.setDescriptionLocalization(DiscordLocale.POLISH, desc.get(AliceBootstrap.alice.getLanguageManager().getLang(LangCode.pl_PL)));
+    }
+
+    public boolean isSlashCommand()
+    {
+        return isSlashCommand;
+    }
+
+    public SlashCommandData getCommandData()
+    {
+        return commandData;
+    }
 
     protected boolean hasVoted(String userId){
 

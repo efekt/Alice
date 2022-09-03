@@ -21,6 +21,8 @@ public class NowPlayingCmd extends Command {
         super(alias);
         setCategory(CommandCategory.VOICE);
         setDescription(AMessage.CMD_NOWPLAYING_DESC);
+
+        setSlashCommand();
     }
 
     @Override
@@ -32,7 +34,7 @@ public class NowPlayingCmd extends Command {
         int queueSize = trackScheduler.getQueue().size();
 
         if (trackScheduler.getAudioPlayer().getPlayingTrack() == null){
-            e.getChannel().sendMessage(AMessage.CMD_NOWPLAYING_NOTHING.get(e)).complete();
+            e.sendMessageToChannel(AMessage.CMD_NOWPLAYING_NOTHING.get(e));
             return true;
         }
 
@@ -93,7 +95,7 @@ public class NowPlayingCmd extends Command {
         }
 
         embedBuilder.addField(playingNowInfo, output, false);
-        e.getChannel().sendMessageEmbeds(embedBuilder.build()).complete();
+        e.sendEmbeddedMessageToChannel(embedBuilder.build());
 
         return true;
     }

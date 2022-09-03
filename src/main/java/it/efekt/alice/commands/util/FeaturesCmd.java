@@ -8,6 +8,8 @@ import it.efekt.alice.lang.AMessage;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
 import java.util.HashMap;
 
@@ -33,24 +35,24 @@ public class FeaturesCmd extends Command {
             String chosenAlias = getArgs()[1];
 
             if (chosenAlias == null || chosenAlias.isEmpty() || !cmds.containsKey(chosenAlias)){
-                e.getChannel().sendMessage(AMessage.CMD_FEATURES_WRONG_FEATURE_GIVEN.get(e)).complete();
+                e.sendMessageToChannel(AMessage.CMD_FEATURES_WRONG_FEATURE_GIVEN.get(e));
                 return true;
             }
 
             if (chosenAlias.equalsIgnoreCase(getAlias())){
-                e.getChannel().sendMessage(AMessage.CMD_FEATURES_CANNOT_DISABLE.get(e)).complete();
+                e.sendMessageToChannel(AMessage.CMD_FEATURES_CANNOT_DISABLE.get(e));
                 return true;
             }
 
             if (arg.equalsIgnoreCase("disable")){
                 AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild()).setCmdDisabled(chosenAlias);
-                e.getChannel().sendMessage(AMessage.CMD_FEATURES_HAS_BEEN_DISABLED.get(e, chosenAlias)).complete();
+                e.sendMessageToChannel(AMessage.CMD_FEATURES_HAS_BEEN_DISABLED.get(e, chosenAlias));
                 return true;
             }
 
             if (arg.equalsIgnoreCase("enable")){
                 AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild()).setCmdEnabled(chosenAlias);
-                e.getChannel().sendMessage(AMessage.CMD_FEATURES_HAS_BEEN_ENABLED.get(e, chosenAlias)).complete();
+                e.sendMessageToChannel(AMessage.CMD_FEATURES_HAS_BEEN_ENABLED.get(e, chosenAlias));
                 return true;
             }
         }
@@ -70,6 +72,6 @@ public class FeaturesCmd extends Command {
 
             embedBuilder.addField(featureStatus + cmd.getAlias(), "", false);
         }
-        e.getChannel().sendMessageEmbeds(embedBuilder.build()).complete();
+        e.sendEmbeddedMessageToChannel(embedBuilder.build());
     }
 }

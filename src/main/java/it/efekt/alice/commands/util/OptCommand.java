@@ -9,7 +9,6 @@ import it.efekt.alice.lang.AMessage;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class OptCommand extends Command {
 
@@ -40,19 +39,19 @@ public class OptCommand extends Command {
         switch(feature){
             case "logger":
                 userStats.setLoggerOptedOut(!userStats.isLoggerOptedOut());
-                e.getChannel().sendMessageEmbeds(getOptOutEmbed(guild, userStats)).complete();
+                e.sendEmbeddedMessageToChannel(getOptOutEmbed(guild, userStats));
                 userStats.save();
                 return true;
 
             case "gameStats":
                 userStats.setGameStatsOptedOut(!userStats.isGameStatsOptedOut());
-                e.getChannel().sendMessageEmbeds(getOptOutEmbed(guild, userStats)).complete();
+                e.sendEmbeddedMessageToChannel(getOptOutEmbed(guild, userStats));
                 userStats.save();
                 return true;
 
             case "spamLvl":
                 userStats.setSpamLvlOptedOut(!userStats.isSpamLvlOptedOut());
-                e.getChannel().sendMessageEmbeds(getOptOutEmbed(guild, userStats)).complete();
+                e.sendEmbeddedMessageToChannel(getOptOutEmbed(guild, userStats));
                 userStats.save();
                 return true;
 

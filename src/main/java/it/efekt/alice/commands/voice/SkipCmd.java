@@ -14,6 +14,8 @@ public class SkipCmd extends Command {
         super(alias);
         setCategory(CommandCategory.VOICE);
         setDescription(AMessage.CMD_SKIP_DESC);
+
+        setSlashCommand();
     }
 
     @Override
@@ -25,11 +27,11 @@ public class SkipCmd extends Command {
 
         // if there is nothing in queue
         if (queueSize == 0){
-            e.getChannel().sendMessage(AMessage.CMD_SKIP_NOTHING_TO_SKIP_TO.get(e)).complete();
+            e.sendMessageToChannel(AMessage.CMD_SKIP_NOTHING_TO_SKIP_TO.get(e));
             return true;
         } else {
             trackScheduler.playNextTrack();
-            e.getChannel().sendMessage(AMessage.CMD_SKIP_SKIPPING.get(e)).complete();
+            e.sendMessageToChannel(AMessage.CMD_SKIP_SKIPPING.get(e));
             return true;
         }
     }

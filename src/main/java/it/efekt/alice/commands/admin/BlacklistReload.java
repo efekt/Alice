@@ -23,9 +23,9 @@ public class BlacklistReload extends Command {
                 GameStatsCmd gameStatsCmd = (GameStatsCmd) AliceBootstrap.alice.getCmdManager().getCommand("topgames");
                 try {
                     gameStatsCmd.loadBlacklist();
-                    e.getChannel().sendMessage("Games blacklist reloaded.").complete();
+                    e.sendMessageToChannel("Games blacklist reloaded.");
                 } catch (FileNotFoundException e1) {
-                    e.getChannel().sendMessage("Couldn't find game blacklist file.").complete();
+                    e.sendMessageToChannel("Couldn't find game blacklist file.");
                 }
                 return true;
             }

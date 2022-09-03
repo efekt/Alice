@@ -16,6 +16,7 @@ public class NekoCmd extends Command {
         setDescription(AMessage.CMD_NEKO_DESC);
         setCategory(CommandCategory.NSFW);
         setNsfw(true);
+        setSlashCommand();
     }
 
     @Override

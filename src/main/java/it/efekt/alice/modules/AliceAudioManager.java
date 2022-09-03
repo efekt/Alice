@@ -174,7 +174,7 @@ public class AliceAudioManager {
         // if guild/user rate limit is being met, do not allow alice to even try to load a new track
 
         if (getTrackScheduler(e.getGuild()).getQueue().size() >= this.MAX_QUEUE_SIZE){
-            e.getChannel().sendMessage("You can queue max up to " + this.MAX_QUEUE_SIZE + " tracks").complete();
+            e.sendMessageToChannel("You can queue max up to " + this.MAX_QUEUE_SIZE + " tracks");
             return;
         }
 
@@ -199,7 +199,7 @@ public class AliceAudioManager {
                     getAudioPlayer(e.getGuild()).destroy();
                 }
 
-                e.getChannel().sendMessage(AMessage.VOICE_NOTHING_FOUND.get(e.getGuild())).complete();
+                e.sendMessageToChannel(AMessage.VOICE_NOTHING_FOUND.get(e.getGuild()));
             }
 
             @Override
@@ -210,20 +210,20 @@ public class AliceAudioManager {
                 }
 
                 exc.printStackTrace();
-                e.getChannel().sendMessage(AMessage.VOICE_LOADING_FAILED.get(e.getGuild()) + "\n"+exc.getLocalizedMessage()).complete();
+                e.sendMessageToChannel(AMessage.VOICE_LOADING_FAILED.get(e.getGuild()) + "\n"+exc.getLocalizedMessage());
                 if (isValidURL(content)){
-                    e.getChannel().sendMessage("Please try using keywords instead of the direct url").complete();
+                    e.sendMessageToChannel("Please try using keywords instead of the direct url");
                 }
 
                 if (exc.getMessage() != null){
                     // on youtube block
                     if (exc.getMessage().contains("Loading information for a YouTube track failed.") && exc.getCause() != null && exc.getCause().getMessage().contains("YouTube rate limit reached")){
-                        e.getChannel().sendMessage(AMessage.VOICE_LOADING_RATE_LIMITED.get(e.getGuild())).complete();
+                        e.sendMessageToChannel(AMessage.VOICE_LOADING_RATE_LIMITED.get(e.getGuild()));
                     }
 
                     // On retry limit
                     if (exc.getMessage().contains("Loading information for a YouTube track failed.") && exc.getCause() != null && exc.getCause().getMessage().contains("Retry aborted, too many retries on ratelimit.")){
-                        e.getChannel().sendMessage(AMessage.VOICE_LOADING_RATE_LIMITED.get(e.getGuild())).complete();
+                        e.sendMessageToChannel(AMessage.VOICE_LOADING_RATE_LIMITED.get(e.getGuild()));
                     }
                 }
             }
@@ -237,7 +237,7 @@ public class AliceAudioManager {
         embedBuilder.addField(AMessage.CMD_PLAY_LOADED_AND_QUEUED.get(e), "", false);
         String prefix = AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild()).getPrefix();
         embedBuilder.setFooter(prefix + AMessage.CMD_PLAY_LOADED_FOOTER.get(e, "np"), e.getJDA().getSelfUser().getEffectiveAvatarUrl());
-        e.getChannel().sendMessageEmbeds(embedBuilder.build()).complete();
+        e.sendEmbeddedMessageToChannel(embedBuilder.build());
     }
 
     public void closeAudioConnAndUnload(Guild guild){

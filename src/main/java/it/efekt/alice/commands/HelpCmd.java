@@ -8,6 +8,9 @@ import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.lang.AMessage;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +21,9 @@ public class HelpCmd extends Command {
         setShortUsageInfo(AMessage.CMD_HELP_SHORT_USAGE_INFO);
         setDescription(AMessage.CMD_HELP_DESCRIPTION);
         setCategory(CommandCategory.UTILS);
+
+        optionData.add(new OptionData(OptionType.STRING, "command", "command", false));
+        setSlashCommand();
     }
 
     @Override

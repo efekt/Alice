@@ -14,6 +14,8 @@ public class JoinCmd extends Command {
         super(alias);
         setCategory(CommandCategory.VOICE);
         setDescription(AMessage.CMD_JOIN_DESC);
+
+        setSlashCommand();
     }
 
     @Override
@@ -21,17 +23,18 @@ public class JoinCmd extends Command {
 
         if (e.getMember().getVoiceState().inAudioChannel()){
             if (e.getGuild().getAudioManager().isConnected() && e.getMember().getVoiceState().getChannel().getId().equalsIgnoreCase(e.getGuild().getAudioManager().getConnectedChannel().getId())){
-                return true;
+                e.sendSlashConfirmation(AMessage.CMD_JOIN_DESC.get(e));
+                return true; //What is this return and check, confirmation is needed here for slash command
             }
 
 
             AudioChannel voiceChannel = e.getMember().getVoiceState().getChannel();
             AudioManager audioManager = e.getGuild().getAudioManager();
             audioManager.openAudioConnection(voiceChannel);
-            e.getChannel().sendMessage(AMessage.CMD_JOIN_JOINED.get(e, voiceChannel.getName())).complete();
+            e.sendMessageToChannel(AMessage.CMD_JOIN_JOINED.get(e, voiceChannel.getName()));
             return true;
         } else {
-            e.getChannel().sendMessage(AMessage.CMD_JOIN_USER_NOT_CONNECTED.get(e)).complete();
+            e.sendMessageToChannel(AMessage.CMD_JOIN_USER_NOT_CONNECTED.get(e));
             return true;
         }
     }
