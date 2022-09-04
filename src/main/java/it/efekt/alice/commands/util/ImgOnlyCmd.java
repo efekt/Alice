@@ -17,6 +17,8 @@ public class ImgOnlyCmd extends Command {
         setCategory(CommandCategory.DISCORD_ADMIN_UTILS);
         setDescription(AMessage.CMD_IMGONLY_DESC);
         setFullUsageInfo(AMessage.CMD_IMGONLY_FULL_USAGE_INFO);
+
+        setSlashCommand();
     }
 
     @Override
@@ -25,10 +27,10 @@ public class ImgOnlyCmd extends Command {
 
         if (textChannelConfig.isImgOnly()){
             textChannelConfig.setImgOnly(false);
-            e.getChannel().sendMessage("disabled image only channel (this message will delete itself)").complete().delete().completeAfter(1, TimeUnit.SECONDS);
+            e.sendMessageToChannel("disabled image only channel (this message will delete itself)").delete().completeAfter(1, TimeUnit.SECONDS);
         } else {
             textChannelConfig.setImgOnly(true);
-            e.getChannel().sendMessage("enabled image only channel (this message will delete itself)").complete().delete().completeAfter(5, TimeUnit.SECONDS);
+            e.sendMessageToChannel("enabled image only channel (this message will delete itself)").delete().completeAfter(5, TimeUnit.SECONDS);
         }
         return true;
     }

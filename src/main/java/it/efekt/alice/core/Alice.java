@@ -20,8 +20,6 @@ import it.efekt.alice.db.GameStatsManager;
 import it.efekt.alice.db.GuildConfigManager;
 import it.efekt.alice.db.TextChannelConfigManager;
 import it.efekt.alice.db.UserStatsManager;
-import it.efekt.alice.lang.LangCode;
-import it.efekt.alice.lang.Language;
 import it.efekt.alice.lang.LanguageManager;
 import it.efekt.alice.listeners.AnalyticsListener;
 import it.efekt.alice.listeners.GameListener;
@@ -33,6 +31,7 @@ import it.efekt.alice.modules.mentions.Greetings;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import org.slf4j.Logger;
@@ -85,13 +84,16 @@ public class Alice {
 
     public void registerSlashCommands()
     {
-        Guild guild = shardManager.getGuildById("734146627174137976");
+//        Guild jda = shardManager.getGuildById("823611908623958046");
 
-        for (Command c : cmdManager.getCommands().values())
+        for (JDA jda : shardManager.getShards())
         {
-            if(c.isSlashCommand())
+            for (Command c : cmdManager.getCommands().values())
             {
-                guild.upsertCommand(c.getCommandData()).queue();
+                if (c.isSlashCommand())
+                {
+                    jda.upsertCommand(c.getCommandData()).queue();
+                }
             }
         }
     }
@@ -111,13 +113,13 @@ public class Alice {
         getCmdManager().addCommand(new HistoryDeletionCmd("clean"));
         getCmdManager().addCommand(new GuildLoggerCmd("logger"));
         getCmdManager().addCommand(new UserInfoCmd("info"));
-        getCmdManager().addCommand(new TopCmd("top")); //excluded
+        getCmdManager().addCommand(new TopCmd("top"));
         getCmdManager().addCommand(new ApexStatsCmd("apex"));
         getCmdManager().addCommand(new MinecraftStatusCmd("mc"));
         getCmdManager().addCommand(new FeaturesCmd("cmd")); //excluded
-        getCmdManager().addCommand(new LangCmd("lang")); //excluded
+        getCmdManager().addCommand(new LangCmd("lang"));
         getCmdManager().addCommand(new RandomWaifuCmd("randomwaifu"));
-        getCmdManager().addCommand(new GameStatsCmd("topgames")); //excluded
+        getCmdManager().addCommand(new GameStatsCmd("topgames"));
         getCmdManager().addCommand(new LoliCmd("loli")); //excluded
         getCmdManager().addCommand(new WikiCmd("wiki"));
         getCmdManager().addCommand(new JoinCmd("join"));
@@ -127,7 +129,7 @@ public class Alice {
         getCmdManager().addCommand(new PauseCmd("pause"));
         getCmdManager().addCommand(new CalcCmd("calc"));
 //        getCmdManager().setExecutor(new RecordCmd("rec")); //deprecated
-        getCmdManager().addCommand(new ImgOnlyCmd("img-only")); //excluded
+        getCmdManager().addCommand(new ImgOnlyCmd("img-only"));
         getCmdManager().addCommand(new StatsCmd("stats")); //excluded there is no description
         getCmdManager().addCommand(new BlacklistReload("topgames-blacklist")); //excluded
         getCmdManager().addCommand(new ServersCmd("servers")); //excluded
@@ -135,10 +137,10 @@ public class Alice {
         getCmdManager().addCommand(new ReplyCmd("reply")); //excluded
         getCmdManager().addCommand(new TimezoneCmd("timezone"));
         getCmdManager().addCommand(new AnimeCharacterCmd("a"));
-        getCmdManager().addCommand(new VoteCmd("vote")); // exclude ??
+        getCmdManager().addCommand(new VoteCmd("vote"));
         getCmdManager().addCommand(new SkipCmd("skip"));
         getCmdManager().addCommand(new ChooseCommand("choose"));
-        getCmdManager().addCommand(new OptCommand("opt")); //exclude
+        getCmdManager().addCommand(new OptCommand("opt"));
     }
 
     public void startSchedulers(){
@@ -198,6 +200,9 @@ public class Alice {
                 builder.setShardsTotal(getConfig().getShardsTotal());
                 builder.setActivity(Activity.playing("breaking the seal of the right eye..."));
                 builder.addEventListeners(new ReadyListener());
+                builder.enableIntents(GatewayIntent.MESSAGE_CONTENT); //Intents to be verified
+                builder.enableIntents(GatewayIntent.GUILD_MEMBERS);
+                builder.enableIntents(GatewayIntent.GUILD_PRESENCES);
                 this.shardManager = builder.build();
         } catch (LoginException e) {
             e.printStackTrace();

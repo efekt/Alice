@@ -8,6 +8,8 @@ import it.efekt.alice.lang.LangCode;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,6 +23,9 @@ public class LangCmd extends Command {
         setCategory(CommandCategory.DISCORD_ADMIN_UTILS);
         setDescription(AMessage.CMD_LANG_DESC);
         setShortUsageInfo(AMessage.CMD_LANG_SHORT_USAGE_INFO);
+
+        optionData.add(new OptionData(OptionType.STRING, "lang", "lang", false));
+        setSlashCommand();
     }
 
     @Override

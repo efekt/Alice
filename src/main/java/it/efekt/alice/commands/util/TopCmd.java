@@ -12,7 +12,8 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -26,6 +27,9 @@ public class TopCmd extends Command {
         setDescription(AMessage.CMD_TOP_DESC);
         setShortUsageInfo(AMessage.CMD_TOP_USAGE_INFO);
         setFullUsageInfo(AMessage.CMD_TOP_FULL_USAGE_INFO);
+
+        optionData.add(new OptionData(OptionType.INTEGER, "page", "page", false));
+        setSlashCommand();
     }
 
     @Override
@@ -45,7 +49,7 @@ public class TopCmd extends Command {
        }
 
        if (userStatsList.isEmpty()){
-           e.getChannel().sendMessage(AMessage.CMD_TOP_NOTHING_FOUND.get(e)).complete();
+           e.sendMessageToChannel(AMessage.CMD_TOP_NOTHING_FOUND.get(e));
            return true;
        }
 
@@ -53,7 +57,7 @@ public class TopCmd extends Command {
        int maxPages = (int) Math.ceil((float)userStatsList.size() / (float)MAX_PER_PAGE);
 
        if (page <= 0 || userStatsList.size() < beginIndex){
-           e.getChannel().sendMessage(AMessage.CMD_TOP_WRONG_PAGE.get(e, String.valueOf(maxPages))).complete();
+           e.sendMessageToChannel(AMessage.CMD_TOP_WRONG_PAGE.get(e, String.valueOf(maxPages)));
            return true;
        }
 
@@ -87,7 +91,7 @@ public class TopCmd extends Command {
         }
         embedBuilder.addField("TOP-"+index, list, false);
 
-        e.getChannel().sendMessageEmbeds(embedBuilder.build()).complete();
+        e.sendEmbeddedMessageToChannel(embedBuilder.build());
     }
 
     private List<Message> getAllTextMessagesOnGuild(Guild guild){

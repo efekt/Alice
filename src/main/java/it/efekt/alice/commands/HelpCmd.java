@@ -85,10 +85,15 @@ public class HelpCmd extends Command {
                         continue;
                     }
 
+                    //don't print non slash commands in slash help
+                    if(e.isSlash() && !cmd.isSlashCommand()) {
+                        continue;
+                    }
+
                     if (cmd.canUseCmd(e.getMember())) {
                         String nsfwString = cmd.isNsfw() ? " " + AMessage.CMD_NSFW_NOTIFICATION.get(e): "";
                         String guildPrefix = AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild()).getPrefix();
-                        commandsAliases.add("`" + guildPrefix + cmd.getAlias() + "`");
+                        commandsAliases.add("`" + (e.isSlash() ? "/" : guildPrefix) + cmd.getAlias() + "`");
                     }
                 }
 
@@ -98,7 +103,7 @@ public class HelpCmd extends Command {
                         .replace(",", "");
 
                 embedBuilder.addField(cat.getName(),commandAliasesFormated, false);
-                embedBuilder.setFooter(getGuildPrefix(e.getGuild()) + getAlias() + " " + AMessage.CMD_HELP_FOOTER.get(e), e.getJDA().getSelfUser().getEffectiveAvatarUrl());
+                embedBuilder.setFooter((e.isSlash() ? "/" : getGuildPrefix(e.getGuild())) + getAlias() + " " + AMessage.CMD_HELP_FOOTER.get(e), e.getJDA().getSelfUser().getEffectiveAvatarUrl());
             }
         }
 

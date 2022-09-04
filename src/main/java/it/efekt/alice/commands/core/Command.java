@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 import net.dv8tion.jda.api.interactions.DiscordLocale;
+import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
@@ -61,7 +62,6 @@ public abstract class Command {
             try {
                 if (!this.onCommand(e)) {
                     e.sendMessageToChannel(AMessage.CMD_CHECK_IF_IS_CORRECT.get(e, "Type `<help` `" + getAlias() + "` to see the command's help"));
-                    return;
                 }
             } catch (InsufficientPermissionException exc){
                 e.sendMessageToChannel(AMessage.PERMISSION_NEEDED.get(e, exc.getPermission().name()));
@@ -176,6 +176,7 @@ public abstract class Command {
         commandData = Commands.slash(alias, desc.get(AliceBootstrap.alice.getLanguageManager().getLang(LangCode.en_US)));
         if(!optionData.isEmpty()) commandData.addOptions(optionData);
         commandData.setDescriptionLocalization(DiscordLocale.POLISH, desc.get(AliceBootstrap.alice.getLanguageManager().getLang(LangCode.pl_PL)));
+        commandData.setDefaultPermissions(DefaultMemberPermissions.enabledFor(permissions));
     }
 
     public boolean isSlashCommand()
@@ -189,8 +190,6 @@ public abstract class Command {
     }
 
     protected boolean hasVoted(String userId){
-
-
         if (this.usersTimeVoted.containsKey(userId)) {
             if (TimeUnit.MILLISECONDS.toHours(System.currentTimeMillis() - this.usersTimeVoted.get(userId)) <= 24) {
                 logger.info("user found on the temporary list, true");

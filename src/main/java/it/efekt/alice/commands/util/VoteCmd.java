@@ -12,6 +12,8 @@ public class VoteCmd extends Command {
         super(alias);
         setCategory(CommandCategory.UTILS);
         setDescription(AMessage.CMD_VOTE_DESC);
+
+        setSlashCommand();
     }
 
     @Override

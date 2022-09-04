@@ -6,11 +6,7 @@ import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.utils.FileUpload;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class CombinedCommandEvent
 {
@@ -29,6 +25,11 @@ public class CombinedCommandEvent
     {
         this.slashCommandInteractionEvent = slashCommandInteractionEvent;
         this.isSlash = true;
+    }
+
+    public boolean isSlash()
+    {
+        return isSlash;
     }
 
     public Guild getGuild()
@@ -66,15 +67,15 @@ public class CombinedCommandEvent
         return isSlash ? null : messageReceivedEvent.getMessage();
     }
 
-    public void sendMessageToChannel(String message)
+    public Message sendMessageToChannel(String message)
     {
         if(isSlash)
         {
-            slashCommandInteractionEvent.getHook().sendMessage(message).queue();
+            return slashCommandInteractionEvent.getHook().sendMessage(message).complete();
         }
         else
         {
-            messageReceivedEvent.getChannel().sendMessage(message).complete();
+            return messageReceivedEvent.getChannel().sendMessage(message).complete();
         }
     }
 

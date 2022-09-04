@@ -41,6 +41,8 @@ public class SlashCommandListener extends ListenerAdapter
         CombinedCommandEvent combinedCommandEvent = new CombinedCommandEvent(e);
 
         try {
+            e.deferReply().queue();
+
             List<OptionMapping> allArgs = e.getOptions();
             // getting alias and cmd args accordingly to prefix (mention vs standard prefix)
             if (isMentioningSelf(allArgs) || (e.isFromGuild() )) {
@@ -65,7 +67,7 @@ public class SlashCommandListener extends ListenerAdapter
                     }
                 } else {
                     if (cmd.isPrivateChannelCmd) {
-                        e.getChannel().sendMessage("This command can be used on private channel only.").complete();
+                        combinedCommandEvent.sendMessageToChannel("This command can be used on private channel only.");
                         return;
                     }
                 }
@@ -90,25 +92,26 @@ public class SlashCommandListener extends ListenerAdapter
                 // checking for author is important to filter private message commands, that are for admin only
                 if (e.getUser().getId().equalsIgnoreCase(BOT_AUTHOR_ID) || cmd.canUseCmd(e.getMember())) {
                     if (cmd.isNsfw() && !e.getChannel().asTextChannel().isNSFW()) {
-                        e.getChannel().sendMessageEmbeds(new EmbedBuilder()
+                        combinedCommandEvent.sendEmbeddedMessageToChannel(new EmbedBuilder()
                                 .setThumbnail("https://i.imgur.com/L3o8Xq0.jpg")
                                 .setTitle(AMessage.CMD_THIS_IS_NSFW_CMD.get(combinedCommandEvent))
                                 .setColor(AliceBootstrap.EMBED_COLOR)
                                 .setDescription(AMessage.CMD_NSFW_ALLOWED_ONLY.get(combinedCommandEvent))
-                                .build()).queue();
+                                .build());
                         return; // nsfw content on not-nsfw channel
                     }
 
                     // check if user-vote is required in order to execute this command
                     if (cmd.isVoteRequired && !cmd.hasVoted(e.getUser().getId())){
-                        e.getChannel().sendMessageEmbeds(new EmbedBuilder()
+                        combinedCommandEvent.sendEmbeddedMessageToChannel(new EmbedBuilder()
                                 .setTitle(AMessage.VOTE_REQUIRED_TITLE.get(combinedCommandEvent))
                                 .setColor(AliceBootstrap.EMBED_COLOR)
                                 .setDescription(AMessage.VOTE_REQUIRED_INFO.get(combinedCommandEvent) + VoteCmd.VOTE_URL)
-                                .build()).queue();
+                                .build());
                     }
                     cmd.args = String.join(" ",args.stream().map(OptionMapping::getAsString).toArray(String[]::new)).split(" ");
-                    e.deferReply().queue();
+                    if(cmd.args.length == 1 && cmd.args[0].length() == 0) cmd.args = new String[0];
+
                     cmd.execute(combinedCommandEvent);
                     this.logger.info("User: " + e.getUser().getName() + " id:" + e.getUser().getId() + " is requesting cmd: " + cmdAlias + " args: "+ Arrays.toString(cmd.args) +" took: " + (System.currentTimeMillis() - commandStartTime) + "ms");
                 }

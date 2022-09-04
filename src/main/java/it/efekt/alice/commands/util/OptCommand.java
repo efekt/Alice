@@ -9,6 +9,8 @@ import it.efekt.alice.lang.AMessage;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
 public class OptCommand extends Command {
 
@@ -16,6 +18,9 @@ public class OptCommand extends Command {
         super(alias);
         setCategory(CommandCategory.UTILS);
         setDescription(AMessage.CMD_OPTOUT_DESC);
+
+        optionData.add(new OptionData(OptionType.STRING, "args", "args", false));
+        setSlashCommand();
     }
 
     @Override
@@ -24,7 +29,7 @@ public class OptCommand extends Command {
 
         if (getArgs().length == 0){
             UserStats userStats = AliceBootstrap.alice.getUserStatsManager().getUserStats(e.getUser(), e.getGuild());
-            e.getChannel().sendMessageEmbeds(getOptOutEmbed(guild, userStats)).complete();
+            e.sendEmbeddedMessageToChannel(getOptOutEmbed(guild, userStats));
             return true;
         }
 
@@ -67,6 +72,7 @@ public class OptCommand extends Command {
         embedBuilder.setTitle(AMessage.CMD_OPTOUT_EMBED_TITLE.get(guild));
         embedBuilder.setDescription(AMessage.CMD_OPTOUT_EMBED_DESC.get(guild));
 
+        //TODO fix prefix
         String loggerCmd = "`"+guildPrefix+"opt logger`";
         String gameStatsCmd = "`"+guildPrefix+"opt gameStats`";
         String spamLvlCmd = "`"+guildPrefix+"opt spamLvl`";
