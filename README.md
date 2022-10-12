@@ -20,7 +20,6 @@
   - various Alice activity  
 - Game time tracking (per server/user)  
 - Game statistics:  
-  - Apex (experimental)  
   - Minecraft (server status)  
 - SpamLevel (counting messages sent by users + levels system)  
 - Customizable (enable/disable any command on a server) 
@@ -29,7 +28,7 @@ and more
 
 ## Commands
 
-You can check all of the available commands on our [wiki](https://github.com/efekt/Alice/wiki/Commands) or by accessing `<help` command after inviting Alice.
+You can check all of the available commands on our [wiki](https://github.com/efekt/Alice/wiki/Commands) or by accessing `/help` command after inviting Alice.
 
 ## Using the Alice bot:
 You can invite her just by clicking [here](https://discord.com/oauth2/authorize?client_id=537011515014774785&scope=bot+applications.commands&permissions=3533920).
