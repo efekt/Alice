@@ -7,7 +7,6 @@ import it.efekt.alice.commands.core.CommandListener;
 import it.efekt.alice.commands.core.CommandManager;
 import it.efekt.alice.commands.core.SlashCommandListener;
 import it.efekt.alice.commands.fun.*;
-import it.efekt.alice.commands.games.ApexStatsCmd;
 import it.efekt.alice.commands.games.GameStatsCmd;
 import it.efekt.alice.commands.games.MinecraftStatusCmd;
 import it.efekt.alice.commands.nsfw.AnimeCharacterCmd;
@@ -30,10 +29,12 @@ import it.efekt.alice.modules.GuildLogger;
 import it.efekt.alice.modules.mentions.Greetings;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Activity;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
+import net.dv8tion.jda.api.utils.ChunkingFilter;
+import net.dv8tion.jda.api.utils.MemberCachePolicy;
+import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -102,11 +103,11 @@ public class Alice {
         getCmdManager().addCommand(new PingCmd("ping"));
         getCmdManager().addCommand(new HelpCmd("help"));
         getCmdManager().addCommand(new PrefixCmd("prefix")); //excluded
-        getCmdManager().addCommand(new TomekCmd("tomek")); //excluded
-        getCmdManager().addCommand(new TomaszCmd("tomasz")); //excluded
+//        getCmdManager().addCommand(new TomekCmd("tomek")); //excluded
+//        getCmdManager().addCommand(new TomaszCmd("tomasz")); //excluded
         getCmdManager().addCommand(new AsunaCmd("asuna"));
         getCmdManager().addCommand(new NekoCmd("neko"));
-        getCmdManager().addCommand(new KojimaCmd("kojima")); //excluded
+//        getCmdManager().addCommand(new KojimaCmd("kojima")); //excluded
         getCmdManager().addCommand(new HentaiCmd("h"));
         getCmdManager().addCommand(new StopCmd("stop")); //excluded
         getCmdManager().addCommand(new StatusCmd("status")); //excluded
@@ -114,13 +115,13 @@ public class Alice {
         getCmdManager().addCommand(new GuildLoggerCmd("logger"));
         getCmdManager().addCommand(new UserInfoCmd("info"));
         getCmdManager().addCommand(new TopCmd("top"));
-        getCmdManager().addCommand(new ApexStatsCmd("apex"));
+//        getCmdManager().addCommand(new ApexStatsCmd("apex"));
         getCmdManager().addCommand(new MinecraftStatusCmd("mc"));
         getCmdManager().addCommand(new FeaturesCmd("cmd")); //excluded
         getCmdManager().addCommand(new LangCmd("lang"));
         getCmdManager().addCommand(new RandomWaifuCmd("randomwaifu"));
         getCmdManager().addCommand(new GameStatsCmd("topgames"));
-        getCmdManager().addCommand(new LoliCmd("loli")); //excluded
+//        getCmdManager().addCommand(new LoliCmd("loli")); //excluded
         getCmdManager().addCommand(new WikiCmd("wiki"));
         getCmdManager().addCommand(new JoinCmd("join"));
         getCmdManager().addCommand(new LeaveCmd("leave"));
@@ -200,9 +201,13 @@ public class Alice {
                 builder.setShardsTotal(getConfig().getShardsTotal());
                 builder.setActivity(Activity.playing("breaking the seal of the right eye..."));
                 builder.addEventListeners(new ReadyListener());
-                builder.enableIntents(GatewayIntent.MESSAGE_CONTENT); //Intents to be verified
+                //builder.enableIntents(GatewayIntent.MESSAGE_CONTENT); //Intents to be verified
                 builder.enableIntents(GatewayIntent.GUILD_MEMBERS);
                 builder.enableIntents(GatewayIntent.GUILD_PRESENCES);
+                builder.setMemberCachePolicy(MemberCachePolicy.ALL);
+                builder.setChunkingFilter(ChunkingFilter.NONE);
+                builder.enableCache(CacheFlag.ONLINE_STATUS, CacheFlag.ACTIVITY);
+
                 this.shardManager = builder.build();
         } catch (LoginException e) {
             e.printStackTrace();

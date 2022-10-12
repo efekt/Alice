@@ -175,7 +175,7 @@ public abstract class Command {
         isSlashCommand = true;
         commandData = Commands.slash(alias, desc.get(AliceBootstrap.alice.getLanguageManager().getLang(LangCode.en_US)));
         if(!optionData.isEmpty()) commandData.addOptions(optionData);
-        commandData.setDescriptionLocalization(DiscordLocale.POLISH, desc.get(AliceBootstrap.alice.getLanguageManager().getLang(LangCode.pl_PL)));
+        commandData.setDescriptionLocalization(DiscordLocale.ENGLISH_US, desc.get(AliceBootstrap.alice.getLanguageManager().getLang(LangCode.en_US)));
         commandData.setDefaultPermissions(DefaultMemberPermissions.enabledFor(permissions));
     }
 
