@@ -1,5 +1,6 @@
 package it.efekt.alice.commands.fun;
 
+import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
@@ -11,6 +12,8 @@ import kong.unirest.UnirestException;
 import kong.unirest.json.JSONObject;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import org.apache.http.client.config.CookieSpecs;
 import java.util.Set;
 
@@ -23,10 +26,13 @@ public class WikiCmd extends Command {
         setCategory(CommandCategory.UTILS);
         setDescription(AMessage.CMD_WIKI_DESC);
         setShortUsageInfo(AMessage.CMD_WIKI_SHORT_USAGE_INFO);
+
+        optionData.add(new OptionData(OptionType.STRING, "query", "query", true));
+        setSlashCommand();
     }
 
     @Override
-    public boolean onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(CombinedCommandEvent e) {
         lang = AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild()).getLocale().split("_", 2)[0];
 
         if (getArgs().length >= 1){
@@ -34,7 +40,7 @@ public class WikiCmd extends Command {
             JSONObject wikiPage = query(query);
 
             if (wikiPage == null){
-                e.getChannel().sendMessage(AMessage.CMD_WIKI_NOT_FOUND.get(e)).complete();
+                e.sendMessageToChannel(AMessage.CMD_WIKI_NOT_FOUND.get(e));
                 return true;
             }
 
@@ -59,7 +65,7 @@ public class WikiCmd extends Command {
             embedBuilder.setDescription(desc);
             embedBuilder.setFooter(AMessage.CMD_WIKI_SOURCE.get(e)+": Wikipedia", WIKIPEDIA_LOGO_URL);
             embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
-            e.getChannel().sendMessage(embedBuilder.build()).complete();
+            e.sendEmbeddedMessageToChannel(embedBuilder.build());
             return true;
         }
         return false;

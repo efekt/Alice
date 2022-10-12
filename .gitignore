@@ -2,3 +2,5 @@ ALICE.iml
 target/
 out/
 .idea
+config.yml
+logs/

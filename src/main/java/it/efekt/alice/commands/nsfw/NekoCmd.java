@@ -1,5 +1,6 @@
 package it.efekt.alice.commands.nsfw;
 
+import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.lang.AMessage;
@@ -15,10 +16,11 @@ public class NekoCmd extends Command {
         setDescription(AMessage.CMD_NEKO_DESC);
         setCategory(CommandCategory.NSFW);
         setNsfw(true);
+        setSlashCommand();
     }
 
     @Override
-    public boolean onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(CombinedCommandEvent e) {
         danbooru.sendPicture(e, DanbooruRating.SAFE, "cat_girl");
         return true;
     }

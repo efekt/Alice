@@ -1,5 +1,6 @@
 package it.efekt.alice.commands.voice;
 
+import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
@@ -13,10 +14,12 @@ public class SkipCmd extends Command {
         super(alias);
         setCategory(CommandCategory.VOICE);
         setDescription(AMessage.CMD_SKIP_DESC);
+
+        setSlashCommand();
     }
 
     @Override
-    public boolean onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(CombinedCommandEvent e) {
         AliceAudioManager aliceAudioManager = AliceBootstrap.alice.getAliceAudioManager();
         TrackScheduler trackScheduler = aliceAudioManager.getTrackScheduler(e.getGuild());
 
@@ -24,11 +27,11 @@ public class SkipCmd extends Command {
 
         // if there is nothing in queue
         if (queueSize == 0){
-            e.getChannel().sendMessage(AMessage.CMD_SKIP_NOTHING_TO_SKIP_TO.get(e)).complete();
+            e.sendMessageToChannel(AMessage.CMD_SKIP_NOTHING_TO_SKIP_TO.get(e));
             return true;
         } else {
             trackScheduler.playNextTrack();
-            e.getChannel().sendMessage(AMessage.CMD_SKIP_SKIPPING.get(e)).complete();
+            e.sendMessageToChannel(AMessage.CMD_SKIP_SKIPPING.get(e));
             return true;
         }
     }

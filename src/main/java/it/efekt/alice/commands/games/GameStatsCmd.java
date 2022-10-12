@@ -1,6 +1,7 @@
 package it.efekt.alice.commands.games;
 
 import com.google.gson.Gson;
+import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
@@ -8,7 +9,8 @@ import it.efekt.alice.lang.AMessage;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.BufferedReader;
@@ -33,10 +35,13 @@ public class GameStatsCmd extends Command {
         } catch (FileNotFoundException e) {
             logger.info("couldn't find " + BLACKLIST_PATH + " file");
         }
+
+        optionData.add(new OptionData(OptionType.STRING, "args", "args", false));
+        setSlashCommand();
     }
 
     @Override
-    public boolean onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(CombinedCommandEvent e) {
         long timeBefore = System.currentTimeMillis();
         Guild guild = e.getGuild();
         HashMap<String, Long> guildGameStats = AliceBootstrap.alice.getGameStatsManager().getGameTimesOnGuild(guild);
@@ -56,8 +61,8 @@ public class GameStatsCmd extends Command {
         }
 
         // checking user's stats
-        if (getArgs().length >= 1 && !e.getMessage().getMentionedUsers().isEmpty()){
-            User user = e.getMessage().getMentionedUsers().get(0);
+        if (getArgs().length >= 1 && !e.getMentions().getUsers().isEmpty()){
+            User user = e.getMentions().getUsers().get(0);
             guildGameStats = AliceBootstrap.alice.getGameStatsManager().getGameStats(e.getGuild(), user);
             userName = user.getName();
             // if page number is given
@@ -67,7 +72,7 @@ public class GameStatsCmd extends Command {
         }
 
         if (guildGameStats.isEmpty()){
-            e.getChannel().sendMessage(AMessage.CMD_TOP_NOTHING_FOUND.get(e)).complete();
+            e.sendMessageToChannel(AMessage.CMD_TOP_NOTHING_FOUND.get(e));
             return true;
         }
 
@@ -90,7 +95,7 @@ public class GameStatsCmd extends Command {
         int maxPages = (int) Math.ceil((float)gamesList.size() / (float)MAX_TO_PRINT);
 
         if (page <= 0 || gamesList.size() < beginIndex){
-            e.getChannel().sendMessage(AMessage.CMD_TOP_WRONG_PAGE.get(e, String.valueOf(maxPages))).complete();
+            e.sendMessageToChannel(AMessage.CMD_TOP_WRONG_PAGE.get(e, String.valueOf(maxPages)));
             return true;
         }
 
@@ -126,7 +131,7 @@ public class GameStatsCmd extends Command {
         embedBuilder.addField(AMessage.CMD_TOP_FOOTER.get(e, String.valueOf(beginIndex)), output, false);
         embedBuilder.setFooter(AMessage.CMD_GAMESTATS_PAGE.get(e, String.valueOf(page), String.valueOf(maxPages)), e.getJDA().getSelfUser().getEffectiveAvatarUrl());
         logger.info(guildGameStats.size() + " GameStats gathered and sorted in: " + (System.currentTimeMillis() - timeBefore) + "ms");
-        e.getChannel().sendMessage(embedBuilder.build()).complete();
+        e.sendEmbeddedMessageToChannel(embedBuilder.build());
         return true;
     }
 

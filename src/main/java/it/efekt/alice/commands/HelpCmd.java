@@ -1,5 +1,6 @@
 package it.efekt.alice.commands;
 
+import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.commands.core.CommandManager;
@@ -7,7 +8,9 @@ import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.lang.AMessage;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,10 +21,13 @@ public class HelpCmd extends Command {
         setShortUsageInfo(AMessage.CMD_HELP_SHORT_USAGE_INFO);
         setDescription(AMessage.CMD_HELP_DESCRIPTION);
         setCategory(CommandCategory.UTILS);
+
+        optionData.add(new OptionData(OptionType.STRING, "command", "command", false));
+        setSlashCommand();
     }
 
     @Override
-    public boolean onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(CombinedCommandEvent e) {
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setTitle(AMessage.CMD_HELP_TITLE.get(e));
         embedBuilder.setThumbnail(e.getJDA().getSelfUser().getEffectiveAvatarUrl());
@@ -79,10 +85,15 @@ public class HelpCmd extends Command {
                         continue;
                     }
 
+                    //don't print non slash commands in slash help
+                    if(e.isSlash() && !cmd.isSlashCommand()) {
+                        continue;
+                    }
+
                     if (cmd.canUseCmd(e.getMember())) {
                         String nsfwString = cmd.isNsfw() ? " " + AMessage.CMD_NSFW_NOTIFICATION.get(e): "";
                         String guildPrefix = AliceBootstrap.alice.getGuildConfigManager().getGuildConfig(e.getGuild()).getPrefix();
-                        commandsAliases.add("`" + guildPrefix + cmd.getAlias() + "`");
+                        commandsAliases.add("`" + (e.isSlash() ? "/" : guildPrefix) + cmd.getAlias() + "`");
                     }
                 }
 
@@ -92,11 +103,11 @@ public class HelpCmd extends Command {
                         .replace(",", "");
 
                 embedBuilder.addField(cat.getName(),commandAliasesFormated, false);
-                embedBuilder.setFooter(getGuildPrefix(e.getGuild()) + getAlias() + " " + AMessage.CMD_HELP_FOOTER.get(e), e.getJDA().getSelfUser().getEffectiveAvatarUrl());
+                embedBuilder.setFooter((e.isSlash() ? "/" : getGuildPrefix(e.getGuild())) + getAlias() + " " + AMessage.CMD_HELP_FOOTER.get(e), e.getJDA().getSelfUser().getEffectiveAvatarUrl());
             }
         }
 
-        e.getChannel().sendMessage(embedBuilder.build()).complete();
+        e.sendEmbeddedMessageToChannel(embedBuilder.build());
         return true;
     }
 }

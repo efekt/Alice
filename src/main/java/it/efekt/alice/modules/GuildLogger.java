@@ -131,7 +131,7 @@ public class GuildLogger extends ListenerAdapter {
 
     private boolean isLoggerSet(Guild guild){
         try {
-            if (!guild.isAvailable()) {
+            if (!guild.isLoaded()) {
                 return false;
             }
 

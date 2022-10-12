@@ -1,5 +1,6 @@
 package it.efekt.alice.commands.util;
 
+import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
@@ -8,7 +9,8 @@ import it.efekt.alice.lang.AMessage;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
 public class OptCommand extends Command {
 
@@ -16,15 +18,18 @@ public class OptCommand extends Command {
         super(alias);
         setCategory(CommandCategory.UTILS);
         setDescription(AMessage.CMD_OPTOUT_DESC);
+
+        optionData.add(new OptionData(OptionType.STRING, "args", "args", false));
+        setSlashCommand();
     }
 
     @Override
-    public boolean onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(CombinedCommandEvent e) {
         Guild guild = e.getGuild();
 
         if (getArgs().length == 0){
-            UserStats userStats = AliceBootstrap.alice.getUserStatsManager().getUserStats(e.getAuthor(), e.getGuild());
-            e.getTextChannel().sendMessage(getOptOutEmbed(guild, userStats)).complete();
+            UserStats userStats = AliceBootstrap.alice.getUserStatsManager().getUserStats(e.getUser(), e.getGuild());
+            e.sendEmbeddedMessageToChannel(getOptOutEmbed(guild, userStats));
             return true;
         }
 
@@ -34,24 +39,24 @@ public class OptCommand extends Command {
 
         String feature = getArgs()[0];
 
-        UserStats userStats = AliceBootstrap.alice.getUserStatsManager().getUserStats(e.getAuthor(), e.getGuild());
+        UserStats userStats = AliceBootstrap.alice.getUserStatsManager().getUserStats(e.getUser(), e.getGuild());
 
         switch(feature){
             case "logger":
                 userStats.setLoggerOptedOut(!userStats.isLoggerOptedOut());
-                e.getTextChannel().sendMessage(getOptOutEmbed(guild, userStats)).complete();
+                e.sendEmbeddedMessageToChannel(getOptOutEmbed(guild, userStats));
                 userStats.save();
                 return true;
 
             case "gameStats":
                 userStats.setGameStatsOptedOut(!userStats.isGameStatsOptedOut());
-                e.getTextChannel().sendMessage(getOptOutEmbed(guild, userStats)).complete();
+                e.sendEmbeddedMessageToChannel(getOptOutEmbed(guild, userStats));
                 userStats.save();
                 return true;
 
             case "spamLvl":
                 userStats.setSpamLvlOptedOut(!userStats.isSpamLvlOptedOut());
-                e.getTextChannel().sendMessage(getOptOutEmbed(guild, userStats)).complete();
+                e.sendEmbeddedMessageToChannel(getOptOutEmbed(guild, userStats));
                 userStats.save();
                 return true;
 
@@ -67,6 +72,7 @@ public class OptCommand extends Command {
         embedBuilder.setTitle(AMessage.CMD_OPTOUT_EMBED_TITLE.get(guild));
         embedBuilder.setDescription(AMessage.CMD_OPTOUT_EMBED_DESC.get(guild));
 
+        //TODO fix prefix
         String loggerCmd = "`"+guildPrefix+"opt logger`";
         String gameStatsCmd = "`"+guildPrefix+"opt gameStats`";
         String spamLvlCmd = "`"+guildPrefix+"opt spamLvl`";

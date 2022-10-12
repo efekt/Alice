@@ -1,5 +1,6 @@
 package it.efekt.alice.commands.games;
 
+import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
@@ -8,6 +9,8 @@ import it.efekt.alice.lang.AMessage;
 import it.efekt.alice.modules.MinecraftServerStatus;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
 public class MinecraftStatusCmd extends Command {
     String[] chatColorCodes = {"§4", "§c", "§6", "§e","§2","§a","§b","§3","§1","§9","§d", "§5","§f","§7","§8","§0", "§r", "§l","§o", "§n", "§m", "§k"};
@@ -18,16 +21,19 @@ public class MinecraftStatusCmd extends Command {
         setShortUsageInfo(AMessage.CMD_MC_SHORT_USAGE_INFO);
         setFullUsageInfo(AMessage.CMD_MC_FULL_USAGE_INFO);
         setCategory(CommandCategory.GAMES);
+
+        optionData.add(new OptionData(OptionType.STRING, "address", "address", true));
+        setSlashCommand();
     }
 
     @Override
-    public boolean onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(CombinedCommandEvent e) {
         if (getArgs().length == 1){
             MinecraftServerStatus status = new MinecraftServerStatus();
             try {
                  status.loadServer(getArgs()[0]);
             } catch(MinecraftServerNotFoundException exc){
-                e.getChannel().sendMessage(AMessage.CMD_MC_SERVER_NOT_FOUND.get(e)).complete();
+                e.sendMessageToChannel(AMessage.CMD_MC_SERVER_NOT_FOUND.get(e));
                 return true;
             }
 
@@ -39,10 +45,10 @@ public class MinecraftStatusCmd extends Command {
                 embedBuilder.setThumbnail(status.getFaviconUrl());
                 embedBuilder.addField(AMessage.CMD_MC_SERVER_PLAYER_COUNT.get(e), status.getCurrentPlayers() + "/" + status.getMaxPlayers(), false);
 
-                e.getChannel().sendMessage(embedBuilder.build()).complete();
+                e.sendEmbeddedMessageToChannel(embedBuilder.build());
                 return true;
             } else {
-                e.getChannel().sendMessage(AMessage.CMD_MC_SERVER_OFFLINE.get(e)).complete();
+                e.sendMessageToChannel(AMessage.CMD_MC_SERVER_OFFLINE.get(e));
                 return true;
             }
         }

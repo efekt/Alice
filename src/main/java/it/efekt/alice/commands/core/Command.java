@@ -10,6 +10,11 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
+import net.dv8tion.jda.api.interactions.DiscordLocale;
+import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import org.discordbots.api.client.DiscordBotListAPI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,26 +43,28 @@ public abstract class Command {
     protected HashMap<String, Long> usersTimeVoted = new HashMap<>();
     protected CommandCategory category = CommandCategory.BLANK;
 
+    protected boolean isSlashCommand = false;
+    protected SlashCommandData commandData;
+    protected List<OptionData> optionData = new ArrayList<>();
+
     public Command(String alias){
         this.alias = alias;
     }
 
+    public abstract boolean onCommand(CombinedCommandEvent e);
 
-    public abstract boolean onCommand(MessageReceivedEvent e);
-
-    protected void execute(MessageReceivedEvent e) {
+    protected void execute(CombinedCommandEvent e) {
         Runnable runnable = () -> {
             // If command is returning false, means that something is wrong
             if (!isPrivateChannelCmd) {
-                AliceBootstrap.analytics.reportCmdUsage(getAlias(), Arrays.asList(getArgs()).toString(), e.getGuild(), e.getAuthor());
+                AliceBootstrap.analytics.reportCmdUsage(getAlias(), Arrays.asList(getArgs()).toString(), e.getGuild(), e.getUser());
             }
             try {
                 if (!this.onCommand(e)) {
-                    e.getChannel().sendMessage(AMessage.CMD_CHECK_IF_IS_CORRECT.get(e, "Type `<help` `" + getAlias() + "` to see the command's help")).queue();
-                    return;
+                    e.sendMessageToChannel(AMessage.CMD_CHECK_IF_IS_CORRECT.get(e, "Type `<help` `" + getAlias() + "` to see the command's help"));
                 }
             } catch (InsufficientPermissionException exc){
-                e.getChannel().sendMessage(AMessage.PERMISSION_NEEDED.get(e, exc.getPermission().name())).queue();
+                e.sendMessageToChannel(AMessage.PERMISSION_NEEDED.get(e, exc.getPermission().name()));
             }
 
         };
@@ -163,10 +170,26 @@ public abstract class Command {
         return AliceBootstrap.alice.getLanguageManager().getLang(LangCode.valueOf(locale));
     }
 
+    protected void setSlashCommand()
+    {
+        isSlashCommand = true;
+        commandData = Commands.slash(alias, desc.get(AliceBootstrap.alice.getLanguageManager().getLang(LangCode.en_US)));
+        if(!optionData.isEmpty()) commandData.addOptions(optionData);
+        commandData.setDescriptionLocalization(DiscordLocale.ENGLISH_US, desc.get(AliceBootstrap.alice.getLanguageManager().getLang(LangCode.en_US)));
+        commandData.setDefaultPermissions(DefaultMemberPermissions.enabledFor(permissions));
+    }
+
+    public boolean isSlashCommand()
+    {
+        return isSlashCommand;
+    }
+
+    public SlashCommandData getCommandData()
+    {
+        return commandData;
+    }
 
     protected boolean hasVoted(String userId){
-
-
         if (this.usersTimeVoted.containsKey(userId)) {
             if (TimeUnit.MILLISECONDS.toHours(System.currentTimeMillis() - this.usersTimeVoted.get(userId)) <= 24) {
                 logger.info("user found on the temporary list, true");

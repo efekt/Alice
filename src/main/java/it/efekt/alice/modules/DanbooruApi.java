@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.lang.AMessage;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -26,7 +27,7 @@ public class DanbooruApi {
     private HashMap<String, List<Integer>> lastPictures= new HashMap<>();
     private final Logger logger = LoggerFactory.getLogger(DanbooruApi.class);
 
-    public void sendPicture(MessageReceivedEvent event, DanbooruRating rating, String tag){
+    public void sendPicture(CombinedCommandEvent event, DanbooruRating rating, String tag){
         String guildId = event.getGuild().getId();
         try {
             URL url = new URL("https://danbooru.donmai.us/posts.json?random=true&limit="+LIMIT+"&tags=rating:"+rating.getName()+"%20"+tag);
@@ -85,7 +86,7 @@ public class DanbooruApi {
                 if (this.lastPictures.containsKey(guildId)) {
                     this.lastPictures.get(guildId).clear();
                 }
-                event.getChannel().sendMessage(AMessage.CMD_HENTAI_ERROR_NOT_FOUND.get(event)).queue();
+                event.sendMessageToChannel(AMessage.CMD_HENTAI_ERROR_NOT_FOUND.get(event));
                 return;
             }
 
@@ -94,7 +95,7 @@ public class DanbooruApi {
             imgId = bestRatingObject.get("id").getAsInt();
 
             if (imgUrl.isEmpty()){
-                event.getChannel().sendMessage(AMessage.CMD_HENTAI_ERROR_NOT_FOUND.get(event)).queue();
+                event.sendMessageToChannel(AMessage.CMD_HENTAI_ERROR_NOT_FOUND.get(event));
                 return;
             }
 
@@ -102,7 +103,7 @@ public class DanbooruApi {
             embedBuilder.setImage(imgUrl);
             embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
 
-            String commandSenderInfo = "["+event.getMessage().getContentDisplay()+"]" + " requested by " + event.getAuthor().getName();
+            String commandSenderInfo = "["+event.getMessageString()+"]" + " requested by " + event.getUser().getName();
             character = character.isEmpty() ? "unknown" : character;
 
             embedBuilder.setFooter(commandSenderInfo + "\ncharacters: " + character, null);
@@ -112,9 +113,9 @@ public class DanbooruApi {
             addId(guildId, imgId);
             //hearts, todo
         //    event.getChannel().sendMessage(embedBuilder.build()).queue(message -> message.addReaction(AEmoji.HEART.get()).queue());
-            event.getChannel().sendMessage(embedBuilder.build()).queue();
+            event.sendEmbeddedMessageToChannel(embedBuilder.build());
             try {
-                event.getMessage().delete().queue();
+                event.deleteMessage();
             } catch (Exception exc){
               logger.warn("Message already deleted.");
             }

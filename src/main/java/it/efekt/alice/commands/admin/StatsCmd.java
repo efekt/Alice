@@ -1,11 +1,11 @@
 package it.efekt.alice.commands.admin;
 
+import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.Alice;
 import it.efekt.alice.core.AliceBootstrap;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -18,10 +18,12 @@ public class StatsCmd extends Command {
         setCategory(CommandCategory.BOT_ADMIN);
         setIsAdminCommand(true);
         setIsVoteRequired(true);
+
+        //setSlashCommand();
     }
 
     @Override
-    public boolean onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(CombinedCommandEvent e) {
         Alice alice = AliceBootstrap.alice;
         EmbedBuilder builder = new EmbedBuilder();
         builder.setTitle("Alice - Memory Usage Stats");
@@ -62,7 +64,7 @@ public class StatsCmd extends Command {
         builder.addField("Current threads", String.valueOf(Thread.activeCount()), false);
         builder.addField("Uptime", days + "d " + hours + "h " + minutes + "m " + seconds + "s ", true);
         builder.addField("Startup time", df.format(startupTime), true);
-        e.getTextChannel().sendMessage(builder.build()).complete();
+        e.sendEmbeddedMessageToChannel(builder.build());
         return true;
     }
 }

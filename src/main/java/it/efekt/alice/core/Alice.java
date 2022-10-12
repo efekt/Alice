@@ -2,10 +2,11 @@ package it.efekt.alice.core;
 
 import it.efekt.alice.commands.HelpCmd;
 import it.efekt.alice.commands.admin.*;
+import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandListener;
 import it.efekt.alice.commands.core.CommandManager;
+import it.efekt.alice.commands.core.SlashCommandListener;
 import it.efekt.alice.commands.fun.*;
-import it.efekt.alice.commands.games.ApexStatsCmd;
 import it.efekt.alice.commands.games.GameStatsCmd;
 import it.efekt.alice.commands.games.MinecraftStatusCmd;
 import it.efekt.alice.commands.nsfw.AnimeCharacterCmd;
@@ -28,8 +29,12 @@ import it.efekt.alice.modules.GuildLogger;
 import it.efekt.alice.modules.mentions.Greetings;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
+import net.dv8tion.jda.api.utils.ChunkingFilter;
+import net.dv8tion.jda.api.utils.MemberCachePolicy;
+import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -65,6 +70,7 @@ public class Alice {
         this.shardManager.addEventListener(guildLogger);
         this.shardManager.addEventListener(new GameListener());
         this.shardManager.addEventListener(new CommandListener(this.cmdManager, this));
+        this.shardManager.addEventListener(new SlashCommandListener(this.cmdManager));
     }
 
     public void registerManagers(){
@@ -77,29 +83,45 @@ public class Alice {
         this.textChannelConfigManager = new TextChannelConfigManager();
     }
 
+    public void registerSlashCommands()
+    {
+//        Guild jda = shardManager.getGuildById("823611908623958046");
+
+        for (JDA jda : shardManager.getShards())
+        {
+            for (Command c : cmdManager.getCommands().values())
+            {
+                if (c.isSlashCommand())
+                {
+                    jda.upsertCommand(c.getCommandData()).queue();
+                }
+            }
+        }
+    }
+
     public void registerCommands(){
         getCmdManager().addCommand(new PingCmd("ping"));
         getCmdManager().addCommand(new HelpCmd("help"));
-        getCmdManager().addCommand(new PrefixCmd("prefix"));
-        getCmdManager().addCommand(new TomekCmd("tomek"));
-        getCmdManager().addCommand(new TomaszCmd("tomasz"));
+        getCmdManager().addCommand(new PrefixCmd("prefix")); //excluded
+//        getCmdManager().addCommand(new TomekCmd("tomek")); //excluded
+//        getCmdManager().addCommand(new TomaszCmd("tomasz")); //excluded
         getCmdManager().addCommand(new AsunaCmd("asuna"));
         getCmdManager().addCommand(new NekoCmd("neko"));
-        getCmdManager().addCommand(new KojimaCmd("kojima"));
+//        getCmdManager().addCommand(new KojimaCmd("kojima")); //excluded
         getCmdManager().addCommand(new HentaiCmd("h"));
-        getCmdManager().addCommand(new StopCmd("stop"));
-        getCmdManager().addCommand(new StatusCmd("status"));
+        getCmdManager().addCommand(new StopCmd("stop")); //excluded
+        getCmdManager().addCommand(new StatusCmd("status")); //excluded
         getCmdManager().addCommand(new HistoryDeletionCmd("clean"));
         getCmdManager().addCommand(new GuildLoggerCmd("logger"));
         getCmdManager().addCommand(new UserInfoCmd("info"));
         getCmdManager().addCommand(new TopCmd("top"));
-        getCmdManager().addCommand(new ApexStatsCmd("apex"));
+//        getCmdManager().addCommand(new ApexStatsCmd("apex"));
         getCmdManager().addCommand(new MinecraftStatusCmd("mc"));
-        getCmdManager().addCommand(new FeaturesCmd("cmd"));
+        getCmdManager().addCommand(new FeaturesCmd("cmd")); //excluded
         getCmdManager().addCommand(new LangCmd("lang"));
-        getCmdManager().addCommand(new RandomWaifuCmd("random-waifu"));
+        getCmdManager().addCommand(new RandomWaifuCmd("randomwaifu"));
         getCmdManager().addCommand(new GameStatsCmd("topgames"));
-        getCmdManager().addCommand(new LoliCmd("loli"));
+//        getCmdManager().addCommand(new LoliCmd("loli")); //excluded
         getCmdManager().addCommand(new WikiCmd("wiki"));
         getCmdManager().addCommand(new JoinCmd("join"));
         getCmdManager().addCommand(new LeaveCmd("leave"));
@@ -107,13 +129,13 @@ public class Alice {
         getCmdManager().addCommand(new NowPlayingCmd("np"));
         getCmdManager().addCommand(new PauseCmd("pause"));
         getCmdManager().addCommand(new CalcCmd("calc"));
-        //getCmdManager().setExecutor(new RecordCmd("rec"));
+//        getCmdManager().setExecutor(new RecordCmd("rec")); //deprecated
         getCmdManager().addCommand(new ImgOnlyCmd("img-only"));
-        getCmdManager().addCommand(new StatsCmd("stats"));
-        getCmdManager().addCommand(new BlacklistReload("topgames-blacklist"));
-        getCmdManager().addCommand(new ServersCmd("servers"));
+        getCmdManager().addCommand(new StatsCmd("stats")); //excluded there is no description
+        getCmdManager().addCommand(new BlacklistReload("topgames-blacklist")); //excluded
+        getCmdManager().addCommand(new ServersCmd("servers")); //excluded
         getCmdManager().addCommand(new PlayAgainCmd("playa"));
-        getCmdManager().addCommand(new ReplyCmd("reply"));
+        getCmdManager().addCommand(new ReplyCmd("reply")); //excluded
         getCmdManager().addCommand(new TimezoneCmd("timezone"));
         getCmdManager().addCommand(new AnimeCharacterCmd("a"));
         getCmdManager().addCommand(new VoteCmd("vote"));
@@ -179,6 +201,13 @@ public class Alice {
                 builder.setShardsTotal(getConfig().getShardsTotal());
                 builder.setActivity(Activity.playing("breaking the seal of the right eye..."));
                 builder.addEventListeners(new ReadyListener());
+                //builder.enableIntents(GatewayIntent.MESSAGE_CONTENT); //Intents to be verified
+                builder.enableIntents(GatewayIntent.GUILD_MEMBERS);
+                builder.enableIntents(GatewayIntent.GUILD_PRESENCES);
+                builder.setMemberCachePolicy(MemberCachePolicy.ALL);
+                builder.setChunkingFilter(ChunkingFilter.NONE);
+                builder.enableCache(CacheFlag.ONLINE_STATUS, CacheFlag.ACTIVITY);
+
                 this.shardManager = builder.build();
         } catch (LoginException e) {
             e.printStackTrace();

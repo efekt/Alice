@@ -1,5 +1,6 @@
 package it.efekt.alice.commands.admin;
 
+import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.commands.games.GameStatsCmd;
@@ -16,15 +17,15 @@ public class BlacklistReload extends Command {
     }
 
     @Override
-    public boolean onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(CombinedCommandEvent e) {
         if (getArgs().length == 1){
             if (getArgs()[0].equalsIgnoreCase("reload")){
                 GameStatsCmd gameStatsCmd = (GameStatsCmd) AliceBootstrap.alice.getCmdManager().getCommand("topgames");
                 try {
                     gameStatsCmd.loadBlacklist();
-                    e.getTextChannel().sendMessage("Games blacklist reloaded.").complete();
+                    e.sendMessageToChannel("Games blacklist reloaded.");
                 } catch (FileNotFoundException e1) {
-                    e.getTextChannel().sendMessage("Couldn't find game blacklist file.").complete();
+                    e.sendMessageToChannel("Couldn't find game blacklist file.");
                 }
                 return true;
             }

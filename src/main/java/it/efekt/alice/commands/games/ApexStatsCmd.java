@@ -2,12 +2,16 @@ package it.efekt.alice.commands.games;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.lang.AMessage;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+
 import javax.annotation.Nullable;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,10 +30,14 @@ public class ApexStatsCmd extends Command {
         setShortUsageInfo(AMessage.CMD_APEX_SHORT_USAGE_INFO);
         setFullUsageInfo(AMessage.CMD_APEX_FULL_USAGE_INFO);
         setDescription(AMessage.CMD_APEX_DESC);
+
+        optionData.add(new OptionData(OptionType.STRING, "platform", "platform", true));
+        optionData.add(new OptionData(OptionType.STRING, "player", "player", true));
+        setSlashCommand();
     }
 
     @Override
-    public boolean onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(CombinedCommandEvent e) {
 
         if (getArgs().length == 2){
             String platform = getArgs()[0];
@@ -38,7 +46,7 @@ public class ApexStatsCmd extends Command {
                 String playerName = getArgs()[1];
 
                 if (getPlayerInfo(playerName, platform) == null || !getPlayerInfo(playerName, platform).get("playerfound").getAsBoolean()){
-                    e.getChannel().sendMessage(AMessage.CMD_APEX_PLAYER_NOT_FOUND.get(e)).complete();
+                    e.sendMessageToChannel(AMessage.CMD_APEX_PLAYER_NOT_FOUND.get(e));
                     return true;
                 }
 
@@ -91,7 +99,7 @@ public class ApexStatsCmd extends Command {
                                 "\n" + AMessage.CMD_APEX_LEGEND_KILLS.get(e) + playerInfo.get("kills_Mirage").getAsString() +
                                 "\n" + AMessage.CMD_APEX_LEGEND_HEADSHOTS.get(e) + playerInfo.get("headshots_Mirage").getAsString()
                         , true);
-                e.getChannel().sendMessage(embedBuilder.build()).complete();
+                e.sendEmbeddedMessageToChannel(embedBuilder.build());
                 return true;
 
             }

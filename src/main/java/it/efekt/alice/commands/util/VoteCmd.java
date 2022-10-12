@@ -1,5 +1,6 @@
 package it.efekt.alice.commands.util;
 
+import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.lang.AMessage;
@@ -11,11 +12,13 @@ public class VoteCmd extends Command {
         super(alias);
         setCategory(CommandCategory.UTILS);
         setDescription(AMessage.CMD_VOTE_DESC);
+
+        setSlashCommand();
     }
 
     @Override
-    public boolean onCommand(MessageReceivedEvent e) {
-        e.getChannel().sendMessage(AMessage.CMD_VOTE_RESPONSE.get(e)+"\n" + VOTE_URL).complete();
+    public boolean onCommand(CombinedCommandEvent e) {
+        e.sendMessageToChannel(AMessage.CMD_VOTE_RESPONSE.get(e)+"\n" + VOTE_URL);
         return true;
     }
 }

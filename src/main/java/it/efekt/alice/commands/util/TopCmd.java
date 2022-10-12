@@ -1,5 +1,6 @@
 package it.efekt.alice.commands.util;
 
+import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
@@ -11,7 +12,8 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -25,10 +27,13 @@ public class TopCmd extends Command {
         setDescription(AMessage.CMD_TOP_DESC);
         setShortUsageInfo(AMessage.CMD_TOP_USAGE_INFO);
         setFullUsageInfo(AMessage.CMD_TOP_FULL_USAGE_INFO);
+
+        optionData.add(new OptionData(OptionType.INTEGER, "page", "page", false));
+        setSlashCommand();
     }
 
     @Override
-    public boolean onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(CombinedCommandEvent e) {
 
        Guild guild = e.getGuild();
        UserStatsManager userStatsManager = AliceBootstrap.alice.getUserStatsManager();
@@ -44,7 +49,7 @@ public class TopCmd extends Command {
        }
 
        if (userStatsList.isEmpty()){
-           e.getChannel().sendMessage(AMessage.CMD_TOP_NOTHING_FOUND.get(e)).complete();
+           e.sendMessageToChannel(AMessage.CMD_TOP_NOTHING_FOUND.get(e));
            return true;
        }
 
@@ -52,7 +57,7 @@ public class TopCmd extends Command {
        int maxPages = (int) Math.ceil((float)userStatsList.size() / (float)MAX_PER_PAGE);
 
        if (page <= 0 || userStatsList.size() < beginIndex){
-           e.getChannel().sendMessage(AMessage.CMD_TOP_WRONG_PAGE.get(e, String.valueOf(maxPages))).complete();
+           e.sendMessageToChannel(AMessage.CMD_TOP_WRONG_PAGE.get(e, String.valueOf(maxPages)));
            return true;
        }
 
@@ -63,7 +68,7 @@ public class TopCmd extends Command {
     return true;
     }
 
-    private void printTop(int startIndex, int page,int maxPages, List<UserStats> userStatsList, MessageReceivedEvent e){
+    private void printTop(int startIndex, int page,int maxPages, List<UserStats> userStatsList, CombinedCommandEvent e){
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setTitle(AMessage.CMD_TOP_LIST_TITLE.get(e, e.getGuild().getName()));
         embedBuilder.setColor(AliceBootstrap.EMBED_COLOR);
@@ -86,7 +91,7 @@ public class TopCmd extends Command {
         }
         embedBuilder.addField("TOP-"+index, list, false);
 
-        e.getChannel().sendMessage(embedBuilder.build()).complete();
+        e.sendEmbeddedMessageToChannel(embedBuilder.build());
     }
 
     private List<Message> getAllTextMessagesOnGuild(Guild guild){

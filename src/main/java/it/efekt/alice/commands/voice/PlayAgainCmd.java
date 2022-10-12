@@ -1,5 +1,6 @@
 package it.efekt.alice.commands.voice;
 
+import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.core.AliceBootstrap;
@@ -12,13 +13,15 @@ public class PlayAgainCmd extends Command {
         super(alias);
         setCategory(CommandCategory.VOICE);
         setDescription(AMessage.CMD_PLAYAGAIN_DESC);
+
+        setSlashCommand();
     }
 
     @Override
-    public boolean onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(CombinedCommandEvent e) {
         AliceAudioManager aliceAudioManager = AliceBootstrap.alice.getAliceAudioManager();
         if (aliceAudioManager.getLastPlayed(e.getGuild()) == null){
-            e.getTextChannel().sendMessage("I didn't play anything yet").queue();
+            e.sendMessageToChannel("I didn't play anything yet");
             return true;
         } else {
             if (AliceBootstrap.alice.getCmdManager().getCommand("join").onCommand(e)){
@@ -26,6 +29,8 @@ public class PlayAgainCmd extends Command {
                 return true;
             }
         }
+        // No slash confirmation
+        e.sendSlashConfirmation(AMessage.CMD_PLAYAGAIN_DESC.get(e));
         return false;
     }
 }

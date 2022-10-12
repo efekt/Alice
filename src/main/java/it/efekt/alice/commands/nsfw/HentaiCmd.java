@@ -1,11 +1,13 @@
 package it.efekt.alice.commands.nsfw;
 
+import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandCategory;
 import it.efekt.alice.lang.AMessage;
 import it.efekt.alice.modules.DanbooruApi;
 import it.efekt.alice.modules.DanbooruRating;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +25,16 @@ public class HentaiCmd extends Command {
         setCategory(CommandCategory.NSFW);
         setIsVoteRequired(true);
         loadCategories();
+
+        OptionData data = new OptionData(OptionType.STRING, "category", "category", true);
+//        for(String s: categories) data.addChoice(s, s); //too many for this max is 25
+//        data.addChoice("list", "list");
+        optionData.add(data);
+        setSlashCommand();
     }
 
     @Override
-    public boolean onCommand(MessageReceivedEvent e) {
+    public boolean onCommand(CombinedCommandEvent e) {
 
         if (getArgs().length >= 1){
             String category = getArgs()[0].toLowerCase();
@@ -38,7 +46,7 @@ public class HentaiCmd extends Command {
             }
 
             if (category.equalsIgnoreCase("list") || !this.categories.contains(getArgs()[0].toLowerCase())){
-                e.getChannel().sendMessage(AMessage.CMD_HENTAI_CATEGORIES.get(e,getCategoriesString())).complete();
+                e.sendMessageToChannel(AMessage.CMD_HENTAI_CATEGORIES.get(e,getCategoriesString()));
                 return true;
             }
 
