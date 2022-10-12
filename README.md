@@ -19,8 +19,7 @@
   - user status changes  
   - various Alice activity  
 - Game time tracking (per server/user)  
-- Game statistics:  
-  - Apex (experimental)  
+- Game statistics:
   - Minecraft (server status)  
 - SpamLevel (counting messages sent by users + levels system)  
 - Customizable (enable/disable any command on a server) 
