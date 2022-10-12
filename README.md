@@ -32,7 +32,7 @@ and more
 You can check all of the available commands on our [wiki](https://github.com/efekt/Alice/wiki/Commands) or by accessing `<help` command after inviting Alice.
 
 ## Using the Alice bot:
-You can invite her just by clicking [here](https://discordapp.com/api/oauth2/authorize?client_id=537011515014774785&scope=bot&permissions=3533920).
+You can invite her just by clicking [here](https://discord.com/oauth2/authorize?client_id=537011515014774785&scope=bot+applications.commands&permissions=3533920).
 
 ## Dependencies:
 Some of the libraries that are keeping Alice alive:  
