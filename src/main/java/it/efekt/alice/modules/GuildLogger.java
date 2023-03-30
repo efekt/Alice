@@ -7,16 +7,13 @@ import it.efekt.alice.lang.AMessage;
 import it.efekt.alice.lang.LangCode;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.guild.GenericGuildEvent;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRemoveEvent;
-import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
-import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
-import net.dv8tion.jda.api.events.guild.voice.GuildVoiceMoveEvent;
 import net.dv8tion.jda.api.events.user.update.UserUpdateOnlineStatusEvent;
 import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -88,44 +85,44 @@ public class GuildLogger extends ListenerAdapter {
         }
     }
 
-    @Override
-    public void onGuildVoiceJoin(GuildVoiceJoinEvent e){
-        if (isOptedOut(e.getEntity().getUser(), e.getGuild())){
-            return;
-        }
-
-        try {
-        log(e.getGuild(), AMessage.LOGGER_USER_JOINS_VOICE.get(e.getGuild(), e.getMember().getEffectiveName(), e.getChannelJoined().getName()));
-        } catch(Exception exc){
-            exc.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onGuildVoiceLeave(GuildVoiceLeaveEvent e){
-        if (isOptedOut(e.getEntity().getUser(), e.getGuild())){
-            return;
-        }
-
-        try {
-        log(e.getGuild(), AMessage.LOGGER_USER_LEAVES_VOICE.get(e.getGuild(), e.getMember().getEffectiveName(), e.getChannelLeft().getName()));
-        } catch(Exception exc){
-            exc.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onGuildVoiceMove(GuildVoiceMoveEvent e){
-        if (isOptedOut(e.getEntity().getUser(), e.getGuild())){
-            return;
-        }
-
-        try {
-        log(e.getGuild(), AMessage.LOGGER_USER_SWITCHES_VOICE.get(e.getGuild(), e.getMember().getEffectiveName(), e.getChannelLeft().getName(), e.getChannelJoined().getName()));
-        } catch(Exception exc){
-            exc.printStackTrace();
-        }
-    }
+//    @Override
+//    public void onGuildVoiceJoin(GuildVoiceJoinEvent e){
+//        if (isOptedOut(e.getEntity().getUser(), e.getGuild())){
+//            return;
+//        }
+//
+//        try {
+//        log(e.getGuild(), AMessage.LOGGER_USER_JOINS_VOICE.get(e.getGuild(), e.getMember().getEffectiveName(), e.getChannelJoined().getName()));
+//        } catch(Exception exc){
+//            exc.printStackTrace();
+//        }
+//    }
+//
+//    @Override
+//    public void onGuildVoiceLeave(GuildVoiceLeaveEvent e){
+//        if (isOptedOut(e.getEntity().getUser(), e.getGuild())){
+//            return;
+//        }
+//
+//        try {
+//        log(e.getGuild(), AMessage.LOGGER_USER_LEAVES_VOICE.get(e.getGuild(), e.getMember().getEffectiveName(), e.getChannelLeft().getName()));
+//        } catch(Exception exc){
+//            exc.printStackTrace();
+//        }
+//    }
+//
+//    @Override
+//    public void onGuildVoiceMove(GuildVoiceMoveEvent e){
+//        if (isOptedOut(e.getEntity().getUser(), e.getGuild())){
+//            return;
+//        }
+//
+//        try {
+//        log(e.getGuild(), AMessage.LOGGER_USER_SWITCHES_VOICE.get(e.getGuild(), e.getMember().getEffectiveName(), e.getChannelLeft().getName(), e.getChannelJoined().getName()));
+//        } catch(Exception exc){
+//            exc.printStackTrace();
+//        }
+//    }
 
 
 

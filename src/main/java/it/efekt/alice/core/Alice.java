@@ -6,7 +6,10 @@ import it.efekt.alice.commands.core.Command;
 import it.efekt.alice.commands.core.CommandListener;
 import it.efekt.alice.commands.core.CommandManager;
 import it.efekt.alice.commands.core.SlashCommandListener;
-import it.efekt.alice.commands.fun.*;
+import it.efekt.alice.commands.fun.AsunaCmd;
+import it.efekt.alice.commands.fun.ChooseCommand;
+import it.efekt.alice.commands.fun.RandomWaifuCmd;
+import it.efekt.alice.commands.fun.WikiCmd;
 import it.efekt.alice.commands.games.GameStatsCmd;
 import it.efekt.alice.commands.games.MinecraftStatusCmd;
 import it.efekt.alice.commands.nsfw.AnimeCharacterCmd;
@@ -38,7 +41,6 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.security.auth.login.LoginException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -209,7 +211,7 @@ public class Alice {
                 builder.enableCache(CacheFlag.ONLINE_STATUS, CacheFlag.ACTIVITY);
 
                 this.shardManager = builder.build();
-        } catch (LoginException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
