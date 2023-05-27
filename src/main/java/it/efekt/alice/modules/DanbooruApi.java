@@ -8,7 +8,6 @@ import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.core.AliceBootstrap;
 import it.efekt.alice.lang.AMessage;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,7 +31,6 @@ public class DanbooruApi {
         try {
             URL url = new URL("https://danbooru.donmai.us/posts.json?random=true&limit="+LIMIT+"&tags=rating:"+rating.getName()+"%20"+tag);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
 
             // HTML code 200 = OK
             if (connection.getResponseCode() != 200){
