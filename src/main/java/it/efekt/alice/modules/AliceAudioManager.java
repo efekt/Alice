@@ -2,7 +2,6 @@ package it.efekt.alice.modules;
 
 import com.sedmelluq.discord.lavaplayer.player.*;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
-import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
@@ -11,6 +10,7 @@ import com.sedmelluq.lava.extensions.youtuberotator.planner.AbstractRoutePlanner
 import com.sedmelluq.lava.extensions.youtuberotator.planner.RotatingNanoIpRoutePlanner;
 import com.sedmelluq.lava.extensions.youtuberotator.tools.ip.IpBlock;
 import com.sedmelluq.lava.extensions.youtuberotator.tools.ip.Ipv6Block;
+import dev.lavalink.youtube.YoutubeAudioSourceManager;
 import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.commands.voice.TrackScheduler;
 import it.efekt.alice.config.Config;
@@ -22,8 +22,6 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 import net.dv8tion.jda.api.managers.AudioManager;
-import org.apache.http.client.config.CookieSpecs;
-import org.apache.http.client.config.RequestConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ws.schild.jave.EncoderException;
@@ -61,15 +59,14 @@ public class AliceAudioManager {
 
     private void registerAudioSources(){
         YoutubeAudioSourceManager youtubeAudioSourceManager = new YoutubeAudioSourceManager();
-        youtubeAudioSourceManager.configureRequests(config -> RequestConfig.copy(config)
-                .setCookieSpec(CookieSpecs.IGNORE_COOKIES)
-                .build());
 
         if (this.config.getIpv6Block() != null) {
             List<IpBlock> ipBlocks = Collections.singletonList(new Ipv6Block(this.config.getIpv6Block()));
 
             AbstractRoutePlanner planner = new RotatingNanoIpRoutePlanner(ipBlocks);
-            new YoutubeIpRotatorSetup(planner).forSource(youtubeAudioSourceManager).setup();
+            new YoutubeIpRotatorSetup(planner).forConfiguration(youtubeAudioSourceManager.getHttpInterfaceManager(), false)
+                    .withMainDelegateFilter(null)
+                    .setup();
             logger.info("YouTube rotator set up, ips: "+ ipBlocks);
         }
 
