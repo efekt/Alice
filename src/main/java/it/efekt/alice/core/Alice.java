@@ -18,13 +18,11 @@ import it.efekt.alice.commands.nsfw.NekoCmd;
 import it.efekt.alice.commands.util.*;
 import it.efekt.alice.commands.voice.*;
 import it.efekt.alice.config.Config;
-import it.efekt.alice.db.GameStatsManager;
 import it.efekt.alice.db.GuildConfigManager;
 import it.efekt.alice.db.TextChannelConfigManager;
 import it.efekt.alice.db.UserStatsManager;
 import it.efekt.alice.lang.LanguageManager;
 import it.efekt.alice.listeners.AnalyticsListener;
-import it.efekt.alice.listeners.GameListener;
 import it.efekt.alice.listeners.MessageListener;
 import it.efekt.alice.listeners.ReadyListener;
 import it.efekt.alice.modules.AliceAudioManager;
@@ -54,7 +52,6 @@ public class Alice {
     private GuildConfigManager guildConfigManager;
     private GuildLogger guildLogger;
     private UserStatsManager userStatsManager;
-    private GameStatsManager gameStatsManager;
     private LanguageManager languageManager;
     private AliceAudioManager aliceAudioManager;
     private TextChannelConfigManager textChannelConfigManager;
@@ -70,7 +67,6 @@ public class Alice {
         this.shardManager.addEventListener(new MessageListener());
         this.guildLogger = new GuildLogger(this);
         this.shardManager.addEventListener(guildLogger);
-        this.shardManager.addEventListener(new GameListener());
         this.shardManager.addEventListener(new CommandListener(this.cmdManager, this));
         this.shardManager.addEventListener(new SlashCommandListener(this.cmdManager));
     }
@@ -79,7 +75,6 @@ public class Alice {
         this.guildConfigManager = new GuildConfigManager();
         this.cmdManager = new CommandManager(this);
         this.userStatsManager = new UserStatsManager();
-        this.gameStatsManager = new GameStatsManager();
         this.languageManager = new LanguageManager();
         this.aliceAudioManager = new AliceAudioManager(getConfig());
         this.textChannelConfigManager = new TextChannelConfigManager();
@@ -134,7 +129,6 @@ public class Alice {
 //        getCmdManager().setExecutor(new RecordCmd("rec")); //deprecated
         getCmdManager().addCommand(new ImgOnlyCmd("img-only"));
         getCmdManager().addCommand(new StatsCmd("stats")); //excluded there is no description
-        getCmdManager().addCommand(new BlacklistReload("topgames-blacklist")); //excluded
         getCmdManager().addCommand(new ServersCmd("servers")); //excluded
         getCmdManager().addCommand(new PlayAgainCmd("playa"));
         getCmdManager().addCommand(new ReplyCmd("reply")); //excluded
@@ -172,10 +166,6 @@ public class Alice {
 
     public UserStatsManager getUserStatsManager() {
         return this.userStatsManager;
-    }
-
-    public GameStatsManager getGameStatsManager(){
-        return this.gameStatsManager;
     }
 
     public LanguageManager getLanguageManager() {
