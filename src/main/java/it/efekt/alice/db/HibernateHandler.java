@@ -1,7 +1,6 @@
 package it.efekt.alice.db;
 
 import it.efekt.alice.config.Config;
-import it.efekt.alice.db.model.GameStats;
 import it.efekt.alice.db.model.GuildConfig;
 import it.efekt.alice.db.model.TextChannelConfig;
 import it.efekt.alice.db.model.UserStats;
@@ -32,7 +31,6 @@ public class HibernateHandler {
                 .setProperty("hibernate.connection.password", config.getMysqlPassword())
                 .addAnnotatedClass(GuildConfig.class)
                 .addAnnotatedClass(UserStats.class)
-                .addAnnotatedClass(GameStats.class)
                 .addAnnotatedClass(TextChannelConfig.class);
         this.sessionFactory = configuration.buildSessionFactory();
     }
