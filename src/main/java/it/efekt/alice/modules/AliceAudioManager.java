@@ -11,6 +11,9 @@ import com.sedmelluq.lava.extensions.youtuberotator.planner.RotatingNanoIpRouteP
 import com.sedmelluq.lava.extensions.youtuberotator.tools.ip.IpBlock;
 import com.sedmelluq.lava.extensions.youtuberotator.tools.ip.Ipv6Block;
 import dev.lavalink.youtube.YoutubeAudioSourceManager;
+import dev.lavalink.youtube.clients.Music;
+import dev.lavalink.youtube.clients.Web;
+import dev.lavalink.youtube.clients.WebEmbedded;
 import it.efekt.alice.commands.core.CombinedCommandEvent;
 import it.efekt.alice.commands.voice.TrackScheduler;
 import it.efekt.alice.config.Config;
@@ -49,16 +52,17 @@ public class AliceAudioManager {
         this.audioPlayerManager = new DefaultAudioPlayerManager();
         this.audioPlayerManager.setFrameBufferDuration(3000);
         this.audioPlayerManager.getConfiguration().setFilterHotSwapEnabled(true);
-
-        if (config.getLavaPlayerNodeUrl() != null && !config.getLavaPlayerNodeUrl().isEmpty()){
-            this.audioPlayerManager.useRemoteNodes(config.getLavaPlayerNodeUrl());
-        }
+        AudioSourceManagers.registerRemoteSources(audioPlayerManager,
+                com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager.class);
+//        if (config.getLavaPlayerNodeUrl() != null && !config.getLavaPlayerNodeUrl().isEmpty()){
+//            this.audioPlayerManager.useRemoteNodes(config.getLavaPlayerNodeUrl());
+//        }
 
         registerAudioSources();
     }
 
     private void registerAudioSources(){
-        YoutubeAudioSourceManager youtubeAudioSourceManager = new YoutubeAudioSourceManager();
+        YoutubeAudioSourceManager youtubeAudioSourceManager = new YoutubeAudioSourceManager(new Music(), new Web(), new WebEmbedded());
 
         if (this.config.getIpv6Block() != null) {
             List<IpBlock> ipBlocks = Collections.singletonList(new Ipv6Block(this.config.getIpv6Block()));
