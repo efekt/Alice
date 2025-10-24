@@ -9,7 +9,8 @@ public class Config {
     private String token;
     private int shardsTotal;
     private String imgurClientId;
-    private String googleAnalyticsId;
+    private String gameAnalyticsGameKey;
+    private String gameAnalyticsApiKey;
     private String mysqlPassword;
     private String mysqlUrl;
     private String mysqlUser;
@@ -78,12 +79,20 @@ public class Config {
         this.mysqlDatabase = mysqlDatabase;
     }
 
-    public String getGoogleAnalyticsId() {
-        return googleAnalyticsId;
+    public String getGameAnalyticsGameKey() {
+        return gameAnalyticsGameKey;
     }
 
-    public void setGoogleAnalyticsId(String googleAnalyticsId) {
-        this.googleAnalyticsId = googleAnalyticsId;
+    public void setGameAnalyticsGameKey(String gameAnalyticsGameKey) {
+        this.gameAnalyticsGameKey = gameAnalyticsGameKey;
+    }
+
+    public String getGameAnalyticsApiKey() {
+        return gameAnalyticsApiKey;
+    }
+
+    public void setGameAnalyticsApiKey(String gameAnalyticsApiKey) {
+        this.gameAnalyticsApiKey = gameAnalyticsApiKey;
     }
 
     public String getIgdbApiKey() {

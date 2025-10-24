@@ -1,7 +1,8 @@
 token: hereYourToken
 shardsTotal: 5
 imgurClientId: imgurClientId
-googleAnalyticsId: analyticsTrackingId
+gameAnalyticsGameKey: gameKey
+gameAnalyticsApiKey: apiSecretKey
 mysqlDatabase: dbName
 mysqlPassword: dbPass
 mysqlUrl: dbUrl
