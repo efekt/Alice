@@ -11,6 +11,7 @@ import com.sedmelluq.lava.extensions.youtuberotator.planner.RotatingNanoIpRouteP
 import com.sedmelluq.lava.extensions.youtuberotator.tools.ip.IpBlock;
 import com.sedmelluq.lava.extensions.youtuberotator.tools.ip.Ipv6Block;
 import dev.lavalink.youtube.YoutubeAudioSourceManager;
+import dev.lavalink.youtube.clients.AndroidVr;
 import dev.lavalink.youtube.clients.Music;
 import dev.lavalink.youtube.clients.Web;
 import dev.lavalink.youtube.clients.WebEmbedded;
@@ -62,7 +63,7 @@ public class AliceAudioManager {
     }
 
     private void registerAudioSources(){
-        YoutubeAudioSourceManager youtubeAudioSourceManager = new YoutubeAudioSourceManager(new Music(), new Web(), new WebEmbedded());
+        YoutubeAudioSourceManager youtubeAudioSourceManager = new YoutubeAudioSourceManager(new Music(), new AndroidVr(), new Web(), new WebEmbedded());
 
         if (this.config.getIpv6Block() != null) {
             List<IpBlock> ipBlocks = Collections.singletonList(new Ipv6Block(this.config.getIpv6Block()));
