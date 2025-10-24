@@ -51,7 +51,6 @@ public class AliceAnalytics {
     }
 
     private void sendDesignEvent(String eventId, String userId, String sessionId) throws Exception {
-        // Używamy poprawnych wartości akceptowanych przez GameAnalytics
         JSONObject eventJson = getDesignEvent(userId, sessionId, eventId, 1);
 
         JSONArray events = new JSONArray();
@@ -64,13 +63,8 @@ public class AliceAnalytics {
     private void sendEvent(String jsonBody) throws Exception {
         String BASE_URL = "https://api.gameanalytics.com/v2/";
 
-        // 1. Kompresuj JSON do GZIP
         byte[] gzippedBody = gzipCompress(jsonBody);
-
-        // 2. Oblicz HMAC-SHA256 z GZIPPED body (nie z oryginalnego JSON!)
         String authorization = calculateHMAC(gzippedBody, config.getGameAnalyticsApiKey());
-
-        // 3. Wyślij request
         String url = BASE_URL + config.getGameAnalyticsGameKey() + "/events";
 
         HttpResponse<String> response = Unirest.post(url)
@@ -87,9 +81,6 @@ public class AliceAnalytics {
         }
     }
 
-    /**
-     * Oblicza HMAC-SHA256 i koduje do Base64
-     */
     private static String calculateHMAC(byte[] data, String secretKey) throws Exception {
         Mac hmac = Mac.getInstance("HmacSHA256");
         SecretKeySpec keySpec = new SecretKeySpec(secretKey.getBytes(StandardCharsets.UTF_8), "HmacSHA256");
@@ -98,9 +89,6 @@ public class AliceAnalytics {
         return Base64.getEncoder().encodeToString(hmacBytes);
     }
 
-    /**
-     * Kompresuje string do GZIP
-     */
     private static byte[] gzipCompress(String data) throws Exception {
         ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
         try (GZIPOutputStream gzipStream = new GZIPOutputStream(byteStream)) {
