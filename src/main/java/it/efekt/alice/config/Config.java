@@ -11,6 +11,7 @@ public class Config {
     private String imgurClientId;
     private String gameAnalyticsGameKey;
     private String gameAnalyticsApiKey;
+    private String postHogApiKey;
     private String mysqlPassword;
     private String mysqlUrl;
     private String mysqlUser;
@@ -93,6 +94,14 @@ public class Config {
 
     public void setGameAnalyticsApiKey(String gameAnalyticsApiKey) {
         this.gameAnalyticsApiKey = gameAnalyticsApiKey;
+    }
+
+    public String getPostHogApiKey() {
+        return postHogApiKey;
+    }
+
+    public void setPostHogApiKey(String postHogApiKey) {
+        this.postHogApiKey = postHogApiKey;
     }
 
     public String getIgdbApiKey() {

@@ -9,6 +9,7 @@ public class ShutdownThread extends Thread{
 
     @Override
     public void run() {
+        AliceBootstrap.analytics.postHog.close();
         System.out.println("Byeee Eugeo!");
     }
 }

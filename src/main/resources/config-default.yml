@@ -3,6 +3,7 @@ shardsTotal: 5
 imgurClientId: imgurClientId
 gameAnalyticsGameKey: gameKey
 gameAnalyticsApiKey: apiSecretKey
+postHogApiKey: apiKey
 mysqlDatabase: dbName
 mysqlPassword: dbPass
 mysqlUrl: dbUrl
